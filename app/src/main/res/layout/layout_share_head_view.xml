@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="191dp"
+        >
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/bg_share_head"
+            android:scaleType="centerCrop"
+            />
+
+    <LinearLayout
+            android:layout_marginBottom="@dimen/margin_vertical"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            >
+
+        <TextView
+                android:id="@+id/tv_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif"
+                android:textStyle="normal"
+                android:textColor="#000000"
+                android:gravity="center_horizontal"
+                android:text="FakeGeek‘s"
+                />
+
+        <TextView
+                android:layout_marginTop="@dimen/activity_margin_half"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="48dp"
+                android:layout_marginRight="48dp"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:lineSpacingExtra="0sp"
+                android:gravity="center_horizontal"
+                android:text="Meditation Biodata"
+                />
+
+        <TextView
+                android:id="@+id/tv_time"
+                android:layout_marginTop="@dimen/activity_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif"
+                android:textStyle="normal"
+                android:textColor="#666666"
+                android:gravity="center_horizontal"
+                android:text="5.5.2019"
+                />
+
+    </LinearLayout>
+
+</RelativeLayout>

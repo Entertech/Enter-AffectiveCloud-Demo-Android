@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#4b5dcc</color>
+    <color name="colorPrimaryDark">#999999</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="colorRecordBgGreen">#c7ffe4</color>
+    <color name="colorRecordBgYellow">#fdf1ea</color>
+    <color name="colorRecordBgBlue">#e5eaf7</color>
+    <color name="colorRecordBgRed">#ffe7e6</color>
+
+    <color name="colorJourneyTextRed">#7f5960</color>
+    <color name="colorJourneyTextBlue">#555b7f</color>
+    <color name="colorJourneyTextGreen">#637f72</color>
+    <color name="colorJourneyTextYellow">#7f725e</color>
+    <color name="colorRecordBiofeedbackBg">#CC13110d</color>
+</resources>

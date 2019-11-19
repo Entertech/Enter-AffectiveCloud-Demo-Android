@@ -1,0 +1,101 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    signingConfigs {
+        config {
+            keyAlias 'entertech'
+            keyPassword '123456'
+            storeFile file('../entertech.jks')
+            storePassword '123456'
+        }
+    }
+    def PROPERTY_FILE_NAME = "version.properties"
+    def BUILD_NAME = "build.number"
+
+    def buildCode = getVersionCodeWithPropertyName(PROPERTY_FILE_NAME, BUILD_NAME)
+    def appVersionCode = "1.0.0"
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "cn.entertech.flowtimezh"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode buildCode
+        versionName appVersionCode
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+    }
+
+    productFlavors {
+        flowtimezh {
+            flavorDimensions "default"
+            applicationId "cn.entertech.flowtimezh"
+        }
+
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.aar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'cn.entertech:uicomponent:1.0.8'
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    implementation 'cn.entertech:biomodulebleui:1.0.2'
+    implementation 'cn.entertech:biomoduleble:1.2.0'
+    implementation 'com.airbnb.android:lottie:3.0.7'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+
+    implementation 'cn.entertech:affectivecloud:1.0.3'
+    implementation 'com.orhanobut:logger:2.1.1'
+    implementation 'org.slf4j:slf4j-api:1.7.7'
+    implementation 'org.slf4j:slf4j-log4j12:1.7.7'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
+
+}
+
+// build 版本 +1
+def getVersionCodeWithPropertyName(String fileName, String propertyName) {
+    def runTasks = gradle.startParameter.taskNames
+    def versionFile = file(fileName)
+    if (versionFile.exists()) {
+        def Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionFile))
+        def versionCode = versionProps[propertyName].toInteger()
+        if (!('assemble' in runTasks
+                || 'assembleRelease' in runTasks
+                || 'aR' in runTasks
+                || 'assembleFlowtimezh' in runTasks)) {
+            return versionCode
+        } else {
+            def code = versionCode + 1
+            versionProps[propertyName] = code.toString()
+            versionProps.store(versionFile.newWriter(), null)
+            return code
+        }
+    } else {
+        throw new GradleException("Could not find version.properties file, please check the file whether exist!")
+    }
+}
