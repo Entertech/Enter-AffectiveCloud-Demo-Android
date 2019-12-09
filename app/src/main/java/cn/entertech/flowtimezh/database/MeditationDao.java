@@ -8,7 +8,7 @@ import com.j256.ormlite.stmt.UpdateBuilder;
 import java.sql.SQLException;
 import java.util.List;
 
-import cn.entertech.flowtimezh.model.MeditationEntity;
+import cn.entertech.flowtimezh.entity.MeditationEntity;
 
 
 /**

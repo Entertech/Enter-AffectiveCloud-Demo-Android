@@ -2,7 +2,6 @@ package cn.entertech.flowtimezh.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,8 @@ import cn.entertech.flowtimezh.R
 import cn.entertech.flowtimezh.app.Constant.Companion.RECORD_ID
 import cn.entertech.flowtimezh.database.MeditationDao
 import cn.entertech.flowtimezh.database.UserLessonRecordDao
-import cn.entertech.flowtimezh.model.MeditationEntity
-import cn.entertech.flowtimezh.model.UserLessonEntity
+import cn.entertech.flowtimezh.entity.MeditationEntity
+import cn.entertech.flowtimezh.entity.UserLessonEntity
 import cn.entertech.flowtimezh.ui.activity.DataActivity
 import cn.entertech.flowtimezh.ui.adapter.JourneyListAdapter
 import com.chad.library.adapter.base.BaseQuickAdapter

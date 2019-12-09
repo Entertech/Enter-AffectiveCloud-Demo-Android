@@ -15,7 +15,6 @@ import android.widget.TextView
 
 import android.util.Log
 import android.widget.ImageView
-import android.widget.Toast
 import cn.entertech.affectivecloudsdk.AffectiveSubscribeParams
 import cn.entertech.affectivecloudsdk.BiodataSubscribeParams
 import cn.entertech.affectivecloudsdk.EnterAffectiveCloudConfig
@@ -38,9 +37,9 @@ import cn.entertech.flowtimezh.R
 import cn.entertech.flowtimezh.app.Constant
 import cn.entertech.flowtimezh.database.MeditationDao
 import cn.entertech.flowtimezh.database.UserLessonRecordDao
-import cn.entertech.flowtimezh.model.MeditationEntity
-import cn.entertech.flowtimezh.model.MessageEvent
-import cn.entertech.flowtimezh.model.UserLessonEntity
+import cn.entertech.flowtimezh.entity.MeditationEntity
+import cn.entertech.flowtimezh.entity.MessageEvent
+import cn.entertech.flowtimezh.entity.UserLessonEntity
 import cn.entertech.flowtimezh.ui.activity.DataActivity
 import cn.entertech.flowtimezh.ui.view.MeditationBrainwaveView
 import cn.entertech.flowtimezh.ui.view.MeditationEmotionView

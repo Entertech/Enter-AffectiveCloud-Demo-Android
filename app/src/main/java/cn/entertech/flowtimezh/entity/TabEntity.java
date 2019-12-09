@@ -1,4 +1,4 @@
-package cn.entertech.flowtimezh.model;
+package cn.entertech.flowtimezh.entity;
 
 import com.flyco.tablayout.listener.CustomTabEntity;
 

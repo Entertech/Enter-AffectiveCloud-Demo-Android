@@ -12,8 +12,12 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.entertech.flowtimezh.model.MeditationEntity;
-import cn.entertech.flowtimezh.model.UserLessonEntity;
+import cn.entertech.flowtimezh.database.model.ExperimentDimModel;
+import cn.entertech.flowtimezh.database.model.ExperimentModeModel;
+import cn.entertech.flowtimezh.database.model.ExperimentModel;
+import cn.entertech.flowtimezh.database.model.ExperimentTagModel;
+import cn.entertech.flowtimezh.entity.MeditationEntity;
+import cn.entertech.flowtimezh.entity.UserLessonEntity;
 
 
 /**
@@ -47,6 +51,10 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.createTable(connectionSource, UserLessonEntity.class);
             TableUtils.createTable(connectionSource, MeditationEntity.class);
+            TableUtils.createTable(connectionSource, ExperimentModeModel.class);
+            TableUtils.createTable(connectionSource, ExperimentTagModel.class);
+            TableUtils.createTable(connectionSource, ExperimentModel.class);
+            TableUtils.createTable(connectionSource, ExperimentDimModel.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }

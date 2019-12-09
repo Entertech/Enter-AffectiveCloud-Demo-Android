@@ -1,4 +1,4 @@
-package cn.entertech.flowtimezh.model;
+package cn.entertech.flowtimezh.entity;
 
 public class MessageEvent {
     public static final int MESSAGE_CODE_DEVICE_CONNECT = 0;

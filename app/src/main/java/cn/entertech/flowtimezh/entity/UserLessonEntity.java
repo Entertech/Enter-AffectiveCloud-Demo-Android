@@ -1,4 +1,4 @@
-package cn.entertech.flowtimezh.model;
+package cn.entertech.flowtimezh.entity;
 
 import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.DatabaseField;

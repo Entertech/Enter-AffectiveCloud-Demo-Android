@@ -2,7 +2,7 @@ package cn.entertech.flowtimezh.ui.adapter
 
 import cn.entertech.flowtimezh.R
 import cn.entertech.flowtimezh.database.MeditationDao
-import cn.entertech.flowtimezh.model.UserLessonEntity
+import cn.entertech.flowtimezh.entity.UserLessonEntity
 import cn.entertech.flowtimezh.utils.TimeUtils
 import cn.entertech.flowtimezh.utils.getResId
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -11,7 +11,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 
 class JourneyListAdapter(data: List<UserLessonEntity>) :
     BaseQuickAdapter<UserLessonEntity, BaseViewHolder>(R.layout.item_journey_list, data) {
-    override fun convert(helper: BaseViewHolder?, item: UserLessonEntity) {
+    override fun convert(helper: BaseViewHolder, item: UserLessonEntity) {
         if (helper == null) {
             return
         }

@@ -9,7 +9,7 @@ import com.j256.ormlite.stmt.UpdateBuilder;
 import java.sql.SQLException;
 import java.util.List;
 
-import cn.entertech.flowtimezh.model.UserLessonEntity;
+import cn.entertech.flowtimezh.entity.UserLessonEntity;
 
 /**
  * Created by EnterTech on 2016/11/7.

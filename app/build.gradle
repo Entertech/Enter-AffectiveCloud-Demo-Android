@@ -43,6 +43,10 @@ android {
         }
 
     }
+    compileOptions{
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
 }
 
@@ -70,9 +74,15 @@ dependencies {
     implementation 'com.orhanobut:logger:2.1.1'
     implementation 'org.slf4j:slf4j-api:1.7.7'
     implementation 'org.slf4j:slf4j-log4j12:1.7.7'
-    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
 
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
+    implementation "io.reactivex.rxjava2:rxjava:2.2.7"
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+    implementation("com.squareup.okhttp3:okhttp:3.14.0")
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.0'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50'
 
 }
 
