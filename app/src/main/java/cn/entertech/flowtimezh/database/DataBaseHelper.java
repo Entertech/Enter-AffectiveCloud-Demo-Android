@@ -16,6 +16,7 @@ import cn.entertech.flowtimezh.database.model.ExperimentDimModel;
 import cn.entertech.flowtimezh.database.model.ExperimentModeModel;
 import cn.entertech.flowtimezh.database.model.ExperimentModel;
 import cn.entertech.flowtimezh.database.model.ExperimentTagModel;
+import cn.entertech.flowtimezh.database.model.MeditationLabelsModel;
 import cn.entertech.flowtimezh.entity.MeditationEntity;
 import cn.entertech.flowtimezh.entity.UserLessonEntity;
 
@@ -55,6 +56,7 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, ExperimentTagModel.class);
             TableUtils.createTable(connectionSource, ExperimentModel.class);
             TableUtils.createTable(connectionSource, ExperimentDimModel.class);
+            TableUtils.createTable(connectionSource, MeditationLabelsModel.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }

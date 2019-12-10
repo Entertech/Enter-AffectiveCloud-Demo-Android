@@ -58,8 +58,11 @@ class MainActivity : BaseActivity() {
             var experimentTagDao = ExperimentTagDao(Application.getInstance())
             var experimentModeDao = ExperimentModeDao(Application.getInstance())
             var experimentDimDao = ExperimentDimDao(Application.getInstance())
+            var selectedExperiment = experimentDao.findExperimentBySelected()
             for (experiment in labelEntity) {
                 var experimentModel = ExperimentModel()
+                experimentModel.isSelected =
+                    selectedExperiment != null && experiment.id == selectedExperiment.id
                 experimentModel.app = experiment.app
                 experimentModel.createTime = experiment.gmt_create
                 experimentModel.modifyTime = experiment.gmt_modify

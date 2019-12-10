@@ -12,6 +12,7 @@ import cn.entertech.bleuisdk.ui.activity.DeviceManagerActivity
 
 import cn.entertech.flowtimezh.R
 import cn.entertech.flowtimezh.ui.activity.MeditationActivity
+import cn.entertech.flowtimezh.ui.activity.PersonInfoActivity
 import kotlinx.android.synthetic.main.fragment_hone.*
 
 class HomeFragment : Fragment() {
@@ -33,7 +34,7 @@ class HomeFragment : Fragment() {
             startActivity(Intent(activity, DeviceManagerActivity::class.java))
         }
         btn_start_meditation.setOnClickListener {
-            startActivity(Intent(activity, MeditationActivity::class.java))
+            startActivity(Intent(activity, PersonInfoActivity::class.java))
         }
     }
     var connectListener = fun(str: String) {

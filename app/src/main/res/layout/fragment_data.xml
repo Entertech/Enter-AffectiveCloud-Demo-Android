@@ -7,21 +7,8 @@
     android:orientation="vertical"
     tools:context=".ui.fragment.MeditationFragment">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="56dp">
-
-        <ImageView
-            android:id="@+id/iv_close"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
-            android:src="@drawable/vector_drawable_close" />
-    </RelativeLayout>
-
-    <ScrollView
+    <cn.entertech.flowtimezh.ui.view.SmartScrollView
+        android:id="@+id/ssv_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -30,6 +17,24 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:id="@+id/rl_minibar_disconnect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_margin_half">
+
+                <TextView
+                    android:id="@+id/tv_minibar_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center_horizontal"
+                    android:text="Connect the headband to show data"
+                    android:textColor="#7f725e"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_minibar_connect"
@@ -103,6 +108,6 @@
             </LinearLayout>
 
         </LinearLayout>
+    </cn.entertech.flowtimezh.ui.view.SmartScrollView>
 
-    </ScrollView>
 </LinearLayout>

@@ -24,6 +24,8 @@ public class ExperimentDimModel implements MultiItemEntity {
     private String modifyTime;
     @DatabaseField(columnName = "tag_id")
     private int tagId;
+    @DatabaseField(columnName = "is_selected")
+    private boolean isSelected;
 
     public int getmId() {
         return mId;
@@ -92,5 +94,13 @@ public class ExperimentDimModel implements MultiItemEntity {
     @Override
     public int getItemType() {
         return LabelsAdapter.TYPE_LEVEL_1;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

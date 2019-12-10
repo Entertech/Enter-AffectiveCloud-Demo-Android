@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.activity.MeditationTimeRecordActivity">
+
+    <include layout="@layout/layout_common_title" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="64dp"
+        android:text="香水愉悦度测试"
+        android:textColor="@color/colorBlack"
+        android:textSize="22sp" />
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:src="@mipmap/ic_warning" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/activity_margin"
+        android:text="确定被试者已进入对应状态后再开始数据记录"
+        android:textColor="#FF6682"
+        android:textSize="17sp" />
+
+    <Chronometer
+        android:visibility="invisible"
+        android:id="@+id/chronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:textSize="34sp" />
+
+    <TextView
+        android:id="@+id/tv_record_btn"
+        android:clickable="true"
+        android:gravity="center"
+        android:background="@drawable/shape_time_record_start_bg"
+        android:layout_marginTop="32dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开始记录"
+        android:textColor="@color/white"
+        android:textSize="17sp" />
+</LinearLayout>

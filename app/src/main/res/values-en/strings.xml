@@ -12,4 +12,10 @@
     <string name="term_of_serivce">Terms of Services</string>
     <string name="privacy">Privacy</string>
     <string name="minutes">min</string>
+
+
+    <string name="dialogExitTitle">Exit Now?</string>
+    <string name="dialogExitContent">Meditation complete, exit and generate report.</string>
+    <string name="dialogCancel">Cancel</string>
+    <string name="dialogExit">Exit</string>
 </resources>

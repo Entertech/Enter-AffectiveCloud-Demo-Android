@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_meditation_dim"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layout_marginRight="@dimen/activity_margin"
+    android:layout_marginBottom="@dimen/activity_margin"
+    android:background="@drawable/shape_meditation_dim_unselected_bg"
+    android:paddingLeft="@dimen/activity_margin"
+    android:paddingTop="@dimen/activity_margin_half"
+    android:paddingRight="@dimen/activity_margin"
+    android:paddingBottom="@dimen/activity_margin_half"
+    android:text="1号"
+    android:textColor="@color/colorBlack"
+    android:textSize="17sp">
+
+</TextView>

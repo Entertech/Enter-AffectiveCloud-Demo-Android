@@ -3,6 +3,7 @@ package cn.entertech.flowtimezh.app;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import static cn.entertech.flowtimezh.app.Constant.MEDITATION_VIEW_ORDER;
 import static cn.entertech.flowtimezh.app.Constant.SP_APP_KEY;
 import static cn.entertech.flowtimezh.app.Constant.SP_APP_SECRET;
 import static cn.entertech.flowtimezh.app.Constant.SP_SETTING;
@@ -62,4 +63,14 @@ public class SettingManager {
     public synchronized String getToken() {
         return getSharedPreferences().getString(SP_TOKEN, "");
     }
+
+
+    public synchronized void setMeditationViewOrder(String viewOrder) {
+        getEditor().putString(MEDITATION_VIEW_ORDER, viewOrder).apply();
+    }
+
+    public synchronized String getMeditationViewOrder() {
+        return getSharedPreferences().getString(MEDITATION_VIEW_ORDER, "Heart,Brainwave,Emotion");
+    }
+
 }

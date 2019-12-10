@@ -81,6 +81,7 @@
             android:layout_marginLeft="@dimen/dp_4"
             android:fontFamily="sans-serif-medium"
             android:gravity="end"
+            android:clickable="true"
             android:letterSpacing="0.01"
             android:text="Edit"
             android:textColor="#4b5dcc"

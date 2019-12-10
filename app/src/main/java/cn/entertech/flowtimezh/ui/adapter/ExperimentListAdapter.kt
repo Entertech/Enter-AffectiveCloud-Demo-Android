@@ -25,14 +25,5 @@ class ExperimentListAdapter(data: List<ExperimentModel>) :
         }
 
         helper.addOnClickListener(R.id.iv_icon_to_labels)
-//        helper.setEnabled(R.id.iv_icon_to_labels, true)
-//        helper.setOnClickListener(R.id.iv_icon_to_labels) {
-//            mContext.startActivity(
-//                Intent(
-//                    mContext,
-//                    ExperimentLabelActivity::class.java
-//                ).putExtra(EXTRA_EXPERIMENT_ID, item.id)
-//            )
-//        }
     }
 }

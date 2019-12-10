@@ -3,6 +3,8 @@ package cn.entertech.flowtimezh.app
 
 class Constant {
     companion object {
+
+        var AFFECTIVE_CLOUD_ADDRESS = "wss://server-test.affectivecloud.cn/ws/algorithm/v1/"
         const val SERVER_URL = "https://api-test.affectivecloud.cn/"
         const val CLIENT_ID = "UikxI5w7VjipXcHMgUJDbX9d6lFfhKHjg0NpKsXU"
         //        const val CLIENT_ID = "r5OtYyGav0DmmsYeX2xg7wCn2UqDcPIfNIENHRML"
@@ -96,6 +98,10 @@ class Constant {
         //        intent
         var RECORD_ID = "recordId"
         var EXTRA_EXPERIMENT_ID = "experimentId"
+        var EXTRA_MEDITATION_ID = "meditationId"
+        var EXTRA_MEDITATION_START_TIME = "meditationStartTime"
+        var EXTRA_LABEL_START_TIME = "labelStartTime"
+        var EXTRA_LABEL_END_TIME = "labelEndTime"
         const val SP_SETTING = "setting"
         const val SP_APP_KEY = "sp_app_key"
         const val SP_APP_SECRET= "sp_app_secret"

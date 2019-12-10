@@ -1,19 +1,709 @@
 package cn.entertech.flowtimezh.ui.activity
 
+import android.app.AlertDialog
+import android.content.Intent
+import android.media.AudioManager
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Handler
+import android.text.Html
+import android.util.Log
+import android.view.View
+import android.view.animation.Animation
+import android.view.animation.RotateAnimation
+import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
+import androidx.core.content.ContextCompat
+import cn.entertech.affectivecloudsdk.*
+import cn.entertech.affectivecloudsdk.entity.Error
+import cn.entertech.affectivecloudsdk.entity.Service
+import cn.entertech.affectivecloudsdk.interfaces.Callback
+import cn.entertech.affectivecloudsdk.interfaces.Callback2
+import cn.entertech.affectivecloudsdk.utils.ConvertUtil
+import cn.entertech.ble.multiple.MultipleBiomoduleBleManager
+import cn.entertech.ble.single.BiomoduleBleManager
+import cn.entertech.bleuisdk.ui.DeviceUIConfig
+import cn.entertech.flowtime.mvp.model.meditation.*
+import cn.entertech.flowtime.utils.reportfileutils.*
 import cn.entertech.flowtimezh.R
+import cn.entertech.flowtimezh.app.Application
+import cn.entertech.flowtimezh.app.Constant
+import cn.entertech.flowtimezh.app.Constant.Companion.AFFECTIVE_CLOUD_ADDRESS
+import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_ID
+import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_START_TIME
+import cn.entertech.flowtimezh.app.SettingManager
+import cn.entertech.flowtimezh.database.MeditationDao
+import cn.entertech.flowtimezh.database.UserLessonRecordDao
+import cn.entertech.flowtimezh.entity.MeditationEntity
+import cn.entertech.flowtimezh.entity.MessageEvent
+import cn.entertech.flowtimezh.entity.UserLessonEntity
+import cn.entertech.flowtimezh.ui.activity.BaseActivity
+import cn.entertech.flowtimezh.ui.activity.DataActivity
 import cn.entertech.flowtimezh.ui.fragment.MeditationFragment
+import cn.entertech.flowtimezh.ui.view.LoadingDialog
+import cn.entertech.flowtimezh.ui.view.scrolllayout.ScrollLayout
+import cn.entertech.flowtimezh.utils.ScreenUtil
+import cn.entertech.flowtimezh.utils.getCurrentTimeFormat
+import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.activity_meditation.*
+import kotlinx.android.synthetic.main.layout_common_title.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
+import java.util.*
 
 class MeditationActivity : BaseActivity() {
+    private lateinit var biomoduleBleManager: MultipleBiomoduleBleManager
+    private var meditaiton: MeditationEntity? = null
+    private var userLessonEntity: UserLessonEntity? = null
+    var enterAffectiveCloudManager: EnterAffectiveCloudManager? = null
+    var handler: Handler = Handler()
+    var lessonId: Int = 0
+    var courseId: Int = 0
+    var lessonName: String = ""
+    var courseName: String? = ""
+    lateinit var scrollLayout: ScrollLayout
+    var meditationFragment: MeditationFragment? = null
+//    var meditationEditFragment: MeditationEditFragment? = null
 
+    //    var webSocketManager: WebSocketManager = WebSocketManager.getInstance()
+    var fragmentBuffer = FragmentBuffer()
+    var sessionId: String? = null
+    var userLessonStartTime: String? = null
+    var meditationStartTime: Long? = null
+    var meditationEndTime: String? = null
+    var loadingDialog: LoadingDialog? = null
+    private var meditationId: Long = -1
+    private var mRecordId: Long = -1
+
+
+    var isFixingFirmware = false
+    var isFirstReceiveData = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initFullScreenDisplay()
         setContentView(R.layout.activity_meditation)
+        EventBus.getDefault().register(this)
+        userLessonStartTime = getCurrentTimeFormat()
+        loadingDialog = LoadingDialog(this)
+        initFlowtimeManager()
+        initView()
+        initAffectiveCloudManager()
+    }
+
+    fun initAffectiveCloudManager() {
+        var userId = intent.getStringExtra("userId")
+        var sex = intent.getStringExtra("sex")
+        var age = intent.getStringExtra("age")
+
+        var storageSettings = StorageSettings.Builder().user(sex, Integer.parseInt(age)).build()
+        var availableAffectiveServices =
+            listOf(Service.ATTENTION, Service.PRESSURE, Service.RELAXATION, Service.PLEASURE)
+        var availableBioServices = listOf(Service.EEG, Service.HR)
+        var biodataSubscribeParams = BiodataSubscribeParams.Builder()
+            .requestAllEEGData()
+            .requestAllHrData()
+            .build()
+
+        var affectiveSubscribeParams = AffectiveSubscribeParams.Builder()
+            .requestAllSleepData()
+            .requestAttention()
+            .requestRelaxation()
+            .requestPressure()
+            .requestPleasure()
+            .build()
+        var enterAffectiveCloudConfig = EnterAffectiveCloudConfig.Builder(
+            SettingManager.getInstance().appKey,
+            SettingManager.getInstance().appSecret,
+            userId
+        )
+            .url(AFFECTIVE_CLOUD_ADDRESS)
+            .timeout(10000)
+            .availableBiodataServices(availableBioServices)
+            .availableAffectiveServices(availableAffectiveServices)
+            .biodataSubscribeParams(biodataSubscribeParams!!)
+            .affectiveSubscribeParams(affectiveSubscribeParams!!)
+            .storageSettings(storageSettings)
+            .build()
+        enterAffectiveCloudManager = EnterAffectiveCloudManager(enterAffectiveCloudConfig)
+
+        enterAffectiveCloudManager!!.addBiodataRealtimeListener {
+            runOnUiThread {
+                //            Logger.d("bio realtime data is " + it.toString())
+                if (it != null && it!!.realtimeEEGData != null) {
+                    if (isFirstReceiveData) {
+                        meditationStartTime = System.currentTimeMillis()
+                        meditationId = -System.currentTimeMillis()
+                        Log.d("####","meditation id is "+meditationId)
+                        fragmentBuffer.fileName = getCurrentTimeFormat(meditationStartTime!!)
+                        isFirstReceiveData = false
+                    }
+                }
+                meditationFragment?.showHeart(it?.realtimeHrData?.hr?.toInt())
+                meditationFragment?.showBrain(it?.realtimeEEGData)
+            }
+        }
+        enterAffectiveCloudManager!!.addAffectiveDataRealtimeListener {
+            //            Logger.d("affective realtime data is " + it.toString())
+            runOnUiThread {
+                meditationFragment?.showAttention(it?.realtimeAttentionData?.attention?.toFloat())
+                meditationFragment?.showRelaxation(it?.realtimeRelaxationData?.relaxation?.toFloat())
+                meditationFragment?.showPressure(it?.realtimePressureData?.pressure?.toFloat())
+                meditationFragment?.showMood(it?.realtimePleasureData?.pressure?.toFloat())
+            }
+        }
+        if (biomoduleBleManager.isConnected()) {
+            enterAffectiveCloudManager?.init(object : Callback {
+                override fun onError(error: Error?) {
+//                    Logger.d("affectivecloudmanager init failed:" + error.toString())
+                }
+
+                override fun onSuccess() {
+//                    Logger.d("affectivecloudmanager init success:")
+                    biomoduleBleManager.startHeartAndBrainCollection()
+                }
+            })
+        }
+    }
+
+    fun initView() {
+        btn_start_record.setOnClickListener {
+            var intent = Intent(this, MeditationTimeRecordActivity::class.java)
+
+            Log.d("####","meditation id is.. "+meditationId)
+            intent.putExtra(EXTRA_MEDITATION_ID, meditationId)
+            intent.putExtra(EXTRA_MEDITATION_START_TIME, meditationStartTime)
+            startActivity(intent)
+        }
+        initTilte()
+        initDataFragment()
+        initScrollLayout()
     }
 
 
+    private lateinit var rawListener: (ByteArray) -> Unit
+
+    private lateinit var heartRateListener: (Int) -> Unit
+
+    //    var brainDataList = ArrayList<Int>()
+    fun initFlowtimeManager() {
+        biomoduleBleManager = DeviceUIConfig.getInstance(this).managers[0]
+        rawListener = fun(bytes: ByteArray) {
+//            brainDataList.clear()
+            var badDataCount = 0
+            for (byte in bytes) {
+                var brainData = ConvertUtil.converUnchart(byte)
+//                brainDataList.add(brainData)
+                if (brainData == 128) {
+                    badDataCount++
+                }
+            }
+//            Log.d("######","brain data is:"+Arrays.toString(brainDataList.toArray()))
+            if (badDataCount == 6 && !isFixingFirmware) {
+                fixFirmware()
+            } else {
+                isFixingFirmware = false
+            }
+            enterAffectiveCloudManager?.appendEEGData(bytes)
+        }
+        heartRateListener = fun(heartRate: Int) {
+            enterAffectiveCloudManager?.appendHeartRateData(heartRate)
+        }
+        biomoduleBleManager.addRawDataListener(rawListener)
+        biomoduleBleManager.addHeartRateListener(heartRateListener)
+
+    }
+
+    /**
+     * 规避固件128问题
+     */
+    private fun fixFirmware() {
+        isFixingFirmware = true
+        biomoduleBleManager.stopHeartAndBrainCollection()
+        biomoduleBleManager.startHeartAndBrainCollection()
+    }
+
+    lateinit var reportMeditationData: ReportMeditationDataEntity
+
+    var finishRunnable = {
+        exitWithoutMeditation()
+    }
+
+    fun saveReportFile(reportMeditationData: ReportMeditationDataEntity) {
+        fragmentBuffer.appendMeditationReport(
+            reportMeditationData,
+            meditationStartTime!!,
+            MeditaionInterruptManager.getInstance().interruptTimestampList
+        )
+    }
+
+    fun saveMeditationInDB(report: ReportMeditationDataEntity) {
+        var meditationDao = MeditationDao(this)
+        meditaiton = MeditationEntity()
+        meditaiton!!.id = meditationId
+        meditaiton!!.startTime = fragmentBuffer.fileName
+        meditaiton!!.finishTime = meditationEndTime
+        meditaiton!!.attentionAvg = report.reportAttentionEnitty!!.attentionAvg!!.toFloat()
+        meditaiton!!.attentionMax =
+            java.util.Collections.max(report.reportAttentionEnitty?.attentionRec).toFloat()
+        meditaiton!!.attentionMin =
+            java.util.Collections.min(report.reportAttentionEnitty?.attentionRec).toFloat()
+        meditaiton!!.heartRateAvg = report.reportHRDataEntity!!.hrAvg!!.toFloat()
+        meditaiton!!.heartRateMax = report.reportHRDataEntity!!.hrMax!!.toFloat()
+        meditaiton!!.heartRateMin = report.reportHRDataEntity!!.hrMin!!.toFloat()
+        meditaiton!!.heartRateVariabilityAvg = report.reportHRDataEntity!!.hrvAvg!!.toFloat()
+        meditaiton!!.relaxationAvg = report.reportRelaxationEnitty!!.relaxationAvg!!.toFloat()
+        meditaiton!!.relaxationMax =
+            java.util.Collections.max(report.reportRelaxationEnitty?.relaxationRec).toFloat()
+        meditaiton!!.relaxationMin =
+            java.util.Collections.min(report.reportRelaxationEnitty?.relaxationRec).toFloat()
+        meditaiton!!.user = 0
+//        var reportFileUri =
+//            "${SettingManager.getInstance().userId}/${courseId}/${lessonId}/${fragmentBuffer.fileName}"
+        meditaiton!!.meditationFile = fragmentBuffer.fileName
+        meditationDao.create(meditaiton)
+    }
+
+    fun saveUserLessonInDB() {
+        var userLessonRecordDao = UserLessonRecordDao(this)
+        userLessonEntity = UserLessonEntity()
+        mRecordId = -System.currentTimeMillis()
+        userLessonEntity!!.id = mRecordId
+        userLessonEntity!!.lessonName = lessonName
+        userLessonEntity!!.courseName = courseName
+        userLessonEntity!!.lessonId = lessonId
+        userLessonEntity!!.courseId = courseId
+        userLessonEntity!!.startTime = userLessonStartTime
+        userLessonEntity!!.finishTime = meditationEndTime
+        userLessonEntity!!.user = 0
+        userLessonEntity!!.meditation = meditationId
+        userLessonRecordDao.create(userLessonEntity)
+    }
+
+    fun toDataActivity() {
+        var intent = Intent(this, DataActivity::class.java)
+        intent.putExtra(Constant.RECORD_ID, mRecordId)
+        startActivity(intent)
+        finish()
+    }
+
+    fun initDataFragment() {
+        meditationFragment = MeditationFragment()
+//        meditationEditFragment = MeditationEditFragment()
+        meditationFragment?.setScrollTopListener(object : MeditationFragment.IScrollTopListener {
+            override fun isScrollTop(flag: Boolean) {
+                scrollLayout.setIsChildListTop(flag)
+            }
+        })
+        var fragmentManager = supportFragmentManager
+        var fragmentTransaction = fragmentManager.beginTransaction()
+        if (meditationFragment != null) {
+            fragmentTransaction?.add(R.id.container, meditationFragment!!).commit()
+//            fragmentTransaction?.add(R.id.container, meditationEditFragment!!)?.show(meditationFragment!!)
+//                ?.hide(meditationEditFragment!!)
+//                ?.commit()
+        }
+    }
+
+    private fun initScrollLayout() {
+        scrollLayout = findViewById(R.id.sl_statistics_container)
+        scrollLayout.setIsChildListTop(true)
+        var coverView = findViewById<RelativeLayout>(R.id.rl_cover)
+        scrollLayout.setCoverView(coverView)
+        scrollLayout.setMinOffset(0)
+        scrollLayout.setMaxOffset((ScreenUtil.getScreenHeight(this) * 0.5).toInt())
+        scrollLayout.setIsSupportExit(true)
+//        Log.d("###", "navigation height is " + ScreenUtil.getNavigationBarHeight(Application.getInstance()))
+        scrollLayout.setExitOffset(
+            ScreenUtil.dip2px(
+                this,
+                38f
+            ) + ScreenUtil.getNavigationBarHeight(Application.getInstance())
+        )
+        scrollLayout.setTouchOffset(ScreenUtil.dip2px(this, 38f))
+        scrollLayout.isAllowHorizontalScroll = true
+        scrollLayout.setToOpen()
+        scrollLayout.isDraggable = true
+        scrollLayout.visibility = View.VISIBLE
+        scrollLayout.setOnScrollChangedListener(object : ScrollLayout.OnScrollChangedListener {
+            override fun onScrollProgressChanged(currentProgress: Float) {}
+
+            override fun onScrollFinished(currentStatus: ScrollLayout.Status) {
+                if (currentStatus.equals(ScrollLayout.Status.EXIT)) {
+                    val myRotateAnimation_down = RotateAnimation(
+                        180.0f,
+                        +0.0f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f
+                    )
+                    myRotateAnimation_down.duration = 300
+                    myRotateAnimation_down.fillAfter = true
+                    meditationFragment?.showMiniBar()
+                } else if (currentStatus === ScrollLayout.Status.CLOSED) {
+                    val myRotateAnimation_up = RotateAnimation(
+                        0.0f,
+                        +180.0f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f
+                    )
+                    myRotateAnimation_up.duration = 300
+                    myRotateAnimation_up.fillAfter = true
+                    meditationFragment?.hideMiniBar()
+                } else {
+                    meditationFragment?.hideMiniBar()
+                }
+
+            }
+
+            override fun onChildScroll(top: Int) {}
+        })
+        scrollLayout.setCoverView(findViewById<RelativeLayout>(R.id.rl_cover))
+        if (biomoduleBleManager.isConnected()) {
+            scrollLayout.scrollToOpen()
+        } else {
+            scrollLayout.scrollToExit()
+        }
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: MessageEvent) {
+//        var fragmentManager = supportFragmentManager
+//        var fragmentTransaction = fragmentManager.beginTransaction()
+//        when (event.messageCode) {
+//            MessageEvent.MESSAGE_CODE_DATA_EDIT -> {
+//                fragmentTransaction?.hide(meditationFragment!!)?.show(meditationEditFragment!!)?.commit()
+//            }
+//            MessageEvent.MESSAGE_CODE_DATA_EDIT_DONE -> {
+//                meditationFragment?.refreshMeditationView()
+//                fragmentTransaction?.show(meditationFragment!!)?.hide(meditationEditFragment!!)?.commit()
+//            }
+//            MessageEvent.MESSAGE_CODE_TO_DEVICE_CONNECT -> {
+//                scrollLayout.scrollToOpen()
+//                if (SettingManager.getInstance().isConnectBefore) {
+//                    startActivity(Intent(this, DevicePermissionActivity::class.java))
+//                } else {
+//                    startActivity(Intent(this, DeviceIntroduceActivity::class.java))
+//                }
+//            }
+//            MessageEvent.MESSAGE_CODE_TO_NET_RESTORE -> {
+//                if (enterAffectiveCloudManager!!.isInited()) {
+//                    enterAffectiveCloudManager?.restore(object : Callback {
+//                        override fun onError(error: Error?) {
+//
+//                        }
+//
+//                        override fun onSuccess() {
+//                            biomoduleBleManager.startHeartAndBrainCollection()
+//                        }
+//
+//                    })
+//                } else {
+//                    enterAffectiveCloudManager?.init(object : Callback {
+//                        override fun onError(error: Error?) {
+//
+//                        }
+//
+//                        override fun onSuccess() {
+//                            biomoduleBleManager.startHeartAndBrainCollection()
+//                        }
+//
+//                    })
+//                }
+//            }
+//        }
+    }
+
+
+    fun showDialog() {
+        var dialog = AlertDialog.Builder(this)
+            .setTitle(
+                Html.fromHtml(
+                    "<font color='${ContextCompat.getColor(
+                        this,
+                        R.color.colorDialogTitle
+                    )}'>${getString(R.string.dialogExitTitle)}</font>"
+                )
+            )
+            .setMessage(
+                Html.fromHtml(
+                    "<font color='${ContextCompat.getColor(
+                        this,
+                        R.color.colorDialogContent
+                    )}'>${getString(R.string.dialogExitContent)}</font>"
+                )
+            )
+            .setPositiveButton(
+                Html.fromHtml(
+                    "<font color='${ContextCompat.getColor(
+                        this,
+                        R.color.colorDialogExit
+                    )}'>${getString(R.string.dialogExit)}</font>"
+                )
+            ) { dialog, which ->
+                dialog.dismiss()
+                finishMeditation()
+            }
+            .setNegativeButton(
+                Html.fromHtml(
+                    "<font color='${ContextCompat.getColor(
+                        this,
+                        R.color.colorDialogCancel
+                    )}'>${getString(R.string.dialogCancel)}</font>"
+                )
+            ) { dialog, which ->
+                dialog.dismiss()
+            }.create()
+        dialog.show()
+    }
+
     override fun onBackPressed() {
-        (fragment_meditaiton as MeditationFragment).showDialog()
+        if (scrollLayout.currentStatus == ScrollLayout.Status.OPENED || scrollLayout.currentStatus == ScrollLayout.Status.CLOSED) {
+            scrollLayout.scrollToExit()
+        } else {
+            showDialog()
+        }
+    }
+
+    fun initTilte() {
+        iv_back.setImageResource(R.mipmap.ic_premium_close)
+        iv_back.setOnClickListener {
+            showDialog()
+//            showExitView()
+        }
+        tv_title.visibility = View.INVISIBLE
+//        findViewById<RelativeLayout>(R.id.rl_menu_ic).visibility = View.VISIBLE
+//        findViewById<RelativeLayout>(R.id.rl_menu_ic).setOnClickListener {
+//            if (SettingManager.getInstance().isConnectBefore) {
+//                startActivity(Intent(this, DevicePermissionActivity::class.java))
+//            } else {
+//                startActivity(Intent(this, DeviceIntroduceActivity::class.java))
+//            }
+//        }
+//        dcv_conect_view.visibility = View.VISIBLE
+//        dcv_conect_view.setType(DeviceConnectView.IconType.WHITE)
+        iv_menu_icon.visibility = View.GONE
+
+    }
+
+    fun getReportAndExit() {
+        enterAffectiveCloudManager?.getBiodataReport(object : Callback2<HashMap<Any, Any?>> {
+            override fun onError(error: Error?) {
+            }
+
+            override fun onSuccess(t: HashMap<Any, Any?>?) {
+//                Logger.d("report bio is " + t.toString())
+                if (t == null) {
+                    return
+                }
+                var reportHRDataEntity = ReportHRDataEntity()
+                var hrMap = t!!["hr"] as Map<Any, Any?>
+                if (hrMap!!.containsKey("hr_avg")) {
+                    reportHRDataEntity.hrAvg = hrMap["hr_avg"] as Double
+                }
+                if (hrMap!!.containsKey("hr_max")) {
+                    reportHRDataEntity.hrMax = hrMap["hr_max"] as Double
+                }
+                if (hrMap!!.containsKey("hr_min")) {
+                    reportHRDataEntity.hrMin = hrMap["hr_min"] as Double
+                }
+                if (hrMap!!.containsKey("hr_rec")) {
+                    reportHRDataEntity.hrRec = hrMap["hr_rec"] as ArrayList<Double>
+                }
+                if (hrMap!!.containsKey("hrv_rec")) {
+                    reportHRDataEntity.hrvRec = hrMap["hrv_rec"] as ArrayList<Double>
+                }
+                if (hrMap!!.containsKey("hrv_avg")) {
+                    reportHRDataEntity.hrvAvg = hrMap["hrv_avg"] as Double
+                }
+                reportMeditationData.reportHRDataEntity = reportHRDataEntity
+                var reportEEGDataEntity = ReportEEGDataEntity()
+                var eegMap = t!!["eeg"] as Map<Any, Any?>
+                if (eegMap!!.containsKey("eeg_alpha_curve")) {
+                    reportEEGDataEntity.alphaCurve = eegMap["eeg_alpha_curve"] as ArrayList<Double>
+                }
+                if (eegMap!!.containsKey("eeg_beta_curve")) {
+                    reportEEGDataEntity.betaCurve = eegMap["eeg_beta_curve"] as ArrayList<Double>
+                }
+                if (eegMap!!.containsKey("eeg_theta_curve")) {
+                    reportEEGDataEntity.thetaCurve = eegMap["eeg_theta_curve"] as ArrayList<Double>
+                }
+                if (eegMap!!.containsKey("eeg_delta_curve")) {
+                    reportEEGDataEntity.deltaCurve = eegMap["eeg_delta_curve"] as ArrayList<Double>
+                }
+                if (eegMap!!.containsKey("eeg_gamma_curve")) {
+                    reportEEGDataEntity.gammaCurve = eegMap["eeg_gamma_curve"] as ArrayList<Double>
+                }
+                reportMeditationData.reportEEGDataEntity = reportEEGDataEntity
+
+                enterAffectiveCloudManager?.getAffectiveDataReport(object :
+                    Callback2<HashMap<Any, Any?>> {
+                    override fun onError(error: Error?) {
+                    }
+
+                    override fun onSuccess(t: HashMap<Any, Any?>?) {
+//                        Logger.d("report affectve is " + t.toString())
+                        if (t == null) {
+                            return
+                        }
+                        var reportAttentionEnitty = ReportAttentionEnitty()
+                        var attentionMap = t["attention"] as Map<Any, Any?>
+                        if (attentionMap!!.containsKey("attention_avg")) {
+                            Logger.d("attention avg is " + attentionMap["attention_avg"] as Double)
+                            reportAttentionEnitty.attentionAvg =
+                                attentionMap["attention_avg"] as Double
+                        }
+                        if (attentionMap!!.containsKey("attention_rec")) {
+                            reportAttentionEnitty.attentionRec =
+                                attentionMap["attention_rec"] as ArrayList<Double>
+                        }
+                        reportMeditationData.reportAttentionEnitty = reportAttentionEnitty
+                        var reportRelxationEntity = ReportRelaxationEnitty()
+                        var relaxationMap = t["relaxation"] as Map<Any, Any?>
+                        if (relaxationMap!!.containsKey("relaxation_avg")) {
+                            reportRelxationEntity.relaxationAvg =
+                                relaxationMap["relaxation_avg"] as Double
+                        }
+                        if (relaxationMap!!.containsKey("relaxation_rec")) {
+                            reportRelxationEntity.relaxationRec =
+                                relaxationMap["relaxation_rec"] as ArrayList<Double>
+                        }
+                        reportMeditationData.reportRelaxationEnitty = reportRelxationEntity
+
+                        var reportPressureEnitty = ReportPressureEnitty()
+
+                        var pressureMap = t["pressure"] as Map<Any, Any?>
+                        if (pressureMap!!.containsKey("pressure_avg")) {
+                            reportPressureEnitty.pressureAvg = pressureMap["pressure_avg"] as Double
+                        }
+                        if (pressureMap!!.containsKey("pressure_rec")) {
+                            reportPressureEnitty.pressureRec =
+                                pressureMap["pressure_rec"] as ArrayList<Double>
+                        }
+                        reportMeditationData.reportPressureEnitty = reportPressureEnitty
+
+                        var reportPleasureEnitty = ReportPleasureEnitty()
+                        var pleasureMap = t["pleasure"] as Map<Any, Any?>
+                        if (pleasureMap!!.containsKey("pleasure_avg")) {
+                            reportPleasureEnitty.pleasureAvg = pleasureMap["pleasure_avg"] as Double
+                        }
+                        if (pleasureMap!!.containsKey("pleasure_rec")) {
+                            reportPleasureEnitty.pleasureRec =
+                                pleasureMap["pleasure_rec"] as ArrayList<Double>
+                        }
+                        reportMeditationData.reportPleasureEnitty = reportPleasureEnitty
+                        exitWithMeditation(reportMeditationData)
+                    }
+
+                })
+            }
+
+        })
+    }
+
+    fun finishMeditation() {
+        startFinishTimer()
+        reportMeditationData = ReportMeditationDataEntity()
+        meditationEndTime = getCurrentTimeFormat()
+        biomoduleBleManager?.stopHeartAndBrainCollection()
+        if (meditationTimeError() || !enterAffectiveCloudManager!!.isWebSocketOpen()) {
+            exitWithoutMeditation()
+        } else {
+            getReportAndExit()
+        }
+    }
+
+
+    fun exitWithMeditation(reportMeditationData: ReportMeditationDataEntity) {
+        if (reportMeditationData.isDataSetCompletly()) {
+            handler.removeCallbacks(finishRunnable)
+            saveReportFile(reportMeditationData)
+            saveMeditationInDB(reportMeditationData)
+            saveUserLessonInDB()
+            enterAffectiveCloudManager?.release(object : Callback {
+                override fun onError(error: Error?) {
+
+                }
+
+                override fun onSuccess() {
+                    toDataActivity()
+                }
+
+            })
+        }
+    }
+
+    fun exitWithoutMeditation() {
+//        saveUserLessonInDB()
+//        Toast.makeText(activity!!,"体验时间过短！",Toast.LENGTH_SHORT).show()
+        if (enterAffectiveCloudManager!!.isWebSocketOpen()) {
+            enterAffectiveCloudManager?.release(object : Callback {
+                override fun onError(error: Error?) {
+
+                }
+
+                override fun onSuccess() {
+                    finish()
+                }
+
+            })
+        } else {
+            finish()
+        }
+    }
+
+    fun meditationTimeError(): Boolean {
+        if (meditationStartTime == null) {
+            return true
+        } else {
+            var meditationEndTime = System.currentTimeMillis()
+            var duration = (meditationEndTime - meditationStartTime!!) / 1000 / 60
+            if (duration < 1) {
+                return true
+            }
+        }
+        return false
+    }
+//    fun postRecord() {
+//        SyncManager.getInstance().uploadRecord(userLessonEntity!!, meditaiton, fun() {
+//            var messageEvent = MessageEvent()
+//            messageEvent.messageCode = MessageEvent.MESSAGE_CODE_TO_REFRESH_RECORD
+//            messageEvent.message = "refreshRecord"
+//            EventBus.getDefault().post(messageEvent)
+//        })
+//        toDataActivity()
+//    }
+
+    fun startFinishTimer() {
+        handler.postDelayed({
+            finishRunnable
+        }, 10000)
+    }
+
+    override fun onDestroy() {
+        handler?.removeCallbacks(finishRunnable)
+        sessionId = null
+        biomoduleBleManager.stopHeartAndBrainCollection()
+        biomoduleBleManager.stopBrainCollection()
+        biomoduleBleManager.removeRawDataListener(rawListener)
+        biomoduleBleManager.removeHeartRateListener(heartRateListener)
+        if (enterAffectiveCloudManager!!.isInit) {
+            enterAffectiveCloudManager?.release(object : Callback {
+                override fun onError(error: Error?) {
+
+                }
+
+                override fun onSuccess() {
+                }
+
+            })
+        }
+        EventBus.getDefault().unregister(this)
+        super.onDestroy()
     }
 }
