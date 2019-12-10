@@ -26,6 +26,8 @@ public class ExperimentDimModel implements MultiItemEntity {
     private int tagId;
     @DatabaseField(columnName = "is_selected")
     private boolean isSelected;
+    @DatabaseField(columnName = "dim_value")
+    private String value;
 
     public int getmId() {
         return mId;
@@ -102,5 +104,13 @@ public class ExperimentDimModel implements MultiItemEntity {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }

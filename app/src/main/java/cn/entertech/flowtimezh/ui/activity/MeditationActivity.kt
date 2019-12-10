@@ -14,9 +14,11 @@ import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import cn.entertech.affectivecloudsdk.*
 import cn.entertech.affectivecloudsdk.entity.Error
+import cn.entertech.affectivecloudsdk.entity.RecData
 import cn.entertech.affectivecloudsdk.entity.Service
 import cn.entertech.affectivecloudsdk.interfaces.Callback
 import cn.entertech.affectivecloudsdk.interfaces.Callback2
@@ -33,8 +35,7 @@ import cn.entertech.flowtimezh.app.Constant.Companion.AFFECTIVE_CLOUD_ADDRESS
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_ID
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_START_TIME
 import cn.entertech.flowtimezh.app.SettingManager
-import cn.entertech.flowtimezh.database.MeditationDao
-import cn.entertech.flowtimezh.database.UserLessonRecordDao
+import cn.entertech.flowtimezh.database.*
 import cn.entertech.flowtimezh.entity.MeditationEntity
 import cn.entertech.flowtimezh.entity.MessageEvent
 import cn.entertech.flowtimezh.entity.UserLessonEntity
@@ -52,6 +53,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.*
+import kotlin.collections.HashMap
 
 class MeditationActivity : BaseActivity() {
     private lateinit var biomoduleBleManager: MultipleBiomoduleBleManager
@@ -135,7 +137,7 @@ class MeditationActivity : BaseActivity() {
                     if (isFirstReceiveData) {
                         meditationStartTime = System.currentTimeMillis()
                         meditationId = -System.currentTimeMillis()
-                        Log.d("####","meditation id is "+meditationId)
+                        Log.d("####", "meditation id is " + meditationId)
                         fragmentBuffer.fileName = getCurrentTimeFormat(meditationStartTime!!)
                         isFirstReceiveData = false
                     }
@@ -169,12 +171,15 @@ class MeditationActivity : BaseActivity() {
 
     fun initView() {
         btn_start_record.setOnClickListener {
-            var intent = Intent(this, MeditationTimeRecordActivity::class.java)
-
-            Log.d("####","meditation id is.. "+meditationId)
-            intent.putExtra(EXTRA_MEDITATION_ID, meditationId)
-            intent.putExtra(EXTRA_MEDITATION_START_TIME, meditationStartTime)
-            startActivity(intent)
+            if (meditationId == -1L) {
+                finishMeditation()
+            } else {
+                var intent = Intent(this, MeditationTimeRecordActivity::class.java)
+                Log.d("####", "meditation id is.. " + meditationId)
+                intent.putExtra(EXTRA_MEDITATION_ID, meditationId)
+                intent.putExtra(EXTRA_MEDITATION_START_TIME, meditationStartTime)
+                startActivity(intent)
+            }
         }
         initTilte()
         initDataFragment()
@@ -477,18 +482,12 @@ class MeditationActivity : BaseActivity() {
 //            showExitView()
         }
         tv_title.visibility = View.INVISIBLE
-//        findViewById<RelativeLayout>(R.id.rl_menu_ic).visibility = View.VISIBLE
-//        findViewById<RelativeLayout>(R.id.rl_menu_ic).setOnClickListener {
-//            if (SettingManager.getInstance().isConnectBefore) {
-//                startActivity(Intent(this, DevicePermissionActivity::class.java))
-//            } else {
-//                startActivity(Intent(this, DeviceIntroduceActivity::class.java))
-//            }
-//        }
-//        dcv_conect_view.visibility = View.VISIBLE
-//        dcv_conect_view.setType(DeviceConnectView.IconType.WHITE)
-        iv_menu_icon.visibility = View.GONE
-
+        rl_menu_ic.visibility = View.VISIBLE
+        rl_menu_ic.setOnClickListener {
+            var intent = Intent(this, MeditationLabelsCommitActivity::class.java)
+            intent.putExtra(EXTRA_MEDITATION_ID, meditationId)
+            startActivity(intent)
+        }
     }
 
     fun getReportAndExit() {
@@ -606,11 +605,66 @@ class MeditationActivity : BaseActivity() {
         })
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        loadingDialog?.loading("正在提交数据...")
+        var meditationLabelsDao = MeditationLabelsDao(this)
+        var experimentDimDao = ExperimentDimDao(this)
+        var experimentDao = ExperimentDao(this)
+        var selectedExperiment = experimentDao.findExperimentBySelected()
+        var experimentTagDao = ExperimentTagDao(this)
+        var recDatas = ArrayList<RecData>()
+        var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)
+        for (meditationLabel in meditationLabels) {
+            var recData = RecData()
+            recData.note = listOf()
+            recData.st = (meditationLabel.startTime - meditationLabel.meditationStartTime) / 1000f
+            recData.et = (meditationLabel.endTime - meditationLabel.meditationStartTime) / 1000f
+            var tagMap = HashMap<String, Any>()
+            var dimIdStrings = meditationLabel.dimIds.split(",")
+            for (dimIdString in dimIdStrings) {
+                var dimIdInt = Integer.parseInt(dimIdString)
+                var dimModel = experimentDimDao.findByDimId(dimIdInt)
+                var dimValue = dimModel.value
+                var tag = experimentTagDao.findTagById(dimModel.tagId)
+                var tagNameEn = tag.nameEn
+                tagMap[tagNameEn] = dimValue
+            }
+            recData.tag = tagMap
+            recDatas.add(recData)
+        }
+
+
+
+        enterAffectiveCloudManager?.submit(recDatas, object : Callback {
+            override fun onSuccess() {
+                runOnUiThread {
+                    loadingDialog?.dismiss()
+                    Toast.makeText(this@MeditationActivity, "标签提交成功！", Toast.LENGTH_SHORT).show()
+                    finishMeditation()
+                }
+            }
+
+            override fun onError(error: Error?) {
+                runOnUiThread {
+                    loadingDialog?.dismiss()
+                    Toast.makeText(
+                        this@MeditationActivity,
+                        "标签提交失败！${error.toString()}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    finishMeditation()
+                }
+            }
+
+        })
+    }
+
     fun finishMeditation() {
+        biomoduleBleManager?.stopHeartAndBrainCollection()
         startFinishTimer()
         reportMeditationData = ReportMeditationDataEntity()
         meditationEndTime = getCurrentTimeFormat()
-        biomoduleBleManager?.stopHeartAndBrainCollection()
         if (meditationTimeError() || !enterAffectiveCloudManager!!.isWebSocketOpen()) {
             exitWithoutMeditation()
         } else {

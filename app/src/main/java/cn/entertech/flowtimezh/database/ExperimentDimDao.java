@@ -84,4 +84,19 @@ public class ExperimentDimDao {
         }
         return null;
     }
+
+    public ExperimentDimModel findByDimId( int id) {
+        try {
+            if (!mRecordDaoOp.isTableExists()) {
+                return null;
+            }
+            List<ExperimentDimModel> experiments = mRecordDaoOp.queryBuilder().where().eq("dim_id", id).query();
+            if (!experiments.isEmpty()) {
+                return experiments.get(0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

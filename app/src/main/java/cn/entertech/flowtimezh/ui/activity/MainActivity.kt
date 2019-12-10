@@ -59,20 +59,23 @@ class MainActivity : BaseActivity() {
             var experimentModeDao = ExperimentModeDao(Application.getInstance())
             var experimentDimDao = ExperimentDimDao(Application.getInstance())
             var selectedExperiment = experimentDao.findExperimentBySelected()
-            for (experiment in labelEntity) {
+            for (i in labelEntity.indices) {
                 var experimentModel = ExperimentModel()
-                experimentModel.isSelected =
-                    selectedExperiment != null && experiment.id == selectedExperiment.id
-                experimentModel.app = experiment.app
-                experimentModel.createTime = experiment.gmt_create
-                experimentModel.modifyTime = experiment.gmt_modify
-                experimentModel.desc = experiment.desc
-                experimentModel.id = experiment.id
-                experimentModel.nameCn = experiment.name_cn
-                experimentModel.nameEn = experiment.name_en
+                if (selectedExperiment == null) {
+                    experimentModel.isSelected = i == 0
+                } else {
+                    experimentModel.isSelected = labelEntity[i].id == selectedExperiment.id
+                }
+                experimentModel.app = labelEntity[i].app
+                experimentModel.createTime = labelEntity[i].gmt_create
+                experimentModel.modifyTime = labelEntity[i].gmt_modify
+                experimentModel.desc = labelEntity[i].desc
+                experimentModel.id = labelEntity[i].id
+                experimentModel.nameCn = labelEntity[i].name_cn
+                experimentModel.nameEn = labelEntity[i].name_en
                 experimentDao.create(experimentModel)
 
-                for (mode in experiment.mode) {
+                for (mode in labelEntity[i].mode) {
                     var modeModel = ExperimentModeModel()
                     modeModel.createTime = mode.gmt_create
                     modeModel.modifyTime = mode.gmt_modify
@@ -80,11 +83,11 @@ class MainActivity : BaseActivity() {
                     modeModel.id = mode.id
                     modeModel.nameCn = mode.name_cn
                     modeModel.nameEn = mode.name_en
-                    modeModel.expermentId = experiment.id
+                    modeModel.expermentId = labelEntity[i].id
                     experimentModeDao.create(modeModel)
                 }
 
-                for (tag in experiment.tag) {
+                for (tag in labelEntity[i].tag) {
                     var tagModel = ExperimentTagModel()
                     tagModel.createTime = tag.gmt_create
                     tagModel.modifyTime = tag.gmt_modify
@@ -92,7 +95,7 @@ class MainActivity : BaseActivity() {
                     tagModel.id = tag.id
                     tagModel.nameCn = tag.name_cn
                     tagModel.nameEn = tag.name_en
-                    tagModel.expermentId = experiment.id
+                    tagModel.expermentId = labelEntity[i].id
                     experimentTagDao.create(tagModel)
 
                     for (dim in tag.dim) {
@@ -101,6 +104,7 @@ class MainActivity : BaseActivity() {
                         dimModel.modifyTime = dim.gmt_modify
                         dimModel.desc = dim.desc
                         dimModel.id = dim.id
+                        dimModel.value = dim.value
                         dimModel.nameCn = dim.name_cn
                         dimModel.nameEn = dim.name_en
                         dimModel.tagId = tag.id

@@ -21,16 +21,22 @@
         android:roundIcon="@mipmap/ic_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.MeditationLabelsRecordActivity"></activity>
-        <activity android:name=".ui.activity.MeditationTimeRecordActivity"
-            android:launchMode="singleTask"/>
+        <activity android:name=".ui.activity.MeditationDimListActivity"></activity>
+        <activity android:name=".ui.activity.MeditationLabelsCommitActivity" />
+        <activity android:name=".ui.activity.MeditationLabelsRecordActivity" />
+        <activity
+            android:name=".ui.activity.MeditationTimeRecordActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".ui.activity.PersonInfoActivity" />
         <activity android:name=".ui.activity.ExperimentLabelActivity" />
         <activity android:name=".ui.activity.ExperimentDetailsActivity" />
         <activity android:name=".ui.activity.ExperimentChooseActivity" />
         <activity android:name=".ui.activity.AuthActivity" />
         <activity android:name=".ui.activity.DataActivity" />
-        <activity android:name=".ui.activity.MeditationActivity" />
+        <activity android:name=".ui.activity.MeditationActivity"
+            android:launchMode="singleTask">
+
+        </activity>
         <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".ui.activity.LaunchActivity">
             <intent-filter>

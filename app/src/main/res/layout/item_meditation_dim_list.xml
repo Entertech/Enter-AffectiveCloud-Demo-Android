@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="44dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/lineColor" />
+
+    <TextView
+        android:id="@+id/tv_dim_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/activity_margin"
+        android:text="1号"
+        android:textColor="@color/colorBlack"
+        android:textSize="17sp">
+
+    </TextView>
+</RelativeLayout>

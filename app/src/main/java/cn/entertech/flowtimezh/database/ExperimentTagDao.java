@@ -84,4 +84,20 @@ public class ExperimentTagDao {
         }
         return null;
     }
+
+
+    public ExperimentTagModel findTagById(int id) {
+        try {
+            if (!mRecordDaoOp.isTableExists()) {
+                return null;
+            }
+            List<ExperimentTagModel> modes = mRecordDaoOp.queryBuilder().where().eq("tag_id", id).query();
+            if (!modes.isEmpty()) {
+                return modes.get(0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

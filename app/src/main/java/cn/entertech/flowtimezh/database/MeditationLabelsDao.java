@@ -56,7 +56,7 @@ public class MeditationLabelsDao {
         return null;
     }
 
-    public MeditationLabelsModel findMeditationLabelById(int id) {
+    public MeditationLabelsModel findMeditationLabelById(long id) {
         try {
             if (!mRecordDaoOp.isTableExists()) {
                 return null;
@@ -70,4 +70,19 @@ public class MeditationLabelsDao {
         }
         return null;
     }
+
+
+    public List<MeditationLabelsModel> findByMeditationId(long meditationId) {
+        try {
+            List<MeditationLabelsModel> list = mRecordDaoOp.queryBuilder().where().eq("meditation_id", meditationId).query();
+            if (list != null && list.size() != 0) {
+                return list;
+            }
+        } catch (
+                SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

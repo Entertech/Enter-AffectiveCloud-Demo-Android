@@ -16,4 +16,5 @@
     <color name="colorJourneyTextYellow">#7f725e</color>
     <color name="colorRecordBiofeedbackBg">#CC13110d</color>
     <color name="colorLabelsCommitDisable">#8E8E93</color>
+    <color name="colorGrayText">#7B7B81</color>
 </resources>
