@@ -1,7 +1,10 @@
 package cn.entertech.flowtimezh.ui.activity
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
@@ -63,7 +66,7 @@ class MeditationLabelsRecordActivity : BaseActivity() {
         tv_title.text = "数据标签"
         ll_back.visibility = View.INVISIBLE
         var dimIds = ""
-        var isAllTagSelected = true
+        var isAllTagSelected = false
         adapter =
             MeditationLabelsAdapter(mData!!, MeditationLabelsAdapter.OnDimClickListener {
                 isAllTagSelected = true
