@@ -62,6 +62,54 @@
             android:layout_marginRight="16dp"
             android:src="@mipmap/ic_arrow_gray_right" />
     </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_help_center"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="@dimen/activity_margin"
+        android:background="#fff">
+
+        <ImageView
+            android:id="@+id/iv_icon_1"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:src="@mipmap/ic_help_center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/iv_icon_1"
+            android:text="帮助中心"
+            android:textColor="#000" />
+
+        <TextView
+            android:id="@+id/tv_help_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="未选择"
+            android:visibility="gone"
+            android:textColor="#7B7B81"
+            android:textSize="17sp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_arrow_1"
+            android:layout_marginRight="@dimen/activity_margin_half"
+            />
+
+        <ImageView
+            android:id="@+id/iv_arrow_1"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:src="@mipmap/ic_arrow_gray_right" />
+    </RelativeLayout>
     <!--    <RelativeLayout-->
     <!--        android:layout_width="match_parent"-->
     <!--        android:layout_height="56dp"-->
@@ -161,6 +209,20 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <ImageView
+        android:layout_gravity="center_horizontal"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@mipmap/ic_logo"
+        />
+    <TextView
+        android:layout_marginTop="@dimen/activity_margin_half"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="心流实验"
+        android:layout_gravity="center_horizontal"
+        android:textSize="17sp"
+        android:textColor="@color/colorBlack"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -177,5 +239,6 @@
         android:layout_marginTop="4dp"
         android:text="\@ 2019 Entertech Ltd."
         android:textColor="#999999"
-        android:textSize="11sp" />
+        android:textSize="11sp"
+        android:layout_marginBottom="24dp"/>
 </LinearLayout>

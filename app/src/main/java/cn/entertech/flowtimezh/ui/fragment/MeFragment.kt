@@ -10,9 +10,9 @@ import android.view.ViewGroup
 import cn.entertech.flowtimezh.R
 import cn.entertech.flowtimezh.app.Application
 import cn.entertech.flowtimezh.database.ExperimentDao
-import cn.entertech.flowtimezh.ui.activity.AuthActivity
 import cn.entertech.flowtimezh.ui.activity.ExperimentChooseActivity
 import kotlinx.android.synthetic.main.fragment_me.*
+import android.net.Uri
 
 class MeFragment : Fragment() {
     override fun onCreateView(
@@ -29,6 +29,10 @@ class MeFragment : Fragment() {
             activity!!.startActivity(Intent(activity!!, ExperimentChooseActivity::class.java))
         }
 
+        rl_help_center.setOnClickListener {
+            val uri = Uri.parse("https://docs.myflowtime.cn/")
+            startActivity(Intent(Intent.ACTION_VIEW, uri))
+        }
     }
 
     fun updateSelectedExperiment() {
