@@ -84,6 +84,8 @@ public class MeditationEntity {
     private boolean isFileGet;
     @DatabaseField(columnName = "experiment_id")
     private int experimentId;
+    @DatabaseField(columnName = "experiment_user_id")
+    private String experimentUserId = "示例数据";
 
     public long getId() {
         return id;
@@ -275,5 +277,13 @@ public class MeditationEntity {
 
     public void setExperimentId(int experimentId) {
         this.experimentId = experimentId;
+    }
+
+    public String getExperimentUserId() {
+        return experimentUserId;
+    }
+
+    public void setExperimentUserId(String experimentUserId) {
+        this.experimentUserId = experimentUserId;
     }
 }

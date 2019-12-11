@@ -42,22 +42,16 @@ class JourneyListAdapter(data: List<UserLessonEntity>) :
         )
         helper?.setText(R.id.tv_date, formatTime)
         if (item.meditation == null) {
+            helper?.setText(R.id.tv_duration, "示例数据")
             helper?.setVisible(R.id.tv_feedback_flag, false)
         } else {
             var meditationDao = MeditationDao(mContext)
             var meditation = meditationDao.findMeditationById(item.meditation)
             if (meditation != null) {
-                var experimentDao = ExperimentDao(mContext)
-                var experiment = experimentDao.findExperimentById(meditation.experimentId)
-                if (experiment != null) {
-                    helper?.setText(R.id.tv_duration, experiment.nameCn)
-                } else {
-                    helper?.setText(R.id.tv_duration, "示例数据")
-                }
+                helper?.setText(R.id.tv_duration, meditation.experimentUserId)
             } else {
                 helper?.setText(R.id.tv_duration, "示例数据")
             }
-
             if (meditation == null || meditation.meditationFile == null) {
                 helper?.setVisible(R.id.tv_feedback_flag, false)
             } else {

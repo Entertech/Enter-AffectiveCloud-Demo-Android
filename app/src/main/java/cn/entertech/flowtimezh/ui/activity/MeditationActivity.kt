@@ -57,6 +57,7 @@ import java.util.*
 import kotlin.collections.HashMap
 
 class MeditationActivity : BaseActivity() {
+    private var userId: String = ""
     private lateinit var biomoduleBleManager: MultipleBiomoduleBleManager
     private var meditaiton: MeditationEntity? = null
     private var userLessonEntity: UserLessonEntity? = null
@@ -97,11 +98,17 @@ class MeditationActivity : BaseActivity() {
     }
 
     fun initAffectiveCloudManager() {
-        var userId = intent.getStringExtra("userId")
+        userId = intent.getStringExtra("userId")
         var sex = intent.getStringExtra("sex")
         var age = intent.getStringExtra("age")
         var storageSettings = StorageSettings.Builder()
-            .user(sex, if (age == ""){0}else{Integer.parseInt(age)}).build()
+            .user(
+                sex, if (age == "") {
+                    0
+                } else {
+                    Integer.parseInt(age)
+                }
+            ).build()
         var availableAffectiveServices =
             listOf(Service.ATTENTION, Service.PRESSURE, Service.RELAXATION, Service.PLEASURE)
         var availableBioServices = listOf(Service.EEG, Service.HR)
@@ -270,6 +277,7 @@ class MeditationActivity : BaseActivity() {
         if (experiment != null) {
             meditaiton!!.experimentId = experiment.id
         }
+        meditaiton!!.experimentUserId = userId
         meditationDao.create(meditaiton)
     }
 
