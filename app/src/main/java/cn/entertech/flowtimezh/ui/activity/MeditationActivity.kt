@@ -109,6 +109,11 @@ class MeditationActivity : BaseActivity() {
                     Integer.parseInt(age)
                 }
             ).build()
+
+
+        var biodataTolerance = BiodataTolerance.Builder()
+            .eeg(4)
+            .build()
         var availableAffectiveServices =
             listOf(Service.ATTENTION, Service.PRESSURE, Service.RELAXATION, Service.PLEASURE)
         var availableBioServices = listOf(Service.EEG, Service.HR)
@@ -136,6 +141,7 @@ class MeditationActivity : BaseActivity() {
             .biodataSubscribeParams(biodataSubscribeParams!!)
             .affectiveSubscribeParams(affectiveSubscribeParams!!)
             .storageSettings(storageSettings)
+            .biodataTolerance(biodataTolerance)
             .build()
         enterAffectiveCloudManager = EnterAffectiveCloudManager(enterAffectiveCloudConfig)
 
