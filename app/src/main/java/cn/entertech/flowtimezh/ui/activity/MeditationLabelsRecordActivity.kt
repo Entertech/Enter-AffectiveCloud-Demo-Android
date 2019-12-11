@@ -86,7 +86,7 @@ class MeditationLabelsRecordActivity : BaseActivity() {
                 }
             })
         label_list.adapter = adapter
-        val manager = GridLayoutManager(this, 4)
+        val manager = GridLayoutManager(this, 3)
         manager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return if (adapter!!.getItemViewType(position) == LabelsAdapter.TYPE_LEVEL_1) 1 else manager.spanCount

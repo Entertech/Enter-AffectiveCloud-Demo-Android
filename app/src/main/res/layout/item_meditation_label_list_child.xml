@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.AppCompatTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/tv_meditation_dim"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -11,8 +13,14 @@
     android:paddingTop="@dimen/activity_margin_half"
     android:paddingRight="@dimen/activity_margin"
     android:paddingBottom="@dimen/activity_margin_half"
+    android:maxLines="1"
     android:text="1号"
     android:textColor="@color/colorBlack"
-    android:textSize="17sp">
+    android:textSize="14sp">
+<!--    app:autoSizeTextType="uniform"-->
+<!--    app:autoSizeMaxTextSize="14sp"-->
+<!--    app:autoSizeMinTextSize="4sp"-->
+<!--    app:autoSizeStepGranularity="1sp"-->
+<!--    >-->
 
-</TextView>
+</androidx.appcompat.widget.AppCompatTextView>
