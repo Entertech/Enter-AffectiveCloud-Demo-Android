@@ -106,9 +106,9 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
         report_brainwave_view.isDataNull(true)
         report_attention_view.isDataNull(true)
         report_relaxation_view.isDataNull(true)
-        report_hr_view.isDataNull(true)
-        report_hrv_view.isDataNull(true)
-        report_pressure_view.isDataNull(true)
+//        report_hr_view.isDataNull(true)
+//        report_hrv_view.isDataNull(true)
+//        report_pressure_view.isDataNull(true)
         if (userLessonRecord.meditation == 0L) {
             return
         }
@@ -139,9 +139,9 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
         report_brainwave_view.isDataNull(false)
         report_attention_view.isDataNull(false)
         report_relaxation_view.isDataNull(false)
-        report_hr_view.isDataNull(false)
-        report_hrv_view.isDataNull(false)
-        report_pressure_view.isDataNull(false)
+//        report_hr_view.isDataNull(false)
+//        report_hrv_view.isDataNull(false)
+//        report_pressure_view.isDataNull(false)
 //        Logger.d("user record is " + userLessonRecord.toString() + "meditation record is " + meditation.toString())
         setViewData()
         initLabelsView()
@@ -220,20 +220,20 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
         var meditationStart =
             getStringToDate(startTime!!.replace("T", " ").replace("Z", ""), "yyyy-MM-dd HH:mm:ss")
         report_brainwave_view.setData(meditationStart, stackItems)
-        report_hr_view.setData(
-            meditationStart,
-            meditationReportDataAnalyzed!!.hrRec,
-            meditationReportDataAnalyzed!!.hrRec.max(),
-            meditationReportDataAnalyzed!!.hrRec.min(),
-            meditationReportDataAnalyzed!!.hrRec.average()
-        )
-        report_hrv_view.setData(
-            meditationStart,
-            meditationReportDataAnalyzed!!.hrvRec,
-            meditationReportDataAnalyzed!!.hrvRec.average()
-        )
-
-        report_pressure_view.setData(meditationStart, meditationReportDataAnalyzed!!.pressureRec)
+//        report_hr_view.setData(
+//            meditationStart,
+//            meditationReportDataAnalyzed!!.hrRec,
+//            meditationReportDataAnalyzed!!.hrRec.max(),
+//            meditationReportDataAnalyzed!!.hrRec.min(),
+//            meditationReportDataAnalyzed!!.hrRec.average()
+//        )
+//        report_hrv_view.setData(
+//            meditationStart,
+//            meditationReportDataAnalyzed!!.hrvRec,
+//            meditationReportDataAnalyzed!!.hrvRec.average()
+//        )
+//
+//        report_pressure_view.setData(meditationStart, meditationReportDataAnalyzed!!.pressureRec)
         var removeZeroAttentionRec = removeZeroData(meditationReportDataAnalyzed!!.attentionRec)
         var removeZeroRelaxationRec = removeZeroData(meditationReportDataAnalyzed!!.relaxationRec)
 

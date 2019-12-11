@@ -190,21 +190,21 @@
                     android:layout_marginRight="16dp"
                     app:rbs_spectrumColors="#0921dd,#5167f8,#8392fb,#9ca7fb,#ccd4fc" />
 
-                <cn.entertech.uicomponentsdk.report.ReportHeartRateView
-                    android:id="@+id/report_hr_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginRight="16dp" />
+<!--                <cn.entertech.uicomponentsdk.report.ReportHeartRateView-->
+<!--                    android:id="@+id/report_hr_view"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginLeft="16dp"-->
+<!--                    android:layout_marginTop="16dp"-->
+<!--                    android:layout_marginRight="16dp" />-->
 
-                <cn.entertech.uicomponentsdk.report.ReportHeartRateVariabilityView
-                    android:id="@+id/report_hrv_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginRight="16dp" />
+<!--                <cn.entertech.uicomponentsdk.report.ReportHeartRateVariabilityView-->
+<!--                    android:id="@+id/report_hrv_view"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginLeft="16dp"-->
+<!--                    android:layout_marginTop="16dp"-->
+<!--                    android:layout_marginRight="16dp" />-->
 
                 <cn.entertech.uicomponentsdk.report.ReportAffectiveView
                     android:id="@+id/report_attention_view"
@@ -226,13 +226,13 @@
                     app:ra_emotionType="relaxation"
                     app:ra_fillColor="#3e4da8" />
 
-                <cn.entertech.uicomponentsdk.report.ReportPressureView
-                    android:id="@+id/report_pressure_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginRight="16dp" />
+<!--                <cn.entertech.uicomponentsdk.report.ReportPressureView-->
+<!--                    android:id="@+id/report_pressure_view"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginLeft="16dp"-->
+<!--                    android:layout_marginTop="16dp"-->
+<!--                    android:layout_marginRight="16dp" />-->
             </LinearLayout>
         </LinearLayout>
 

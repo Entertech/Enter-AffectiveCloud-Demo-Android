@@ -109,12 +109,12 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
                     meditationEmotionView.layoutParams = lp
                     llContainer?.addView(meditationEmotionView)
                 }
-                "Heart" -> {
-                    var meditationHeartView = MeditationHeartView(activity!!)
-                    meditationHeartView.tag = viewOrders[i]
-                    meditationHeartView.layoutParams = lp
-                    llContainer?.addView(meditationHeartView)
-                }
+//                "Heart" -> {
+//                    var meditationHeartView = MeditationHeartView(activity!!)
+//                    meditationHeartView.tag = viewOrders[i]
+//                    meditationHeartView.layoutParams = lp
+//                    llContainer?.addView(meditationHeartView)
+//                }
                 "Brainwave" -> {
                     var meditationBrainwaveView = MeditationBrainwaveView(activity!!)
                     meditationBrainwaveView.tag = viewOrders[i]
@@ -158,19 +158,19 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
     }
 
     fun showHeart(heartRate: Int?) {
-        if (heartRate == null) {
-            return
-        }
-        activity?.runOnUiThread {
-            selfView?.findViewWithTag<MeditationHeartView>("Heart")?.setHeartValue(heartRate)
-            isHeartViewLoading = heartRate == 0
-            Log.d("###", "isHeartViewLoading:" + isHeartViewLoading + ":" + heartRate)
-            if (isHeartViewLoading) {
-                selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showLoadingCover()
-            } else {
-                selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hindLoadingCover()
-            }
-        }
+//        if (heartRate == null) {
+//            return
+//        }
+//        activity?.runOnUiThread {
+//            selfView?.findViewWithTag<MeditationHeartView>("Heart")?.setHeartValue(heartRate)
+//            isHeartViewLoading = heartRate == 0
+//            Log.d("###", "isHeartViewLoading:" + isHeartViewLoading + ":" + heartRate)
+//            if (isHeartViewLoading) {
+//                selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showLoadingCover()
+//            } else {
+//                selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hindLoadingCover()
+//            }
+//        }
     }
 
     fun showAttention(attention: Float?) {
