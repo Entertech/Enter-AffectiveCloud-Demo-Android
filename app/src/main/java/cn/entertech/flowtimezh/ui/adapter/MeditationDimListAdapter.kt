@@ -13,5 +13,7 @@ class MeditationDimListAdapter(data: List<ExperimentDimModel>) :
     ) {
     override fun convert(helper: BaseViewHolder, item: ExperimentDimModel) {
         helper.setText(R.id.tv_dim_name, item.nameCn)
+        helper.addOnClickListener(R.id.rl_item_view)
+
     }
 }

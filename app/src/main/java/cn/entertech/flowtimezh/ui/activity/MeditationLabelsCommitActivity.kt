@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.entertech.flowtimezh.R
-import cn.entertech.flowtimezh.app.Constant
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_IS_FROM_REPORT
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_ID
 import cn.entertech.flowtimezh.database.MeditationLabelsDao
@@ -68,6 +67,7 @@ class MeditationLabelsCommitActivity : BaseActivity() {
                 )
                 intent.putExtra("dimIds", meditationLabels[position].dimIds)
                 intent.putExtra("duration", duration)
+                intent.putExtra("meditationLabelId", meditationLabels[position].id)
                 intent.putExtra(EXTRA_IS_FROM_REPORT, isFromReport)
                 startActivity(intent)
             }
@@ -77,5 +77,10 @@ class MeditationLabelsCommitActivity : BaseActivity() {
             startActivity(Intent(this, MeditationActivity::class.java))
             finish()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initView()
     }
 }
