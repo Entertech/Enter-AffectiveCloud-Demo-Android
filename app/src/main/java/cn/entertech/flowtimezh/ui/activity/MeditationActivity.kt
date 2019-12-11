@@ -101,7 +101,8 @@ class MeditationActivity : BaseActivity() {
         var sex = intent.getStringExtra("sex")
         var age = intent.getStringExtra("age")
 
-        var storageSettings = StorageSettings.Builder().user(sex, Integer.parseInt(age)).build()
+        var storageSettings = StorageSettings.Builder()
+            .user(sex, Integer.parseInt(age)).build()
         var availableAffectiveServices =
             listOf(Service.ATTENTION, Service.PRESSURE, Service.RELAXATION, Service.PLEASURE)
         var availableBioServices = listOf(Service.EEG, Service.HR)
@@ -726,6 +727,7 @@ class MeditationActivity : BaseActivity() {
             var meditationEndTime = System.currentTimeMillis()
             var duration = (meditationEndTime - meditationStartTime!!) / 1000 / 60
             if (duration < 1) {
+                Toast.makeText(this, "体验时间过短", Toast.LENGTH_SHORT).show()
                 return true
             }
         }

@@ -3,6 +3,7 @@ package cn.entertech.flowtimezh.app
 import cn.entertech.bleuisdk.ui.DeviceUIConfig
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
+import com.tencent.bugly.crashreport.CrashReport
 
 
 class Application : android.app.Application() {
@@ -11,8 +12,13 @@ class Application : android.app.Application() {
         super.onCreate()
         application = this
         initLogger()
+        initBugly()
+        DeviceUIConfig.getInstance(this).init(false, false, 1)
+    }
 
-        DeviceUIConfig.getInstance(this).init(false,false,1)
+
+    fun initBugly() {
+        CrashReport.initCrashReport(applicationContext, "02c3f299d0", false)
     }
 
     fun initLogger() {

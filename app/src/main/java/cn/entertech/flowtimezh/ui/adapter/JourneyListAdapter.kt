@@ -46,9 +46,18 @@ class JourneyListAdapter(data: List<UserLessonEntity>) :
         } else {
             var meditationDao = MeditationDao(mContext)
             var meditation = meditationDao.findMeditationById(item.meditation)
-            var experimentDao = ExperimentDao(mContext)
-            var experiment = experimentDao.findExperimentById(meditation.experimentId)
-            helper?.setText(R.id.tv_duration, experiment.nameCn)
+            if (meditation != null) {
+                var experimentDao = ExperimentDao(mContext)
+                var experiment = experimentDao.findExperimentById(meditation.experimentId)
+                if (experiment != null) {
+                    helper?.setText(R.id.tv_duration, experiment.nameCn)
+                } else {
+                    helper?.setText(R.id.tv_duration, "示例数据")
+                }
+            } else {
+                helper?.setText(R.id.tv_duration, "示例数据")
+            }
+
             if (meditation == null || meditation.meditationFile == null) {
                 helper?.setVisible(R.id.tv_feedback_flag, false)
             } else {
