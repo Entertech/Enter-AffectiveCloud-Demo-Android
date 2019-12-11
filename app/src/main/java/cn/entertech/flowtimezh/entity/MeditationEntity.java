@@ -82,6 +82,8 @@ public class MeditationEntity {
     private boolean isFileUpload;
     @DatabaseField(columnName = "is_file_get")
     private boolean isFileGet;
+    @DatabaseField(columnName = "experiment_id")
+    private int experimentId;
 
     public long getId() {
         return id;
@@ -265,5 +267,13 @@ public class MeditationEntity {
 
     public void setFileGet(boolean fileGet) {
         isFileGet = fileGet;
+    }
+
+    public int getExperimentId() {
+        return experimentId;
+    }
+
+    public void setExperimentId(int experimentId) {
+        this.experimentId = experimentId;
     }
 }

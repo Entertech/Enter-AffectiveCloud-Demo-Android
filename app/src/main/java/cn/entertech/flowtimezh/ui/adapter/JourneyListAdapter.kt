@@ -1,7 +1,9 @@
 package cn.entertech.flowtimezh.ui.adapter
 
 import cn.entertech.flowtimezh.R
+import cn.entertech.flowtimezh.database.ExperimentDao
 import cn.entertech.flowtimezh.database.MeditationDao
+import cn.entertech.flowtimezh.database.MeditationLabelsDao
 import cn.entertech.flowtimezh.entity.UserLessonEntity
 import cn.entertech.flowtimezh.utils.TimeUtils
 import cn.entertech.flowtimezh.utils.getResId
@@ -31,7 +33,6 @@ class JourneyListAdapter(data: List<UserLessonEntity>) :
                 finishTimeLong,
                 "HH:mma"
             )}"
-        helper?.setText(R.id.tv_duration, "${min} ${mContext.getString(R.string.minutes)}")
         helper?.setText(R.id.tv_time_duration, timeDuration)
         var formatTime = TimeUtils.getFormatTime(
             TimeUtils.getStringToDate(
@@ -45,6 +46,9 @@ class JourneyListAdapter(data: List<UserLessonEntity>) :
         } else {
             var meditationDao = MeditationDao(mContext)
             var meditation = meditationDao.findMeditationById(item.meditation)
+            var experimentDao = ExperimentDao(mContext)
+            var experiment = experimentDao.findExperimentById(meditation.experimentId)
+            helper?.setText(R.id.tv_duration, experiment.nameCn)
             if (meditation == null || meditation.meditationFile == null) {
                 helper?.setVisible(R.id.tv_feedback_flag, false)
             } else {

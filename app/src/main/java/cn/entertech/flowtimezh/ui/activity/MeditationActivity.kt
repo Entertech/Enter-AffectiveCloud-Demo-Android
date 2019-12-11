@@ -26,6 +26,7 @@ import cn.entertech.affectivecloudsdk.utils.ConvertUtil
 import cn.entertech.ble.multiple.MultipleBiomoduleBleManager
 import cn.entertech.ble.single.BiomoduleBleManager
 import cn.entertech.bleuisdk.ui.DeviceUIConfig
+import cn.entertech.bleuisdk.ui.activity.DeviceManagerActivity
 import cn.entertech.flowtime.mvp.model.meditation.*
 import cn.entertech.flowtime.utils.reportfileutils.*
 import cn.entertech.flowtimezh.R
@@ -263,6 +264,12 @@ class MeditationActivity : BaseActivity() {
 //        var reportFileUri =
 //            "${SettingManager.getInstance().userId}/${courseId}/${lessonId}/${fragmentBuffer.fileName}"
         meditaiton!!.meditationFile = fragmentBuffer.fileName
+
+        var experimentDao = ExperimentDao(this)
+        var experiment = experimentDao.findExperimentBySelected()
+        if (experiment != null) {
+            meditaiton!!.experimentId = experiment.id
+        }
         meditationDao.create(meditaiton)
     }
 
@@ -376,48 +383,37 @@ class MeditationActivity : BaseActivity() {
     fun onMessageEvent(event: MessageEvent) {
 //        var fragmentManager = supportFragmentManager
 //        var fragmentTransaction = fragmentManager.beginTransaction()
-//        when (event.messageCode) {
-//            MessageEvent.MESSAGE_CODE_DATA_EDIT -> {
-//                fragmentTransaction?.hide(meditationFragment!!)?.show(meditationEditFragment!!)?.commit()
-//            }
-//            MessageEvent.MESSAGE_CODE_DATA_EDIT_DONE -> {
-//                meditationFragment?.refreshMeditationView()
-//                fragmentTransaction?.show(meditationFragment!!)?.hide(meditationEditFragment!!)?.commit()
-//            }
-//            MessageEvent.MESSAGE_CODE_TO_DEVICE_CONNECT -> {
-//                scrollLayout.scrollToOpen()
-//                if (SettingManager.getInstance().isConnectBefore) {
-//                    startActivity(Intent(this, DevicePermissionActivity::class.java))
-//                } else {
-//                    startActivity(Intent(this, DeviceIntroduceActivity::class.java))
-//                }
-//            }
-//            MessageEvent.MESSAGE_CODE_TO_NET_RESTORE -> {
-//                if (enterAffectiveCloudManager!!.isInited()) {
-//                    enterAffectiveCloudManager?.restore(object : Callback {
-//                        override fun onError(error: Error?) {
-//
-//                        }
-//
-//                        override fun onSuccess() {
-//                            biomoduleBleManager.startHeartAndBrainCollection()
-//                        }
-//
-//                    })
-//                } else {
-//                    enterAffectiveCloudManager?.init(object : Callback {
-//                        override fun onError(error: Error?) {
-//
-//                        }
-//
-//                        override fun onSuccess() {
-//                            biomoduleBleManager.startHeartAndBrainCollection()
-//                        }
-//
-//                    })
-//                }
-//            }
-//        }
+        when (event.messageCode) {
+            MessageEvent.MESSAGE_CODE_TO_DEVICE_CONNECT -> {
+                scrollLayout.scrollToOpen()
+                startActivity(Intent(this, DeviceManagerActivity::class.java))
+            }
+            MessageEvent.MESSAGE_CODE_TO_NET_RESTORE -> {
+                if (enterAffectiveCloudManager!!.isInited()) {
+                    enterAffectiveCloudManager?.restore(object : Callback {
+                        override fun onError(error: Error?) {
+
+                        }
+
+                        override fun onSuccess() {
+                            biomoduleBleManager.startHeartAndBrainCollection()
+                        }
+
+                    })
+                } else {
+                    enterAffectiveCloudManager?.init(object : Callback {
+                        override fun onError(error: Error?) {
+
+                        }
+
+                        override fun onSuccess() {
+                            biomoduleBleManager.startHeartAndBrainCollection()
+                        }
+
+                    })
+                }
+            }
+        }
     }
 
 
@@ -480,7 +476,9 @@ class MeditationActivity : BaseActivity() {
         tv_title.visibility = View.INVISIBLE
         rl_menu_ic.visibility = View.VISIBLE
         rl_menu_ic.setOnClickListener {
-            if (meditationId == -1L) {
+            var meditationLabelsDao = MeditationLabelsDao(this@MeditationActivity)
+            var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)
+            if (meditationId == -1L || meditationLabels == null || meditationLabels.isEmpty()) {
                 finishMeditation()
             } else {
                 var intent = Intent(this, MeditationLabelsCommitActivity::class.java)
@@ -524,19 +522,24 @@ class MeditationActivity : BaseActivity() {
                 var reportEEGDataEntity = ReportEEGDataEntity()
                 var eegMap = t!!["eeg"] as Map<Any, Any?>
                 if (eegMap!!.containsKey("eeg_alpha_curve")) {
-                    reportEEGDataEntity.alphaCurve = eegMap["eeg_alpha_curve"] as ArrayList<Double>
+                    reportEEGDataEntity.alphaCurve =
+                        eegMap["eeg_alpha_curve"] as ArrayList<Double>
                 }
                 if (eegMap!!.containsKey("eeg_beta_curve")) {
-                    reportEEGDataEntity.betaCurve = eegMap["eeg_beta_curve"] as ArrayList<Double>
+                    reportEEGDataEntity.betaCurve =
+                        eegMap["eeg_beta_curve"] as ArrayList<Double>
                 }
                 if (eegMap!!.containsKey("eeg_theta_curve")) {
-                    reportEEGDataEntity.thetaCurve = eegMap["eeg_theta_curve"] as ArrayList<Double>
+                    reportEEGDataEntity.thetaCurve =
+                        eegMap["eeg_theta_curve"] as ArrayList<Double>
                 }
                 if (eegMap!!.containsKey("eeg_delta_curve")) {
-                    reportEEGDataEntity.deltaCurve = eegMap["eeg_delta_curve"] as ArrayList<Double>
+                    reportEEGDataEntity.deltaCurve =
+                        eegMap["eeg_delta_curve"] as ArrayList<Double>
                 }
                 if (eegMap!!.containsKey("eeg_gamma_curve")) {
-                    reportEEGDataEntity.gammaCurve = eegMap["eeg_gamma_curve"] as ArrayList<Double>
+                    reportEEGDataEntity.gammaCurve =
+                        eegMap["eeg_gamma_curve"] as ArrayList<Double>
                 }
                 reportMeditationData.reportEEGDataEntity = reportEEGDataEntity
 
@@ -578,7 +581,8 @@ class MeditationActivity : BaseActivity() {
 
                         var pressureMap = t["pressure"] as Map<Any, Any?>
                         if (pressureMap!!.containsKey("pressure_avg")) {
-                            reportPressureEnitty.pressureAvg = pressureMap["pressure_avg"] as Double
+                            reportPressureEnitty.pressureAvg =
+                                pressureMap["pressure_avg"] as Double
                         }
                         if (pressureMap!!.containsKey("pressure_rec")) {
                             reportPressureEnitty.pressureRec =
@@ -589,7 +593,8 @@ class MeditationActivity : BaseActivity() {
                         var reportPleasureEnitty = ReportPleasureEnitty()
                         var pleasureMap = t["pleasure"] as Map<Any, Any?>
                         if (pleasureMap!!.containsKey("pleasure_avg")) {
-                            reportPleasureEnitty.pleasureAvg = pleasureMap["pleasure_avg"] as Double
+                            reportPleasureEnitty.pleasureAvg =
+                                pleasureMap["pleasure_avg"] as Double
                         }
                         if (pleasureMap!!.containsKey("pleasure_rec")) {
                             reportPleasureEnitty.pleasureRec =
@@ -618,54 +623,60 @@ class MeditationActivity : BaseActivity() {
         if (meditationTimeError() || !enterAffectiveCloudManager!!.isWebSocketOpen()) {
             exitWithoutMeditation()
         } else {
-            loadingDialog?.loading("正在提交数据...")
             var meditationLabelsDao = MeditationLabelsDao(this)
             var experimentDimDao = ExperimentDimDao(this)
             var experimentTagDao = ExperimentTagDao(this)
             var recDatas = ArrayList<RecData>()
             var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)
-            for (meditationLabel in meditationLabels) {
-                var recData = RecData()
-                recData.note = listOf()
-                recData.st =
-                    (meditationLabel.startTime - meditationLabel.meditationStartTime) / 1000f
-                recData.et = (meditationLabel.endTime - meditationLabel.meditationStartTime) / 1000f
-                var tagMap = HashMap<String, Any>()
-                var dimIdStrings = meditationLabel.dimIds.split(",")
-                for (dimIdString in dimIdStrings) {
-                    var dimIdInt = Integer.parseInt(dimIdString)
-                    var dimModel = experimentDimDao.findByDimId(dimIdInt)
-                    var dimValue = dimModel.value
-                    var tag = experimentTagDao.findTagById(dimModel.tagId)
-                    var tagNameEn = tag.nameEn
-                    tagMap[tagNameEn] = dimValue
+            if (meditationLabels == null || meditationLabels.isEmpty()) {
+                getReportAndExit()
+            } else {
+                for (meditationLabel in meditationLabels) {
+                    var recData = RecData()
+                    recData.note = listOf()
+                    recData.st =
+                        (meditationLabel.startTime - meditationLabel.meditationStartTime) / 1000f
+                    recData.et =
+                        (meditationLabel.endTime - meditationLabel.meditationStartTime) / 1000f
+                    var tagMap = HashMap<String, Any>()
+                    var dimIdStrings = meditationLabel.dimIds.split(",")
+                    for (dimIdString in dimIdStrings) {
+                        var dimIdInt = Integer.parseInt(dimIdString)
+                        var dimModel = experimentDimDao.findByDimId(dimIdInt)
+                        var dimValue = dimModel.value
+                        var tag = experimentTagDao.findTagById(dimModel.tagId)
+                        var tagNameEn = tag.nameEn
+                        tagMap[tagNameEn] = dimValue
+                    }
+                    recData.tag = tagMap
+                    recDatas.add(recData)
                 }
-                recData.tag = tagMap
-                recDatas.add(recData)
+                loadingDialog?.loading("正在提交数标签...")
+                enterAffectiveCloudManager?.submit(recDatas, object : Callback {
+                    override fun onSuccess() {
+                        runOnUiThread {
+                            loadingDialog?.dismiss()
+                            Toast.makeText(this@MeditationActivity, "标签提交成功！", Toast.LENGTH_SHORT)
+                                .show()
+                            getReportAndExit()
+                        }
+                    }
+
+                    override fun onError(error: Error?) {
+                        runOnUiThread {
+                            loadingDialog?.dismiss()
+                            Toast.makeText(
+                                this@MeditationActivity,
+                                "标签提交失败！${error.toString()}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            getReportAndExit()
+                        }
+                    }
+
+                })
             }
-            enterAffectiveCloudManager?.submit(recDatas, object : Callback {
-                override fun onSuccess() {
-                    runOnUiThread {
-                        loadingDialog?.dismiss()
-                        Toast.makeText(this@MeditationActivity, "标签提交成功！", Toast.LENGTH_SHORT)
-                            .show()
-                        getReportAndExit()
-                    }
-                }
 
-                override fun onError(error: Error?) {
-                    runOnUiThread {
-                        loadingDialog?.dismiss()
-                        Toast.makeText(
-                            this@MeditationActivity,
-                            "标签提交失败！${error.toString()}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        getReportAndExit()
-                    }
-                }
-
-            })
         }
     }
 

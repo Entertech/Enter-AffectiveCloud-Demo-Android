@@ -252,7 +252,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
             }
             resetLoading()
             dataReset()
-            BiomoduleBleManager.getInstance(Application.getInstance()).stopHeartAndBrainCollection()
+            biomoduleBleManager?.stopHeartAndBrainCollection()
             MeditaionInterruptManager.getInstance().pushInterrupt(INTERRUPT_TYPE_NET)
             selfView?.findViewById<MeditationInterruptView>(R.id.miv_interrupt_net)?.visibility =
                 View.VISIBLE
@@ -296,7 +296,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
     fun showMiniBar() {
         selfView?.findViewById<RelativeLayout>(R.id.rl_minibar_disconnect)?.visibility = View.VISIBLE
         selfView?.findViewById<RelativeLayout>(R.id.rl_minibar_connect)?.visibility = View.GONE
-        if (!BiomoduleBleManager.getInstance(Application.getInstance()).isConnected()) {
+        if (!biomoduleBleManager!!.isConnected()) {
             selfView?.findViewById<TextView>(R.id.tv_minibar_text)?.text = "Connect the headhand to show data"
             selfView?.findViewById<TextView>(R.id.tv_minibar_text)?.setOnClickListener {
                 (activity as MeditationActivity).scrollLayout.scrollToOpen()
