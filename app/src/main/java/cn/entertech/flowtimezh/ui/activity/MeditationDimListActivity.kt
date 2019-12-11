@@ -20,12 +20,21 @@ class MeditationDimListActivity : BaseActivity() {
         initView()
     }
 
+    fun initTitle() {
+        tv_back.visibility = View.VISIBLE
+        tv_title.visibility = View.VISIBLE
+        var duration = intent.getStringExtra("duration")
+        tv_title.text = duration
+        ll_back.visibility = View.VISIBLE
+        ll_back.setOnClickListener {
+            finish()
+        }
+    }
+
     fun initView() {
+        initTitle()
         var experimentDimDao = ExperimentDimDao(this)
         var dimIds = intent.getStringExtra("dimIds")
-        var duration = intent.getStringExtra("duration")
-        tv_title.visibility = View.VISIBLE
-        tv_title.text = duration
         var dimIdsString = dimIds.split(",")
         for (dimId in dimIdsString) {
             var dimId = Integer.parseInt(dimId)

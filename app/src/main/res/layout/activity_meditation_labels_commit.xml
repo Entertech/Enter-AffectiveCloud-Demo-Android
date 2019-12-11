@@ -10,6 +10,12 @@
 
     <include layout="@layout/layout_common_title" />
 
+    <View
+        android:layout_marginTop="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:background="@color/lineColor" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_list"
         android:layout_width="match_parent"

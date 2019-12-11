@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_container"
     android:layout_width="match_parent"
     android:layout_height="44dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/activity_margin"
+        android:layout_marginRight="@dimen/activity_margin"
+        android:layout_alignParentBottom="true"
+        android:background="@color/lineColor" />
 
     <TextView
         android:id="@+id/tv_label_time"
@@ -25,9 +34,9 @@
 
     <TextView
         android:id="@+id/tv_dims"
-        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/iv_arrow"
         android:text="1,2"
         android:textColor="@color/colorGrayText"

@@ -1,26 +1,42 @@
 package cn.entertech.flowtimezh.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
+import androidx.recyclerview.widget.LinearLayoutManager
 import cn.entertech.flowtimezh.R
+import cn.entertech.flowtimezh.app.Application
+import cn.entertech.flowtimezh.app.Constant
 import cn.entertech.flowtimezh.app.Constant.Companion.RECORD_ID
 import cn.entertech.flowtimezh.database.MeditationDao
+import cn.entertech.flowtimezh.database.MeditationLabelsDao
 import cn.entertech.flowtimezh.database.UserLessonRecordDao
+import cn.entertech.flowtimezh.database.model.MeditationLabelsModel
+import cn.entertech.flowtimezh.ui.activity.MeditationActivity
+import cn.entertech.flowtimezh.ui.activity.MeditationDimListActivity
+import cn.entertech.flowtimezh.ui.activity.MeditationLabelsCommitActivity
+import cn.entertech.flowtimezh.ui.activity.MeditationTimeRecordActivity
+import cn.entertech.flowtimezh.ui.adapter.MeditationLabelsListAdapter
+import cn.entertech.flowtimezh.utils.TimeUtils
 import cn.entertech.flowtimezh.utils.TimeUtils.*
 import cn.entertech.flowtimezh.utils.reportfileutils.FileHelper
 import cn.entertech.flowtimezh.utils.reportfileutils.MeditationReportDataAnalyzed
 import cn.entertech.uicomponentsdk.report.StackedAreaChart
 import cn.entertech.uicomponentsdk.utils.removeZeroData
+import com.chad.library.adapter.base.BaseQuickAdapter
+import kotlinx.android.synthetic.main.activity_meditation_labels_commit.*
 
 import kotlinx.android.synthetic.main.fragment_statistics_data.*
 import kotlin.collections.ArrayList
 
 class StatisticsDataFragment : androidx.fragment.app.Fragment() {
+    private var meditaitonId: Long? = null
     private var startTime: String? = null
     private lateinit var fileName: String
     var self: View? = null
@@ -119,6 +135,7 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
             return
         }
 
+        meditaitonId = userLessonRecord.meditation
         report_brainwave_view.isDataNull(false)
         report_attention_view.isDataNull(false)
         report_relaxation_view.isDataNull(false)
@@ -127,6 +144,54 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
         report_pressure_view.isDataNull(false)
 //        Logger.d("user record is " + userLessonRecord.toString() + "meditation record is " + meditation.toString())
         setViewData()
+        initLabelsView()
+    }
+
+    fun initLabelsView() {
+        var meditationLabelsDao = MeditationLabelsDao(Application.getInstance())
+        var meditationLabels = meditationLabelsDao.findByMeditationId(meditaitonId!!)
+        if (meditationLabels == null || meditationLabels.isEmpty()) {
+            ll_labels_container.visibility = View.GONE
+            return
+        } else {
+            ll_labels_container.visibility = View.VISIBLE
+        }
+        var data: List<MeditationLabelsModel>
+        if (meditationLabels.size <= 4) {
+            data = meditationLabels
+            tv_more_labels.visibility = View.GONE
+        } else {
+            data = meditationLabels.subList(0, 4)
+            tv_more_labels.visibility = View.VISIBLE
+            tv_more_labels.setOnClickListener {
+                var intent = Intent(activity!!, MeditationLabelsCommitActivity::class.java)
+                intent.putExtra(Constant.EXTRA_MEDITATION_ID, meditaitonId!!)
+                intent.putExtra(Constant.EXTRA_IS_FROM_REPORT, true)
+                startActivity(intent)
+            }
+        }
+        var adapter = MeditationLabelsListAdapter(data)
+        adapter!!.onItemChildClickListener =
+            BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
+                var duration = "${TimeUtils.getFormatTime(
+                    meditationLabels[position].startTime - meditationLabels[position].meditationStartTime,
+                    "mm:ss"
+                )}" +
+                        "-${TimeUtils.getFormatTime(
+                            meditationLabels[position].endTime - meditationLabels[position].meditationStartTime,
+                            "mm:ss"
+                        )}"
+                var intent = Intent(
+                    activity!!,
+                    MeditationDimListActivity::class.java
+                )
+                intent.putExtra("dimIds", meditationLabels[position].dimIds)
+                intent.putExtra("duration", duration)
+                intent.putExtra(Constant.EXTRA_IS_FROM_REPORT, true)
+                startActivity(intent)
+            }
+        rv_meditation_labels.adapter = adapter
+        rv_meditation_labels.layoutManager = LinearLayoutManager(activity!!)
     }
 
     fun setViewData() {
@@ -136,11 +201,11 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
         var thetaItems = StackedAreaChart.StackItem()
         var deltaItems = StackedAreaChart.StackItem()
         var gammaItems = StackedAreaChart.StackItem()
-        gammaItems.stackColor = ContextCompat.getColor(activity!!,R.color.colorStatisticsGammaWave)
-        deltaItems.stackColor = ContextCompat.getColor(activity!!,R.color.colorStatisticsDeltaWave)
-        thetaItems.stackColor = ContextCompat.getColor(activity!!,R.color.colorStatisticsThetaWave)
-        betaItems.stackColor = ContextCompat.getColor(activity!!,R.color.colorStatisticsBetaWave)
-        alphaItems.stackColor = ContextCompat.getColor(activity!!,R.color.colorStatisticsAlphaWave)
+        gammaItems.stackColor = ContextCompat.getColor(activity!!, R.color.colorStatisticsGammaWave)
+        deltaItems.stackColor = ContextCompat.getColor(activity!!, R.color.colorStatisticsDeltaWave)
+        thetaItems.stackColor = ContextCompat.getColor(activity!!, R.color.colorStatisticsThetaWave)
+        betaItems.stackColor = ContextCompat.getColor(activity!!, R.color.colorStatisticsBetaWave)
+        alphaItems.stackColor = ContextCompat.getColor(activity!!, R.color.colorStatisticsAlphaWave)
         gammaItems.stackData = meditationReportDataAnalyzed!!.gammaCurve
         deltaItems.stackData = meditationReportDataAnalyzed!!.deltaCurve
         thetaItems.stackData = meditationReportDataAnalyzed!!.thetaCurve
@@ -152,7 +217,8 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
         stackItems.add(thetaItems)
         stackItems.add(deltaItems)
 
-        var meditationStart = getStringToDate(startTime!!.replace("T", " ").replace("Z", ""), "yyyy-MM-dd HH:mm:ss")
+        var meditationStart =
+            getStringToDate(startTime!!.replace("T", " ").replace("Z", ""), "yyyy-MM-dd HH:mm:ss")
         report_brainwave_view.setData(meditationStart, stackItems)
         report_hr_view.setData(
             meditationStart,
@@ -171,10 +237,10 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
         var removeZeroAttentionRec = removeZeroData(meditationReportDataAnalyzed!!.attentionRec)
         var removeZeroRelaxationRec = removeZeroData(meditationReportDataAnalyzed!!.relaxationRec)
 
-        if (!removeZeroAttentionRec.isNullOrEmpty()){
+        if (!removeZeroAttentionRec.isNullOrEmpty()) {
             report_attention_view.setData(meditationStart, removeZeroAttentionRec)
         }
-        if (!removeZeroRelaxationRec.isNullOrEmpty()){
+        if (!removeZeroRelaxationRec.isNullOrEmpty()) {
             report_relaxation_view.setData(meditationStart, removeZeroRelaxationRec)
         }
     }

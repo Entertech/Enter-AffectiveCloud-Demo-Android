@@ -26,11 +26,12 @@ class MeditationLabelsListAdapter(data: List<MeditationLabelsModel>) :
                 "-${getFormatTime(item.endTime - item.meditationStartTime, "mm:ss")}"
         helper.setText(R.id.tv_label_time, duration)
 
-        helper.itemView.setOnClickListener {
-            var intent = Intent(mContext, MeditationDimListActivity::class.java)
-            intent.putExtra("dimIds", item.dimIds)
-            intent.putExtra("duration", duration)
-            mContext.startActivity(intent)
-        }
+        helper.addOnClickListener(R.id.rl_container)
+//        helper.itemView.setOnClickListener {
+//            var intent = Intent(mContext, MeditationDimListActivity::class.java)
+//            intent.putExtra("dimIds", item.dimIds)
+//            intent.putExtra("duration", duration)
+//            mContext.startActivity(intent)
+//        }
     }
 }

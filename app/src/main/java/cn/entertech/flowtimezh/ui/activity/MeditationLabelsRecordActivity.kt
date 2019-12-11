@@ -33,7 +33,7 @@ import kotlinx.android.synthetic.main.activity_experiment_label.*
 import kotlinx.android.synthetic.main.activity_meditation_labels_record.*
 import kotlinx.android.synthetic.main.layout_common_title.*
 
-class MeditationLabelsRecordActivity : AppCompatActivity() {
+class MeditationLabelsRecordActivity : BaseActivity() {
 
     private var meditationId: Long = -1
     private var meditationStartTime: Long = -1
@@ -47,6 +47,8 @@ class MeditationLabelsRecordActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_meditation_labels_record)
+        initFullScreenDisplay()
+        setStatusBarLight()
         initLabels()
         initView()
     }
@@ -136,7 +138,7 @@ class MeditationLabelsRecordActivity : AppCompatActivity() {
                     "<font color='${ContextCompat.getColor(
                         this,
                         R.color.colorDialogExit
-                    )}'>${getString(R.string.dialogExit)}</font>"
+                    )}'>确定</font>"
                 )
             ) { dialog, which ->
                 dialog.dismiss()
@@ -149,7 +151,7 @@ class MeditationLabelsRecordActivity : AppCompatActivity() {
                     "<font color='${ContextCompat.getColor(
                         this,
                         R.color.colorDialogCancel
-                    )}'>${getString(R.string.dialogCancel)}</font>"
+                    )}'>取消</font>"
                 )
             ) { dialog, which ->
                 dialog.dismiss()

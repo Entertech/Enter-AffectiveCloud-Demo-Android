@@ -84,8 +84,9 @@ class MeditationActivity : BaseActivity() {
     var isFirstReceiveData = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initFullScreenDisplay()
         setContentView(R.layout.activity_meditation)
+        initFullScreenDisplay()
+        setStatusBarLight()
         EventBus.getDefault().register(this)
         userLessonStartTime = getCurrentTimeFormat()
         loadingDialog = LoadingDialog(this)
@@ -171,15 +172,10 @@ class MeditationActivity : BaseActivity() {
 
     fun initView() {
         btn_start_record.setOnClickListener {
-            if (meditationId == -1L) {
-                finishMeditation()
-            } else {
-                var intent = Intent(this, MeditationTimeRecordActivity::class.java)
-                Log.d("####", "meditation id is.. " + meditationId)
-                intent.putExtra(EXTRA_MEDITATION_ID, meditationId)
-                intent.putExtra(EXTRA_MEDITATION_START_TIME, meditationStartTime)
-                startActivity(intent)
-            }
+            var intent = Intent(this, MeditationTimeRecordActivity::class.java)
+            intent.putExtra(EXTRA_MEDITATION_ID, meditationId)
+            intent.putExtra(EXTRA_MEDITATION_START_TIME, meditationStartTime)
+            startActivity(intent)
         }
         initTilte()
         initDataFragment()
@@ -484,9 +480,13 @@ class MeditationActivity : BaseActivity() {
         tv_title.visibility = View.INVISIBLE
         rl_menu_ic.visibility = View.VISIBLE
         rl_menu_ic.setOnClickListener {
-            var intent = Intent(this, MeditationLabelsCommitActivity::class.java)
-            intent.putExtra(EXTRA_MEDITATION_ID, meditationId)
-            startActivity(intent)
+            if (meditationId == -1L) {
+                finishMeditation()
+            } else {
+                var intent = Intent(this, MeditationLabelsCommitActivity::class.java)
+                intent.putExtra(EXTRA_MEDITATION_ID, meditationId)
+                startActivity(intent)
+            }
         }
     }
 
@@ -607,57 +607,7 @@ class MeditationActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        loadingDialog?.loading("正在提交数据...")
-        var meditationLabelsDao = MeditationLabelsDao(this)
-        var experimentDimDao = ExperimentDimDao(this)
-        var experimentDao = ExperimentDao(this)
-        var selectedExperiment = experimentDao.findExperimentBySelected()
-        var experimentTagDao = ExperimentTagDao(this)
-        var recDatas = ArrayList<RecData>()
-        var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)
-        for (meditationLabel in meditationLabels) {
-            var recData = RecData()
-            recData.note = listOf()
-            recData.st = (meditationLabel.startTime - meditationLabel.meditationStartTime) / 1000f
-            recData.et = (meditationLabel.endTime - meditationLabel.meditationStartTime) / 1000f
-            var tagMap = HashMap<String, Any>()
-            var dimIdStrings = meditationLabel.dimIds.split(",")
-            for (dimIdString in dimIdStrings) {
-                var dimIdInt = Integer.parseInt(dimIdString)
-                var dimModel = experimentDimDao.findByDimId(dimIdInt)
-                var dimValue = dimModel.value
-                var tag = experimentTagDao.findTagById(dimModel.tagId)
-                var tagNameEn = tag.nameEn
-                tagMap[tagNameEn] = dimValue
-            }
-            recData.tag = tagMap
-            recDatas.add(recData)
-        }
-
-
-
-        enterAffectiveCloudManager?.submit(recDatas, object : Callback {
-            override fun onSuccess() {
-                runOnUiThread {
-                    loadingDialog?.dismiss()
-                    Toast.makeText(this@MeditationActivity, "标签提交成功！", Toast.LENGTH_SHORT).show()
-                    finishMeditation()
-                }
-            }
-
-            override fun onError(error: Error?) {
-                runOnUiThread {
-                    loadingDialog?.dismiss()
-                    Toast.makeText(
-                        this@MeditationActivity,
-                        "标签提交失败！${error.toString()}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    finishMeditation()
-                }
-            }
-
-        })
+        finishMeditation()
     }
 
     fun finishMeditation() {
@@ -668,7 +618,54 @@ class MeditationActivity : BaseActivity() {
         if (meditationTimeError() || !enterAffectiveCloudManager!!.isWebSocketOpen()) {
             exitWithoutMeditation()
         } else {
-            getReportAndExit()
+            loadingDialog?.loading("正在提交数据...")
+            var meditationLabelsDao = MeditationLabelsDao(this)
+            var experimentDimDao = ExperimentDimDao(this)
+            var experimentTagDao = ExperimentTagDao(this)
+            var recDatas = ArrayList<RecData>()
+            var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)
+            for (meditationLabel in meditationLabels) {
+                var recData = RecData()
+                recData.note = listOf()
+                recData.st =
+                    (meditationLabel.startTime - meditationLabel.meditationStartTime) / 1000f
+                recData.et = (meditationLabel.endTime - meditationLabel.meditationStartTime) / 1000f
+                var tagMap = HashMap<String, Any>()
+                var dimIdStrings = meditationLabel.dimIds.split(",")
+                for (dimIdString in dimIdStrings) {
+                    var dimIdInt = Integer.parseInt(dimIdString)
+                    var dimModel = experimentDimDao.findByDimId(dimIdInt)
+                    var dimValue = dimModel.value
+                    var tag = experimentTagDao.findTagById(dimModel.tagId)
+                    var tagNameEn = tag.nameEn
+                    tagMap[tagNameEn] = dimValue
+                }
+                recData.tag = tagMap
+                recDatas.add(recData)
+            }
+            enterAffectiveCloudManager?.submit(recDatas, object : Callback {
+                override fun onSuccess() {
+                    runOnUiThread {
+                        loadingDialog?.dismiss()
+                        Toast.makeText(this@MeditationActivity, "标签提交成功！", Toast.LENGTH_SHORT)
+                            .show()
+                        getReportAndExit()
+                    }
+                }
+
+                override fun onError(error: Error?) {
+                    runOnUiThread {
+                        loadingDialog?.dismiss()
+                        Toast.makeText(
+                            this@MeditationActivity,
+                            "标签提交失败！${error.toString()}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        getReportAndExit()
+                    }
+                }
+
+            })
         }
     }
 

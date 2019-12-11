@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.activity.MeditationTimeRecordActivity">
+    tools:context=".ui.activity.MeditationTimeRecordActivity"
+    android:fitsSystemWindows="true">
 
     <include layout="@layout/layout_common_title" />
 

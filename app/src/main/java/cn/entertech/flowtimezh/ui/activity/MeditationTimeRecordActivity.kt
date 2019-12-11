@@ -14,14 +14,17 @@ import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_START_TIM
 import kotlinx.android.synthetic.main.activity_meditation_time_record.*
 import kotlinx.android.synthetic.main.layout_common_title.*
 
-class MeditationTimeRecordActivity : AppCompatActivity() {
+class MeditationTimeRecordActivity : BaseActivity() {
 
     private var endTime: Long? = null
     private var startTime: Long? = null
+    var canExit = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_meditation_time_record)
+        initFullScreenDisplay()
+        setStatusBarLight()
         initView()
     }
 
@@ -37,7 +40,10 @@ class MeditationTimeRecordActivity : AppCompatActivity() {
         }
         tv_record_btn.setOnClickListener {
             if (tv_record_btn.text == "开始记录") {
+                canExit = false
+                ll_back.visibility = View.GONE
                 chronometer.visibility = View.VISIBLE
+                chronometer.base = SystemClock.elapsedRealtime()
                 chronometer.start()
                 startTime = System.currentTimeMillis()
                 tv_record_btn.setBackgroundResource(R.drawable.shape_time_record_end_bg)
@@ -68,11 +74,19 @@ class MeditationTimeRecordActivity : AppCompatActivity() {
     }
 
     private fun resetPage() {
+        canExit = true
+        ll_back.visibility = View.VISIBLE
         chronometer.base = SystemClock.elapsedRealtime()
         chronometer.stop()
 //        chronometer.visibility = View.INVISIBLE
         tv_record_btn.setBackgroundResource(R.drawable.shape_time_record_start_bg)
         tv_record_btn.text = "开始记录"
+    }
+
+    override fun onBackPressed() {
+        if (canExit) {
+            finish()
+        }
     }
 
 }

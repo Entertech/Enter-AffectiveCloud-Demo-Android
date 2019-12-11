@@ -99,6 +99,7 @@ class Constant {
         var RECORD_ID = "recordId"
         var EXTRA_EXPERIMENT_ID = "experimentId"
         var EXTRA_MEDITATION_ID = "meditationId"
+        var EXTRA_IS_FROM_REPORT = "isFromReport"
         var EXTRA_MEDITATION_START_TIME = "meditationStartTime"
         var EXTRA_LABEL_START_TIME = "labelStartTime"
         var EXTRA_LABEL_END_TIME = "labelEndTime"
