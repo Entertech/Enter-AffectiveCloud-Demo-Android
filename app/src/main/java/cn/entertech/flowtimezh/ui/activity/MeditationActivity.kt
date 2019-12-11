@@ -100,9 +100,8 @@ class MeditationActivity : BaseActivity() {
         var userId = intent.getStringExtra("userId")
         var sex = intent.getStringExtra("sex")
         var age = intent.getStringExtra("age")
-
         var storageSettings = StorageSettings.Builder()
-            .user(sex, Integer.parseInt(age)).build()
+            .user(sex, if (age == ""){0}else{Integer.parseInt(age)}).build()
         var availableAffectiveServices =
             listOf(Service.ATTENTION, Service.PRESSURE, Service.RELAXATION, Service.PLEASURE)
         var availableBioServices = listOf(Service.EEG, Service.HR)
