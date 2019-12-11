@@ -54,6 +54,7 @@
             android:layout_weight="1"
             android:layout_marginRight="8dp"
             app:rav_background="@drawable/shape_realtime_attention_bg"
+            app:rav_infoUrl="@string/realtime_attention_url"
             app:rav_mainColor="#5fc695"/>
 
         <cn.entertech.uicomponentsdk.realtime.RealtimeRelaxationView
@@ -62,6 +63,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:rrv_background="@drawable/shape_realtime_relaxation_bg"
+            app:rrv_infoUrl="@string/realtime_relaxation"
             app:rrv_mainColor="#4b5dcc"/>
 <!--        <RelativeLayout-->
 <!--                android:layout_marginRight="@dimen/activity_margin_half"-->
@@ -336,6 +338,7 @@
             android:layout_weight="1"
             android:layout_marginRight="8dp"
             app:rpv_background="@drawable/shape_realtime_pressure_bg"
+            app:rpv_infoUrl="@string/realtime_pressure_url"
             app:rpv_mainColor="#ff6682" />
 
         <cn.entertech.uicomponentsdk.realtime.RealtimeArousalView

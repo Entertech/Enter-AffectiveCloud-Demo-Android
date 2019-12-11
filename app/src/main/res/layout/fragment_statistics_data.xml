@@ -188,7 +188,8 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginRight="16dp"
-                    app:rbs_spectrumColors="#0921dd,#5167f8,#8392fb,#9ca7fb,#ccd4fc" />
+                    app:rbs_spectrumColors="#0921dd,#5167f8,#8392fb,#9ca7fb,#ccd4fc"
+                    app:rbs_infoUrl="@string/report_brainwave_spectrum_url"/>
 
 <!--                <cn.entertech.uicomponentsdk.report.ReportHeartRateView-->
 <!--                    android:id="@+id/report_hr_view"-->
@@ -196,7 +197,8 @@
 <!--                    android:layout_height="wrap_content"-->
 <!--                    android:layout_marginLeft="16dp"-->
 <!--                    android:layout_marginTop="16dp"-->
-<!--                    android:layout_marginRight="16dp" />-->
+<!--                    android:layout_marginRight="16dp"-->
+<!--                    app:rhr_infoUrl="@string/report_heart_rate_url"/>-->
 
 <!--                <cn.entertech.uicomponentsdk.report.ReportHeartRateVariabilityView-->
 <!--                    android:id="@+id/report_hrv_view"-->
@@ -204,7 +206,8 @@
 <!--                    android:layout_height="wrap_content"-->
 <!--                    android:layout_marginLeft="16dp"-->
 <!--                    android:layout_marginTop="16dp"-->
-<!--                    android:layout_marginRight="16dp" />-->
+<!--                    android:layout_marginRight="16dp"-->
+<!--                    app:hrv_infoUrl="@string/report_hrv_url"/>-->
 
                 <cn.entertech.uicomponentsdk.report.ReportAffectiveView
                     android:id="@+id/report_attention_view"
@@ -214,7 +217,8 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginRight="16dp"
                     app:ra_emotionType="attention"
-                    app:ra_fillColor="#52a27c" />
+                    app:ra_fillColor="#52a27c"
+                    app:ra_infoUrl="@string/report_attention_and_relaxation_url"/>
 
                 <cn.entertech.uicomponentsdk.report.ReportAffectiveView
                     android:id="@+id/report_relaxation_view"
@@ -224,7 +228,8 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginRight="16dp"
                     app:ra_emotionType="relaxation"
-                    app:ra_fillColor="#3e4da8" />
+                    app:ra_fillColor="#3e4da8"
+                    app:ra_infoUrl="@string/report_attention_and_relaxation_url"/>
 
 <!--                <cn.entertech.uicomponentsdk.report.ReportPressureView-->
 <!--                    android:id="@+id/report_pressure_view"-->
@@ -232,7 +237,8 @@
 <!--                    android:layout_height="wrap_content"-->
 <!--                    android:layout_marginLeft="16dp"-->
 <!--                    android:layout_marginTop="16dp"-->
-<!--                    android:layout_marginRight="16dp" />-->
+<!--                    android:layout_marginRight="16dp"-->
+<!--                    app:rp_infoUrl="@string/report_pressure_url"/>-->
             </LinearLayout>
         </LinearLayout>
 

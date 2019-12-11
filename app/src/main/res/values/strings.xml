@@ -18,5 +18,16 @@
     <string name="dialogExitContent">Meditation complete, exit and generate report.</string>
     <string name="dialogCancel">Cancel</string>
     <string name="dialogExit">Exit</string>
+    <string name="realtime_attention_url">https://docs.myflowtime.cn/%E2%98%81%EF%B8%8F%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/%F0%9F%8E%AF%E6%B3%A8%E6%84%8F%E5%8A%9B.html</string>
+    <string name="realtime_relaxation">https://docs.myflowtime.cn/%E2%98%81%EF%B8%8F%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/%F0%9F%8D%80%E6%94%BE%E6%9D%BE%E5%BA%A6.html</string>
+    <string name="realtime_pressure_url">https://docs.myflowtime.cn/%E2%98%81%EF%B8%8F%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/%F0%9F%98%A7%E5%8E%8B%E5%8A%9B%E6%B0%B4%E5%B9%B3.html</string>
+    <string name="realtime_eeg_url">https://docs.myflowtime.cn/%E2%98%81%EF%B8%8F%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/%F0%9F%91%BD%E8%84%91%E7%94%B5%E6%B3%A2%EF%BC%88EEG%EF%BC%89.html</string>
+    <string name="realtime_brainwave_spectrum_url">https://docs.myflowtime.cn/%E2%98%81%EF%B8%8F%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/%F0%9F%94%8B%E8%84%91%E7%94%B5%E6%B3%A2%E9%A2%91%E6%AE%B5%E8%83%BD%E9%87%8F.html</string>
+    <string name="realtime_heart_rate_url">https://docs.myflowtime.cn/%E2%98%81%EF%B8%8F%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/%E2%9D%A4%EF%B8%8F%E5%BF%83%E7%8E%87.html</string>
+    <string name="report_brainwave_spectrum_url">https://docs.myflowtime.cn/%F0%9F%93%88%E7%9C%8B%E6%87%82%E5%9B%BE%E8%A1%A8/%F0%9F%93%8A%E5%A6%82%E4%BD%95%E7%9C%8B%E8%84%91%E6%B3%A2%E9%A2%91%E8%B0%B1%E8%83%BD%E9%87%8F%E8%B6%8B%E5%8A%BF%E5%9B%BE%EF%BC%9F.html</string>
+    <string name="report_heart_rate_url">https://docs.myflowtime.cn/%F0%9F%93%88%E7%9C%8B%E6%87%82%E5%9B%BE%E8%A1%A8/%F0%9F%92%96%E5%A6%82%E4%BD%95%E7%9C%8B%E5%BF%83%E7%8E%87%E5%8F%98%E5%8C%96%E6%9B%B2%E7%BA%BF%EF%BC%9F.html</string>
+    <string name="report_hrv_url">https://docs.myflowtime.cn/%F0%9F%93%88%E7%9C%8B%E6%87%82%E5%9B%BE%E8%A1%A8/%F0%9F%92%93%E5%A6%82%E4%BD%95%E7%9C%8B%E5%BF%83%E7%8E%87%E5%8F%98%E5%BC%82%E6%80%A7%EF%BC%88HRV%EF%BC%89%E7%9A%84%E5%8F%98%E5%8C%96%E6%9B%B2%E7%BA%BF%EF%BC%9F.html</string>
+    <string name="report_attention_and_relaxation_url">https://docs.myflowtime.cn/%F0%9F%93%88%E7%9C%8B%E6%87%82%E5%9B%BE%E8%A1%A8/%E2%99%92%E5%A6%82%E4%BD%95%E7%9C%8B%E6%B3%A8%E6%84%8F%E5%8A%9B%E5%92%8C%E6%94%BE%E6%9D%BE%E5%BA%A6%E6%9B%B2%E7%BA%BF%EF%BC%9F.html</string>
+    <string name="report_pressure_url">https://docs.myflowtime.cn/%F0%9F%93%88%E7%9C%8B%E6%87%82%E5%9B%BE%E8%A1%A8/%F0%9F%93%89%E5%A6%82%E4%BD%95%E7%9C%8B%E5%8E%8B%E5%8A%9B%E6%B0%B4%E5%B9%B3%E6%9B%B2%E7%BA%BF%EF%BC%9F.html</string>
 
 </resources>

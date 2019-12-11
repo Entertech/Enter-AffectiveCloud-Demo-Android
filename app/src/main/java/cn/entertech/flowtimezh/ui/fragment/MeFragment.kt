@@ -13,6 +13,9 @@ import cn.entertech.flowtimezh.database.ExperimentDao
 import cn.entertech.flowtimezh.ui.activity.ExperimentChooseActivity
 import kotlinx.android.synthetic.main.fragment_me.*
 import android.net.Uri
+import android.os.Build
+import cn.entertech.flowtimezh.utils.getAppVersionCode
+import cn.entertech.flowtimezh.utils.getAppVersionName
 
 class MeFragment : Fragment() {
     override fun onCreateView(
@@ -33,6 +36,8 @@ class MeFragment : Fragment() {
             val uri = Uri.parse("https://docs.myflowtime.cn/")
             startActivity(Intent(Intent.ACTION_VIEW, uri))
         }
+
+        tv_version.text = "${getAppVersionName(activity!!)}(${getAppVersionCode(activity!!)})"
     }
 
     fun updateSelectedExperiment() {

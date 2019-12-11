@@ -39,7 +39,8 @@
         android:id="@+id/brainwave"
         android:layout_width="match_parent"
         android:layout_height="323dp"
-        android:layout_marginTop="@dimen/activity_margin_half" />
+        android:layout_marginTop="@dimen/activity_margin_half"
+        app:rbv_infoUrl="@string/realtime_eeg_url"/>
 
     <!--    <RelativeLayout-->
     <!--            android:layout_width="match_parent"-->
@@ -190,7 +191,8 @@
         android:id="@+id/brainwave_spectrum"
         android:layout_width="match_parent"
         android:layout_height="270dp"
-        android:layout_marginTop="@dimen/activity_margin" />
+        android:layout_marginTop="@dimen/activity_margin"
+        app:rbsv_infoUrl="@string/realtime_brainwave_spectrum_url"/>
 
     <!--    <RelativeLayout-->
     <!--            android:layout_width="match_parent"-->

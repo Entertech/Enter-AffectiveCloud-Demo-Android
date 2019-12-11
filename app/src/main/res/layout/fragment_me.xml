@@ -45,13 +45,12 @@
             android:id="@+id/tv_experiment_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/activity_margin_half"
+            android:layout_toLeftOf="@+id/iv_arrow"
             android:text="未选择"
             android:textColor="#7B7B81"
-            android:textSize="17sp"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/iv_arrow"
-            android:layout_marginRight="@dimen/activity_margin_half"
-            />
+            android:textSize="17sp" />
 
         <ImageView
             android:id="@+id/iv_arrow"
@@ -92,14 +91,13 @@
             android:id="@+id/tv_help_center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/activity_margin_half"
+            android:layout_toLeftOf="@+id/iv_arrow_1"
             android:text="未选择"
-            android:visibility="gone"
             android:textColor="#7B7B81"
             android:textSize="17sp"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/iv_arrow_1"
-            android:layout_marginRight="@dimen/activity_margin_half"
-            />
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/iv_arrow_1"
@@ -210,20 +208,22 @@
         android:layout_weight="1" />
 
     <ImageView
-        android:layout_gravity="center_horizontal"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:src="@mipmap/ic_logo"
-        />
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/ic_logo" />
+
     <TextView
-        android:layout_marginTop="@dimen/activity_margin_half"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="心流实验"
         android:layout_gravity="center_horizontal"
-        android:textSize="17sp"
-        android:textColor="@color/colorBlack"/>
+        android:layout_marginTop="@dimen/activity_margin_half"
+        android:text="心流实验"
+        android:textColor="@color/colorBlack"
+        android:textSize="17sp" />
+
     <TextView
+        android:id="@+id/tv_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -237,8 +237,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="4dp"
+        android:layout_marginBottom="24dp"
         android:text="\@ 2019 Entertech Ltd."
         android:textColor="#999999"
-        android:textSize="11sp"
-        android:layout_marginBottom="24dp"/>
+        android:textSize="11sp" />
 </LinearLayout>
