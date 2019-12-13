@@ -33,7 +33,8 @@
         <activity android:name=".ui.activity.ExperimentLabelActivity" />
         <activity android:name=".ui.activity.ExperimentDetailsActivity" />
         <activity android:name=".ui.activity.ExperimentChooseActivity" />
-        <activity android:name=".ui.activity.AuthActivity" />
+        <activity android:name=".ui.activity.AuthActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".ui.activity.DataActivity" />
         <activity android:name=".ui.activity.MeditationActivity"
             android:launchMode="singleTask">

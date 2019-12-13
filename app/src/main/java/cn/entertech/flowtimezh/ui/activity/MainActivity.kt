@@ -121,7 +121,7 @@ class MainActivity : BaseActivity() {
     }
 
     fun initExperimentLabelPresenter() {
-        experimentLabelPresenter = ExperimentLabelsPresenter(Application.getInstance())
+        experimentLabelPresenter = ExperimentLabelsPresenter(this)
         experimentLabelPresenter?.onCreate()
         experimentLabelPresenter?.attachView(experimentLabelSView)
         experimentLabelPresenter?.getExperimentLabels()
