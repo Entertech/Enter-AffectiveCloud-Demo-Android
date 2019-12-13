@@ -201,25 +201,16 @@ class MeditationActivity : BaseActivity() {
 
     private lateinit var heartRateListener: (Int) -> Unit
 
-    //    var brainDataList = ArrayList<Int>()
+//    var brainDataList = ArrayList<Int>()
     fun initFlowtimeManager() {
         biomoduleBleManager = DeviceUIConfig.getInstance(this).managers[0]
         rawListener = fun(bytes: ByteArray) {
 //            brainDataList.clear()
-            var badDataCount = 0
-            for (byte in bytes) {
-                var brainData = ConvertUtil.converUnchart(byte)
+//            for (byte in bytes) {
+//                var brainData = ConvertUtil.converUnchart(byte)
 //                brainDataList.add(brainData)
-                if (brainData == 128) {
-                    badDataCount++
-                }
-            }
-//            Log.d("######","brain data is:"+Arrays.toString(brainDataList.toArray()))
-            if (badDataCount == 6 && !isFixingFirmware) {
-                fixFirmware()
-            } else {
-                isFixingFirmware = false
-            }
+//            }
+//            Log.d("######", "firmware fixing brain:" + Arrays.toString(brainDataList.toArray()))
             enterAffectiveCloudManager?.appendEEGData(bytes)
         }
         heartRateListener = fun(heartRate: Int) {
@@ -228,15 +219,6 @@ class MeditationActivity : BaseActivity() {
         biomoduleBleManager.addRawDataListener(rawListener)
         biomoduleBleManager.addHeartRateListener(heartRateListener)
 
-    }
-
-    /**
-     * 规避固件128问题
-     */
-    private fun fixFirmware() {
-        isFixingFirmware = true
-        biomoduleBleManager.stopHeartAndBrainCollection()
-        biomoduleBleManager.startHeartAndBrainCollection()
     }
 
     lateinit var reportMeditationData: ReportMeditationDataEntity
