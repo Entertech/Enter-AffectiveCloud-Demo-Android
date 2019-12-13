@@ -48,7 +48,7 @@ class JourneyListAdapter(data: List<UserLessonEntity>) :
             var meditationDao = MeditationDao(mContext)
             var meditation = meditationDao.findMeditationById(item.meditation)
             if (meditation != null) {
-                helper?.setText(R.id.tv_duration, meditation.experimentUserId)
+                helper?.setText(R.id.tv_duration, "被试者编号：${meditation.experimentUserId}")
             } else {
                 helper?.setText(R.id.tv_duration, "示例数据")
             }

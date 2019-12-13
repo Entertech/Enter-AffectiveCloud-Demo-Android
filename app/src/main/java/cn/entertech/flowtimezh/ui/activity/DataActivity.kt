@@ -1,7 +1,9 @@
 package cn.entertech.flowtimezh.ui.activity
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.TextView
 import cn.entertech.flowtimezh.R
 import cn.entertech.flowtimezh.app.Constant.Companion.RECORD_ID
@@ -58,6 +60,8 @@ class DataActivity : BaseActivity() {
 //        tv_menu_text.setOnClickListener {
 //            startActivity(Intent(this@DataActivity, StatisticsEditActivity::class.java))
 //        }
+        tv_title.visibility = View.VISIBLE
+        tv_title.setTextColor(Color.BLACK)
         if (mRecordId != -1L) {
             var userLessonRecordDao = UserLessonRecordDao(this)
             var record = userLessonRecordDao.findRecordById(0,mRecordId)
@@ -69,7 +73,7 @@ class DataActivity : BaseActivity() {
             tv_title.text = startTime
             tvTime.text = startTime
         } else {
-            tv_title.text = "Statistics"
+            tv_title.text = "报表"
             tvTime.text = ""
         }
     }
