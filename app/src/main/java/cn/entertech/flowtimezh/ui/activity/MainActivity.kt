@@ -1,8 +1,11 @@
 package cn.entertech.flowtimezh.ui.activity
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import cn.entertech.flowtimezh.R
 import cn.entertech.flowtimezh.app.Application
 import cn.entertech.flowtimezh.database.ExperimentDao
@@ -47,6 +50,36 @@ class MainActivity : BaseActivity() {
         setStatusBarLight()
         initView()
         initExperimentLabelPresenter()
+        initPermission()
+    }
+
+
+
+    /**
+     * Android6.0 auth
+     */
+    fun initPermission() {
+        val needPermission = arrayOf(
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+        val needRequestPermissions = java.util.ArrayList<String>()
+        for (i in needPermission.indices) {
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    needPermission[i]
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                needRequestPermissions.add(needPermission[i])
+            }
+        }
+        if (needRequestPermissions.size != 0) {
+            val permissions = arrayOfNulls<String>(needRequestPermissions.size)
+            for (i in needRequestPermissions.indices) {
+                permissions[i] = needRequestPermissions[i]
+            }
+            ActivityCompat.requestPermissions(this@MainActivity, permissions, 1)
+        }
     }
 
     var experimentLabelSView = object : ExperimentLabelsView {

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Environment
 import android.os.Handler
 import android.text.Html
 import android.util.Log
@@ -39,20 +40,24 @@ import cn.entertech.flowtimezh.app.SettingManager
 import cn.entertech.flowtimezh.database.*
 import cn.entertech.flowtimezh.entity.MeditationEntity
 import cn.entertech.flowtimezh.entity.MessageEvent
+import cn.entertech.flowtimezh.entity.RecDataRecord
 import cn.entertech.flowtimezh.entity.UserLessonEntity
 import cn.entertech.flowtimezh.ui.activity.BaseActivity
 import cn.entertech.flowtimezh.ui.activity.DataActivity
 import cn.entertech.flowtimezh.ui.fragment.MeditationFragment
 import cn.entertech.flowtimezh.ui.view.LoadingDialog
 import cn.entertech.flowtimezh.ui.view.scrolllayout.ScrollLayout
+import cn.entertech.flowtimezh.utils.FileStoreHelper
 import cn.entertech.flowtimezh.utils.ScreenUtil
 import cn.entertech.flowtimezh.utils.getCurrentTimeFormat
+import com.google.gson.Gson
 import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.activity_meditation.*
 import kotlinx.android.synthetic.main.layout_common_title.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.io.File
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -81,6 +86,8 @@ class MeditationActivity : BaseActivity() {
     private var meditationId: Long = -1
     private var mRecordId: Long = -1
 
+    private var MEDITATION_LABEL_RECORD_PATH =
+        Environment.getExternalStorageDirectory().path + File.separator + "心流实验/标签数据"
 
     var isFixingFirmware = false
     var isFirstReceiveData = true
@@ -154,6 +161,10 @@ class MeditationActivity : BaseActivity() {
                         meditationId = -System.currentTimeMillis()
                         Log.d("####", "meditation id is " + meditationId)
                         fragmentBuffer.fileName = getCurrentTimeFormat(meditationStartTime!!)
+                        FileStoreHelper.getInstance().setPath(
+                            MEDITATION_LABEL_RECORD_PATH,
+                            getCurrentTimeFormat(meditationStartTime!!)
+                        )
                         isFirstReceiveData = false
                     }
                 }
@@ -201,7 +212,7 @@ class MeditationActivity : BaseActivity() {
 
     private lateinit var heartRateListener: (Int) -> Unit
 
-//    var brainDataList = ArrayList<Int>()
+    //    var brainDataList = ArrayList<Int>()
     fun initFlowtimeManager() {
         biomoduleBleManager = DeviceUIConfig.getInstance(this).managers[0]
         rawListener = fun(bytes: ByteArray) {
@@ -612,6 +623,32 @@ class MeditationActivity : BaseActivity() {
     }
 
     fun finishMeditation() {
+        var meditationLabelsDao = MeditationLabelsDao(this)
+        var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)
+        var experimentDimDao = ExperimentDimDao(this)
+        var experimentTagDao = ExperimentTagDao(this)
+        var recDatas = ArrayList<RecData>()
+        for (meditationLabel in meditationLabels) {
+            var recData = RecData()
+            recData.note = listOf()
+            recData.st =
+                (meditationLabel.startTime - meditationLabel.meditationStartTime) / 1000f
+            recData.et =
+                (meditationLabel.endTime - meditationLabel.meditationStartTime) / 1000f
+            var tagMap = HashMap<String, Any>()
+            var dimIdStrings = meditationLabel.dimIds.split(",")
+            for (dimIdString in dimIdStrings) {
+                var dimIdInt = Integer.parseInt(dimIdString)
+                var dimModel = experimentDimDao.findByDimId(dimIdInt)
+                var dimValue = dimModel.value
+                var tag = experimentTagDao.findTagById(dimModel.tagId)
+                var tagNameEn = tag.nameEn
+                tagMap[tagNameEn] = dimValue
+            }
+            recData.tag = tagMap
+            recDatas.add(recData)
+        }
+        saveLabelInLocal(recDatas)
         biomoduleBleManager?.stopHeartAndBrainCollection()
         startFinishTimer()
         reportMeditationData = ReportMeditationDataEntity()
@@ -619,34 +656,9 @@ class MeditationActivity : BaseActivity() {
         if (meditationTimeError() || !enterAffectiveCloudManager!!.isWebSocketOpen()) {
             exitWithoutMeditation()
         } else {
-            var meditationLabelsDao = MeditationLabelsDao(this)
-            var experimentDimDao = ExperimentDimDao(this)
-            var experimentTagDao = ExperimentTagDao(this)
-            var recDatas = ArrayList<RecData>()
-            var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)
             if (meditationLabels == null || meditationLabels.isEmpty()) {
                 getReportAndExit()
             } else {
-                for (meditationLabel in meditationLabels) {
-                    var recData = RecData()
-                    recData.note = listOf()
-                    recData.st =
-                        (meditationLabel.startTime - meditationLabel.meditationStartTime) / 1000f
-                    recData.et =
-                        (meditationLabel.endTime - meditationLabel.meditationStartTime) / 1000f
-                    var tagMap = HashMap<String, Any>()
-                    var dimIdStrings = meditationLabel.dimIds.split(",")
-                    for (dimIdString in dimIdStrings) {
-                        var dimIdInt = Integer.parseInt(dimIdString)
-                        var dimModel = experimentDimDao.findByDimId(dimIdInt)
-                        var dimValue = dimModel.value
-                        var tag = experimentTagDao.findTagById(dimModel.tagId)
-                        var tagNameEn = tag.nameEn
-                        tagMap[tagNameEn] = dimValue
-                    }
-                    recData.tag = tagMap
-                    recDatas.add(recData)
-                }
                 loadingDialog?.loading("正在提交数标签...")
                 enterAffectiveCloudManager?.submit(recDatas, object : Callback {
                     override fun onSuccess() {
@@ -674,6 +686,14 @@ class MeditationActivity : BaseActivity() {
             }
 
         }
+    }
+
+    fun saveLabelInLocal(recDatas: List<RecData>) {
+        var recDataRecord = RecDataRecord()
+        recDataRecord.recDatas = recDatas
+        recDataRecord.session_id = enterAffectiveCloudManager?.mApi?.getSessionId()
+        var json = Gson().toJson(recDataRecord)
+        FileStoreHelper.getInstance().writeData(json)
     }
 
 
