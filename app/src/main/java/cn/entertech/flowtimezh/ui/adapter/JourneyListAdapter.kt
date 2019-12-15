@@ -38,7 +38,7 @@ class JourneyListAdapter(data: List<UserLessonEntity>) :
             TimeUtils.getStringToDate(
                 item.startTime.replace("T", " ").replace("Z", ""),
                 "yyyy-MM-dd HH:mm:ss"
-            ), "dd.MM.yyyy EEEE"
+            ), "yyyy.MM.dd EEEE"
         )
         helper?.setText(R.id.tv_date, formatTime)
         if (item.meditation == null) {
