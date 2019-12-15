@@ -28,9 +28,9 @@ class PersonInfoActivity : BaseActivity() {
                 intent.putExtra("userId", et_num.text.toString())
                 var sex = ""
                 if (rb_male.isChecked) {
-                    sex = "M"
+                    sex = "m"
                 } else {
-                    sex = "F"
+                    sex = "f"
                 }
                 intent.putExtra("sex", sex)
                 intent.putExtra("age", et_age.text.toString())
