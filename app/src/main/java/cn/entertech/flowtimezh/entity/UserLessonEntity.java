@@ -57,6 +57,8 @@ public class UserLessonEntity {
     private String courseImage;
     @DatabaseField(columnName = "is_sample")
     private boolean isSampleData;
+    @DatabaseField(columnName = "is_delete")
+    private boolean isDelete;
 
     public long getId() {
         return id;
@@ -184,6 +186,14 @@ public class UserLessonEntity {
 
     public void setSampleData(boolean sampleData) {
         isSampleData = sampleData;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
 
     public static class LessonBean {

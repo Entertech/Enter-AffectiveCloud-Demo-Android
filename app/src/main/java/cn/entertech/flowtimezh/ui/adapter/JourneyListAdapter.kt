@@ -7,12 +7,13 @@ import cn.entertech.flowtimezh.database.MeditationLabelsDao
 import cn.entertech.flowtimezh.entity.UserLessonEntity
 import cn.entertech.flowtimezh.utils.TimeUtils
 import cn.entertech.flowtimezh.utils.getResId
+import com.chad.library.adapter.base.BaseItemDraggableAdapter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 
 
 class JourneyListAdapter(data: List<UserLessonEntity>) :
-    BaseQuickAdapter<UserLessonEntity, BaseViewHolder>(R.layout.item_journey_list, data) {
+    BaseItemDraggableAdapter<UserLessonEntity, BaseViewHolder>(R.layout.item_journey_list, data) {
     override fun convert(helper: BaseViewHolder, item: UserLessonEntity) {
         if (helper == null) {
             return
@@ -48,7 +49,7 @@ class JourneyListAdapter(data: List<UserLessonEntity>) :
             var meditationDao = MeditationDao(mContext)
             var meditation = meditationDao.findMeditationById(item.meditation)
             if (meditation != null) {
-                helper?.setText(R.id.tv_duration, "被试者编号：${meditation.experimentUserId}")
+                helper?.setText(R.id.tv_duration, "${meditation.experimentUserId}")
             } else {
                 helper?.setText(R.id.tv_duration, "示例数据")
             }

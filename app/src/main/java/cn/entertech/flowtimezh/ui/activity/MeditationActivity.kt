@@ -470,7 +470,7 @@ class MeditationActivity : BaseActivity() {
         if (scrollLayout.currentStatus == ScrollLayout.Status.OPENED || scrollLayout.currentStatus == ScrollLayout.Status.CLOSED) {
             scrollLayout.scrollToExit()
         } else {
-            showDialog()
+//            showDialog()
         }
     }
 

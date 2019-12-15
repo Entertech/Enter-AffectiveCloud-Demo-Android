@@ -66,11 +66,10 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
-
-//            if (oldVersion < 4 && 4 <= newVersion) {
-//                TableUtils.dropTable(connectionSource, Record.class, true);
-//                TableUtils.createTable(connectionSource, Record.class);
-//            }
+            if (oldVersion < 2 && 2 <= newVersion) {
+                TableUtils.dropTable(connectionSource, UserLessonEntity.class, true);
+                TableUtils.createTable(connectionSource, UserLessonEntity.class);
+            }
         } catch (Exception e) {
 //            Logger.d("update database error:"+e.toString());
             e.printStackTrace();

@@ -49,7 +49,7 @@ public class UserLessonRecordDao {
 
     public List<UserLessonEntity> listAll(int userId) {
         try {
-            List<UserLessonEntity> records = mRecordDaoOp.queryBuilder().orderBy("start_time",false).where().eq("is_sample", false).and().eq("user",userId).query();
+            List<UserLessonEntity> records = mRecordDaoOp.queryBuilder().orderBy("start_time",false).where().eq("is_sample", false).and().eq("user",userId).and().eq("is_delete", false).query();
             return records;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -60,7 +60,7 @@ public class UserLessonRecordDao {
 
     public List<UserLessonEntity> listAllSampleData() {
         try {
-            List<UserLessonEntity> records = mRecordDaoOp.queryBuilder().where().eq("is_sample", true).query();
+            List<UserLessonEntity> records = mRecordDaoOp.queryBuilder().where().eq("is_sample", true).and().eq("is_delete", false).query();
             return records;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -74,7 +74,7 @@ public class UserLessonRecordDao {
             if (!mRecordDaoOp.isTableExists()) {
                 return null;
             }
-            List<UserLessonEntity> course = mRecordDaoOp.queryBuilder().where().eq("record_id", recordId).and().eq("user",userId).query();
+            List<UserLessonEntity> course = mRecordDaoOp.queryBuilder().where().eq("record_id", recordId).and().eq("user",userId).and().eq("is_delete", false).query();
             if (!course.isEmpty()) {
                 return course.get(0);
             }
@@ -90,7 +90,7 @@ public class UserLessonRecordDao {
             if (!mRecordDaoOp.isTableExists()) {
                 return null;
             }
-            List<UserLessonEntity> records = mRecordDaoOp.queryBuilder().where().eq("meditation_id", meditationId).and().eq("user",userId).query();
+            List<UserLessonEntity> records = mRecordDaoOp.queryBuilder().where().eq("meditation_id", meditationId).and().eq("is_delete", false).and().eq("user",userId).query();
             if (!records.isEmpty()) {
                 return records.get(0);
             }
@@ -103,7 +103,7 @@ public class UserLessonRecordDao {
     public void updateMeditationId(long recordId,long meditationId) {
         try {
             UpdateBuilder<UserLessonEntity, Integer> updateBuilder = mRecordDaoOp.updateBuilder();
-            updateBuilder.updateColumnValue("meditation_id", meditationId).where().eq("record_id", recordId);
+            updateBuilder.updateColumnValue("meditation_id", meditationId).where().eq("is_delete", false).and().eq("record_id", recordId);
             updateBuilder.update();
         } catch (SQLException e) {
             e.printStackTrace();
