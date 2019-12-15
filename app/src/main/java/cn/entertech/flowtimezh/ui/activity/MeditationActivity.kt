@@ -628,27 +628,29 @@ class MeditationActivity : BaseActivity() {
         var experimentDimDao = ExperimentDimDao(this)
         var experimentTagDao = ExperimentTagDao(this)
         var recDatas = ArrayList<RecData>()
-        for (meditationLabel in meditationLabels) {
-            var recData = RecData()
-            recData.note = listOf()
-            recData.st =
-                (meditationLabel.startTime - meditationLabel.meditationStartTime) / 1000f
-            recData.et =
-                (meditationLabel.endTime - meditationLabel.meditationStartTime) / 1000f
-            var tagMap = HashMap<String, Any>()
-            var dimIdStrings = meditationLabel.dimIds.split(",")
-            for (dimIdString in dimIdStrings) {
-                var dimIdInt = Integer.parseInt(dimIdString)
-                var dimModel = experimentDimDao.findByDimId(dimIdInt)
-                var dimValue = dimModel.value
-                var tag = experimentTagDao.findTagById(dimModel.tagId)
-                var tagNameEn = tag.nameEn
-                tagMap[tagNameEn] = dimValue
+        if (meditationLabels != null && meditationLabels.isNotEmpty()) {
+            for (meditationLabel in meditationLabels) {
+                var recData = RecData()
+                recData.note = listOf()
+                recData.st =
+                    (meditationLabel.startTime - meditationLabel.meditationStartTime) / 1000f
+                recData.et =
+                    (meditationLabel.endTime - meditationLabel.meditationStartTime) / 1000f
+                var tagMap = HashMap<String, Any>()
+                var dimIdStrings = meditationLabel.dimIds.split(",")
+                for (dimIdString in dimIdStrings) {
+                    var dimIdInt = Integer.parseInt(dimIdString)
+                    var dimModel = experimentDimDao.findByDimId(dimIdInt)
+                    var dimValue = dimModel.value
+                    var tag = experimentTagDao.findTagById(dimModel.tagId)
+                    var tagNameEn = tag.nameEn
+                    tagMap[tagNameEn] = dimValue
+                }
+                recData.tag = tagMap
+                recDatas.add(recData)
             }
-            recData.tag = tagMap
-            recDatas.add(recData)
+            saveLabelInLocal(recDatas)
         }
-        saveLabelInLocal(recDatas)
         biomoduleBleManager?.stopHeartAndBrainCollection()
         startFinishTimer()
         reportMeditationData = ReportMeditationDataEntity()
