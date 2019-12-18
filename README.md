@@ -7,7 +7,7 @@
 
 ## Demo下载
 
-[心流.apk](https://fir.im/69hz)
+[心流实验.apk](https://fir.im/69hz)
 
 ## 模块说明
 
