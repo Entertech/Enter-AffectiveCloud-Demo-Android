@@ -69,7 +69,7 @@
             </RelativeLayout>
 
 
-            <cn.entertech.flowtimezh.ui.view.MeditationInterruptView
+            <cn.entertech.affectiveclouddemo.ui.view.MeditationInterruptView
                 android:id="@+id/miv_interrupt_device"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -78,10 +78,10 @@
                 android:layout_marginRight="@dimen/activity_margin"
                 android:visibility="gone">
 
-            </cn.entertech.flowtimezh.ui.view.MeditationInterruptView>
+            </cn.entertech.affectiveclouddemo.ui.view.MeditationInterruptView>
 
 
-            <cn.entertech.flowtimezh.ui.view.MeditationInterruptView
+            <cn.entertech.affectiveclouddemo.ui.view.MeditationInterruptView
                 android:id="@+id/miv_interrupt_net"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
                 android:layout_marginRight="@dimen/activity_margin"
                 android:visibility="gone">
 
-            </cn.entertech.flowtimezh.ui.view.MeditationInterruptView>
+            </cn.entertech.affectiveclouddemo.ui.view.MeditationInterruptView>
 
 
             <LinearLayout

@@ -10,6 +10,6 @@
         android:id="@+id/fragment_meditaiton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="cn.entertech.flowtimezh.ui.fragment.MeditationFragment"/>
+        android:name="cn.entertech.affectiveclouddemo.ui.fragment.MeditationFragment"/>
 
 </LinearLayout>

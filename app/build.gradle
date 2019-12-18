@@ -39,7 +39,7 @@ android {
     productFlavors {
         flowtimezh {
             flavorDimensions "default"
-            applicationId "cn.entertech.flowtimezh"
+            applicationId "cn.entertech.affectiveclouddemo"
         }
 
     }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
-    package="cn.entertech.flowtimezh">
+    package="cn.entertech.affectiveclouddemo">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
@@ -11,7 +11,7 @@
     <dist:module dist:instant="true" />
 
     <application
-        android:name="cn.entertech.flowtimezh.app.Application"
+        android:name="cn.entertech.affectiveclouddemo.app.Application"
         android:allowBackup="true"
         android:icon="@mipmap/ic_logo"
         android:label="@string/app_name"
@@ -19,9 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="cn.entertech.flowtimezh.ui.activity.DataActivity"/>
-        <activity android:name="cn.entertech.flowtimezh.ui.activity.MeditationActivity"></activity>
-        <activity android:name="cn.entertech.flowtimezh.MainActivity">
+        <activity android:name="cn.entertech.affectiveclouddemo.ui.activity.DataActivity"/>
+        <activity android:name="cn.entertech.affectiveclouddemo.ui.activity.MeditationActivity"></activity>
+        <activity android:name="cn.entertech.affectiveclouddemo.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
