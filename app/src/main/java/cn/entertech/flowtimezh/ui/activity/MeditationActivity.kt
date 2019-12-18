@@ -105,17 +105,28 @@ class MeditationActivity : BaseActivity() {
     }
 
     fun initAffectiveCloudManager() {
+        var experimentDao = ExperimentDao(this)
+        var modeDao = ExperimentModeDao(this)
+        var experiment = experimentDao.findExperimentBySelected()
         userId = intent.getStringExtra("userId")
         var sex = intent.getStringExtra("sex")
         var age = intent.getStringExtra("age")
         var storageSettings = StorageSettings.Builder()
-            .user(
-                sex, if (age == "") {
+            .age(
+                if (age == "") {
                     0
                 } else {
                     Integer.parseInt(age)
                 }
-            ).build()
+            ).sex(
+                if (sex == "m") {
+                    StorageSettings.Sex.MALE
+                } else {
+                    StorageSettings.Sex.FEMALE
+                }
+            ).case(listOf(experiment.id))
+            .mode(modeDao.findModeByExperimentId(experiment.id).map { it.id })
+            .build()
 
 
         var biodataTolerance = BiodataTolerance.Builder()
