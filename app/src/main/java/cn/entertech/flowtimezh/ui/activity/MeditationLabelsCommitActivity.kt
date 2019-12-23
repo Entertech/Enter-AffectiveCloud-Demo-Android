@@ -46,21 +46,29 @@ class MeditationLabelsCommitActivity : BaseActivity() {
         }
         var meditationLabelsDao = MeditationLabelsDao(this)
         var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)
-        if (meditationLabels == null || meditationLabels.isEmpty()){
+        if (meditationLabels == null || meditationLabels.isEmpty()) {
             btn_commit.visibility = View.GONE
             return
         }
         var adapter = MeditationLabelsListAdapter(meditationLabels)
         adapter!!.onItemChildClickListener =
             BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
-                var duration = "${TimeUtils.getFormatTime(
-                    meditationLabels[position].startTime - meditationLabels[position].meditationStartTime,
-                    "mm:ss"
-                )}" +
-                        "-${TimeUtils.getFormatTime(
-                            meditationLabels[position].endTime - meditationLabels[position].meditationStartTime,
+                var duration = if (meditationLabels[position].startTime > meditationLabels[position].meditationStartTime) {
+                        "${TimeUtils.getFormatTime(meditationLabels[position].startTime - meditationLabels[position].meditationStartTime, "mm:ss")}" +
+                                "-${TimeUtils.getFormatTime(
+                                    meditationLabels[position].endTime - meditationLabels[position].meditationStartTime,
+                                    "mm:ss"
+                                )}"
+                    } else {
+                        "${TimeUtils.getFormatTime(
+                            meditationLabels[position].startTime,
                             "mm:ss"
-                        )}"
+                        )}" +
+                                "-${TimeUtils.getFormatTime(
+                                    meditationLabels[position].endTime,
+                                    "mm:ss"
+                                )}"
+                    }
                 var intent = Intent(
                     this@MeditationLabelsCommitActivity,
                     MeditationDimListActivity::class.java

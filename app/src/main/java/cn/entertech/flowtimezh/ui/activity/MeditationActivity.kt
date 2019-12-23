@@ -48,6 +48,7 @@ import cn.entertech.flowtimezh.ui.fragment.MeditationFragment
 import cn.entertech.flowtimezh.ui.view.LoadingDialog
 import cn.entertech.flowtimezh.ui.view.scrolllayout.ScrollLayout
 import cn.entertech.flowtimezh.utils.FileStoreHelper
+import cn.entertech.flowtimezh.utils.MeditationTimeManager
 import cn.entertech.flowtimezh.utils.ScreenUtil
 import cn.entertech.flowtimezh.utils.getCurrentTimeFormat
 import com.google.gson.Gson
@@ -168,6 +169,7 @@ class MeditationActivity : BaseActivity() {
                 //            Logger.d("bio realtime data is " + it.toString())
                 if (it != null && it!!.realtimeEEGData != null) {
                     if (isFirstReceiveData) {
+                        MeditationTimeManager.getInstance().timeReset()
                         meditationStartTime = System.currentTimeMillis()
                         meditationId = -System.currentTimeMillis()
                         Log.d("####", "meditation id is " + meditationId)
@@ -178,6 +180,7 @@ class MeditationActivity : BaseActivity() {
                         )
                         isFirstReceiveData = false
                     }
+                    MeditationTimeManager.getInstance().timeIncrease()
                 }
                 meditationFragment?.showHeart(it?.realtimeHrData?.hr?.toInt())
                 meditationFragment?.showBrain(it?.realtimeEEGData)
@@ -644,9 +647,9 @@ class MeditationActivity : BaseActivity() {
                 var recData = RecData()
                 recData.note = listOf()
                 recData.st =
-                    (meditationLabel.startTime - meditationLabel.meditationStartTime) / 1000f
+                    (meditationLabel.startTime) / 1000f
                 recData.et =
-                    (meditationLabel.endTime - meditationLabel.meditationStartTime) / 1000f
+                    (meditationLabel.endTime) / 1000f
                 var tagMap = HashMap<String, Any>()
                 var dimIdStrings = meditationLabel.dimIds.split(",")
                 for (dimIdString in dimIdStrings) {

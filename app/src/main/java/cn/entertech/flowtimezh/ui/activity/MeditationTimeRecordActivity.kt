@@ -11,6 +11,7 @@ import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_LABEL_END_TIME
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_LABEL_START_TIME
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_ID
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_START_TIME
+import cn.entertech.flowtimezh.utils.MeditationTimeManager
 import kotlinx.android.synthetic.main.activity_meditation_time_record.*
 import kotlinx.android.synthetic.main.layout_common_title.*
 
@@ -45,11 +46,11 @@ class MeditationTimeRecordActivity : BaseActivity() {
                 chronometer.visibility = View.VISIBLE
                 chronometer.base = SystemClock.elapsedRealtime()
                 chronometer.start()
-                startTime = System.currentTimeMillis()
+                startTime = MeditationTimeManager.getInstance().currentTimeMs()
                 tv_record_btn.setBackgroundResource(R.drawable.shape_time_record_end_bg)
                 tv_record_btn.text = "结束记录"
             } else {
-                endTime = System.currentTimeMillis()
+                endTime = MeditationTimeManager.getInstance().currentTimeMs()
                 chronometer.stop()
                 var intent = Intent(this, MeditationLabelsRecordActivity::class.java)
                 intent.putExtra(EXTRA_LABEL_START_TIME, startTime)

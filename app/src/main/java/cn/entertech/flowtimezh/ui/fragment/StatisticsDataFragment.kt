@@ -173,14 +173,26 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
         var adapter = MeditationLabelsListAdapter(data)
         adapter!!.onItemChildClickListener =
             BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
-                var duration = "${TimeUtils.getFormatTime(
-                    meditationLabels[position].startTime - meditationLabels[position].meditationStartTime,
-                    "mm:ss"
-                )}" +
-                        "-${TimeUtils.getFormatTime(
-                            meditationLabels[position].endTime - meditationLabels[position].meditationStartTime,
+                var duration =
+                    if (meditationLabels[position].startTime > meditationLabels[position].meditationStartTime) {
+                        "${TimeUtils.getFormatTime(
+                            meditationLabels[position].startTime - meditationLabels[position].meditationStartTime,
                             "mm:ss"
-                        )}"
+                        )}" +
+                                "-${TimeUtils.getFormatTime(
+                                    meditationLabels[position].endTime - meditationLabels[position].meditationStartTime,
+                                    "mm:ss"
+                                )}"
+                    } else {
+                        "${TimeUtils.getFormatTime(
+                            meditationLabels[position].startTime,
+                            "mm:ss"
+                        )}" +
+                                "-${TimeUtils.getFormatTime(
+                                    meditationLabels[position].endTime,
+                                    "mm:ss"
+                                )}"
+                    }
                 var intent = Intent(
                     activity!!,
                     MeditationDimListActivity::class.java
