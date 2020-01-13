@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        >
+
+    <include layout="@layout/layout_common_title" />
+    <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
+            android:background="#E5E5E5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+                android:id="@+id/ll_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+
+            <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView
+                    android:id="@+id/chart_brainwave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:background="@color/white"
+                    app:rbs_isTitleMenuIconShow="true"
+                    app:rbs_spectrumColors="#FF6682,#FB9C98,#F7C77E,#5FC695,#5E75FF"
+                    app:rbs_timeUnit="400"
+                    app:rbs_xAxisUnit="Time(min)"
+                    app:rbs_pointCount="100"
+                    app:rbs_title="Changes During Meditation"
+                    app:rbs_titleMenuIcon="@drawable/vector_drawable_full_screen"
+                    />
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+
+</LinearLayout>

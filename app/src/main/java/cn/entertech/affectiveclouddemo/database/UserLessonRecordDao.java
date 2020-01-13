@@ -7,9 +7,15 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.UpdateBuilder;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import cn.entertech.affectiveclouddemo.app.Application;
+import cn.entertech.affectiveclouddemo.model.MeditationEntity;
 import cn.entertech.affectiveclouddemo.model.UserLessonEntity;
+import cn.entertech.affectiveclouddemo.utils.reportfileutils.FileHelper;
+import cn.entertech.affectiveclouddemo.utils.reportfileutils.FileProtocol;
+import cn.entertech.affectiveclouddemo.utils.reportfileutils.MeditationReportDataAnalyzed;
 
 /**
  * Created by EnterTech on 2016/11/7.
@@ -82,6 +88,78 @@ public class UserLessonRecordDao {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    public List<UserLessonEntity> findLastEffectiveRecordById(int userId, long recordId, int times) {
+        try {
+            if (!mRecordDaoOp.isTableExists()) {
+                return null;
+            }
+
+            List<UserLessonEntity> totalRecords = listAll(userId);
+            if (totalRecords == null || totalRecords.size() == 0) {
+                return null;
+            }
+            List<UserLessonEntity> last7EffectiveRecords = new ArrayList<>();
+            UserLessonEntity record = findRecordById(userId, recordId);
+            int currentIndex = 0;
+            for (int i = 0; i < totalRecords.size(); i++) {
+                if (totalRecords.get(i).getmId() == record.getmId()) {
+                    currentIndex = i;
+                }
+            }
+            last7EffectiveRecords.add(totalRecords.get(currentIndex));
+            while (last7EffectiveRecords.size() != times && currentIndex++ < totalRecords.size() - 1) {
+                UserLessonEntity userLessonEntity = totalRecords.get(currentIndex);
+                if (getReportDataFromFile(userLessonEntity) != null) {
+                    last7EffectiveRecords.add(userLessonEntity);
+                } else {
+                    continue;
+                }
+            }
+            return last7EffectiveRecords;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
+    public MeditationReportDataAnalyzed getReportDataFromFile(UserLessonEntity userLessonEntity) {
+        if (userLessonEntity.getMeditation() == 0L) {
+            return null;
+        }
+        MeditationDao meditationDao = new MeditationDao(Application.Companion.getInstance());
+        MeditationEntity meditation = meditationDao.findMeditationById(userLessonEntity.getMeditation());
+        if (meditation == null || meditation.getMeditationFile() == null) {
+            return null;
+        }
+        String fileUri = meditation.getMeditationFile();
+        String fileName;
+        if ("sample".equals(fileUri)){
+            fileName = "sample";
+        }else{
+            String[] uris = fileUri.split("/");
+            fileName = uris[uris.length - 1];
+        }
+//        Logger.d("file name is " + fileName)
+
+        if (fileName == null) {
+            return null;
+        }
+        FileProtocol fileProtocol = FileHelper.getMeditationReport(Application.Companion.getInstance(), fileName);
+
+//        Logger.d("fileProtocol size is " + fileProtocol.list.size)
+        if (fileProtocol.getList().size() <= 0) {
+            return null;
+        }
+        MeditationReportDataAnalyzed meditationReportDataAnalyzed = (MeditationReportDataAnalyzed) fileProtocol.getList().get(0);
+        if (meditationReportDataAnalyzed == null) {
+            return null;
+        }
+        return meditationReportDataAnalyzed;
     }
 
 

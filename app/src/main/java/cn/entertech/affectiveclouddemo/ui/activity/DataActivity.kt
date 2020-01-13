@@ -6,7 +6,7 @@ import android.widget.TextView
 import cn.entertech.affectiveclouddemo.R
 import cn.entertech.affectiveclouddemo.app.Constant.Companion.RECORD_ID
 import cn.entertech.affectiveclouddemo.database.UserLessonRecordDao
-import cn.entertech.affectiveclouddemo.ui.fragment.StatisticsDataFragment
+import cn.entertech.affectiveclouddemo.ui.fragment.JournalFragment
 import cn.entertech.affectiveclouddemo.utils.TimeUtils
 import kotlinx.android.synthetic.main.layout_common_title.*
 
@@ -21,7 +21,7 @@ class DataActivity : BaseActivity() {
 
     private var mRecordId: Long = -1L
 
-    private lateinit var fragment: StatisticsDataFragment
+    private lateinit var fragment: JournalFragment
 
     fun initView() {
         mRecordId = intent.getLongExtra(RECORD_ID, -1)
@@ -29,7 +29,7 @@ class DataActivity : BaseActivity() {
             finish()
         }
         val fm = supportFragmentManager
-        fragment = StatisticsDataFragment()
+        fragment = JournalFragment()
         var bundle = Bundle()
         bundle.putLong(RECORD_ID, mRecordId)
         fragment.arguments = bundle

@@ -28,6 +28,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.activity.ReportDetailBrainwaveSpectrumActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".ui.activity.ReportDetailHRActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".ui.activity.ReportDetailHRVActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".ui.activity.ReportDetailRelaxationAndAttentionActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".ui.activity.ReportDetailPressureActivity"
+            android:configChanges="orientation|screenSize" />
     </application>
 
 </manifest>
