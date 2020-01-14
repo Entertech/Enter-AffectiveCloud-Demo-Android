@@ -14,4 +14,6 @@
     <color name="colorJourneyTextGreen">#637f72</color>
     <color name="colorJourneyTextYellow">#7f725e</color>
     <color name="colorRecordBiofeedbackBg">#CC13110d</color>
+
+    <color name="colorReportAboutTitle">#333333</color>
 </resources>

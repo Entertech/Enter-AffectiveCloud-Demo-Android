@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <dist:module dist:instant="true" />
-
     <application
         android:name="cn.entertech.affectiveclouddemo.app.Application"
         android:allowBackup="true"

@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <declare-styleable name="ReportAboutView">
+        <attr name="rav_titleIcon" format="reference" />
+        <attr name="rav_contentText" format="string" />
+        <attr name="rav_learnMoreUrl" format="string" />
+    </declare-styleable>
 </resources>

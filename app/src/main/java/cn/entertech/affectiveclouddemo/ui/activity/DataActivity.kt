@@ -3,10 +3,12 @@ package cn.entertech.affectiveclouddemo.ui.activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import cn.entertech.affectiveclouddemo.R
 import cn.entertech.affectiveclouddemo.app.Constant.Companion.RECORD_ID
 import cn.entertech.affectiveclouddemo.database.UserLessonRecordDao
 import cn.entertech.affectiveclouddemo.ui.fragment.JournalFragment
+import cn.entertech.affectiveclouddemo.ui.fragment.JournalLargeFragment
 import cn.entertech.affectiveclouddemo.utils.TimeUtils
 import kotlinx.android.synthetic.main.layout_common_title.*
 
@@ -21,7 +23,7 @@ class DataActivity : BaseActivity() {
 
     private var mRecordId: Long = -1L
 
-    private lateinit var fragment: JournalFragment
+    private lateinit var fragment: Fragment
 
     fun initView() {
         mRecordId = intent.getLongExtra(RECORD_ID, -1)
@@ -29,11 +31,15 @@ class DataActivity : BaseActivity() {
             finish()
         }
         val fm = supportFragmentManager
-        fragment = JournalFragment()
+        if (resources.displayMetrics.widthPixels > resources.displayMetrics.heightPixels) {
+            fragment = JournalLargeFragment()
+        } else {
+            fragment = JournalFragment()
+        }
         var bundle = Bundle()
         bundle.putLong(RECORD_ID, mRecordId)
         fragment.arguments = bundle
-        fm.beginTransaction().replace(R.id.data_content, fragment).commit()
+        fm.beginTransaction().replace(R.id.data_content, fragment).commitAllowingStateLoss()
         initTitle()
     }
 
@@ -60,7 +66,7 @@ class DataActivity : BaseActivity() {
 //        }
         if (mRecordId != -1L) {
             var userLessonRecordDao = UserLessonRecordDao(this)
-            var record = userLessonRecordDao.findRecordById(0,mRecordId)
+            var record = userLessonRecordDao.findRecordById(0, mRecordId)
             var formatStartTime = record.startTime.replace("T", " ").replace("Z", "")
             var startTime = TimeUtils.getFormatTime(
                 TimeUtils.getStringToDate(formatStartTime, "yyyy-MM-dd HH:mm:ss"),

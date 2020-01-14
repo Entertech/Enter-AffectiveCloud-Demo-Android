@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:src="@drawable/vector_drawable_stockholm_help_blue" />
+
+        <TextView
+
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:letterSpacing="-0.02"
+            android:text="About"
+            android:textColor="@color/colorReportAboutTitle"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_margin"
+        android:layout_marginTop="@dimen/activity_margin_half"
+        android:layout_marginRight="@dimen/activity_margin"
+        android:text="In general, the change of heart rate is disordered. Through long-term training, the heart rate can be seen in a certain periodic rhythm during meditation. At this time, the breathing and heartbeat reach a coordinated state."
+        android:textColor="@color/black"
+        android:textSize="16sp"
+
+        />
+
+    <TextView
+        android:id="@+id/tv_learn_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_margin"
+        android:layout_marginTop="@dimen/activity_margin_half"
+        android:layout_marginRight="@dimen/activity_margin"
+        android:layout_marginBottom="@dimen/activity_margin"
+        android:clickable="true"
+        android:text="Learn More"
+        android:textColor="@color/colorAccent" />
+
+</LinearLayout>
