@@ -59,7 +59,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="@dimen/activity_margin"
                 android:text="脑电波"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
@@ -91,10 +90,10 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    app:cardCornerRadius="@dimen/activity_margin_half"
                     android:layout_marginLeft="@dimen/activity_margin"
-                    android:layout_marginRight="@dimen/activity_margin">
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="@dimen/activity_margin_half">
 
                     <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView
                         android:id="@+id/chart_brainwave"
@@ -111,11 +110,21 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
+                <androidx.cardview.widget.CardView
+                    app:cardCornerRadius="@dimen/activity_margin_half"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="50dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1">
+
+                    <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:rav_contentText="The change of the power ratio of the brainwaves reflects the change of mental state during meditation."
+                        app:rav_learnMoreUrl="https://www.notion.so/Brainwave-Power-Graph-6f2a784b347d4d7d98b9fd0da89de454"
+                        app:rav_titleIcon="@drawable/vector_drawable_stockholm_help_blue" />
+
+                </androidx.cardview.widget.CardView>
 
             </LinearLayout>
 
@@ -133,7 +142,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="@dimen/activity_margin"
                 android:text="心率变异性（HRV）"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
@@ -182,10 +190,22 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
+                <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_marginRight="50dp"
+                    app:cardCornerRadius="@dimen/activity_margin_half"
+                    android:layout_weight="1">
+
+                    <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:rav_contentText="HRV changes with the state of meditation. The HRV is generally higher in the relaxed state. With long-term meditation practice, the overall level of HRV will increase. "
+                        app:rav_learnMoreUrl="https://www.notion.so/HRV-Graph-6f93225bf7934cb8a16eb6ba55da52cb"
+                        app:rav_titleIcon="@drawable/vector_drawable_stockholm_help_blue" />
+
+                </androidx.cardview.widget.CardView>
+
             </LinearLayout>
 
 
@@ -203,7 +223,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="@dimen/activity_margin"
                 android:text="心率"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
@@ -253,10 +272,22 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
+                <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_marginRight="50dp"
+                    app:cardCornerRadius="@dimen/activity_margin_half"
+                    android:layout_weight="1">
+
+                    <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:rav_contentText="In general, the change of heart rate is disordered. Through long-term training, the heart rate can be seen in a certain periodic rhythm during meditation. At this time, the breathing and heartbeat reach a coordinated state."
+                        app:rav_learnMoreUrl="https://www.notion.so/Heart-Rate-Graph-fa83da8528694fd1a265882db31d3778"
+                        app:rav_titleIcon="@drawable/vector_drawable_stockholm_help_blue" />
+
+                </androidx.cardview.widget.CardView>
+
 
             </LinearLayout>
 
@@ -274,7 +305,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="@dimen/activity_margin"
                 android:text="专注度&amp;放松度"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
@@ -322,10 +352,23 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
+                <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_marginRight="50dp"
+                    app:cardCornerRadius="@dimen/activity_margin_half"
+                    android:layout_weight="1">
+
+                    <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:rav_contentText="If you do not have long-term meditation training, your brainwaves in a specific brain state is concentrated. When you are focused, the Relaxation value is generally low, and when you are relaxed, the Attention value is low. Attention and Relaxation are mutually exclusive. After long-term practice of meditation, brainwaves are spread more broadly and even. You can be relaxed and focused at the same time with a high score of both Attention and Relaxation. In this state, it is easier to have inspiration and creativity."
+                        app:rav_learnMoreUrl="https://www.notion.so/Attention-Relaxation-Graph-519883390a63453da0db9e12b9a09755"
+                        app:rav_titleIcon="@drawable/vector_drawable_stockholm_help_blue" />
+
+                </androidx.cardview.widget.CardView>
+
+
             </LinearLayout>
 
             <View
@@ -342,7 +385,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="@dimen/activity_margin"
                 android:text="压力值"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
@@ -393,10 +435,23 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
+                <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_marginRight="50dp"
+                    app:cardCornerRadius="@dimen/activity_margin_half"
+                    android:layout_weight="1">
+
+                    <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:rav_learnMoreUrl="https://www.notion.so/Pressure-Graph-48593014d6e44f7f8366364d70dced05"
+                        app:rav_contentText="Deep breathing training can effectively reduce stress, and long-term meditation training can improve stress resilience. Pressure and relaxation graphs reflect your relaxation state on physical and phycological level."
+                        app:rav_titleIcon="@drawable/vector_drawable_stockholm_help_blue" />
+
+                </androidx.cardview.widget.CardView>
+
+
             </LinearLayout>
 
 
