@@ -6,10 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.MeditationActivity">
 
-    <fragment
-        android:id="@+id/fragment_meditaiton"
+    <FrameLayout
+        android:id="@+id/fl_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="cn.entertech.affectiveclouddemo.ui.fragment.MeditationFragment"/>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
