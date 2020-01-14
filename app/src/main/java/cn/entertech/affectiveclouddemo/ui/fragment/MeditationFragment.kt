@@ -172,23 +172,9 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
 //        }
     }
 
-    var rawDatas = ArrayList<Int>()
     fun initFlowtimeManager() {
         bleManager = DeviceUIConfig.getInstance(activity!!).managers[0]
         rawListener = fun(bytes: ByteArray) {
-            var badDataCount = 0
-            rawDatas.clear()
-            for (byte in bytes) {
-                var brainData = ConvertUtil.converUnchart(byte)
-                rawDatas.add(brainData)
-                if (brainData == 128) {
-                    badDataCount++
-                }
-            }
-//            Log.d("#####", "brain data is " + Arrays.toString(rawDatas.toArray()))
-            if (badDataCount >= 3) {
-                fixFirmware()
-            }
             enterAffectiveCloudManager?.appendEEGData(bytes)
         }
         heartRateListener = fun(heartRate: Int) {
@@ -210,15 +196,6 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         }
         bleManager?.addConnectListener(onDeviceConnectListener)
         bleManager?.addDisConnectListener(onDeviceDisconnectListener)
-    }
-
-
-    /**
-     * 规避固件128问题
-     */
-    private fun fixFirmware() {
-        bleManager?.stopHeartAndBrainCollection()
-        bleManager?.startHeartAndBrainCollection()
     }
 
     var isFirstIn = true

@@ -12,4 +12,9 @@
     <string name="term_of_serivce">使用条款</string>
     <string name="privacy">隐私政策</string>
     <string name="minutes">分钟</string>
+    <string name="wear_state">佩戴状态</string>
+    <string name="wear_tip_content">佩戴头环，根据提示调整电极接触。提示点对应头环上最左、中间和最右的电极点。</string>
+    <string name="wear_state_left">左边</string>
+    <string name="wear_state_right">右边</string>
+    <string name="wear_state_normal">连接正常</string>
 </resources>

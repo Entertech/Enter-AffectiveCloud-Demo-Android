@@ -12,4 +12,9 @@
     <string name="term_of_serivce">Terms of Services</string>
     <string name="privacy">Privacy</string>
     <string name="minutes">min</string>
+    <string name="wear_state">Wear State</string>
+    <string name="wear_tip_content">Wear the headband and adjust the electrode contact as prompted</string>
+    <string name="wear_state_left">The left</string>
+    <string name="wear_state_right">The right</string>
+    <string name="wear_state_normal">Connection Is Normal</string>
 </resources>
