@@ -59,17 +59,21 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
     var selfView: View? = null
     var llContainer: LinearLayout? = null
     var isHeartViewLoading = true
+    var isHRVLoading = true
     var isBrainViewLoading = true
     var isAttentionLoading = true
     var isRelaxationLoading = true
     var isPressureLoading = true
     var handler: Handler = Handler()
     var meditationStartTime: Long? = null
-    var websocketAddress = "wss://server.affectivecloud.com/ws/algorithm/v1/"
+    var websocketAddress = "wss://server-test.affectivecloud.cn/ws/algorithm/v1/"
 
     var meditationEndTime: String? = null
-    val APP_KEY: String = "93e3cf84-dea1-11e9-ae15-0242ac120002"
-    val APP_SECRET: String = "c28e78f98f154962c52fcd3444d8116f"
+//    val APP_KEY: String = "93e3cf84-dea1-11e9-ae15-0242ac120002"
+//    val APP_SECRET: String = "c28e78f98f154962c52fcd3444d8116f"
+
+    val APP_KEY: String = "015b7118-b81e-11e9-9ea1-8c8590cb54f9"
+    val APP_SECRET: String = "cd9c757ae9a7b7e1cff01ee1bb4d4f98"
     var fragmentBuffer = FragmentBuffer()
     var enterAffectiveCloudManager: EnterAffectiveCloudManager? = null
     var meditationStatusPlayer: MeditationStatusPlayer? = null
@@ -271,7 +275,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
                         isFirstReceiveData = false
                     }
                 }
-                showHeart(it?.realtimeHrData?.hr?.toInt())
+                showHeart(it?.realtimeHrData?.hr?.toInt(),it?.realtimeHrData?.hrv)
                 showBrain(it?.realtimeEEGData)
             }
         }
@@ -373,18 +377,24 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         }
     }
 
-    fun showHeart(heartRate: Int?) {
+    fun showHeart(heartRate: Int?,hrv:Double?) {
         if (heartRate == null) {
             return
         }
         activity?.runOnUiThread {
+            selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRVLoadingCover()
             selfView?.findViewWithTag<MeditationHeartView>("Heart")?.setHeartValue(heartRate)
+            selfView?.findViewWithTag<MeditationHeartView>("Heart")?.setHRV(hrv)
             isHeartViewLoading = heartRate == 0
+            isHRVLoading = hrv == 0.0
             Log.d("###", "isHeartViewLoading:" + isHeartViewLoading + ":" + heartRate)
             if (isHeartViewLoading) {
-                selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showLoadingCover()
+                selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRLoadingCover()
             } else {
-                selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hindLoadingCover()
+                selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hindHRLoadingCover()
+            }
+            if (hrv != 0.0){
+                selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hindHRVLoadingCover()
             }
         }
     }
@@ -464,7 +474,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         showAttention(0f)
         showPressure(0f)
         showMood(0f)
-        showHeart(0)
+        showHeart(0,0.0)
         selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")?.showLoadingCover()
     }
 
@@ -500,13 +510,13 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
 
     fun showSampleData() {
         selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showSampleData()
-        selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showSampleData()
+        selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRSampleData()
         selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")?.showSampleData()
     }
 
     fun hideSampleData() {
         selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.hideSampleData()
-        selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hideSampleData()
+        selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hideHRSampleData()
         selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")?.hideSampleData()
         showLoadingCover()
     }
@@ -516,7 +526,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showRelaxationLoading()
         selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showPressureLoading()
         selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showArousalLoading()
-        selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showLoadingCover()
+        selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRLoadingCover()
         selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")?.showLoadingCover()
     }
 

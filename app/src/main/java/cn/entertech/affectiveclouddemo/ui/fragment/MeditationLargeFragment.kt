@@ -380,9 +380,9 @@ class MeditationLargeFragment : androidx.fragment.app.Fragment() {
             isHeartViewLoading = heartRate == 0
             Log.d("###", "isHeartViewLoading:" + isHeartViewLoading + ":" + heartRate)
             if (isHeartViewLoading) {
-                selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showLoadingCover()
+                selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRLoadingCover()
             } else {
-                selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hindLoadingCover()
+                selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hindHRLoadingCover()
             }
         }
     }
@@ -498,13 +498,13 @@ class MeditationLargeFragment : androidx.fragment.app.Fragment() {
 
     fun showSampleData() {
         selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showSampleData()
-        selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showSampleData()
+        selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRSampleData()
         selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")?.showSampleData()
     }
 
     fun hideSampleData() {
         selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.hideSampleData()
-        selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hideSampleData()
+        selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hideHRSampleData()
         selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")?.hideSampleData()
         showLoadingCover()
     }
@@ -514,7 +514,7 @@ class MeditationLargeFragment : androidx.fragment.app.Fragment() {
         selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showRelaxationLoading()
         selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showPressureLoading()
         selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showArousalLoading()
-        selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showLoadingCover()
+        selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRLoadingCover()
         selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")?.showLoadingCover()
     }
 

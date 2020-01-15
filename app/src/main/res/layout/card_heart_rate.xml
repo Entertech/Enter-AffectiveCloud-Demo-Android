@@ -44,6 +44,12 @@
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="123dp"/>
+
+    <cn.entertech.uicomponentsdk.realtime.RealtimeHRVView
+        android:id="@+id/realtime_hrv"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="183dp"/>
 <!--    <RelativeLayout-->
 <!--            android:layout_marginTop="@dimen/activity_margin_half"-->
 <!--            android:layout_width="match_parent"-->
