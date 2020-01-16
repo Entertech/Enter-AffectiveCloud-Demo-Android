@@ -116,6 +116,8 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         }
 
         refreshMeditationView()
+
+        selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRVLoadingCover()
     }
 
     var onDeviceConnectListener = fun(str: String) {
@@ -382,7 +384,6 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
             return
         }
         activity?.runOnUiThread {
-            selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRVLoadingCover()
             selfView?.findViewWithTag<MeditationHeartView>("Heart")?.setHeartValue(heartRate)
             selfView?.findViewWithTag<MeditationHeartView>("Heart")?.setHRV(hrv)
             isHeartViewLoading = heartRate == 0

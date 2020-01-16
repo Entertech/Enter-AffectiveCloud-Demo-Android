@@ -102,6 +102,8 @@ class MeditationLargeFragment : androidx.fragment.app.Fragment() {
         selfView?.findViewById<ImageView>(R.id.iv_close)?.setOnClickListener {
             showDialog()
         }
+
+        selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRVLoadingCover()
 //        selfView?.findViewById<TextView>(R.id.tv_edit)?.setOnClickListener {
 //            var messageEvent = MessageEvent()
 //            messageEvent.messageCode = MessageEvent.MESSAGE_CODE_DATA_EDIT
@@ -269,7 +271,7 @@ class MeditationLargeFragment : androidx.fragment.app.Fragment() {
                         isFirstReceiveData = false
                     }
                 }
-                showHeart(it?.realtimeHrData?.hr?.toInt())
+                showHeart(it?.realtimeHrData?.hr?.toInt(),it?.realtimeHrData?.hrv)
                 showBrain(it?.realtimeEEGData)
             }
         }
@@ -371,11 +373,12 @@ class MeditationLargeFragment : androidx.fragment.app.Fragment() {
         }
     }
 
-    fun showHeart(heartRate: Int?) {
+    fun showHeart(heartRate: Int?,hrv:Double?) {
         if (heartRate == null) {
             return
         }
         activity?.runOnUiThread {
+            selfView?.findViewWithTag<MeditationHeartView>("Heart")?.setHRV(hrv)
             selfView?.findViewWithTag<MeditationHeartView>("Heart")?.setHeartValue(heartRate)
             isHeartViewLoading = heartRate == 0
             Log.d("###", "isHeartViewLoading:" + isHeartViewLoading + ":" + heartRate)
@@ -383,6 +386,9 @@ class MeditationLargeFragment : androidx.fragment.app.Fragment() {
                 selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRLoadingCover()
             } else {
                 selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hindHRLoadingCover()
+            }
+            if (hrv != 0.0){
+                selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hindHRVLoadingCover()
             }
         }
     }
@@ -462,7 +468,7 @@ class MeditationLargeFragment : androidx.fragment.app.Fragment() {
         showAttention(0f)
         showPressure(0f)
         showMood(0f)
-        showHeart(0)
+        showHeart(0,0.0)
         selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")?.showLoadingCover()
     }
 
