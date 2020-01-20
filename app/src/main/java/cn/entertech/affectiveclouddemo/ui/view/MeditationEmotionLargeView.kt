@@ -10,7 +10,7 @@ import android.widget.LinearLayout
 import cn.entertech.affectiveclouddemo.R
 import kotlinx.android.synthetic.main.card_meditation_emotion.view.*
 
-class MeditationEmotionView @JvmOverloads constructor(
+class MeditationEmotionLargeView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -19,7 +19,7 @@ class MeditationEmotionView @JvmOverloads constructor(
     var maxHeart: Int = 0
     var isFirstLoad = true
     var mSelfView: View =
-        LayoutInflater.from(context).inflate(R.layout.card_meditation_emotion, null)
+        LayoutInflater.from(context).inflate(R.layout.card_meditation_emotion_large, null)
 
     init {
         var layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)

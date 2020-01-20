@@ -41,10 +41,7 @@ import cn.entertech.affectiveclouddemo.model.MeditationEntity
 import cn.entertech.affectiveclouddemo.model.MessageEvent
 import cn.entertech.affectiveclouddemo.model.UserLessonEntity
 import cn.entertech.affectiveclouddemo.ui.activity.DataActivity
-import cn.entertech.affectiveclouddemo.ui.view.MeditationBrainwaveView
-import cn.entertech.affectiveclouddemo.ui.view.MeditationEmotionView
-import cn.entertech.affectiveclouddemo.ui.view.MeditationHeartView
-import cn.entertech.affectiveclouddemo.ui.view.MeditationInterruptView
+import cn.entertech.affectiveclouddemo.ui.view.*
 import cn.entertech.affectiveclouddemo.utils.MeditationStatusPlayer
 import cn.entertech.affectiveclouddemo.utils.getCurrentTimeFormat
 import com.orhanobut.logger.Logger
@@ -61,6 +58,9 @@ class MeditationLargeFragment : androidx.fragment.app.Fragment() {
     var isAttentionLoading = true
     var isRelaxationLoading = true
     var isPressureLoading = true
+    var isArousalLoading = true
+    var isPleasureLoading = true
+    var isCoherenceLoading = true
     var handler: Handler = Handler()
     var meditationStartTime: Long? = null
     var websocketAddress = "wss://server.affectivecloud.com/ws/algorithm/v1/"
@@ -235,7 +235,8 @@ class MeditationLargeFragment : androidx.fragment.app.Fragment() {
                 Service.PRESSURE,
                 Service.RELAXATION,
                 Service.AROUSAL,
-                Service.PLEASURE
+                Service.PLEASURE,
+                Service.COHERENCE
             )
         var availableBioServices = listOf(Service.EEG, Service.HR)
         var biodataSubscribeParams = BiodataSubscribeParams.Builder()
@@ -249,6 +250,8 @@ class MeditationLargeFragment : androidx.fragment.app.Fragment() {
             .requestRelaxation()
             .requestPressure()
             .requestArousal()
+            .requestPleasure()
+            .requestCoherence()
             .build()
         var enterAffectiveCloudConfig =
             EnterAffectiveCloudConfig.Builder(APP_KEY, APP_SECRET, "0")
@@ -281,7 +284,9 @@ class MeditationLargeFragment : androidx.fragment.app.Fragment() {
                 showAttention(it?.realtimeAttentionData?.attention?.toFloat())
                 showRelaxation(it?.realtimeRelaxationData?.relaxation?.toFloat())
                 showPressure(it?.realtimePressureData?.pressure?.toFloat())
-                showMood(it?.realtimePleasureData?.pressure?.toFloat())
+                showArousal(it?.realtimeArousalData?.arousal?.toFloat())
+                showPleasure(it?.realtimePleasureData?.pleasure?.toFloat())
+                showCoherence(it?.realtimeCoherenceData?.coherence?.toFloat())
             }
         }
         if (bleManager!!.isConnected()) {
@@ -317,7 +322,7 @@ class MeditationLargeFragment : androidx.fragment.app.Fragment() {
 //        for (i in 0 until viewOrders.size) {
 //            when (viewOrders[i]) {
 //                "Emotion" -> {
-//                    var meditationEmotionView = MeditationEmotionView(activity!!)
+//                    var meditationEmotionView = MeditationEmotionLargeView(activity!!)
 //                    meditationEmotionView.tag = viewOrders[i]
 //                    meditationEmotionView.layoutParams = lp
 //                    llContainer?.addView(meditationEmotionView)
@@ -398,14 +403,14 @@ class MeditationLargeFragment : androidx.fragment.app.Fragment() {
             return
         }
         activity?.runOnUiThread {
-            selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.setAttention(attention)
+            selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.setAttention(attention)
             if (attention != 0f) {
                 isAttentionLoading = false
             }
             if (isAttentionLoading) {
-                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showAttentionLoading()
+                selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.showAttentionLoading()
             } else {
-                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.hideAttentionLoaidng()
+                selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.hideAttentionLoaidng()
             }
         }
     }
@@ -415,14 +420,14 @@ class MeditationLargeFragment : androidx.fragment.app.Fragment() {
             return
         }
         activity?.runOnUiThread {
-            selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.setRelaxation(relaxation)
+            selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.setRelaxation(relaxation)
             if (relaxation != 0f) {
                 isRelaxationLoading = false
             }
             if (isRelaxationLoading) {
-                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showRelaxationLoading()
+                selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.showRelaxationLoading()
             } else {
-                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.hideRelaxationLoaidng()
+                selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.hideRelaxationLoaidng()
             }
         }
     }
@@ -432,42 +437,77 @@ class MeditationLargeFragment : androidx.fragment.app.Fragment() {
             return
         }
         activity?.runOnUiThread {
-            selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
+            selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")
                 ?.setStress(pressure)
             if (pressure != 0f) {
                 isPressureLoading = false
             }
             if (isPressureLoading) {
-                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showPressureLoading()
+                selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.showPressureLoading()
             } else {
-                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.hidePressureLoaidng()
+                selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.hidePressureLoaidng()
             }
         }
     }
 
-    fun showMood(mood: Float?) {
+    fun showArousal(mood: Float?) {
         if (mood == null) {
             return
         }
         activity?.runOnUiThread {
-            selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
+            selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")
                 ?.setArousal(mood)
             if (mood != 0f) {
-                isPressureLoading = false
+                isArousalLoading = false
             }
-            if (isPressureLoading) {
-                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showArousalLoading()
+            if (isArousalLoading) {
+                selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.showArousalLoading()
             } else {
-                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.hideArousalLoaidng()
+                selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.hideArousalLoaidng()
             }
         }
     }
 
+    fun showPleasure(pleasure: Float?) {
+        if (pleasure == null) {
+            return
+        }
+        activity?.runOnUiThread {
+            selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")
+                ?.setPleasure(pleasure)
+            if (pleasure != 0f) {
+                isPleasureLoading = false
+            }
+            if (isPleasureLoading) {
+                selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.showPleasureLoading()
+            } else {
+                selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.hidePleasureLoaidng()
+            }
+        }
+    }
+
+    fun showCoherence(coherence: Float?) {
+        if (coherence == null) {
+            return
+        }
+        activity?.runOnUiThread {
+            selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")
+                ?.setCoherence(coherence)
+            if (coherence != 0f) {
+                isCoherenceLoading = false
+            }
+            if (isCoherenceLoading) {
+                selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.showCoherenceLoading()
+            } else {
+                selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.hideCoherenceLoaidng()
+            }
+        }
+    }
     fun dataReset() {
         showRelaxation(0f)
         showAttention(0f)
         showPressure(0f)
-        showMood(0f)
+        showArousal(0f)
         showHeart(0,0.0)
         selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")?.showLoadingCover()
     }
@@ -503,23 +543,23 @@ class MeditationLargeFragment : androidx.fragment.app.Fragment() {
     }
 
     fun showSampleData() {
-        selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showSampleData()
+        selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.showSampleData()
         selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRSampleData()
         selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")?.showSampleData()
     }
 
     fun hideSampleData() {
-        selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.hideSampleData()
+        selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.hideSampleData()
         selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hideHRSampleData()
         selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")?.hideSampleData()
         showLoadingCover()
     }
 
     fun showLoadingCover() {
-        selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showAttentionLoading()
-        selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showRelaxationLoading()
-        selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showPressureLoading()
-        selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showArousalLoading()
+        selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.showAttentionLoading()
+        selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.showRelaxationLoading()
+        selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.showPressureLoading()
+        selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.showArousalLoading()
         selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRLoadingCover()
         selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")?.showLoadingCover()
     }

@@ -64,6 +64,9 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
     var isAttentionLoading = true
     var isRelaxationLoading = true
     var isPressureLoading = true
+    var isArousalLoading = true
+    var isPleasureLoading = true
+    var isCoherenceLoading = true
     var handler: Handler = Handler()
     var meditationStartTime: Long? = null
     var websocketAddress = "wss://server-test.affectivecloud.cn/ws/algorithm/v1/"
@@ -241,7 +244,8 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
                 Service.PRESSURE,
                 Service.RELAXATION,
                 Service.AROUSAL,
-                Service.PLEASURE
+                Service.PLEASURE,
+                Service.COHERENCE
             )
         var availableBioServices = listOf(Service.EEG, Service.HR)
         var biodataSubscribeParams = BiodataSubscribeParams.Builder()
@@ -255,6 +259,8 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
             .requestRelaxation()
             .requestPressure()
             .requestArousal()
+            .requestPleasure()
+            .requestCoherence()
             .build()
         var enterAffectiveCloudConfig =
             EnterAffectiveCloudConfig.Builder(APP_KEY, APP_SECRET, "0")
@@ -277,7 +283,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
                         isFirstReceiveData = false
                     }
                 }
-                showHeart(it?.realtimeHrData?.hr?.toInt(),it?.realtimeHrData?.hrv)
+                showHeart(it?.realtimeHrData?.hr?.toInt(), it?.realtimeHrData?.hrv)
                 showBrain(it?.realtimeEEGData)
             }
         }
@@ -287,7 +293,9 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
                 showAttention(it?.realtimeAttentionData?.attention?.toFloat())
                 showRelaxation(it?.realtimeRelaxationData?.relaxation?.toFloat())
                 showPressure(it?.realtimePressureData?.pressure?.toFloat())
-                showMood(it?.realtimePleasureData?.pressure?.toFloat())
+                showArousal(it?.realtimeArousalData?.arousal?.toFloat())
+                showPleasure(it?.realtimePleasureData?.pleasure?.toFloat())
+                showCoherence(it?.realtimeCoherenceData?.coherence?.toFloat())
             }
         }
         if (bleManager!!.isConnected()) {
@@ -379,7 +387,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         }
     }
 
-    fun showHeart(heartRate: Int?,hrv:Double?) {
+    fun showHeart(heartRate: Int?, hrv: Double?) {
         if (heartRate == null) {
             return
         }
@@ -394,7 +402,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
             } else {
                 selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hindHRLoadingCover()
             }
-            if (hrv != 0.0){
+            if (hrv != 0.0) {
                 selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hindHRVLoadingCover()
             }
         }
@@ -452,7 +460,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         }
     }
 
-    fun showMood(mood: Float?) {
+    fun showArousal(mood: Float?) {
         if (mood == null) {
             return
         }
@@ -460,12 +468,48 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
             selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
                 ?.setArousal(mood)
             if (mood != 0f) {
-                isPressureLoading = false
+                isArousalLoading = false
             }
-            if (isPressureLoading) {
+            if (isArousalLoading) {
                 selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showArousalLoading()
             } else {
                 selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.hideArousalLoaidng()
+            }
+        }
+    }
+
+    fun showPleasure(pleasure: Float?) {
+        if (pleasure == null) {
+            return
+        }
+        activity?.runOnUiThread {
+            selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
+                ?.setPleasure(pleasure)
+            if (pleasure != 0f) {
+                isPleasureLoading = false
+            }
+            if (isPleasureLoading) {
+                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showPleasureLoading()
+            } else {
+                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.hidePleasureLoaidng()
+            }
+        }
+    }
+
+    fun showCoherence(coherence: Float?) {
+        if (coherence == null) {
+            return
+        }
+        activity?.runOnUiThread {
+            selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
+                ?.setCoherence(coherence)
+            if (coherence != 0f) {
+                isCoherenceLoading = false
+            }
+            if (isCoherenceLoading) {
+                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showCoherenceLoading()
+            } else {
+                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.hideCoherenceLoaidng()
             }
         }
     }
@@ -474,8 +518,8 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         showRelaxation(0f)
         showAttention(0f)
         showPressure(0f)
-        showMood(0f)
-        showHeart(0,0.0)
+        showArousal(0f)
+        showHeart(0, 0.0)
         selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")?.showLoadingCover()
     }
 

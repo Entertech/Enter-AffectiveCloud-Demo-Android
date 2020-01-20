@@ -57,17 +57,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_marginRight="8dp"
             app:rav_affectiveType="Relaxation"
             app:rav_background="@drawable/shape_realtime_relaxation_bg"
             app:rav_mainColor="#4b5dcc" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_margin_half"
-        android:orientation="horizontal">
-
 
         <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
             android:id="@+id/realtime_pressure_view"
@@ -79,16 +72,6 @@
             app:rav_background="@drawable/shape_realtime_pressure_bg"
             app:rav_mainColor="#ff6682" />
 
-        <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
-            android:id="@+id/realtime_arousal_view"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:visibility="visible"
-            app:rav_affectiveType="Arousal"
-            app:rav_background="@drawable/shape_realtime_arousal_bg"
-            app:rav_mainColor="#CC9E59" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -97,6 +80,17 @@
         android:layout_marginTop="@dimen/activity_margin_half"
         android:orientation="horizontal">
 
+
+        <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
+            android:id="@+id/realtime_arousal_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:visibility="visible"
+            app:rav_affectiveType="Arousal"
+            android:layout_marginRight="8dp"
+            app:rav_background="@drawable/shape_realtime_arousal_bg"
+            app:rav_mainColor="#CC9E59" />
 
         <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
             android:id="@+id/realtime_coherence_view"
@@ -115,8 +109,8 @@
             android:layout_weight="1"
             android:visibility="visible"
             app:rav_affectiveType="Pleasure"
+            android:layout_marginRight="8dp"
             app:rav_background="@drawable/shape_realtime_coherence_bg"
             app:rav_mainColor="#52A27C" />
     </LinearLayout>
-
 </LinearLayout>

@@ -139,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <cn.entertech.affectiveclouddemo.ui.view.MeditationEmotionView
+                <cn.entertech.affectiveclouddemo.ui.view.MeditationEmotionLargeView
                     android:tag="Emotion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

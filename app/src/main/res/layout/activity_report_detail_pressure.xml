@@ -1,45 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:fitsSystemWindows="true"
-        >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <include layout="@layout/layout_common_title" />
 
     <androidx.core.widget.NestedScrollView
-            android:id="@+id/scroll_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#E5E5E5"
-            >
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#E5E5E5">
 
         <LinearLayout
-                android:id="@+id/ll_bg"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
+            android:id="@+id/ll_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <cn.entertech.uicomponentsdk.report.ReportLineChartCard
-                    android:id="@+id/chart_pressure"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/activity_margin_half"
-                    android:background="@color/white"
-                    app:rlcc_title="Changes During Meditation"
-                    app:rlcc_isTitleMenuIconShow="true"
-                    app:rlcc_lineColor="#FF6682"
-                    app:rlcc_pointCount="100"
-                    app:rlcc_xAxisUnit="Time(min)"
-                    app:rlcc_lineWidth="1dp"
-                    app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
-                    app:rlcc_timeUnit="800"
-                    />
+                android:id="@+id/chart_pressure"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginTop="@dimen/activity_margin_half"
+                android:background="@color/white"
+                app:rlcc_isTitleMenuIconShow="true"
+                app:rlcc_lineColor="#FF6682"
+                app:rlcc_lineWidth="1dp"
+                app:rlcc_pointCount="100"
+                app:rlcc_timeUnit="800"
+                app:rlcc_title="Changes During Meditation"
+                app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
+                app:rlcc_xAxisUnit="Time(min)" />
 
         </LinearLayout>
 

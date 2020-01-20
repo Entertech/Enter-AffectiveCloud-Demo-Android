@@ -25,7 +25,7 @@
             <cn.entertech.uicomponentsdk.report.ReportAffectiveLineChartCard
                 android:id="@+id/chart_relaxation_and_attention"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="283dp"
                 android:layout_marginTop="@dimen/activity_margin_half"
                 android:background="@color/white"
                 app:ralcc_attentionLineColor="#5FC695"
