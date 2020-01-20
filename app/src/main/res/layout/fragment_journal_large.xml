@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
-                android:text="脑电波"
+                android:text="@string/brainwave"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
 
@@ -82,7 +82,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:rbsp_spectrumColors="#FF6682,#FB9C98,#F7C77E,#5FC695,#5E75FF"
-                        app:rbsp_title="Brainwave Spectrum"
+                        app:rbsp_title="@string/brainwave_spectrum"
                         app:rbsp_titleIcon="@drawable/vector_drawable_brain"
                         app:rbsp_titleMenuIcon="@drawable/vector_drawable_arrow_right_blue" />
                 </androidx.cardview.widget.CardView>
@@ -104,9 +104,9 @@
                         app:rbs_pointCount="100"
                         app:rbs_spectrumColors="#FF6682,#FB9C98,#F7C77E,#5FC695,#5E75FF"
                         app:rbs_timeUnit="400"
-                        app:rbs_title="Changes During Meditation"
+                        app:rbs_title="@string/change_during_meditation"
                         app:rbs_titleMenuIcon="@drawable/vector_drawable_full_screen"
-                        app:rbs_xAxisUnit="Time(min)" />
+                        app:rbs_xAxisUnit="@string/sdk_time_unit" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -120,7 +120,7 @@
                     <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:rav_contentText="The change of the power ratio of the brainwaves reflects the change of mental state during meditation."
+                        app:rav_contentText="@string/about_brainwave"
                         app:rav_learnMoreUrl="https://www.notion.so/Brainwave-Power-Graph-6f2a784b347d4d7d98b9fd0da89de454"
                         app:rav_titleIcon="@drawable/vector_drawable_stockholm_help_blue" />
 
@@ -142,7 +142,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
-                android:text="心率变异性（HRV）"
+                android:text="@string/hrv"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
 
@@ -184,9 +184,9 @@
                         app:rlcc_lineWidth="1dp"
                         app:rlcc_pointCount="100"
                         app:rlcc_timeUnit="400"
-                        app:rlcc_title="Changes During Meditation"
+                        app:rlcc_title="@string/change_during_meditation"
                         app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
-                        app:rlcc_xAxisUnit="Time(min)" />
+                        app:rlcc_xAxisUnit="@string/sdk_time_unit" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -200,7 +200,7 @@
                     <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:rav_contentText="HRV changes with the state of meditation. The HRV is generally higher in the relaxed state. With long-term meditation practice, the overall level of HRV will increase. "
+                        app:rav_contentText="@string/about_hrv"
                         app:rav_learnMoreUrl="https://www.notion.so/HRV-Graph-6f93225bf7934cb8a16eb6ba55da52cb"
                         app:rav_titleIcon="@drawable/vector_drawable_stockholm_help_blue" />
 
@@ -223,7 +223,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
-                android:text="心率"
+                android:text="@string/heart_rate"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
 
@@ -266,9 +266,9 @@
                         app:rlcc_lineWidth="1dp"
                         app:rlcc_pointCount="100"
                         app:rlcc_timeUnit="400"
-                        app:rlcc_title="Changes During Meditation"
+                        app:rlcc_title="@string/change_during_meditation"
                         app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
-                        app:rlcc_xAxisUnit="Time(min)" />
+                        app:rlcc_xAxisUnit="@string/sdk_time_unit" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -282,7 +282,7 @@
                     <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:rav_contentText="In general, the change of heart rate is disordered. Through long-term training, the heart rate can be seen in a certain periodic rhythm during meditation. At this time, the breathing and heartbeat reach a coordinated state."
+                        app:rav_contentText="@string/about_hr"
                         app:rav_learnMoreUrl="https://www.notion.so/Heart-Rate-Graph-fa83da8528694fd1a265882db31d3778"
                         app:rav_titleIcon="@drawable/vector_drawable_stockholm_help_blue" />
 
@@ -305,7 +305,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
-                android:text="专注度&amp;放松度"
+                android:text="@string/realxation_and_attention"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
 
@@ -346,9 +346,9 @@
                         app:ralcc_pointCount="100"
                         app:ralcc_relaxationLineColor="#4B5DCC"
                         app:ralcc_timeUnit="800"
-                        app:ralcc_title="Changes During Meditation"
+                        app:ralcc_title="@string/change_during_meditation"
                         app:ralcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
-                        app:ralcc_xAxisUnit="Time(min)" />
+                        app:ralcc_xAxisUnit="@string/sdk_time_unit" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -362,7 +362,7 @@
                     <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:rav_contentText="If you do not have long-term meditation training, your brainwaves in a specific brain state is concentrated. When you are focused, the Relaxation value is generally low, and when you are relaxed, the Attention value is low. Attention and Relaxation are mutually exclusive. After long-term practice of meditation, brainwaves are spread more broadly and even. You can be relaxed and focused at the same time with a high score of both Attention and Relaxation. In this state, it is easier to have inspiration and creativity."
+                        app:rav_contentText="@string/about_relaxation_attention"
                         app:rav_learnMoreUrl="https://www.notion.so/Attention-Relaxation-Graph-519883390a63453da0db9e12b9a09755"
                         app:rav_titleIcon="@drawable/vector_drawable_stockholm_help_blue" />
 
@@ -385,7 +385,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
-                android:text="压力值"
+                android:text="@string/pressure"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
 
@@ -429,9 +429,9 @@
                         app:rlcc_lineWidth="1dp"
                         app:rlcc_pointCount="100"
                         app:rlcc_timeUnit="800"
-                        app:rlcc_title="Changes During Meditation"
+                        app:rlcc_title="@string/change_during_meditation"
                         app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
-                        app:rlcc_xAxisUnit="Time(min)" />
+                        app:rlcc_xAxisUnit="@string/sdk_time_unit" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -446,7 +446,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:rav_learnMoreUrl="https://www.notion.so/Pressure-Graph-48593014d6e44f7f8366364d70dced05"
-                        app:rav_contentText="Deep breathing training can effectively reduce stress, and long-term meditation training can improve stress resilience. Pressure and relaxation graphs reflect your relaxation state on physical and phycological level."
+                        app:rav_contentText="@string/about_pressure"
                         app:rav_titleIcon="@drawable/vector_drawable_stockholm_help_blue" />
 
                 </androidx.cardview.widget.CardView>

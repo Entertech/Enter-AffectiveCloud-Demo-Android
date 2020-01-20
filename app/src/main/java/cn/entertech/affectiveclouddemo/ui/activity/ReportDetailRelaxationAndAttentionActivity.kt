@@ -39,7 +39,7 @@ class ReportDetailRelaxationAndAttentionActivity : BaseActivity() {
         iv_back.setOnClickListener {
             finish()
         }
-        tv_title.text = "Pressure"
+        tv_title.text = getString(R.string.realxation_and_attention)
         iv_menu_icon.visibility = View.GONE
     }
 
@@ -60,44 +60,13 @@ class ReportDetailRelaxationAndAttentionActivity : BaseActivity() {
     fun initLineChart() {
         var relaxationRec = meditationReportDataAnalyzed?.relaxationRec
         var attentionRec = meditationReportDataAnalyzed?.attentionRec
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.attentionAvg != null){
+            chart_relaxation_and_attention.setAttentionAverage(meditationReportDataAnalyzed!!.attentionAvg.toInt())
+        }
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.relaxationAvg != null){
+            chart_relaxation_and_attention.setRelaxationAverage(meditationReportDataAnalyzed!!.relaxationAvg.toInt())
+        }
         chart_relaxation_and_attention.setData(relaxationRec, attentionRec)
     }
 
-//
-//    fun initLastAverageChart() {
-//        if (mRecordId == -2L && meditationReportDataAnalyzed != null) {
-//            relaxation_average_chart.setValues(listOf(meditationReportDataAnalyzed!!.relaxationAvg.toInt()))
-//            attention_average_chart.setValues(listOf(meditationReportDataAnalyzed!!.attentionAvg.toInt()))
-//        }else{
-//            if (meditationReportDataAnalyzed==null){
-//                return
-//            }
-//            var lastTimesEffectiveRecord = userLessonRecordDao?.findLastEffectiveRecordById(
-//                0,
-//                mRecordId!!,
-//                7
-//            )
-//            var lastTimesEffectiveRelaxationAverage = lastTimesEffectiveRecord?.map {
-//                userLessonRecordDao?.getReportDataFromFile(it)?.relaxationAvg!!.toInt()
-//            }
-//            if (lastTimesEffectiveRelaxationAverage != null) {
-//                relaxation_average_chart.setValues(lastTimesEffectiveRelaxationAverage!!.asReversed())
-//            }
-//            var lastTimesEffectiveAttentionAverage = lastTimesEffectiveRecord?.map {
-//                userLessonRecordDao?.getReportDataFromFile(it)!!.attentionAvg!!.toInt()
-//            }
-//            if (lastTimesEffectiveAttentionAverage != null) {
-//                attention_average_chart.setValues(lastTimesEffectiveAttentionAverage!!.asReversed())
-//            }
-//        }
-//    }
-
-
-    open fun getShareView(): View {
-        return scroll_view
-    }
-
-    open fun getShareViewBg(): View {
-        return ll_bg
-    }
 }

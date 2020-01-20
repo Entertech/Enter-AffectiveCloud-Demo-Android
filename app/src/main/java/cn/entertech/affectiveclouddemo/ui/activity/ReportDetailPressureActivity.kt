@@ -34,7 +34,7 @@ class ReportDetailPressureActivity : BaseActivity() {
         iv_back.setOnClickListener {
             finish()
         }
-        tv_title.text = "Pressure"
+        tv_title.text = getString(R.string.pressure)
         iv_menu_icon.visibility = View.GONE
     }
 
@@ -53,6 +53,9 @@ class ReportDetailPressureActivity : BaseActivity() {
 
     fun initLineChart() {
         var pressureLine = meditationReportDataAnalyzed?.pressureRec
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.pressureAvg != null){
+            chart_pressure.setAverage(meditationReportDataAnalyzed!!.pressureAvg.toInt())
+        }
         chart_pressure.setData(pressureLine)
     }
 

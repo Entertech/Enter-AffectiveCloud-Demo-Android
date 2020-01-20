@@ -17,4 +17,19 @@
     <string name="wear_state_left">The left</string>
     <string name="wear_state_right">The right</string>
     <string name="wear_state_normal">Connection Is Normal</string>
+
+    <string name="brainwave_spectrum">Brainwave Spectrum</string>
+    <string name="change_during_meditation">Changes During Meditation</string>
+    <string name="about_brainwave">The change of the power ratio of the brainwaves reflects the change of mental state during meditation.</string>
+    <string name="about_hrv">HRV changes with the state of meditation. The HRV is generally higher in the relaxed state. With long-term meditation practice, the overall level of HRV will increase.</string>
+    <string name="about_hr">In general, the change of heart rate is disordered. Through long-term training, the heart rate can be seen in a certain periodic rhythm during meditation. At this time, the breathing and heartbeat reach a coordinated state.</string>
+    <string name="about_relaxation_attention">If you do not have long-term meditation training, your brainwaves in a specific brain state is concentrated. When you are focused, the Relaxation value is generally low, and when you are relaxed, the Attention value is low. Attention and Relaxation are mutually exclusive. After long-term practice of meditation, brainwaves are spread more broadly and even. You can be relaxed and focused at the same time with a high score of both Attention and Relaxation. In this state, it is easier to have inspiration and creativity.</string>
+    <string name="about_pressure">Deep breathing training can effectively reduce stress, and long-term meditation training can improve stress resilience. Pressure and relaxation graphs reflect your relaxation state on physical and phycological level.</string>
+    <string name="brainwave">Brainwave</string>
+    <string name="hrv">HRV</string>
+    <string name="heart_rate">Heart Rate</string>
+    <string name="realxation_and_attention">Relaxation&#038;Attention</string>
+    <string name="pressure">Pressure</string>
+    <string name="learn_more">Learn More</string>
+    <string name="about">About</string>
 </resources>

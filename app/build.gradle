@@ -59,7 +59,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'cn.entertech:uicomponentsdk:1.0.0-alpha44'
+    implementation 'cn.entertech:uicomponentsdk:1.0.0-alpha48'
 //    implementation 'cn.entertech:uicomponent:1.0.8'
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
     implementation 'cn.entertech:biomodulebleui:1.0.2'

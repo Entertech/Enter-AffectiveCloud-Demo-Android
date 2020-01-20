@@ -25,7 +25,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/activity_margin"
             android:letterSpacing="-0.02"
-            android:text="About"
+            android:text="@string/about"
             android:textColor="@color/colorReportAboutTitle"
             android:textSize="17sp" />
     </LinearLayout>
@@ -52,7 +52,7 @@
         android:layout_marginRight="@dimen/activity_margin"
         android:layout_marginBottom="@dimen/activity_margin"
         android:clickable="true"
-        android:text="Learn More"
+        android:text="@string/learn_more"
         android:textColor="@color/colorAccent" />
 
 </LinearLayout>

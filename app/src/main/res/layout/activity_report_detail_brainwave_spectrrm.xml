@@ -32,9 +32,9 @@
                     app:rbs_isTitleMenuIconShow="true"
                     app:rbs_spectrumColors="#FF6682,#FB9C98,#F7C77E,#5FC695,#5E75FF"
                     app:rbs_timeUnit="400"
-                    app:rbs_xAxisUnit="Time(min)"
+                    app:rbs_xAxisUnit="@string/sdk_time_unit"
                     app:rbs_pointCount="100"
-                    app:rbs_title="Changes During Meditation"
+                    app:rbs_title="@string/change_during_meditation"
                     app:rbs_titleMenuIcon="@drawable/vector_drawable_full_screen"
                     />
 

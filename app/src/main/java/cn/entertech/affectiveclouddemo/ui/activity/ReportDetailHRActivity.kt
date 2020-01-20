@@ -36,7 +36,7 @@ class ReportDetailHRActivity : BaseActivity() {
         iv_back.setOnClickListener {
             finish()
         }
-        tv_title.text = "Heart rate"
+        tv_title.text = getString(R.string.heart_rate)
         iv_menu_icon.visibility = View.GONE
     }
 
@@ -54,6 +54,9 @@ class ReportDetailHRActivity : BaseActivity() {
 
     fun initLineChart() {
         var hrLine = meditationReportDataAnalyzed?.hrRec
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrAvg != null){
+            chart_hr.setAverage(meditationReportDataAnalyzed!!.hrAvg.toInt())
+        }
         chart_hr.setData(hrLine)
     }
 

@@ -35,7 +35,7 @@ class ReportDetailBrainwaveSpectrumActivity : BaseActivity() {
         iv_back.setOnClickListener {
             finish()
         }
-        tv_title.text = "Brainwave Spectrum"
+        tv_title.text = getString(R.string.brainwave_spectrum)
         iv_menu_icon.visibility = View.GONE
     }
 

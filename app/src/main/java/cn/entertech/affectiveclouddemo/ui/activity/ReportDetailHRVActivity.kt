@@ -40,7 +40,7 @@ class ReportDetailHRVActivity : BaseActivity() {
         iv_back.setOnClickListener {
             finish()
         }
-        tv_title.text = "HRV"
+        tv_title.text = getString(R.string.hrv)
         iv_menu_icon.visibility = View.GONE
     }
 
@@ -59,6 +59,9 @@ class ReportDetailHRVActivity : BaseActivity() {
 
     fun initLineChart() {
         var hrvLine = meditationReportDataAnalyzed?.hrvRec
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrvAvg != null){
+            chart_hrv.setAverage(meditationReportDataAnalyzed!!.hrvAvg.toInt())
+        }
         chart_hrv.setData(hrvLine)
     }
 

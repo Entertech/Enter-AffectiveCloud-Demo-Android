@@ -33,9 +33,9 @@
                 app:ralcc_pointCount="100"
                 app:ralcc_relaxationLineColor="#4B5DCC"
                 app:ralcc_timeUnit="800"
-                app:ralcc_title="Changes During Meditation"
+                app:ralcc_title="@string/change_during_meditation"
                 app:ralcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
-                app:ralcc_xAxisUnit="Time(min)" />
+                app:ralcc_xAxisUnit="@string/sdk_time_unit" />
 
             <androidx.cardview.widget.CardView
                 android:visibility="gone"

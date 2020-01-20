@@ -306,7 +306,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:rbsp_spectrumColors="#FF6682,#FB9C98,#F7C77E,#5FC695,#5E75FF"
-                    app:rbsp_title="Brainwave Spectrum"
+                    app:rbsp_title="@string/brainwave_spectrum"
                     app:rbsp_titleIcon="@drawable/vector_drawable_brain"
                     app:rbsp_titleMenuIcon="@drawable/vector_drawable_arrow_right_blue"
                     />

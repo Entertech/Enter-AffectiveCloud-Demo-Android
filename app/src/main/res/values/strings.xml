@@ -17,4 +17,18 @@
     <string name="wear_state_left">左边</string>
     <string name="wear_state_right">右边</string>
     <string name="wear_state_normal">连接正常</string>
+    <string name="brainwave_spectrum">脑电波频谱</string>
+    <string name="change_during_meditation">在冥想中的变化</string>
+    <string name="about_brainwave">脑电波各频率比的变化反映了冥想时精神状态的变化。</string>
+    <string name="about_hrv">HRV随冥想状态而变化。 在放松状态下，HRV通常较高。 通过长期的冥想练习，HRV的整体水平将提高。</string>
+    <string name="about_hr">通常，心率的变化是无序的。 通过长期训练，可以在冥想过程中以一定的周期性节律看到心率。 此时，呼吸和心跳达到协调状态。</string>
+    <string name="about_relaxation_attention">如果您没有长期的冥想训练，则您在特定大脑状态下的脑电波会集中。 当您聚焦时，“放松”值通常较低，而当您放松时，“关注”值较低。 注意和放松是互斥的。 经过长期的冥想练习，脑电波的传播范围更加广泛甚至均匀。 您可以同时获得高分的注意力和放松度，从而放松身心并集中精力。 在这种状态下，更容易获得灵感和创造力。</string>
+    <string name="about_pressure">深呼吸训练可以有效地减轻压力，长期冥想训练可以提高压力的适应能力。 压力和松弛图在物理和生理水平上反映您的松弛状态。</string>
+    <string name="brainwave">脑电波</string>
+    <string name="hrv">心率变异性（HRV）</string>
+    <string name="heart_rate">心率</string>
+    <string name="realxation_and_attention">专注度&#038;放松度</string>
+    <string name="pressure">压力值</string>
+    <string name="learn_more">更多</string>
+    <string name="about">关于</string>
 </resources>

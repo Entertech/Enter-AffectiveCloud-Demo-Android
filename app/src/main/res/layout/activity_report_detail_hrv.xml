@@ -34,9 +34,9 @@
                 app:rlcc_lineWidth="1dp"
                 app:rlcc_pointCount="100"
                 app:rlcc_timeUnit="400"
-                app:rlcc_title="Changes During Meditation"
+                app:rlcc_title="@string/change_during_meditation"
                 app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
-                app:rlcc_xAxisUnit="Time(min)" />
+                app:rlcc_xAxisUnit="@string/sdk_time_unit" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
