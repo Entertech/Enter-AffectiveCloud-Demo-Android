@@ -19,7 +19,8 @@
         android:theme="@style/AppTheme">
 
         <activity android:name="cn.entertech.affectiveclouddemo.ui.activity.DataActivity"/>
-        <activity android:name="cn.entertech.affectiveclouddemo.ui.activity.MeditationActivity"></activity>
+        <activity android:name="cn.entertech.affectiveclouddemo.ui.activity.MeditationActivity"
+            android:configChanges="screenSize|orientation"></activity>
         <activity android:name="cn.entertech.affectiveclouddemo.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
