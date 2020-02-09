@@ -9,16 +9,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import cn.entertech.affectiveclouddemo.R
 import cn.entertech.affectiveclouddemo.ui.activity.MeditationActivity
-import cn.entertech.affectiveclouddemo.ui.view.MeditationBrainwaveView
-import cn.entertech.affectiveclouddemo.ui.view.MeditationEmotionLargeView
-import cn.entertech.affectiveclouddemo.ui.view.MeditationHeartView
-import cn.entertech.affectiveclouddemo.ui.view.MeditationInterruptView
+import cn.entertech.affectiveclouddemo.ui.view.*
 import cn.entertech.affectivecloudsdk.entity.RealtimeEEGData
 import cn.entertech.bleuisdk.ui.activity.DeviceManagerActivity
+import com.bumptech.glide.Glide
 import java.util.*
 
 
 class MeditationLargeFragment : MeditationBaseFragment() {
+    private var mArousal: Float = 0f
+    private var mPleasure: Float = 0f
     var selfView: View? = null
     var isHeartViewLoading = true
     var isBrainViewLoading = true
@@ -166,14 +166,17 @@ class MeditationLargeFragment : MeditationBaseFragment() {
         }
     }
 
-    override fun showArousal(mood: Float?) {
-        if (mood == null) {
+    override fun showArousal(arousal: Float?) {
+        if (arousal == null) {
             return
         }
+        this.mArousal = arousal
         activity?.runOnUiThread {
+            selfView?.findViewById<RealtimePleasureAndArousalView>(R.id.realtime_arousal_pleasure)
+                ?.setArousal(arousal.toDouble())
             selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")
-                ?.setArousal(mood)
-            if (mood != 0f) {
+                ?.setArousal(arousal)
+            if (arousal != 0f) {
                 isArousalLoading = false
             }
             if (isArousalLoading) {
@@ -190,7 +193,10 @@ class MeditationLargeFragment : MeditationBaseFragment() {
         if (pleasure == null) {
             return
         }
+        this.mPleasure = pleasure
         activity?.runOnUiThread {
+            selfView?.findViewById<RealtimePleasureAndArousalView>(R.id.realtime_arousal_pleasure)
+                ?.setPleasure(pleasure.toDouble())
             selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")
                 ?.setPleasure(pleasure)
             if (pleasure != 0f) {
@@ -203,6 +209,38 @@ class MeditationLargeFragment : MeditationBaseFragment() {
                 selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")
                     ?.hidePleasureLoaidng()
             }
+            showArousalAndPleasureEmotion(mArousal, mPleasure)
+        }
+    }
+
+    private fun showArousalAndPleasureEmotion(arousal: Float, pleasure: Float) {
+        var targetView = selfView?.findViewById<ImageView>(R.id.iv_emotion)
+        if (pleasure in 0.0..22.0 && arousal in 75.0..100.0) {
+            Glide.with(activity!!).load(R.mipmap.p0_22a75_100).into(targetView!!)
+        } else if (pleasure in 0.0..40.0 && arousal in 0.0..25.0) {
+            Glide.with(activity!!).load(R.mipmap.p0_40a0_25).into(targetView!!)
+        } else if (pleasure in 0.0..40.0 && arousal in 25.0..50.0) {
+            Glide.with(activity!!).load(R.mipmap.p0_40a25_50).into(targetView!!)
+        } else if (pleasure in 0.0..45.0 && arousal in 50.0..75.0) {
+            Glide.with(activity!!).load(R.mipmap.p0_45a50_75).into(targetView!!)
+        } else if (pleasure in 22.0..45.0 && arousal in 75.0..100.0) {
+            Glide.with(activity!!).load(R.mipmap.p22_45a75_100).into(targetView!!)
+        } else if (pleasure in 40.0..60.0 && arousal in 0.0..25.0) {
+            Glide.with(activity!!).load(R.mipmap.p40_60a0_25).into(targetView!!)
+        } else if (pleasure in 45.0..55.0 && arousal in 75.0..100.0) {
+            Glide.with(activity!!).load(R.mipmap.p45_55a75_100).into(targetView!!)
+        } else if (pleasure in 55.0..78.0 && arousal in 75.0..100.0) {
+            Glide.with(activity!!).load(R.mipmap.p55_78a75_100).into(targetView!!)
+        } else if (pleasure in 60.0..100.0 && arousal in 0.0..25.0) {
+            Glide.with(activity!!).load(R.mipmap.p60_100a0_25).into(targetView!!)
+        } else if (pleasure in 60.0..100.0 && arousal in 25.0..50.0) {
+            Glide.with(activity!!).load(R.mipmap.p60_100a25_50).into(targetView!!)
+        } else if (pleasure in 75.0..100.0 && arousal in 50.0..75.0) {
+            Glide.with(activity!!).load(R.mipmap.p75_100a50_75).into(targetView!!)
+        } else if (pleasure in 78.0..100.0 && arousal in 75.0..100.0) {
+            Glide.with(activity!!).load(R.mipmap.p78_100a75_100).into(targetView!!)
+        } else {
+            Glide.with(activity!!).load(R.mipmap.pic_arousal_pleasure_emotion_else).into(targetView!!)
         }
     }
 

@@ -195,7 +195,7 @@ public class FileUtil {
 //                if (!isReset) {
 //                    Logger.d("exists " + destFileName);
 //                    return;
-//                } else {
+//                } pic_arousal_pleasure_emotion_else {
 //                    Logger.d("delete exists" + destFileName);
 //                    file.delete();
 //                }

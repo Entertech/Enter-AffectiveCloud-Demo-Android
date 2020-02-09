@@ -53,7 +53,7 @@ class JourneyListAdapter(data: List<UserLessonEntity>) :
         }
 //        if (item.isSampleData) {
 //            helper?.setVisible(R.id.tv_sample_data, true)
-//        } else {
+//        } pic_arousal_pleasure_emotion_else {
 //            helper?.setVisible(R.id.tv_sample_data, false)
 //        }
         if ((helper?.layoutPosition + 1)!! % 4 == 0) {

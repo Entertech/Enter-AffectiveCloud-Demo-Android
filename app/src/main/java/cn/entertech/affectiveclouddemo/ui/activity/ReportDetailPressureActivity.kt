@@ -63,7 +63,7 @@ class ReportDetailPressureActivity : BaseActivity() {
 //    fun initLastAverageChart() {
 //        if (mRecordId == -2L && meditationReportDataAnalyzed != null) {
 //            pressure_average_chart.setValues(listOf(meditationReportDataAnalyzed!!.pressureAvg.toInt()))
-//        } else {
+//        } pic_arousal_pleasure_emotion_else {
 //            if (meditationReportDataAnalyzed == null){
 //                return
 //            }

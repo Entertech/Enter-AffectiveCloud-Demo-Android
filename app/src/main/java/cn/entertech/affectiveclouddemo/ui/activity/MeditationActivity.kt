@@ -294,7 +294,7 @@ class MeditationActivity : BaseActivity() {
 //        if (mediaPlayer == null || mediaPlayer!!.currentPosition * 1f / mediaPlayer!!.duration < 0.75) {
 //            ToastUtil.toastShort(this, "Meditation didn't finish, no report generate.")
 //            finish()
-//        } else {
+//        } pic_arousal_pleasure_emotion_else {
         startFinishTimer()
         reportMeditationData = ReportMeditationDataEntity()
         meditationEndTime = getCurrentTimeFormat()

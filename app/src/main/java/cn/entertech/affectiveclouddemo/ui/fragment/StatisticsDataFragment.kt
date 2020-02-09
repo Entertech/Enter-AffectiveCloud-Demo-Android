@@ -204,7 +204,7 @@
 ////                    llContainer?.addView(statistiBrainwaveView)
 ////                    if (viewOrders[i].isShow) {
 ////                        statistiBrainwaveView.visibility = View.VISIBLE
-////                    } else {
+////                    } pic_arousal_pleasure_emotion_else {
 ////                        statistiBrainwaveView.visibility = View.GONE
 ////                    }
 ////                }
@@ -217,7 +217,7 @@
 ////                    llContainer?.addView(statisticsHeartRateView)
 ////                    if (viewOrders[i].isShow) {
 ////                        statisticsHeartRateView.visibility = View.VISIBLE
-////                    } else {
+////                    } pic_arousal_pleasure_emotion_else {
 ////                        statisticsHeartRateView.visibility = View.GONE
 ////                    }
 ////                }
@@ -232,7 +232,7 @@
 ////                    llContainer?.addView(statisticsHeartRateVariabilityView)
 ////                    if (viewOrders[i].isShow) {
 ////                        statisticsHeartRateVariabilityView.visibility = View.VISIBLE
-////                    } else {
+////                    } pic_arousal_pleasure_emotion_else {
 ////                        statisticsHeartRateVariabilityView.visibility = View.GONE
 ////                    }
 ////                }
@@ -245,7 +245,7 @@
 ////                    llContainer?.addView(statisticsAttentionView)
 ////                    if (viewOrders[i].isShow) {
 ////                        statisticsAttentionView.visibility = View.VISIBLE
-////                    } else {
+////                    } pic_arousal_pleasure_emotion_else {
 ////                        statisticsAttentionView.visibility = View.GONE
 ////                    }
 ////                }
@@ -258,7 +258,7 @@
 ////                    llContainer?.addView(statisticsRelaxationView)
 ////                    if (viewOrders[i].isShow) {
 ////                        statisticsRelaxationView.visibility = View.VISIBLE
-////                    } else {
+////                    } pic_arousal_pleasure_emotion_else {
 ////                        statisticsRelaxationView.visibility = View.GONE
 ////                    }
 ////                }
@@ -271,7 +271,7 @@
 ////                    llContainer?.addView(statisticsPressureView)
 ////                    if (viewOrders[i].isShow) {
 ////                        statisticsPressureView.visibility = View.VISIBLE
-////                    } else {
+////                    } pic_arousal_pleasure_emotion_else {
 ////                        statisticsPressureView.visibility = View.GONE
 ////                    }
 ////                }

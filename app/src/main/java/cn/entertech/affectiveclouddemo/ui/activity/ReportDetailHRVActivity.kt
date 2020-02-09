@@ -69,7 +69,7 @@ class ReportDetailHRVActivity : BaseActivity() {
 //    fun initLastAverageChart() {
 //        if (mRecordId == -2L && meditationReportDataAnalyzed != null) {
 //            hrv_average_chart.setValues(listOf(meditationReportDataAnalyzed!!.hrvAvg.toInt()))
-//        } else {
+//        } pic_arousal_pleasure_emotion_else {
 //            if (meditationReportDataAnalyzed == null){
 //                return
 //            }
