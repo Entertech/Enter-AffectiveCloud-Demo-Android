@@ -150,7 +150,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#1E2443"
+                    android:background="@drawable/shape_realtime_arousal_pleasure_bg"
                     android:orientation="horizontal">
 
                     <TextView
@@ -196,6 +196,71 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:tag="Emotion" />
+
+
+                <LinearLayout
+                    android:background="@drawable/shape_affective_line_bg"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="33dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="情绪变化"
+                            android:textColor="#000"
+                            android:textSize="15sp"
+                            android:layout_marginLeft="@dimen/activity_margin"
+                            />
+                        <cn.entertech.uicomponentsdk.widget.ChartLegendView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            app:clv_color="#FF6682"
+                            app:clv_legend="压力水平"/>
+
+                        <cn.entertech.uicomponentsdk.widget.ChartLegendView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            app:clv_color="#6648FF"
+                            app:clv_legend="愉悦度"/>
+
+                        <cn.entertech.uicomponentsdk.widget.ChartLegendView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            app:clv_color="#FFC56F"
+                            app:clv_legend="激活度"/>
+
+                        <cn.entertech.uicomponentsdk.widget.ChartLegendView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            app:clv_color="#52A27C"
+                            app:clv_legend="放松度"/>
+
+                        <cn.entertech.uicomponentsdk.widget.ChartLegendView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            app:clv_color="#5E75FE"
+                            app:clv_legend="专注度"/>
+                    </LinearLayout>
+                    <cn.entertech.affectiveclouddemo.ui.view.AffectiveSurfaceView
+                        android:id="@+id/realtime_affective_line_chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="104dp"
+                        android:layout_marginLeft="@dimen/activity_margin_half"
+                        android:layout_marginRight="@dimen/activity_margin_half"
+                        android:layout_marginBottom="@dimen/activity_margin"/>
+                </LinearLayout>
 
             </LinearLayout>
 

@@ -19,6 +19,9 @@ import java.util.*
 class MeditationLargeFragment : MeditationBaseFragment() {
     private var mArousal: Float = 0f
     private var mPleasure: Float = 0f
+    private var mAttention: Float = 0f
+    private var mRelaxation: Float = 0f
+    private var mPressure: Float = 0f
     var selfView: View? = null
     var isHeartViewLoading = true
     var isBrainViewLoading = true
@@ -110,6 +113,7 @@ class MeditationLargeFragment : MeditationBaseFragment() {
         if (attention == null) {
             return
         }
+        this.mAttention = attention
         activity?.runOnUiThread {
             selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")
                 ?.setAttention(attention)
@@ -130,6 +134,8 @@ class MeditationLargeFragment : MeditationBaseFragment() {
         if (relaxation == null) {
             return
         }
+
+        this.mRelaxation = relaxation
         activity?.runOnUiThread {
             selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")
                 ?.setRelaxation(relaxation)
@@ -150,6 +156,8 @@ class MeditationLargeFragment : MeditationBaseFragment() {
         if (pressure == null) {
             return
         }
+
+        this.mPressure = pressure
         activity?.runOnUiThread {
             selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")
                 ?.setStress(pressure)
@@ -210,7 +218,12 @@ class MeditationLargeFragment : MeditationBaseFragment() {
                     ?.hidePleasureLoaidng()
             }
             showArousalAndPleasureEmotion(mArousal, mPleasure)
+            showAffectiveLineChart(mAttention,mRelaxation,mPressure,mArousal,mPleasure)
         }
+    }
+
+    private fun showAffectiveLineChart(attention:Float,relaxation: Float,pressure: Float,arousal: Float,pleasure: Float){
+        selfView?.findViewById<AffectiveSurfaceView>(R.id.realtime_affective_line_chart)?.setData(attention,relaxation,pressure,pleasure,arousal)
     }
 
     private fun showArousalAndPleasureEmotion(arousal: Float, pleasure: Float) {
