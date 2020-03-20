@@ -6,11 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import cn.entertech.ble.multiple.MultipleBiomoduleBleManager
 import cn.entertech.bleuisdk.ui.DeviceUIConfig
 import cn.entertech.bleuisdk.ui.activity.DeviceManagerActivity
 
 import cn.entertech.flowtimezh.R
+import cn.entertech.flowtimezh.database.ExperimentDao
 import cn.entertech.flowtimezh.ui.activity.MeditationActivity
 import cn.entertech.flowtimezh.ui.activity.PersonInfoActivity
 import kotlinx.android.synthetic.main.fragment_hone.*
@@ -34,7 +36,13 @@ class HomeFragment : Fragment() {
             startActivity(Intent(activity, DeviceManagerActivity::class.java))
         }
         btn_start_meditation.setOnClickListener {
-            startActivity(Intent(activity, PersonInfoActivity::class.java))
+            var experimentDao = ExperimentDao(activity)
+            var experiment = experimentDao.findExperimentBySelected()
+            if (experiment == null){
+                Toast.makeText(activity,"请先在设置中选择要进行的实验!",Toast.LENGTH_LONG).show()
+            }else{
+                startActivity(Intent(activity, PersonInfoActivity::class.java))
+            }
         }
     }
     var connectListener = fun(str: String) {

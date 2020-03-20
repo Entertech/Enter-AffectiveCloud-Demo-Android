@@ -107,7 +107,7 @@ class MainActivity : BaseActivity() {
                 experimentModel.id = labelEntity[i].id
                 experimentModel.nameCn = labelEntity[i].name_cn
                 experimentModel.nameEn = labelEntity[i].name_en
-                experimentModel.server = SettingManager.getInstance().apiServer
+                experimentModel.appKey = SettingManager.getInstance().appKey
                 experimentDao.create(experimentModel)
 
                 for (mode in labelEntity[i].mode) {

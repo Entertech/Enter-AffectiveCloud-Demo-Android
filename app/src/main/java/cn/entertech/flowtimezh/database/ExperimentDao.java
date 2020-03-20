@@ -47,7 +47,7 @@ public class ExperimentDao {
 
     public List<ExperimentModel> listAll() {
         try {
-            List<ExperimentModel> experimentModels = mRecordDaoOp.queryBuilder().where().eq("server", SettingManager.getInstance().getApiServer()).query();
+            List<ExperimentModel> experimentModels = mRecordDaoOp.queryBuilder().where().eq("app_key", SettingManager.getInstance().getAppKey()).query();
             return experimentModels;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -75,7 +75,7 @@ public class ExperimentDao {
             if (!mRecordDaoOp.isTableExists()) {
                 return null;
             }
-            List<ExperimentModel> experiments = mRecordDaoOp.queryBuilder().where().eq("experiment_is_selected", true).query();
+            List<ExperimentModel> experiments = mRecordDaoOp.queryBuilder().where().eq("experiment_is_selected", true).and().eq("app_key", SettingManager.getInstance().getAppKey()).query();
             if (!experiments.isEmpty()) {
                 return experiments.get(0);
             }

@@ -141,13 +141,13 @@ class AuthActivity : BaseActivity() {
             var appSecret = et_app_secret.text.toString()
             var timestamp = "${System.currentTimeMillis()}"
             var md5Params =
-                "app_key=$appKey&app_secret=$appSecret&timestamp=$timestamp&user_id=data_collector"
+                "app_key=$appKey&app_secret=$appSecret&timestamp=$timestamp&user_id=test"
             var sign = MD5Encode(md5Params).toUpperCase()
             var userNameEntity = UserNameEntity()
             userNameEntity.app_key = appKey
             userNameEntity.sign = sign
             userNameEntity.timestamp = timestamp
-            userNameEntity.user_id = "data_collector"
+            userNameEntity.user_id = "test"
             var gson = Gson().toJson(userNameEntity)
             var userName = gson
             var password = sign

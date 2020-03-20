@@ -11,6 +11,7 @@ import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_LABEL_END_TIME
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_LABEL_START_TIME
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_ID
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_START_TIME
+import cn.entertech.flowtimezh.database.ExperimentDao
 import cn.entertech.flowtimezh.utils.MeditationTimeManager
 import kotlinx.android.synthetic.main.activity_meditation_time_record.*
 import kotlinx.android.synthetic.main.layout_common_title.*
@@ -67,6 +68,10 @@ class MeditationTimeRecordActivity : BaseActivity() {
                 startActivity(intent)
             }
         }
+
+        var experimentDao = ExperimentDao(this)
+        var experimentName = experimentDao.findExperimentBySelected().nameCn
+        tv_experiment_name.text = experimentName
     }
 
     override fun onNewIntent(intent: Intent?) {
