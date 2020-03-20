@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import static cn.entertech.flowtimezh.app.Constant.MEDITATION_VIEW_ORDER;
+import static cn.entertech.flowtimezh.app.Constant.SP_AFFECTIVE_CLOUD_SERVER;
+import static cn.entertech.flowtimezh.app.Constant.SP_API_SERVER;
 import static cn.entertech.flowtimezh.app.Constant.SP_APP_KEY;
 import static cn.entertech.flowtimezh.app.Constant.SP_APP_SECRET;
+import static cn.entertech.flowtimezh.app.Constant.SP_CURRENT_SERVER;
 import static cn.entertech.flowtimezh.app.Constant.SP_SETTING;
 import static cn.entertech.flowtimezh.app.Constant.SP_TOKEN;
 
@@ -49,12 +52,36 @@ public class SettingManager {
         return getSharedPreferences().getString(SP_APP_KEY, "");
     }
 
+    public synchronized void setAffectiveCloudServer(String url) {
+        getEditor().putString(SP_AFFECTIVE_CLOUD_SERVER,url).apply();
+    }
+
+    public synchronized String getAffectiveCloudServer() {
+        return getSharedPreferences().getString(SP_AFFECTIVE_CLOUD_SERVER, "server-test.affectivecloud.cn");
+    }
+
+    public synchronized void setApiServer(String url) {
+        getEditor().putString(SP_API_SERVER,url).apply();
+    }
+
+    public synchronized String getApiServer() {
+        return getSharedPreferences().getString(SP_API_SERVER, "server.affectivecloud.cn");
+    }
+
+    public synchronized void setCurrentServer(int currentServer) {
+        getEditor().putInt(SP_CURRENT_SERVER,currentServer).apply();
+    }
+
+    public synchronized int getCurrentServer() {
+        return getSharedPreferences().getInt(SP_CURRENT_SERVER, 0);
+    }
+
     public synchronized void setAppSecret(String appSecret) {
         getEditor().putString(SP_APP_SECRET, appSecret).apply();
     }
 
     public synchronized String getAppSecret() {
-        return getSharedPreferences().getString(SP_APP_SECRET, "");
+        return getSharedPreferences().getString(SP_APP_SECRET, "api.affectivecloud.cn");
     }
     public synchronized void setToken(String token) {
         getEditor().putString(SP_TOKEN, token).apply();

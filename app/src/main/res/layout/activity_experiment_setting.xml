@@ -5,15 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.activity.AuthActivity">
+    tools:context=".ui.activity.AuthActivity"
+    android:fitsSystemWindows="true">
 
     <include layout="@layout/layout_common_title" />
 
     <TextView
-        android:layout_marginTop="24dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_margin"
+        android:layout_marginTop="24dp"
         android:text="APP KEY:" />
 
     <EditText
@@ -37,11 +38,83 @@
         android:layout_marginRight="@dimen/activity_margin" />
 
     <TextView
+        android:layout_marginTop="@dimen/activity_margin_half"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_margin"
+        android:text="服务器：" />
+    <RadioGroup
+        android:layout_marginTop="@dimen/activity_margin_half"
+        android:layout_marginLeft="@dimen/activity_margin"
+        android:layout_marginRight="@dimen/activity_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/rb_release_sever"
+            android:checked="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="正式服"/>
+
+        <RadioButton
+            android:id="@+id/rb_test_sever"
+            android:layout_marginLeft="@dimen/activity_margin_half"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="测试服"/>
+        <RadioButton
+            android:id="@+id/rb_custom"
+            android:layout_marginLeft="@dimen/activity_margin_half"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自定义"/>
+    </RadioGroup>
+
+    <LinearLayout
+        android:id="@+id/ll_bg"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_marginTop="24dp"
+            android:text="情感云服务器:" />
+
+        <EditText
+            android:id="@+id/et_affective_cloud_server"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="server-test.affectivecloud.cn"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_marginRight="@dimen/activity_margin" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_marginTop="24dp"
+            android:text="接口服务器:" />
+
+        <EditText
+            android:id="@+id/et_api_server"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="api-test.affectivecloud.cn"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_marginRight="@dimen/activity_margin" />
+    </LinearLayout>
+    <TextView
+        android:layout_marginTop="@dimen/activity_margin_half"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_margin"
         android:layout_marginRight="@dimen/activity_margin"
         android:text="复制管理员发送的 App ID 和 App Secret 来同步实验信息。"
-        android:textColor="#000"/>
+        android:textColor="#000" />
 
 </LinearLayout>

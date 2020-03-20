@@ -23,6 +23,8 @@ public class ExperimentModel {
     private int app;
     @DatabaseField(columnName = "experiment_is_selected")
     private boolean isSelected;
+    @DatabaseField(columnName = "server")
+    private String server;
 
     public int getmId() {
         return mId;
@@ -94,5 +96,13 @@ public class ExperimentModel {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public String getServer() {
+        return server;
+    }
+
+    public void setServer(String server) {
+        this.server = server;
     }
 }

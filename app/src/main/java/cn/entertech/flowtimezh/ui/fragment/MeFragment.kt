@@ -14,6 +14,8 @@ import cn.entertech.flowtimezh.ui.activity.ExperimentChooseActivity
 import kotlinx.android.synthetic.main.fragment_me.*
 import android.net.Uri
 import android.os.Build
+import cn.entertech.flowtimezh.app.SettingManager
+import cn.entertech.flowtimezh.ui.activity.AuthActivity
 import cn.entertech.flowtimezh.utils.getAppVersionCode
 import cn.entertech.flowtimezh.utils.getAppVersionName
 
@@ -35,6 +37,11 @@ class MeFragment : Fragment() {
         rl_help_center.setOnClickListener {
             val uri = Uri.parse("https://docs.myflowtime.cn/")
             startActivity(Intent(Intent.ACTION_VIEW, uri))
+        }
+        rl_login_out.setOnClickListener {
+            SettingManager.getInstance().token = ""
+            activity!!.startActivity(Intent(activity,AuthActivity::class.java))
+            activity!!.finish()
         }
 
         tv_version.text = "${getAppVersionName(activity!!)}(${getAppVersionCode(activity!!)})"

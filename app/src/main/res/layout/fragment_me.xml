@@ -108,6 +108,22 @@
             android:layout_marginRight="16dp"
             android:src="@mipmap/ic_arrow_gray_right" />
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_login_out"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="@dimen/activity_margin"
+        android:background="#fff">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="切换账号"
+            android:textColor="#000000" />
+
+    </RelativeLayout>
     <!--    <RelativeLayout-->
     <!--        android:layout_width="match_parent"-->
     <!--        android:layout_height="56dp"-->

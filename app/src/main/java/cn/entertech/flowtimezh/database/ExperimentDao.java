@@ -4,6 +4,8 @@ import android.content.Context;
 import com.j256.ormlite.dao.Dao;
 import java.sql.SQLException;
 import java.util.List;
+
+import cn.entertech.flowtimezh.app.SettingManager;
 import cn.entertech.flowtimezh.database.model.ExperimentModel;
 
 
@@ -45,7 +47,7 @@ public class ExperimentDao {
 
     public List<ExperimentModel> listAll() {
         try {
-            List<ExperimentModel> experimentModels = mRecordDaoOp.queryBuilder().query();
+            List<ExperimentModel> experimentModels = mRecordDaoOp.queryBuilder().where().eq("server", SettingManager.getInstance().getApiServer()).query();
             return experimentModels;
         } catch (SQLException e) {
             e.printStackTrace();

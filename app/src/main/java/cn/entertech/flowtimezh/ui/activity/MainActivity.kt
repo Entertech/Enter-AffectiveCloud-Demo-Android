@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import cn.entertech.flowtimezh.R
 import cn.entertech.flowtimezh.app.Application
+import cn.entertech.flowtimezh.app.SettingManager
 import cn.entertech.flowtimezh.database.ExperimentDao
 import cn.entertech.flowtimezh.database.ExperimentDimDao
 import cn.entertech.flowtimezh.database.ExperimentModeDao
@@ -106,6 +107,7 @@ class MainActivity : BaseActivity() {
                 experimentModel.id = labelEntity[i].id
                 experimentModel.nameCn = labelEntity[i].name_cn
                 experimentModel.nameEn = labelEntity[i].name_en
+                experimentModel.server = SettingManager.getInstance().apiServer
                 experimentDao.create(experimentModel)
 
                 for (mode in labelEntity[i].mode) {

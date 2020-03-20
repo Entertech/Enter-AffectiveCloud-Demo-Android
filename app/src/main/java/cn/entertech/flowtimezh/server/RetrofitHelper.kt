@@ -2,7 +2,7 @@ package cn.entertech.flowtime.mvp
 
 import android.content.Context
 import cn.entertech.flowtime.utils.httplog.HttpLogger
-import cn.entertech.flowtimezh.app.Constant.Companion.SERVER_URL
+import cn.entertech.flowtimezh.app.SettingManager
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -45,8 +45,9 @@ class RetrofitHelper(context: Context) {
             .connectTimeout(30,TimeUnit.SECONDS)
             .addInterceptor(httpLoggingInterceptor)
             .build()
+        var url = "https://${SettingManager.getInstance().apiServer}/"
         mRetrofit = Retrofit.Builder()
-            .baseUrl(SERVER_URL)
+            .baseUrl(url)
             .client(mOkHttpClient)
             .addConverterFactory(mGsonConverterFactory)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -55,6 +56,10 @@ class RetrofitHelper(context: Context) {
 
     fun getServer(): RetrofitService {
         return mRetrofit!!.create(RetrofitService::class.java)
+    }
+
+    fun resetServer(){
+        initRetrofit()
     }
 
 }

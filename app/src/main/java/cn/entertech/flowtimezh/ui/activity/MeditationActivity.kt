@@ -33,7 +33,6 @@ import cn.entertech.flowtime.utils.reportfileutils.*
 import cn.entertech.flowtimezh.R
 import cn.entertech.flowtimezh.app.Application
 import cn.entertech.flowtimezh.app.Constant
-import cn.entertech.flowtimezh.app.Constant.Companion.AFFECTIVE_CLOUD_ADDRESS
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_ID
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_START_TIME
 import cn.entertech.flowtimezh.app.SettingManager
@@ -148,12 +147,13 @@ class MeditationActivity : BaseActivity() {
             .requestPressure()
             .requestPleasure()
             .build()
+        var url = "wss://${SettingManager.getInstance().affectiveCloudServer}/ws/algorithm/v1/"
         var enterAffectiveCloudConfig = EnterAffectiveCloudConfig.Builder(
             SettingManager.getInstance().appKey,
             SettingManager.getInstance().appSecret,
             userId
         )
-            .url(AFFECTIVE_CLOUD_ADDRESS)
+            .url(url)
             .timeout(10000)
             .availableBiodataServices(availableBioServices)
             .availableAffectiveServices(availableAffectiveServices)
