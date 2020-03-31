@@ -168,6 +168,7 @@ class MeditationActivity : BaseActivity() {
             runOnUiThread {
                 //            Logger.d("bio realtime data is " + it.toString())
                 if (it != null && it!!.realtimeEEGData != null) {
+                    Log.d("####","eeg data:"+it!!.realtimeEEGData?.alphaPower)
                     if (isFirstReceiveData) {
                         MeditationTimeManager.getInstance().timeReset()
                         meditationStartTime = System.currentTimeMillis()
