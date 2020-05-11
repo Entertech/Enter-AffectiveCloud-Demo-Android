@@ -140,7 +140,7 @@ class MeditationActivity : BaseActivity() {
         MeditaionInterruptManager.getInstance()
             .pushInterrupt(MeditaionInterruptManager.INTERRUPT_TYPE_DEVICE)
         runOnUiThread {
-            fragment?.handleDeviceDisconnect()
+            fragment?.handleInterruptTip()
         }
     }
 

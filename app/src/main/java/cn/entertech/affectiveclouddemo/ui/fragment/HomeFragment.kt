@@ -11,7 +11,9 @@ import cn.entertech.bleuisdk.ui.DeviceUIConfig
 import cn.entertech.bleuisdk.ui.activity.DeviceManagerActivity
 
 import cn.entertech.affectiveclouddemo.R
+import cn.entertech.affectiveclouddemo.app.Constant.Companion.MEDITATION_TYPE
 import cn.entertech.affectiveclouddemo.ui.activity.MeditationActivity
+import cn.entertech.affectiveclouddemo.ui.activity.SensorContactCheckActivity
 import kotlinx.android.synthetic.main.fragment_hone.*
 
 class HomeFragment : Fragment() {
@@ -33,7 +35,9 @@ class HomeFragment : Fragment() {
             startActivity(Intent(activity, DeviceManagerActivity::class.java))
         }
         btn_start_meditation.setOnClickListener {
-            startActivity(Intent(activity, MeditationActivity::class.java))
+            var intent = Intent(activity, SensorContactCheckActivity::class.java)
+            intent.putExtra(MEDITATION_TYPE,"meditation")
+            startActivity(intent)
         }
     }
     var connectListener = fun(str: String) {

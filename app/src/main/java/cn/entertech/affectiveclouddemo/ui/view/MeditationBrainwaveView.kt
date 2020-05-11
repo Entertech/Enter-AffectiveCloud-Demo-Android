@@ -7,9 +7,12 @@ import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.TextView
 import cn.entertech.affectiveclouddemo.R
 import cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveSpectrumView
 import cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveView
+import com.airbnb.lottie.LottieAnimationView
 
 class MeditationBrainwaveView @JvmOverloads constructor(
     context: Context,
@@ -82,6 +85,13 @@ class MeditationBrainwaveView @JvmOverloads constructor(
         mSelfView.findViewById<RealtimeBrainwaveSpectrumView>(R.id.brainwave_spectrum)
             .hideLoading()
         mSelfView.findViewById<RealtimeBrainwaveView>(R.id.brainwave).hideDisconnectTip()
+    }
+
+
+    fun showErrorMessage(error:String){
+        mSelfView.findViewById<RealtimeBrainwaveSpectrumView>(R.id.brainwave_spectrum)
+            .showErrorMessage(error)
+        mSelfView.findViewById<RealtimeBrainwaveView>(R.id.brainwave).showErrorMessage(error)
     }
 
 }

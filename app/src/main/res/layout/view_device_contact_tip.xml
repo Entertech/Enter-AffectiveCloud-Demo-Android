@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/shape_device_contact_tip_bg"
+        >
+
+    <include layout="@layout/layout_common_card_title" />
+
+    <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:layout_marginBottom="@dimen/activity_margin_half"
+            />
+
+    <TextView
+            android:id="@+id/tv_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:text="Adjust the headband so that the sensors fit snugly to the skin and the headband is in the middle of your forehead."
+            android:textColor="#11152E"
+            android:textSize="16sp"
+            android:layout_marginBottom="@dimen/activity_margin"
+            />
+
+</LinearLayout>

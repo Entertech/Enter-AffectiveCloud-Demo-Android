@@ -8,8 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import cn.entertech.affectiveclouddemo.R
+import cn.entertech.affectiveclouddemo.app.Constant
 import cn.entertech.affectiveclouddemo.ui.activity.MeditationActivity
+import cn.entertech.affectiveclouddemo.ui.activity.SensorContactCheckActivity
 import cn.entertech.affectiveclouddemo.ui.view.*
+import cn.entertech.affectiveclouddemo.utils.MeditationStatusPlayer
 import cn.entertech.affectivecloudsdk.entity.RealtimeEEGData
 import cn.entertech.bleuisdk.ui.activity.DeviceManagerActivity
 import com.bumptech.glide.Glide
@@ -31,11 +34,17 @@ class MeditationLargeFragment : MeditationBaseFragment() {
     var isArousalLoading = true
     var isPleasureLoading = true
     var isCoherenceLoading = true
+
+    private var isMeditationInterrupt: Boolean = false
+    var isTimerScheduling = false
+    var isBleConnected: Boolean = false
+    var meditationStatusPlayer: MeditationStatusPlayer? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         selfView = inflater.inflate(R.layout.fragment_data_large, container, false)
+        meditationStatusPlayer = MeditationStatusPlayer(activity!!)
         initView()
         return selfView
     }
@@ -286,7 +295,7 @@ class MeditationLargeFragment : MeditationBaseFragment() {
         selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")?.showLoadingCover()
     }
 
-    var toConnectDeviceLinstener = fun() {
+    var toConnectDeviceListener = fun() {
         startActivity(Intent(activity, DeviceManagerActivity::class.java))
     }
 
@@ -325,34 +334,96 @@ class MeditationLargeFragment : MeditationBaseFragment() {
     }
 
     override fun handleDeviceDisconnect() {
-        selfView?.findViewById<MeditationInterruptView>(R.id.miv_interrupt_device)?.visibility =
-            View.VISIBLE
-        selfView?.findViewById<MeditationInterruptView>(R.id.miv_interrupt_device)
-            ?.toDeviceDisconnect(toConnectDeviceLinstener)
-//            rl_minibar_disconnect.visibility = View.VISIBLE
-//        rl_minibar_connect.visibility = View.GONE
-        showSampleData()
+        handleInterruptTip()
     }
 
     override fun handleDeviceConnect() {
-        selfView?.findViewById<MeditationInterruptView>(R.id.miv_interrupt_device)?.visibility =
-            View.GONE
-//        rl_minibar_connect.visibility = View.VISIBLE
-        hideSampleData()
+        handleInterruptTip()
     }
 
     override fun handleWebSocketDisconnect() {
-        resetLoading()
-        dataReset()
-        selfView?.findViewById<MeditationInterruptView>(R.id.miv_interrupt_net)?.visibility =
-            View.VISIBLE
-        selfView?.findViewById<MeditationInterruptView>(R.id.miv_interrupt_net)
-            ?.toNetDisconnect(toNetRestoreLinstener)
+        handleInterruptTip()
     }
 
     override fun handleWebSocketConnect() {
-        showLoadingCover()
-        selfView?.findViewById<MeditationInterruptView>(R.id.miv_interrupt_net)?.visibility =
+        handleInterruptTip()
+    }
+
+    var isFirstIn = true
+    fun playConnectAudio() {
+        if (!isFirstIn && selfView?.findViewById<MeditationInterruptView>(R.id.miv_interrupt_device)
+                ?.visibility ==
+            View.VISIBLE
+        ) {
+            meditationStatusPlayer?.playConnectAudio()
+        }
+    }
+
+    fun playDisconnectAudio() {
+        if (!isFirstIn && selfView?.findViewById<MeditationInterruptView>(R.id.miv_interrupt_device)
+                ?.visibility ==
             View.GONE
+        ) {
+            meditationStatusPlayer?.playDisconnectAudio()
+        }
+    }
+
+
+    var toSignalCheckListener = fun() {
+        if (activity is MeditationActivity) {
+            activity!!.startActivity(
+                Intent(activity!!, SensorContactCheckActivity::class.java).putExtra(
+                    Constant.MEDITATION_TYPE,
+                    "meditation"
+                )
+            )
+        } else {
+            activity!!.startActivity(
+                Intent(activity!!, SensorContactCheckActivity::class.java).putExtra(
+                    Constant.MEDITATION_TYPE,
+                    "meditation"
+                )
+            )
+        }
+    }
+
+    fun hideInterruptTip() {
+        isTimerScheduling = false
+        playConnectAudio()
+        isMeditationInterrupt = false
+        showLoadingCover()
+        selfView?.findViewById<MeditationInterruptView>(R.id.miv_interrupt_device)
+            ?.visibility =
+            View.GONE
+    }
+
+    override fun handleInterruptTip() {
+        if (isBleConnected) {
+            if ((activity as MeditationActivity).enterAffectiveCloudManager!!.isWebSocketOpen()) {
+                if (isTimerScheduling) {
+                    playDisconnectAudio()
+                    selfView?.findViewById<MeditationInterruptView>(R.id.miv_interrupt_device)
+                        ?.visibility =
+                        View.VISIBLE
+                    selfView?.findViewById<MeditationInterruptView>(R.id.miv_interrupt_device)
+                        ?.toSignalBad(toSignalCheckListener)
+                } else {
+                    hideInterruptTip()
+                }
+            } else {
+                playDisconnectAudio()
+                selfView?.findViewById<MeditationInterruptView>(R.id.miv_interrupt_device)
+                    ?.visibility =
+                    View.VISIBLE
+                selfView?.findViewById<MeditationInterruptView>(R.id.miv_interrupt_device)
+                    ?.toNetDisconnect(toNetRestoreLinstener)
+            }
+        } else {
+            playDisconnectAudio()
+            selfView?.findViewById<MeditationInterruptView>(R.id.miv_interrupt_device)?.visibility =
+                View.VISIBLE
+            selfView?.findViewById<MeditationInterruptView>(R.id.miv_interrupt_device)
+                ?.toDeviceDisconnect(toConnectDeviceListener)
+        }
     }
 }

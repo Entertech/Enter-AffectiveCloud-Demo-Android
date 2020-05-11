@@ -31,4 +31,21 @@
     <string name="pressure">压力值</string>
     <string name="learn_more">更多</string>
     <string name="about">关于</string>
+
+
+    <string name="tip1_content">There are 3 different sizes of rubber bands. Please choose the band that fits closely to your head.</string>
+    <string name="tip1_title">Tip 1</string>
+    <string name="tip2_content">Adjust the headband so that the sensors fit snugly to the skin and the headband is in the middle of your forehead.</string>
+    <string name="tip2_title">Tip 2</string>
+    <string name="tip3_content">Please make sure there is no hair between the sensors and the skin.</string>
+    <string name="tip3_title">Tip 3</string>
+    <string name="tip4_content">When you speak or move eyes, these facial muscle activities will interfere in signal detection. If the signal is not stable, try to relax your face and eyes.</string>
+    <string name="tip4_title">Tip 4</string>
+    <string name="tip5_content">Skincare products, cosmetics, and sebum will prevent the sensors from detecting signals. Please clean the skin with a wet wipe to improve signal quality if needed.</string>
+    <string name="tip5_title">Tip 5</string>
+    <string name="tip6_content">Dry skin or dryness caused by the environment will affect signal detection. Please moisturize the skin with a wet wipe to improve signal quality if needed.</string>
+    <string name="tip6_title">Tip 6</string>
+    <string name="tip7_content">After each adjustment, it takes 30 seconds to 1 minute to detect the signals. Just relax and take a few breaths.</string>
+    <string name="tip7_title">Tip 7</string>
+
 </resources>

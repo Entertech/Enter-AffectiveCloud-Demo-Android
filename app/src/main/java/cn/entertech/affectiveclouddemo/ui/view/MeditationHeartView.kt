@@ -50,23 +50,27 @@ class MeditationHeartView @JvmOverloads constructor(
         heart_rate.showDisconnectTip()
     }
 
+    fun showErrorMessage(error:String){
+        heart_rate.showErrorMessage(error)
+    }
+
     fun hideHRSampleData() {
         heart_rate.hideDisconnectTip()
     }
 
     fun showHRVLoadingCover() {
-        realtime_hrv.showLoading()
+        realtime_hrv.showLoadingCover()
     }
 
     fun hindHRVLoadingCover() {
-        realtime_hrv.hideLoading()
+        realtime_hrv.hindLoadingCover()
     }
 
     fun showHRVSampleData() {
-        realtime_hrv.showDisconnectTip()
+        realtime_hrv.showSampleData()
     }
 
     fun hideHRVSampleData() {
-        realtime_hrv.hideDisconnectTip()
+        realtime_hrv.hideSampleData()
     }
 }

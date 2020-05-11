@@ -133,4 +133,14 @@ class MeditationEmotionLargeView @JvmOverloads constructor(
     }
 
 
+    fun showErrorMessage(error: String) {
+        realtime_attention_view.showErrorMessage(error)
+        realtime_relaxation_view.showErrorMessage(error)
+        realtime_pressure_view.showErrorMessage(error)
+        realtime_arousal_view.showErrorMessage(error)
+        realtime_pleasure_view.showErrorMessage(error)
+        realtime_coherence_view.showErrorMessage(error)
+    }
+
+
 }

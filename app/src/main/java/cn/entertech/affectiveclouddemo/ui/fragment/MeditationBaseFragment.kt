@@ -16,4 +16,5 @@ abstract class MeditationBaseFragment : Fragment() {
     abstract fun handleDeviceConnect()
     abstract fun handleWebSocketDisconnect()
     abstract fun handleWebSocketConnect()
+    abstract fun handleInterruptTip()
 }

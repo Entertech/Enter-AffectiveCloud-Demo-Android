@@ -13,4 +13,10 @@
         <attr name="rav_contentText" format="string" />
         <attr name="rav_learnMoreUrl" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="DeviceContactTipView">
+        <attr name="dctv_title" format="string"/>
+        <attr name="dctv_image" format="reference"/>
+        <attr name="dctv_tip" format="string"/>
+    </declare-styleable>
 </resources>

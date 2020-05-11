@@ -139,5 +139,8 @@ class Constant {
         const val APP_UPDATE_LEVEL_MUST = 0
         const val APP_UPDATE_LEVEL_SHOULD = 1
         const val APP_UPDATE_LEVEL_COULD = 2
+
+
+        var MEDITATION_TYPE = "meditationType"
     }
 }

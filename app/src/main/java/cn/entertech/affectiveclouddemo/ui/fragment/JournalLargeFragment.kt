@@ -179,15 +179,13 @@ class JournalLargeFragment : Fragment() {
         if (alphaAverage.average() == 0.0 && betaAverage.average() == 0.0 && deltaAverage.average() == 0.0){
             return
         }
-        chart_brainwave.setData(
-            listOf(
-                gammaAverage,
-                betaAverage,
-                alphaAverage,
-                thetaAverage,
-                deltaAverage
-            )
-        )
+        var brainwaveList = ArrayList<ArrayList<Double>>()
+        brainwaveList.add(gammaAverage as ArrayList<Double>)
+        brainwaveList.add(betaAverage as ArrayList<Double>)
+        brainwaveList.add(alphaAverage as ArrayList<Double>)
+        brainwaveList.add(thetaAverage as ArrayList<Double>)
+        brainwaveList.add(deltaAverage as ArrayList<Double>)
+        chart_brainwave.setData(brainwaveList)
     }
 
     fun initLineChart() {

@@ -136,7 +136,7 @@ class MeditationEmotionView @JvmOverloads constructor(
         realtime_coherence_view.showLoading()
     }
 
-    fun hindLoadingCover() {
+    fun hideLoading() {
         realtime_arousal_view.hideLoading()
         realtime_attention_view.hideLoading()
         realtime_relaxation_view.hideLoading()
@@ -165,6 +165,15 @@ class MeditationEmotionView @JvmOverloads constructor(
 
     fun hideCoherenceLoaidng() {
         realtime_coherence_view.hideLoading()
+    }
+
+    fun showErrorMessage(error: String) {
+        realtime_attention_view.showErrorMessage(error)
+        realtime_relaxation_view.showErrorMessage(error)
+        realtime_pressure_view.showErrorMessage(error)
+        realtime_arousal_view.showErrorMessage(error)
+        realtime_pleasure_view.showErrorMessage(error)
+        realtime_coherence_view.showErrorMessage(error)
     }
 
 

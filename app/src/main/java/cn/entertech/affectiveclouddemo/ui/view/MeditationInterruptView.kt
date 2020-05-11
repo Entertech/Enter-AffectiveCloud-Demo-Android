@@ -13,6 +13,7 @@ class MeditationInterruptView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyle: Int = 0
 ) : LinearLayout(context, attributeSet, defStyle) {
+    private var mErrorMessageListener: ((String) -> Unit)? = null
     var selfView = LayoutInflater.from(context).inflate(R.layout.card_meditation_interrupt, null)
 
     init {
@@ -40,5 +41,22 @@ class MeditationInterruptView @JvmOverloads constructor(
         selfView.findViewById<TextView>(R.id.btn_connect).setOnClickListener {
             connectClickListener.invoke()
         }
+    }
+
+    fun toSignalBad(connectClickListener: (() -> Unit)) {
+        selfView.findViewById<ImageView>(R.id.iv_error_icon)
+            .setImageResource(R.drawable.vector_drawable_net_error)
+        selfView.findViewById<TextView>(R.id.tv_error_title).text = "Poor or No Signal"
+        selfView.findViewById<TextView>(R.id.tv_error_content).text =
+            "It may be that you are not wearing the headhand properly.Follow the guidelines in 'Sensor Contact Check' to recover"
+        selfView.findViewById<TextView>(R.id.btn_connect).text = "Sensor Contact Check"
+        selfView.findViewById<TextView>(R.id.btn_connect).setOnClickListener {
+            connectClickListener.invoke()
+        }
+        mErrorMessageListener?.invoke("Poor or No Signal")
+    }
+
+    fun addErrorMessageListener(listener:((String)->Unit)?){
+        this.mErrorMessageListener = listener
     }
 }
