@@ -42,7 +42,7 @@ class MeditationHeartView @JvmOverloads constructor(
         heart_rate.showLoading()
     }
 
-    fun hindHRLoadingCover() {
+    fun hideHRLoadingCover() {
         heart_rate.hideLoading()
     }
 
@@ -52,6 +52,7 @@ class MeditationHeartView @JvmOverloads constructor(
 
     fun showErrorMessage(error:String){
         heart_rate.showErrorMessage(error)
+        realtime_hrv.showErrorMessage(error)
     }
 
     fun hideHRSampleData() {
@@ -62,7 +63,7 @@ class MeditationHeartView @JvmOverloads constructor(
         realtime_hrv.showLoadingCover()
     }
 
-    fun hindHRVLoadingCover() {
+    fun hideHRVLoadingCover() {
         realtime_hrv.hindLoadingCover()
     }
 

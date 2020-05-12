@@ -2,6 +2,8 @@ package cn.entertech.affectiveclouddemo.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +26,7 @@ import cn.entertech.affectiveclouddemo.ui.view.MeditationEmotionView
 import cn.entertech.affectiveclouddemo.ui.view.MeditationHeartView
 import cn.entertech.affectiveclouddemo.ui.view.MeditationInterruptView
 import cn.entertech.affectiveclouddemo.utils.MeditationStatusPlayer
+import cn.entertech.bleuisdk.ui.DeviceUIConfig
 import cn.entertech.uicomponentsdk.utils.ScreenUtil
 import org.greenrobot.eventbus.EventBus
 import java.util.*
@@ -59,7 +62,7 @@ class MeditationFragment : MeditationBaseFragment() {
 
     fun initView() {
         selfView?.findViewById<ImageView>(R.id.iv_close)?.setOnClickListener {
-            ( activity!! as MeditationActivity).showDialog()
+            (activity!! as MeditationActivity).showDialog()
         }
         selfView?.findViewById<TextView>(R.id.tv_edit)?.setOnClickListener {
             var messageEvent = MessageEvent()
@@ -85,6 +88,7 @@ class MeditationFragment : MeditationBaseFragment() {
                 selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showErrorMessage(it)
                 selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showErrorMessage(it)
             }
+        DeviceUIConfig.getInstance(activity!!).managers[0].addContactListener(::onBleContactListener)
     }
 
 
@@ -147,10 +151,15 @@ class MeditationFragment : MeditationBaseFragment() {
             ) {
                 isBrainViewLoading = false
             }
-            if (isBrainViewLoading) {
-                selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")?.showLoadingCover()
-            } else {
-                selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")?.hindLoadingCover()
+
+            if (!isMeditationInterrupt) {
+                if (isBrainViewLoading) {
+                    selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")
+                        ?.showLoadingCover()
+                } else {
+                    selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")
+                        ?.hindLoadingCover()
+                }
             }
         }
     }
@@ -165,13 +174,18 @@ class MeditationFragment : MeditationBaseFragment() {
             isHeartViewLoading = heartRate == 0
             isHRVLoading = hrv == 0.0
             Log.d("###", "isHeartViewLoading:" + isHeartViewLoading + ":" + heartRate)
-            if (isHeartViewLoading) {
-                selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRLoadingCover()
-            } else {
-                selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hindHRLoadingCover()
-            }
-            if (hrv != 0.0) {
-                selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hindHRVLoadingCover()
+
+            if (!isMeditationInterrupt) {
+                if (isHeartViewLoading) {
+                    selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRLoadingCover()
+                } else {
+                    selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hideHRLoadingCover()
+                }
+                if (isHRVLoading) {
+                    selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRVLoadingCover()
+                } else {
+                    selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hideHRVLoadingCover()
+                }
             }
         }
     }
@@ -185,10 +199,15 @@ class MeditationFragment : MeditationBaseFragment() {
             if (attention != 0f) {
                 isAttentionLoading = false
             }
-            if (isAttentionLoading) {
-                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showAttentionLoading()
-            } else {
-                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.hideAttentionLoaidng()
+
+            if (!isMeditationInterrupt) {
+                if (isAttentionLoading) {
+                    selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
+                        ?.showAttentionLoading()
+                } else {
+                    selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
+                        ?.hideAttentionLoaidng()
+                }
             }
         }
     }
@@ -202,10 +221,15 @@ class MeditationFragment : MeditationBaseFragment() {
             if (relaxation != 0f) {
                 isRelaxationLoading = false
             }
-            if (isRelaxationLoading) {
-                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showRelaxationLoading()
-            } else {
-                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.hideRelaxationLoaidng()
+
+            if (!isMeditationInterrupt) {
+                if (isRelaxationLoading) {
+                    selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
+                        ?.showRelaxationLoading()
+                } else {
+                    selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
+                        ?.hideRelaxationLoaidng()
+                }
             }
         }
     }
@@ -220,10 +244,15 @@ class MeditationFragment : MeditationBaseFragment() {
             if (pressure != 0f) {
                 isPressureLoading = false
             }
-            if (isPressureLoading) {
-                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showPressureLoading()
-            } else {
-                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.hidePressureLoaidng()
+
+            if (!isMeditationInterrupt) {
+                if (isPressureLoading) {
+                    selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
+                        ?.showPressureLoading()
+                } else {
+                    selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
+                        ?.hidePressureLoaidng()
+                }
             }
         }
     }
@@ -238,10 +267,15 @@ class MeditationFragment : MeditationBaseFragment() {
             if (mood != 0f) {
                 isArousalLoading = false
             }
-            if (isArousalLoading) {
-                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showArousalLoading()
-            } else {
-                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.hideArousalLoaidng()
+
+            if (!isMeditationInterrupt) {
+                if (isArousalLoading) {
+                    selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
+                        ?.showArousalLoading()
+                } else {
+                    selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
+                        ?.hideArousalLoaidng()
+                }
             }
         }
     }
@@ -256,10 +290,15 @@ class MeditationFragment : MeditationBaseFragment() {
             if (pleasure != 0f) {
                 isPleasureLoading = false
             }
-            if (isPleasureLoading) {
-                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showPleasureLoading()
-            } else {
-                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.hidePleasureLoaidng()
+
+            if (!isMeditationInterrupt) {
+                if (isPleasureLoading) {
+                    selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
+                        ?.showPleasureLoading()
+                } else {
+                    selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
+                        ?.hidePleasureLoaidng()
+                }
             }
         }
     }
@@ -274,12 +313,67 @@ class MeditationFragment : MeditationBaseFragment() {
             if (coherence != 0f) {
                 isCoherenceLoading = false
             }
-            if (isCoherenceLoading) {
-                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showCoherenceLoading()
-            } else {
-                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.hideCoherenceLoaidng()
+
+            if (!isMeditationInterrupt) {
+                if (isCoherenceLoading) {
+                    selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
+                        ?.showCoherenceLoading()
+                } else {
+                    selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
+                        ?.hideCoherenceLoaidng()
+                }
             }
         }
+    }
+
+
+    var goodContactCount = 0
+    var isGoodContact = false
+    private fun onBleContactListener(contact: Int) {
+//        Log.d("#######", "contact is $contact")
+        activity!!.runOnUiThread {
+            if (contact != 0) {
+                isGoodContact = false
+                goodContactCount = 0
+                isTimerScheduling = true
+                mMainHandler.postDelayed(runnable, 1000)
+            } else {
+                isTimerScheduling = false
+                mMainHandler.removeCallbacks(runnable)
+                goodContactCount++
+                if (goodContactCount == 5) {
+                    if (isMeditationInterrupt) {
+                        hideInterruptTip()
+                        isGoodContact = true
+                        goodContactCount = 0
+                    }
+                }
+            }
+        }
+    }
+
+    var runnable = Runnable {
+        handleInterruptTip()
+    }
+    var mMainHandler = Handler(Looper.getMainLooper())
+    private var lastQuality: Double = 0.0
+    override fun dealQuality(quality: Double?) {
+        if (quality == null) {
+            return
+        }
+        if (quality >= 2.0) {
+            isTimerScheduling = false
+            mMainHandler.removeCallbacks(runnable)
+//            if (lastQuality < 2 && isMeditationInterrupt) {
+//                handleInterruptTip()
+//            }
+        } else {
+            if (isGoodContact && !isTimerScheduling) {
+                isTimerScheduling = true
+                mMainHandler.postDelayed(runnable, 30000)
+            }
+        }
+        lastQuality = quality
     }
 
     fun dataReset() {
@@ -378,6 +472,7 @@ class MeditationFragment : MeditationBaseFragment() {
     }
 
     override fun handleInterruptTip() {
+        isBleConnected = DeviceUIConfig.getInstance(activity!!).managers[0].isConnected()
         if (isBleConnected) {
             if ((activity as MeditationActivity).enterAffectiveCloudManager!!.isWebSocketOpen()) {
                 if (isTimerScheduling) {
@@ -406,6 +501,7 @@ class MeditationFragment : MeditationBaseFragment() {
                 ?.toDeviceDisconnect(toConnectDeviceListener)
         }
     }
+
     override fun handleDeviceDisconnect() {
         handleInterruptTip()
     }
@@ -420,6 +516,11 @@ class MeditationFragment : MeditationBaseFragment() {
 
     override fun handleWebSocketConnect() {
         handleInterruptTip()
+    }
+
+    override fun onDestroy() {
+        DeviceUIConfig.getInstance(activity!!).managers[0].removeContactListener(::onBleContactListener)
+        super.onDestroy()
     }
 
 }

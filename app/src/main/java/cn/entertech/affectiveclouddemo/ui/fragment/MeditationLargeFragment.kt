@@ -2,6 +2,8 @@ package cn.entertech.affectiveclouddemo.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -110,10 +112,10 @@ class MeditationLargeFragment : MeditationBaseFragment() {
             if (isHeartViewLoading) {
                 selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRLoadingCover()
             } else {
-                selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hindHRLoadingCover()
+                selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hideHRLoadingCover()
             }
             if (hrv != 0.0) {
-                selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hindHRVLoadingCover()
+                selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hideHRVLoadingCover()
             }
         }
     }
@@ -231,6 +233,56 @@ class MeditationLargeFragment : MeditationBaseFragment() {
         }
     }
 
+
+    var goodContactCount = 0
+    var isGoodContact = false
+    private fun onBleContactListener(contact: Int) {
+//        Log.d("#######", "contact is $contact")
+        activity!!.runOnUiThread {
+            if (contact != 0) {
+                isGoodContact = false
+                goodContactCount = 0
+                isTimerScheduling = true
+                mMainHandler.postDelayed(runnable, 1000)
+            } else {
+                isTimerScheduling = false
+                mMainHandler.removeCallbacks(runnable)
+                goodContactCount++
+                if (goodContactCount == 5) {
+                    if (isMeditationInterrupt) {
+                        hideInterruptTip()
+                        isGoodContact = true
+                        goodContactCount = 0
+                    }
+                }
+            }
+        }
+    }
+
+    var runnable = Runnable {
+        handleInterruptTip()
+    }
+    var mMainHandler = Handler(Looper.getMainLooper())
+    private var lastQuality: Double = 0.0
+    override fun dealQuality(quality:Double?){
+        if (quality == null) {
+            return
+        }
+        if (quality >= 2.0) {
+            isTimerScheduling = false
+            mMainHandler.removeCallbacks(runnable)
+//            if (lastQuality < 2 && isMeditationInterrupt) {
+//                handleInterruptTip()
+//            }
+        } else {
+            if (isGoodContact && !isTimerScheduling) {
+                isTimerScheduling = true
+                mMainHandler.postDelayed(runnable, 30000)
+            }
+        }
+        lastQuality = quality
+    }
+
     private fun showAffectiveLineChart(attention:Float,relaxation: Float,pressure: Float,arousal: Float,pleasure: Float){
         selfView?.findViewById<AffectiveSurfaceView>(R.id.realtime_affective_line_chart)?.setData(attention,relaxation,pressure,pleasure,arousal)
     }
@@ -321,7 +373,10 @@ class MeditationLargeFragment : MeditationBaseFragment() {
         selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.showRelaxationLoading()
         selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.showPressureLoading()
         selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.showArousalLoading()
+        selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.showCoherenceLoading()
+        selfView?.findViewWithTag<MeditationEmotionLargeView>("Emotion")?.showPleasureLoading()
         selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRLoadingCover()
+        selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRVLoadingCover()
         selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")?.showLoadingCover()
     }
 

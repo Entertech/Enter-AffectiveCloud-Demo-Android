@@ -44,8 +44,7 @@ class MeditationActivity : BaseActivity() {
     private lateinit var rawListener: (ByteArray) -> Unit
     private lateinit var heartRateListener: (Int) -> Unit
     var enterAffectiveCloudManager: EnterAffectiveCloudManager? = null
-    var bleManager: MultipleBiomoduleBleManager? = null
-
+    var bleManager: MultipleBiomoduleBleManager = DeviceUIConfig.getInstance(this!!).managers[0]
     var meditationStartTime: Long? = null
     var websocketAddress = "wss://server-test.affectivecloud.cn/ws/algorithm/v1/"
 
@@ -73,8 +72,8 @@ class MeditationActivity : BaseActivity() {
         meditationStatusPlayer = MeditationStatusPlayer(this)
         userLessonStartTime = getCurrentTimeFormat()
         initFragment()
-        initFlowtimeManager()
         initAffectiveCloudManager()
+        initFlowtimeManager()
     }
 
     fun initFragment() {
@@ -145,12 +144,15 @@ class MeditationActivity : BaseActivity() {
     }
 
     fun initFlowtimeManager() {
-        bleManager = DeviceUIConfig.getInstance(this!!).managers[0]
         rawListener = fun(bytes: ByteArray) {
-            enterAffectiveCloudManager?.appendEEGData(bytes)
+            if (enterAffectiveCloudManager!!.isInit) {
+                enterAffectiveCloudManager?.appendEEGData(bytes)
+            }
         }
         heartRateListener = fun(heartRate: Int) {
-            enterAffectiveCloudManager?.appendHeartRateData(heartRate)
+            if (enterAffectiveCloudManager!!.isInit) {
+                enterAffectiveCloudManager?.appendHeartRateData(heartRate)
+            }
         }
         bleManager?.addRawDataListener(rawListener)
         bleManager?.addHeartRateListener(heartRateListener)
@@ -233,10 +235,11 @@ class MeditationActivity : BaseActivity() {
                 }
                 fragment?.showHeart(it?.realtimeHrData?.hr?.toInt(), it?.realtimeHrData?.hrv)
                 fragment?.showBrain(it?.realtimeEEGData)
+                fragment?.dealQuality(it?.realtimeEEGData?.quality)
             }
         }
         enterAffectiveCloudManager!!.addAffectiveDataRealtimeListener {
-            //            Logger.d("affective realtime data is " + it.toString())
+                        Logger.d("affective realtime data is " + it.toString())
             runOnUiThread {
                 fragment?.showAttention(it?.realtimeAttentionData?.attention?.toFloat())
                 fragment?.showRelaxation(it?.realtimeRelaxationData?.relaxation?.toFloat())
@@ -387,16 +390,20 @@ class MeditationActivity : BaseActivity() {
 
     fun exitWithMeditation(reportMeditationData: ReportMeditationDataEntity) {
         if (reportMeditationData.isDataSetCompletly()) {
+            Log.d("#######","report data completly")
             handler.removeCallbacks(finishRunnable)
             saveReportFile(reportMeditationData)
             saveMeditationInDB(reportMeditationData)
             saveUserLessonInDB()
             enterAffectiveCloudManager?.release(object : Callback {
                 override fun onError(error: Error?) {
+                    Log.d("#######","report release onError")
 
                 }
 
                 override fun onSuccess() {
+
+                    Log.d("#######","report release onSuccess")
                     toDataActivity()
                 }
 
@@ -429,7 +436,7 @@ class MeditationActivity : BaseActivity() {
             }
 
             override fun onSuccess(t: HashMap<Any, Any?>?) {
-//                Logger.d("report bio is " + t.toString())
+                Logger.d("report bio is " + t.toString())
                 if (t == null) {
                     return
                 }
@@ -476,10 +483,11 @@ class MeditationActivity : BaseActivity() {
                 enterAffectiveCloudManager?.getAffectiveDataReport(object :
                     Callback2<HashMap<Any, Any?>> {
                     override fun onError(error: Error?) {
+                        Logger.d("report affectve is error: " + error)
                     }
 
                     override fun onSuccess(t: HashMap<Any, Any?>?) {
-//                        Logger.d("report affectve is " + t.toString())
+                        Logger.d("report affectve is " + t.toString())
                         if (t == null) {
                             return
                         }
