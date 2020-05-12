@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import cn.entertech.affectiveclouddemo.R
+import cn.entertech.affectiveclouddemo.app.Constant.Companion.IS_SHOW_SKIP
 import cn.entertech.affectiveclouddemo.app.Constant.Companion.MEDITATION_TYPE
 import cn.entertech.ble.multiple.MultipleBiomoduleBleManager
 import cn.entertech.bleuisdk.ui.DeviceUIConfig
@@ -13,6 +14,7 @@ import kotlinx.android.synthetic.main.activity_sensor_contact_check.*
 
 class SensorContactCheckActivity : BaseActivity() {
 
+    private var isShowSkip: Boolean = true
     private var bleManager: MultipleBiomoduleBleManager? = null
     private var meditationType: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +22,7 @@ class SensorContactCheckActivity : BaseActivity() {
         setContentView(R.layout.activity_sensor_contact_check)
         initFullScreenDisplay()
         meditationType = intent.getStringExtra(MEDITATION_TYPE)
+        isShowSkip = intent.getBooleanExtra(IS_SHOW_SKIP, true)
         bleManager = DeviceUIConfig.getInstance(this!!).managers[0]
         if (bleManager!!.isConnected()) {
             bleManager!!.startHeartAndBrainCollection()
@@ -32,12 +35,14 @@ class SensorContactCheckActivity : BaseActivity() {
     }
 
     fun toMeditaitionActivity() {
-        var intent = Intent(
-            this@SensorContactCheckActivity,
-            MeditationActivity::class.java
-        )
-        startActivity(intent)
-        finish ()
+        if (meditationType != null) {
+            var intent = Intent(
+                this@SensorContactCheckActivity,
+                MeditationActivity::class.java
+            )
+            startActivity(intent)
+            finish()
+        }
     }
 
     var runnable = Runnable {
@@ -46,7 +51,7 @@ class SensorContactCheckActivity : BaseActivity() {
     var mMainHandler = Handler(Looper.getMainLooper())
     var isShowWellDone = false
     fun initView() {
-        if (meditationType == null) {
+        if (!isShowSkip) {
             tv_skip.visibility = View.GONE
         } else {
             tv_skip.visibility = View.VISIBLE

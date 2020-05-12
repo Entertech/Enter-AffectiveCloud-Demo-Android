@@ -48,4 +48,11 @@
     <string name="tip7_content">After each adjustment, it takes 30 seconds to 1 minute to detect the signals. Just relax and take a few breaths.</string>
     <string name="tip7_title">Tip 7</string>
 
+
+
+    <string name="device_time_left">%1$d hours left</string>
+    <string name="device_min_left">%1$d minutes left</string>
+    <string name="activity_device_status_device_status">Device Status</string>
+    <string name="activity_device_status_sensor_contact_check">Sensor Contact Check</string>
+    <string name="activity_device_status_11">Wear the headband and adjust the sensor according to the illustration.</string>
 </resources>

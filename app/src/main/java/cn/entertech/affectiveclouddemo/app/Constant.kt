@@ -142,5 +142,6 @@ class Constant {
 
 
         var MEDITATION_TYPE = "meditationType"
+        var IS_SHOW_SKIP = "isShowSkip"
     }
 }

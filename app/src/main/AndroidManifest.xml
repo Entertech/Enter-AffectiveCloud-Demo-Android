@@ -46,6 +46,8 @@
             android:configChanges="orientation|screenSize" />
 
         <activity android:name=".ui.activity.SensorContactCheckActivity" android:configChanges="orientation|screenSize"/>
+
+        <activity android:name=".ui.activity.DeviceStatusActivity" android:configChanges="orientation|screenSize"/>
     </application>
 
 </manifest>
