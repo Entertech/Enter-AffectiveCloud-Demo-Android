@@ -6,7 +6,89 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="common_blue_primary_color">@color/common_blue_primary_color_light</item>
+        <item name="common_blue2_color">@color/common_blue2_color_light</item>
+        <item name="common_blue3_color">@color/common_blue3_color_light</item>
+        <item name="common_blue4_color">@color/common_blue4_color_light</item>
+        <item name="common_blue5_color">@color/common_blue5_color_light</item>
+        <item name="common_red_primary_color">@color/common_red_primary_color_light</item>
+        <item name="common_red2_color">@color/common_red2_color_light</item>
+        <item name="common_red3_color">@color/common_red3_color_light</item>
+        <item name="common_red4_color">@color/common_red4_color_light</item>
+        <item name="common_red5_color">@color/common_red5_color_light</item>
+        <item name="common_yellow_primary_color">@color/common_yellow_primary_color_light</item>
+        <item name="common_yellow2_color">@color/common_yellow2_color_light</item>
+        <item name="common_yellow3_color">@color/common_yellow3_color_light</item>
+        <item name="common_yellow4_color">@color/common_yellow4_color_light</item>
+        <item name="common_yellow5_color">@color/common_yellow5_color_light</item>
+        <item name="common_green_primary_color">@color/common_green_primary_color_light</item>
+        <item name="common_green2_color">@color/common_green2_color_light</item>
+        <item name="common_green3_color">@color/common_green3_color_light</item>
+        <item name="common_green4_color">@color/common_green4_color_light</item>
+        <item name="common_green5_color">@color/common_green5_color_light</item>
+        <item name="common_bg1_color">@color/common_bg1_color_light</item>
+        <item name="common_bg2_color">@color/common_bg2_color_light</item>
+        <item name="common_bg_z1_color">@color/common_bg_z1_color_light</item>
+        <item name="common_bg_z2_color">@color/common_bg_z2_color_light</item>
+        <item name="common_text_lv1_base_color">@color/common_text_lv1_base_color_light</item>
+        <item name="common_text_lv2_base_color">@color/common_text_lv2_base_color_light</item>
+        <item name="common_text_lv3_base_color">@color/common_text_lv3_base_color_light</item>
+        <item name="common_line_hard_color">@color/common_line_hard_color_light</item>
+        <item name="common_line_light_color">@color/common_line_light_color_light</item>
+        <item name="common_btn_1">@color/common_btn_1_light</item>
+        <item name="common_btn_2">@color/common_btn_2_light</item>
+        <item name="common_btn_disable">@color/common_btn_disable_light</item>
+        <item name="common_white_color">@color/common_white_color_light</item>
+        <item name="common_mask_color">@color/common_mask_color_light</item>
+        <item name="common_mask2_color">@color/common_mask2_color_light</item>
+        <item name="common_share_bg_color">@color/common_share_bg_color_light</item>
     </style>
+
+    <!-- Base application theme. -->
+    <style name="AppThemeDark" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="common_blue_primary_color">@color/common_blue_primary_color_dark</item>
+        <item name="common_blue2_color">@color/common_blue2_color_dark</item>
+        <item name="common_blue3_color">@color/common_blue3_color_dark</item>
+        <item name="common_blue4_color">@color/common_blue4_color_dark</item>
+        <item name="common_blue5_color">@color/common_blue5_color_dark</item>
+        <item name="common_red_primary_color">@color/common_red_primary_color_dark</item>
+        <item name="common_red2_color">@color/common_red2_color_dark</item>
+        <item name="common_red3_color">@color/common_red3_color_dark</item>
+        <item name="common_red4_color">@color/common_red4_color_dark</item>
+        <item name="common_red5_color">@color/common_red5_color_dark</item>
+        <item name="common_yellow_primary_color">@color/common_yellow_primary_color_dark</item>
+        <item name="common_yellow2_color">@color/common_yellow2_color_dark</item>
+        <item name="common_yellow3_color">@color/common_yellow3_color_dark</item>
+        <item name="common_yellow4_color">@color/common_yellow4_color_dark</item>
+        <item name="common_yellow5_color">@color/common_yellow5_color_dark</item>
+        <item name="common_green_primary_color">@color/common_green_primary_color_dark</item>
+        <item name="common_green2_color">@color/common_green2_color_dark</item>
+        <item name="common_green3_color">@color/common_green3_color_dark</item>
+        <item name="common_green4_color">@color/common_green4_color_dark</item>
+        <item name="common_green5_color">@color/common_green5_color_dark</item>
+        <item name="common_bg1_color">@color/common_bg1_color_dark</item>
+        <item name="common_bg2_color">@color/common_bg2_color_dark</item>
+        <item name="common_bg_z1_color">@color/common_bg_z1_color_dark</item>
+        <item name="common_bg_z2_color">@color/common_bg_z2_color_dark</item>
+        <item name="common_text_lv1_base_color">@color/common_text_lv1_base_color_dark</item>
+        <item name="common_text_lv2_base_color">@color/common_text_lv2_base_color_dark</item>
+        <item name="common_text_lv3_base_color">@color/common_text_lv3_base_color_dark</item>
+        <item name="common_line_hard_color">@color/common_line_hard_color_dark</item>
+        <item name="common_line_light_color">@color/common_line_light_color_dark</item>
+        <item name="common_btn_1">@color/common_btn_1_dark</item>
+        <item name="common_btn_2">@color/common_btn_2_dark</item>
+        <item name="common_btn_disable">@color/common_btn_disable_dark</item>
+        <item name="common_white_color">@color/common_white_color_dark</item>
+        <item name="common_mask_color">@color/common_mask_color_dark</item>
+        <item name="common_mask2_color">@color/common_mask2_color_dark</item>
+        <item name="common_share_bg_color">@color/common_share_bg_color_dark</item>
+    </style>
+
 
     <declare-styleable name="ReportAboutView">
         <attr name="rav_titleIcon" format="reference" />
