@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
 
+    private lateinit var statisticsFragment: StatisticsFragment
     var mTabEntitys = ArrayList<CustomTabEntity>()
     private lateinit var homeFragment: HomeFragment
     private lateinit var journeyFragment: JourneyFragment
@@ -37,10 +38,10 @@ class MainActivity : BaseActivity() {
     fun initView() {
         var mTitles = arrayOf(getString(R.string.home), getString(R.string.statistics), getString(R.string.me))
         homeFragment = HomeFragment()
-        journeyFragment = JourneyFragment()
+        statisticsFragment = StatisticsFragment()
         meFragment = MeFragment()
         mFragments.add(homeFragment)
-        mFragments.add(journeyFragment)
+        mFragments.add(statisticsFragment)
         mFragments.add(meFragment)
         for (i in 0..2) {
             mTabEntitys.add(TabEntity(mTitles[i], mIconSelected[i], mIconUnselected[i]))

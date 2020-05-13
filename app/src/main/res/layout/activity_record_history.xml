@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.StatisticsFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.activity.RecordHistoryActivity">
 
-    <include layout="@layout/layout_common_title"/>
-    <FrameLayout
-        android:id="@+id/report_container"
+    <include layout="@layout/layout_common_title" />
+
+    <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        android:name="cn.entertech.affectiveclouddemo.ui.fragment.JourneyFragment"
+        android:id="@+id/fl_container"/>
+
 </LinearLayout>

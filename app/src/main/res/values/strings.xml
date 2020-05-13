@@ -49,7 +49,6 @@
     <string name="tip7_title">Tip 7</string>
 
 
-
     <string name="device_time_left">%1$d hours left</string>
     <string name="device_min_left">%1$d minutes left</string>
     <string name="activity_device_status_device_status">Device Status</string>
