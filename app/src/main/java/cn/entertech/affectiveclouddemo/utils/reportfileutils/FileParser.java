@@ -51,6 +51,9 @@ public class FileParser {
                 case "10":
                     meditationReportDataAnalyzed.setPleasureAvg(floatValue);
                     break;
+                case "17":
+                    meditationReportDataAnalyzed.setCoherenceAvg(floatValue);
+                    break;
                 default:
                     break;
             }
@@ -65,6 +68,7 @@ public class FileParser {
         List<Double> relaxationRec = new ArrayList<>();
         List<Double> pressureRec = new ArrayList<>();
         List<Double> pleasureRec = new ArrayList<>();
+        List<Double> coherenceRec = new ArrayList<>();
         List<Double> alphaCurve = new ArrayList<>();
         List<Double> betaCurve = new ArrayList<>();
         List<Double> thetaCurve = new ArrayList<>();
@@ -174,6 +178,14 @@ public class FileParser {
                                 dataStartIndex + j * 8, dataStartIndex + 8 + j * 8)));
                         pleasureRec.add((double) cruveValue);
                         meditationReportDataAnalyzed.setPleasureRec(pleasureRec);
+                    }
+                    break;
+                case "FD":
+                    for (int j = 0; j < length; j++) {
+                        float cruveValue = getFloat(HexDump.hexSringToBytes(StringUtil.substring(source,
+                                dataStartIndex + j * 8, dataStartIndex + 8 + j * 8)));
+                        coherenceRec.add((double) cruveValue);
+                        meditationReportDataAnalyzed.setCoherenceRec(coherenceRec);
                     }
                     break;
                 default:

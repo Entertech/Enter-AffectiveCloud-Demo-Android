@@ -91,6 +91,14 @@ class JournalFragment : Fragment() {
                 ).putExtra(RECORD_ID, recordId)
             )
         }
+        card_coherence.setOnClickListener {
+            activity?.startActivity(
+                Intent(
+                    activity,
+                    ReportDetailCoherenceActivity::class.java
+                ).putExtra(RECORD_ID, recordId)
+            )
+        }
 
     }
 
@@ -150,6 +158,7 @@ class JournalFragment : Fragment() {
         var pressureAvg = meditationReportDataAnalyzed!!.pressureAvg
         var relaxationAvg = meditationReportDataAnalyzed!!.relaxationAvg
         var attentionAvg = meditationReportDataAnalyzed!!.attentionAvg
+        var coherenceAvg = meditationReportDataAnalyzed!!.coherenceAvg
         if (alphaAverage + betaAverage + deltaAverage + gammaAverage + thetaAverage != 0f) {
             report_brainwave.setData(
                 listOf(
@@ -162,6 +171,7 @@ class JournalFragment : Fragment() {
             )
         }
         report_hr.setValue(hrAvg.toInt())
+        report_coherence.setValue(coherenceAvg.toInt())
         report_hrv.setValue(hrvAvg.toInt())
         report_pressure.setValue(pressureAvg.toInt())
         report_relaxation.setValue(relaxationAvg.toInt(), attentionAvg.toInt())

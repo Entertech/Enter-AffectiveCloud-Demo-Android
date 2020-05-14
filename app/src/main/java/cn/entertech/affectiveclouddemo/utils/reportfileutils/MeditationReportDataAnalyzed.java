@@ -19,6 +19,8 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
     public static final int CONTAINER_OF_SCALAR_DATA = 3;
     //数组长度容量，单位字节
     public static final int CONTAINER_OF_ARRAY_LENGTH = 4;
+    private List<Double> coherenceRec;
+    private float coherenceAvg;
     private ArrayList<MeditaionInterruptManager.MeditationInterrupt> interruptTimeStamps;
     private long startTime;
 
@@ -49,7 +51,8 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
         return mergeByteArrays(getScalarDataBytes()
                 , getListByteArray("f1", alphaCurve),
                 getListByteArray("f8", attentionRec), getListByteArray("f9", relaxationRec)
-                , getListByteArray("fa", pressureRec), getListByteArray("fb", pleasureRec)
+                , getListByteArray("fa", pressureRec), getListByteArray("fb", pleasureRec),
+                getListByteArray("fd", coherenceRec)
                 , getListByteArray("f6", hrRec), getListByteArray("f7", hrvRec)
                 , getListByteArray("f2", betaCurve)
                 , getListByteArray("f3", thetaCurve), getListByteArray("f4", deltaCurve)
@@ -67,6 +70,7 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
         this.relaxationAvg = reportMeditationDataEntity.getReportRelaxationEnitty().getRelaxationAvg().floatValue();
         this.pressureAvg = reportMeditationDataEntity.getReportPressureEnitty().getPressureAvg().floatValue();
         this.pleasureAvg = reportMeditationDataEntity.getReportPleasureEnitty().getPleasureAvg().floatValue();
+        this.coherenceAvg = reportMeditationDataEntity.getReportCoherenceEnitty().getCoherenceAvg().floatValue();
         this.hrAvg = reportMeditationDataEntity.getReportHRDataEntity().getHrAvg().floatValue();
         this.hrMax = reportMeditationDataEntity.getReportHRDataEntity().getHrMax().floatValue();
         this.hrMin = reportMeditationDataEntity.getReportHRDataEntity().getHrMin().floatValue();
@@ -76,6 +80,7 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
         this.relaxationRec = addInterruptData(reportMeditationDataEntity.getReportRelaxationEnitty().getRelaxationRec(), INTERRUPT_TIME_OF_AFFECTIVE);
         this.pressureRec = addInterruptData(reportMeditationDataEntity.getReportPressureEnitty().getPressureRec(), INTERRUPT_TIME_OF_AFFECTIVE);
         this.pleasureRec = addInterruptData(reportMeditationDataEntity.getReportPleasureEnitty().getPleasureRec(), INTERRUPT_TIME_OF_AFFECTIVE);
+        this.coherenceRec = addInterruptData(reportMeditationDataEntity.getReportCoherenceEnitty().getCoherenceRec(), INTERRUPT_TIME_OF_AFFECTIVE);
         this.hrRec = addInterruptData(reportMeditationDataEntity.getReportHRDataEntity().getHrRec(), INTERRUPT_TIME_OF_BIODATA);
         this.hrvRec = addInterruptData(reportMeditationDataEntity.getReportHRDataEntity().getHrvRec(), INTERRUPT_TIME_OF_BIODATA);
         this.alphaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getAlphaCurve(), INTERRUPT_TIME_OF_BIODATA);
@@ -96,13 +101,13 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
         for (int i = 0; i < interruptTimeStamps.size(); i++) {
             long interruptStartTime = interruptTimeStamps.get(i).getInterruptStartTime();
             long interruptEndTime = interruptTimeStamps.get(i).getInterruptEndTime();
-            if (interruptStartTime < startTime){
+            if (interruptStartTime < startTime) {
                 continue;
             }
             int insertIndex = (int) (interruptStartTime - startTime) / interrupt;
             int insertCount = (int) (interruptEndTime - interruptStartTime) / interrupt;
             for (int j = 0; j < insertCount; j++) {
-                if (insertIndex >= source.size()){
+                if (insertIndex >= source.size()) {
                     break;
                 }
                 source.add(insertIndex, 0.0);
@@ -121,7 +126,8 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
                 HexDump.hexSringToBytes("07"), HexDump.float2byte(attentionAvg),
                 HexDump.hexSringToBytes("0a"), HexDump.float2byte(relaxationAvg),
                 HexDump.hexSringToBytes("0d"), HexDump.float2byte(pressureAvg),
-                HexDump.hexSringToBytes("10"), HexDump.float2byte(pleasureAvg)
+                HexDump.hexSringToBytes("10"), HexDump.float2byte(pleasureAvg),
+                HexDump.hexSringToBytes("17"), HexDump.float2byte(coherenceAvg)
         );
 
     }
@@ -328,5 +334,21 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
                 ", hrvAvg=" + hrvAvg +
                 ", hrvRec=" + hrvRec +
                 '}';
+    }
+
+    public List<Double> getCoherenceRec() {
+        return coherenceRec;
+    }
+
+    public void setCoherenceRec(List<Double> coherenceRec) {
+        this.coherenceRec = coherenceRec;
+    }
+
+    public float getCoherenceAvg() {
+        return coherenceAvg;
+    }
+
+    public void setCoherenceAvg(float coherenceAvg) {
+        this.coherenceAvg = coherenceAvg;
     }
 }

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_common_title" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/ll_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#E5E5E5"
+            android:orientation="vertical">
+
+            <cn.entertech.uicomponentsdk.report.ReportLineChartCard
+                android:id="@+id/chart_coherence"
+                android:layout_width="match_parent"
+                android:layout_height="262dp"
+                android:layout_marginTop="@dimen/activity_margin_half"
+                android:background="@color/white"
+                app:rlcc_background="?attr/common_bg_z1_color"
+                app:rlcc_textColor="?attr/common_text_lv1_base_color"
+                app:rlcc_gridLineColor="?attr/common_line_light_color"
+                app:rlcc_isTitleMenuIconShow="true"
+                app:rlcc_lineColor="#FFC56F"
+                app:rlcc_lineWidth="0.75dp"
+                app:rlcc_pointCount="100"
+                app:rlcc_timeUnit="400"
+                app:rlcc_markViewTitle="HRV"
+                app:rlcc_markViewBgColor="?attr/common_bg_z2_color"
+                app:rlcc_highlightLineColor="?attr/common_line_light_color"
+                app:rlcc_markViewTitleColor="?attr/common_text_lv2_base_color"
+                app:rlcc_markViewValueColor="?attr/common_text_lv1_base_color"
+                app:rlcc_highlightLineWidth="2"
+                app:rlcc_title="@string/change_during_meditation"
+                app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
+                app:rlcc_xAxisUnit="@string/sdk_time_unit" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginTop="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:visibility="gone"
+                app:cardCornerRadius="@dimen/activity_margin_half">
+
+                <cn.entertech.uicomponentsdk.report.ReportAverageChartCard
+                    android:id="@+id/average_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:racc_barHighLightColor="#FF6682"
+                    app:racc_barValueBgColor="#FFB2C0"
+                    app:racc_isTitleMenuIconShow="true"
+                    app:racc_tag="Heart rate"
+                    app:racc_title="Last 7 times"
+                    app:racc_titleIcon="@drawable/vector_drawable_last_average_title_icon_hr"
+                    app:racc_titleMenuIcon="@drawable/vector_drawable_info_circle"
+                    app:racc_unit="bpm" />
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+</LinearLayout>

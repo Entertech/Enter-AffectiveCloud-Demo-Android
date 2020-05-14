@@ -52,6 +52,10 @@
         <activity
             android:name=".ui.activity.DeviceStatusActivity"
             android:configChanges="orientation|screenSize" />
+
+        <activity
+            android:name=".ui.activity.ReportDetailCoherenceActivity"
+            android:configChanges="orientation|screenSize" />
     </application>
 
 </manifest>

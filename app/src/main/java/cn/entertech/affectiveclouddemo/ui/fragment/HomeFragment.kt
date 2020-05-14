@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initDeviceIcon()
         iv_device.setOnClickListener {
-            startActivity(Intent(activity, DeviceStatusActivity::class.java))
+            startActivity(Intent(activity, DeviceManagerActivity::class.java))
         }
         btn_start_meditation.setOnClickListener {
             var intent = Intent(activity, SensorContactCheckActivity::class.java)

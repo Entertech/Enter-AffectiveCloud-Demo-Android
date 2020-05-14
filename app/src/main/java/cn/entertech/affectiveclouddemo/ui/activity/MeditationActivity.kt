@@ -389,7 +389,7 @@ class MeditationActivity : BaseActivity() {
     }
 
     fun exitWithMeditation(reportMeditationData: ReportMeditationDataEntity) {
-        if (reportMeditationData.isDataSetCompletly()) {
+        if (reportMeditationData.isDataSetCompletely()) {
             Log.d("#######","report data completly")
             handler.removeCallbacks(finishRunnable)
             saveReportFile(reportMeditationData)
@@ -537,6 +537,17 @@ class MeditationActivity : BaseActivity() {
                                 pleasureMap["pleasure_rec"] as ArrayList<Double>
                         }
                         reportMeditationData.reportPleasureEnitty = reportPleasureEnitty
+
+                        var reportCoherenceEnitty = ReportCoherenceEnitty()
+                        var coherenceMap = t["coherence"] as Map<Any, Any?>
+                        if (coherenceMap!!.containsKey("coherence_avg")) {
+                            reportCoherenceEnitty.coherenceAvg = coherenceMap["coherence_avg"] as Double
+                        }
+                        if (coherenceMap!!.containsKey("coherence_rec")) {
+                            reportCoherenceEnitty.coherenceRec =
+                                coherenceMap["coherence_rec"] as ArrayList<Double>
+                        }
+                        reportMeditationData.reportCoherenceEnitty = reportCoherenceEnitty
                         exitWithMeditation(reportMeditationData)
                     }
 

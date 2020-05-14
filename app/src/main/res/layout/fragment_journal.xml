@@ -306,6 +306,30 @@
                     app:rchrv_unitTextColor="?attr/common_text_lv2_base_color" />
             </androidx.cardview.widget.CardView>
 
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_coherence"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginTop="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                app:cardCornerRadius="@dimen/activity_margin_half">
+
+                <cn.entertech.uicomponentsdk.report.ReportCoherenceCard
+                    android:id="@+id/report_coherence"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:rchrv_arrowColor="?attr/common_btn_1"
+                    app:rchrv_background="?attr/common_bg_z1_color"
+                    app:rchrv_indicatorColor="?attr/common_yellow_primary_color"
+                    app:rchrv_indicatorTextColor="?attr/common_yellow2_color"
+                    app:rchrv_indicatorTriangleColor="?attr/common_yellow3_color"
+                    app:rchrv_levelBgColor="?attr/common_yellow5_color"
+                    app:rchrv_textColor="?attr/common_text_lv1_base_color"
+                    app:rchrv_unitTextColor="?attr/common_text_lv2_base_color" />
+            </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
 
                 android:id="@+id/card_hr"
