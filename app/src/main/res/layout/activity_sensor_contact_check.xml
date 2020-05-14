@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Sensor Contact Check"
+                android:text="@string/sensor_contact_check"
                 android:textColor="@color/black"
                 android:textSize="17sp" />
 
@@ -33,7 +33,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/activity_margin"
-                android:text="Skip"
+                android:text="@string/skip"
                 android:textColor="#007AFF"
                 android:textSize="17sp" />
         </RelativeLayout>

@@ -20,7 +20,7 @@
                 android:textStyle="normal"
                 android:textColor="#232323"
                 android:lineSpacingExtra="6sp"
-                android:text="Heart"
+                android:text="@string/heart_rate"
                 />
 
         <TextView

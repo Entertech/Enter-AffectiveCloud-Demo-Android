@@ -97,16 +97,6 @@
 
                 </cn.entertech.affectiveclouddemo.ui.view.MeditationInterruptView>
 
-
-                <cn.entertech.affectiveclouddemo.ui.view.MeditationInterruptView
-                    android:id="@+id/miv_interrupt_net"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/activity_margin"
-                    android:visibility="gone">
-
-                </cn.entertech.affectiveclouddemo.ui.view.MeditationInterruptView>
-
                 <cn.entertech.affectiveclouddemo.ui.view.MeditationHeartView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

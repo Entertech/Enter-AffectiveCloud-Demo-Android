@@ -39,7 +39,7 @@
                 app:rlcc_title="@string/change_during_meditation"
                 app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
                 app:rlcc_averageLabelBgColor="?attr/common_bg1_color"
-                app:rlcc_markViewTitle="Heart rate"
+                app:rlcc_markViewTitle="@string/sdk_heart_rate"
                 app:rlcc_markViewTitleColor="?attr/common_text_lv2_base_color"
                 app:rlcc_markViewValueColor="?attr/common_text_lv1_base_color"
                 app:rlcc_highlightLineWidth="2"

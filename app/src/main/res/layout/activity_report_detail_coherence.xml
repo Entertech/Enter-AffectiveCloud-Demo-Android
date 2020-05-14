@@ -36,7 +36,7 @@
                 app:rlcc_lineWidth="0.75dp"
                 app:rlcc_pointCount="100"
                 app:rlcc_timeUnit="400"
-                app:rlcc_markViewTitle="HRV"
+                app:rlcc_markViewTitle="@string/sdk_coherence"
                 app:rlcc_markViewBgColor="?attr/common_bg_z2_color"
                 app:rlcc_highlightLineColor="?attr/common_line_light_color"
                 app:rlcc_markViewTitleColor="?attr/common_text_lv2_base_color"

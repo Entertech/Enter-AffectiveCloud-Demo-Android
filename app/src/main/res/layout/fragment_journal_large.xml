@@ -98,7 +98,7 @@
                     <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView
                         android:id="@+id/chart_brainwave"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="262dp"
                         android:background="@color/white"
                         app:rbs_isTitleMenuIconShow="true"
                         app:rbs_pointCount="100"
@@ -163,7 +163,15 @@
                     <cn.entertech.uicomponentsdk.report.ReportHRVCard
                         android:id="@+id/report_hrv"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        app:rchrv_arrowColor="?attr/common_btn_1"
+                        app:rchrv_background="?attr/common_bg_z1_color"
+                        app:rchrv_indicatorColor="?attr/common_yellow_primary_color"
+                        app:rchrv_indicatorTextColor="?attr/common_yellow2_color"
+                        app:rchrv_indicatorTriangleColor="?attr/common_yellow3_color"
+                        app:rchrv_levelBgColor="?attr/common_yellow5_color"
+                        app:rchrv_textColor="?attr/common_text_lv1_base_color"
+                        app:rchrv_unitTextColor="?attr/common_text_lv2_base_color"/>
                 </androidx.cardview.widget.CardView>
 
 
@@ -177,7 +185,7 @@
                     <cn.entertech.uicomponentsdk.report.ReportLineChartCard
                         android:id="@+id/chart_hrv"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="262dp"
                         android:background="@color/white"
                         app:rlcc_isTitleMenuIconShow="true"
                         app:rlcc_lineColor="#FFC56F"
@@ -245,7 +253,15 @@
                     <cn.entertech.uicomponentsdk.report.ReportHRCard
                         android:id="@+id/report_hr"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        app:rchr_arrowColor="?attr/common_btn_1"
+                        app:rchr_background="?attr/common_bg_z1_color"
+                        app:rchr_indicatorColor="?attr/common_red_primary_color"
+                        app:rchr_indicatorTextColor="?attr/common_red2_color"
+                        app:rchr_indicatorTriangleColor="?attr/common_red3_color"
+                        app:rchr_levelBgColor="?attr/common_red5_color"
+                        app:rchr_textColor="?attr/common_text_lv1_base_color"
+                        app:rchr_unitTextColor="?attr/common_text_lv2_base_color" />
                 </androidx.cardview.widget.CardView>
 
 
@@ -259,7 +275,7 @@
                     <cn.entertech.uicomponentsdk.report.ReportLineChartCard
                         android:id="@+id/chart_hr"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="262dp"
                         android:background="@color/white"
                         app:rlcc_isTitleMenuIconShow="true"
                         app:rlcc_lineColor="#FF6682"
@@ -326,7 +342,17 @@
                     <cn.entertech.uicomponentsdk.report.ReportRelaxationAndAttentionCard
                         android:id="@+id/report_relaxation"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        app:rcraa_arrowColor="?attr/common_btn_1"
+                        app:rcraa_attentionColor="?attr/common_green_primary_color"
+                        app:rcraa_attentionLevelBgColor="?attr/common_green5_color"
+                        app:rcraa_attentionLevelTextColor="?attr/common_green2_color"
+                        app:rcraa_background="?attr/common_bg_z1_color"
+                        app:rcraa_lineColor="?attr/common_line_light_color"
+                        app:rcraa_relaxationColor="?attr/common_blue_primary_color"
+                        app:rcraa_relaxationLevelBgColor="?attr/common_blue5_color"
+                        app:rcraa_relaxationLevelTextColor="?attr/common_blue2_color"
+                        app:rcraa_textColor="?attr/common_text_lv1_base_color" />
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
@@ -339,7 +365,7 @@
                     <cn.entertech.uicomponentsdk.report.ReportAffectiveLineChartCard
                         android:id="@+id/chart_relaxation_and_attention"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="283dp"
                         android:background="@color/white"
                         app:ralcc_attentionLineColor="#5FC695"
                         app:ralcc_isTitleMenuIconShow="true"
@@ -409,7 +435,13 @@
                     <cn.entertech.uicomponentsdk.report.ReportPressureCard
                         android:id="@+id/report_pressure"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        app:rpc_arrowColor="?attr/common_btn_1"
+                        app:rpc_background="?attr/common_bg_z1_color"
+                        app:rpc_barBgColor="?attr/common_line_light_color"
+                        app:rpc_levelBgColor="?attr/common_red5_color"
+                        app:rpc_levelTextColor="?attr/common_red2_color"
+                        app:rpc_textColor="?attr/common_text_lv1_base_color" />
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
@@ -422,7 +454,7 @@
                     <cn.entertech.uicomponentsdk.report.ReportLineChartCard
                         android:id="@+id/chart_pressure"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="262dp"
                         android:background="@color/white"
                         app:rlcc_isTitleMenuIconShow="true"
                         app:rlcc_lineColor="#FF6682"

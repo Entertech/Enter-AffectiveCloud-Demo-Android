@@ -54,4 +54,10 @@
     <string name="activity_device_status_device_status">Device Status</string>
     <string name="activity_device_status_sensor_contact_check">Sensor Contact Check</string>
     <string name="activity_device_status_11">Wear the headband and adjust the sensor according to the illustration.</string>
+
+    <string name="sensor_contact_check">Sensor Contact Check</string>
+    <string name="skip">Skip</string>
+
+    <string name="checking">Checking...</string>
+    <string name="well_done">Well done!</string>
 </resources>

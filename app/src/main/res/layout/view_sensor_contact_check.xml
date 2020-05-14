@@ -29,7 +29,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Checking..."
+                android:text="@string/checking"
                 android:textColor="#FB9C98"
                 android:textSize="16sp"
                 />
@@ -59,7 +59,7 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Well done!"
+                android:text="@string/well_done"
                 android:textColor="#5FC695"
                 android:textSize="16sp"
                 />

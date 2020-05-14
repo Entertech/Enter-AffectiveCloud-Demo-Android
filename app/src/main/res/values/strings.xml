@@ -33,25 +33,29 @@
     <string name="about">关于</string>
 
 
-    <string name="tip1_content">There are 3 different sizes of rubber bands. Please choose the band that fits closely to your head.</string>
-    <string name="tip1_title">Tip 1</string>
-    <string name="tip2_content">Adjust the headband so that the sensors fit snugly to the skin and the headband is in the middle of your forehead.</string>
-    <string name="tip2_title">Tip 2</string>
-    <string name="tip3_content">Please make sure there is no hair between the sensors and the skin.</string>
-    <string name="tip3_title">Tip 3</string>
-    <string name="tip4_content">When you speak or move eyes, these facial muscle activities will interfere in signal detection. If the signal is not stable, try to relax your face and eyes.</string>
-    <string name="tip4_title">Tip 4</string>
-    <string name="tip5_content">Skincare products, cosmetics, and sebum will prevent the sensors from detecting signals. Please clean the skin with a wet wipe to improve signal quality if needed.</string>
-    <string name="tip5_title">Tip 5</string>
-    <string name="tip6_content">Dry skin or dryness caused by the environment will affect signal detection. Please moisturize the skin with a wet wipe to improve signal quality if needed.</string>
-    <string name="tip6_title">Tip 6</string>
-    <string name="tip7_content">After each adjustment, it takes 30 seconds to 1 minute to detect the signals. Just relax and take a few breaths.</string>
-    <string name="tip7_title">Tip 7</string>
+    <string name="tip1_content">我们提供了 3 种不同尺寸的橡胶带，请选择合适的尺寸，确保传感器贴合前额皮肤。</string>
+    <string name="tip1_title">提示 1</string>
+    <string name="tip2_content">调整头戴，让传感器贴合你额头中间位置的皮肤。</string>
+    <string name="tip2_title">提示 2</string>
+    <string name="tip3_content">传感器需要和皮肤直接接触，所以不能有头发在传感器和皮肤的之间。</string>
+    <string name="tip3_title">提示 3</string>
+    <string name="tip4_content">脸部的肌肉活动，比如眼球运动和说话，会引起信号干扰。如果信号不是很稳定，试着让你的脸和眼睛放松。</string>
+    <string name="tip4_title">提示 4</string>
+    <string name="tip5_content">护肤品、化妆品和皮肤上的油脂会阻碍传感器检测信号。用湿巾擦拭皮肤，可能会改善你的信号。</string>
+    <string name="tip5_title">提示 5</string>
+    <string name="tip6_content">干性皮肤或者在环境引起的皮肤干燥会影响传感器检测信号。用湿巾擦拭传感器可以改善信号。</string>
+    <string name="tip6_title">提示 6</string>
+    <string name="tip7_content">每次调整后，需要 30 秒到 1 分钟左右的时间来检测信号，请耐心等待。</string>
+    <string name="tip7_title">提示 7</string>
 
-
-    <string name="device_time_left">%1$d hours left</string>
-    <string name="device_min_left">%1$d minutes left</string>
-    <string name="activity_device_status_device_status">Device Status</string>
-    <string name="activity_device_status_sensor_contact_check">Sensor Contact Check</string>
-    <string name="activity_device_status_11">Wear the headband and adjust the sensor according to the illustration.</string>
+    <string name="device_time_left">剩余%1$d小时</string>
+    <string name="device_min_left">剩余%1$d分钟</string>
+    <string name="activity_device_status_device_status">设备状态</string>
+    <string name="activity_device_status_sensor_contact_check">佩戴检测</string>
+    <string name="activity_device_status_11">佩戴头戴并根据引导调整传感器</string>
+    <string name="sensor_contact_check">佩戴检测</string>
+    <string name="skip">跳过</string>
+    <string name="checking">检测中...</string>
+    <string name="well_done">干得好!</string>
+    <string name="emotion">Emotion</string>
 </resources>
