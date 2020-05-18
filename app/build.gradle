@@ -97,6 +97,8 @@ dependencies {
     implementation 'com.tencent.mid:mid:3.73-release'
 
     implementation 'com.liulishuo.filedownloader:library:1.7.6'
+
+    implementation 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
 }
 
 // build 版本 +1

@@ -5,6 +5,7 @@ import cn.entertech.affectiveclouddemo.model.TabEntity
 import cn.entertech.affectiveclouddemo.ui.activity.BaseActivity
 import cn.entertech.affectiveclouddemo.ui.fragment.*
 import com.flyco.tablayout.listener.CustomTabEntity
+import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
@@ -30,7 +31,7 @@ class MainActivity : BaseActivity() {
         initFullScreenDisplay()
         setStatusBarLight()
         initView()
-
+        CrashReport.testJavaCrash()
 
     }
 
