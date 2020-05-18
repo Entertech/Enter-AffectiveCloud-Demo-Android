@@ -21,7 +21,7 @@ class Application : android.app.Application() {
 
 
     fun initBugly(){
-        CrashReport.initCrashReport(applicationContext, "a02bf4189a", false);
+        CrashReport.initCrashReport(this, "a02bf4189a", true)
     }
 
     fun initMta(){

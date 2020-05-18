@@ -93,7 +93,7 @@ class RealtimePleasureAndArousalView @JvmOverloads constructor(
             pointY = -height.toFloat() + pointBitmap!!.width/2f
         }
         canvas?.drawBitmap(
-            pointBitmap,
+            pointBitmap!!,
             pointX - pointBitmap!!.width / 2f,
             pointY - pointBitmap!!.width / 2f,
             mPointPaint

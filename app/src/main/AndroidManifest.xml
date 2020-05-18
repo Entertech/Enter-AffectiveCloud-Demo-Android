@@ -20,6 +20,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_logo"
         android:supportsRtl="true"
+        android:networkSecurityConfig="@xml/https_config"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.activity.RecordHistoryActivity"></activity>
         <activity android:name=".ui.activity.DataActivity" />

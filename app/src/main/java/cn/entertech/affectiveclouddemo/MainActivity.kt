@@ -31,8 +31,6 @@ class MainActivity : BaseActivity() {
         initFullScreenDisplay()
         setStatusBarLight()
         initView()
-        CrashReport.testJavaCrash()
-
     }
 
 
