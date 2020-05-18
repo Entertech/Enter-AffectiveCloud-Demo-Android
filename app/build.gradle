@@ -26,6 +26,13 @@ android {
         versionCode buildCode
         versionName appVersionCode
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = [
+                //A6D9GK8CVX5F 属于应用"心流"独有的 Android AppKey, 用于配置SDK
+                MTA_APPKEY:"A6D9GK8CVX5F",
+                //标注应用推广渠道用以区分新用户来源，可填写如应用宝，豌豆荚等
+                MTA_CHANNEL:"渠道名称"
+        ]
     }
     buildTypes {
         release {
@@ -71,12 +78,25 @@ dependencies {
     implementation 'com.orhanobut:logger:2.1.1'
     implementation 'org.slf4j:slf4j-api:1.7.7'
     implementation 'org.slf4j:slf4j-log4j12:1.7.7'
-    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
 
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
 
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.0'
+    implementation "io.reactivex.rxjava2:rxjava:2.2.7"
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+    implementation("com.squareup.okhttp3:okhttp:3.14.0")
+    //MTA主包
+    implementation 'com.qq.mta:mta:3.4.2'
+    //MID基础包
+    implementation 'com.tencent.mid:mid:3.73-release'
+
+    implementation 'com.liulishuo.filedownloader:library:1.7.6'
 }
 
 // build 版本 +1

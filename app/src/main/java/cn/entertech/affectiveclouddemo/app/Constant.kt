@@ -3,6 +3,8 @@ package cn.entertech.affectiveclouddemo.app
 
 class Constant {
     companion object {
+
+        const val BASE_URL = "https://api.myflowtime.com/"
         const val CLIENT_ID = "UikxI5w7VjipXcHMgUJDbX9d6lFfhKHjg0NpKsXU"
         //        const val CLIENT_ID = "r5OtYyGav0DmmsYeX2xg7wCn2UqDcPIfNIENHRML"
         const val SP_SETTING = "setting"
