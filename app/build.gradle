@@ -18,21 +18,15 @@ android {
 
     def buildCode = getVersionCodeWithPropertyName(PROPERTY_FILE_NAME, BUILD_NAME)
     def appVersionCode = "1.0.0"
-    compileSdkVersion 29
+    compileSdkVersion 28
     defaultConfig {
         applicationId "cn.entertech.flowtimezh"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 28
         versionCode buildCode
         versionName appVersionCode
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        manifestPlaceholders = [
-                //A6D9GK8CVX5F 属于应用"心流"独有的 Android AppKey, 用于配置SDK
-                MTA_APPKEY:"A6D9GK8CVX5F",
-                //标注应用推广渠道用以区分新用户来源，可填写如应用宝，豌豆荚等
-                MTA_CHANNEL:"渠道名称"
-        ]
     }
     buildTypes {
         release {
@@ -69,7 +63,7 @@ dependencies {
     implementation 'cn.entertech:uicomponentsdk:1.1.0-alpha22'
 //    implementation 'cn.entertech:uicomponent:1.0.8'
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
-    implementation 'cn.entertech:biomodulebleui:1.0.2'
+    implementation 'cn.entertech:biomodulebleui:1.0.6'
     implementation 'cn.entertech:biomoduleble:1.3.2'
     implementation 'com.airbnb.android:lottie:3.4.0'
     implementation 'org.greenrobot:eventbus:3.1.1'
@@ -91,14 +85,16 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
     implementation("com.squareup.okhttp3:okhttp:3.14.0")
-    //MTA主包
-    implementation 'com.qq.mta:mta:3.4.2'
-    //MID基础包
-    implementation 'com.tencent.mid:mid:3.73-release'
+//mta 3.4.7 稳定版
+    implementation 'com.qq.mta:mta:3.4.7-Release'
+
+//mid jar包 必须添加
+    implementation 'com.tencent.mid:mid:4.06-Release'
 
     implementation 'com.liulishuo.filedownloader:library:1.7.6'
 
     implementation 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
+    implementation 'com.permissionx.guolindev:permissionx:1.1.1'
 }
 
 // build 版本 +1

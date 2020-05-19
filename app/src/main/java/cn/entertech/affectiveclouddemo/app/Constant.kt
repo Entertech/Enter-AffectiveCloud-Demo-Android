@@ -131,19 +131,14 @@ class Constant {
         const val TWITTER_LOGIN_CONSUMER_SECRET = "GAzkPeBZweP5PK3FlSJ0dzzxFshvHsXpi1lanqVe1ShEUMuvTK"
         const val GOOGLE_LOGIN_CLIENT_ID = "370288935156-bcm09d3nr3ddljejc7tvgll8pt1e3b4q.apps.googleusercontent.com"
 
-
-        //        social login type
-        const val SOCIAL_LOGIN_TYPE_FACEBOOK = "facebook"
-        const val SOCIAL_LOGIN_TYPE_GOOGLE = "google"
-        const val SOCIAL_LOGIN_TYPE_TWITTER = "twitter"
-        const val SOCIAL_LOGIN_TYPE_WECHAT = "wechat"
-
-        const val APP_UPDATE_LEVEL_MUST = 0
-        const val APP_UPDATE_LEVEL_SHOULD = 1
-        const val APP_UPDATE_LEVEL_COULD = 2
-
-
         var MEDITATION_TYPE = "meditationType"
         var IS_SHOW_SKIP = "isShowSkip"
+        const val MTA_FIRMWARE_VERSION = "new_firmware_version"
+        const val MTA_APP_VERSION = "new_app_version"
+        const val MTA_FIRMWARE_URL = "firmware_url"
+        const val SP_DEFAULT_FIRMWARE_URL = "http://heartflow.oss-cn-hangzhou.aliyuncs.com/firmware/"
+        const val SP_SERVER_FIRMWARE_VERSION = "serverFirmwareVersion"
+        const val SP_SERVER_FIRMWARE_URL = "serverFirmwareUrl"
+        const val SP_SERVER_APP_VERSION = "serverAppVersion"
     }
 }
