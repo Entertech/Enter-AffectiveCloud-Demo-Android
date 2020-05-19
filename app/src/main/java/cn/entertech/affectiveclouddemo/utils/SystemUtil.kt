@@ -21,6 +21,31 @@ fun getAppVersionName(context: Context): String {
 }
 
 
+fun isNewVersion(localVersion: String, cloudVersion: String): Boolean {
+    var cloudVersions = cloudVersion.split(".")
+    var localVersions = localVersion.split(".")
+    if (cloudVersions != null && cloudVersions.size == 3 && localVersions != null && localVersions.size == 3) {
+        var cloudVersionMajor = cloudVersions[0]
+        var cloudVersionMinor = cloudVersions[1]
+        var cloudVersionPatch = cloudVersions[2]
+        var localVersionsMajor = localVersions[0]
+        var localVersionsMinor = localVersions[1]
+        var localVersionsPatch = localVersions[2]
+        if (cloudVersionMajor > localVersionsMajor) {
+            return true
+        } else if (cloudVersionMajor == localVersionsMajor) {
+            if (cloudVersionMinor > localVersionsMinor) {
+                return true
+            } else if (cloudVersionMinor == localVersionsMinor) {
+                if (cloudVersionPatch > localVersionsPatch) {
+                    return true
+                }
+            }
+        }
+    }
+    return false
+}
+
 fun getAppVersionCode(context: Context): Int {
     var versioncode = 0
     try {

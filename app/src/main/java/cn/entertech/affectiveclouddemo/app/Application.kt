@@ -38,7 +38,7 @@ class Application : android.app.Application() {
     }
 
     fun initMta() {
-        StatConfig.setDebugEnable(false);
+        StatConfig.setDebugEnable(true);
         // 基础统计API
         StatService.registerActivityLifecycleCallbacks(this)
         SettingManager.getInstance().serverFirmwareVersion =

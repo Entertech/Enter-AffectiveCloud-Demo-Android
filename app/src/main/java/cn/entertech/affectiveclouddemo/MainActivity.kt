@@ -1,9 +1,13 @@
 package cn.entertech.affectiveclouddemo
 
 import android.Manifest
+import android.app.AlertDialog
 import android.bluetooth.BluetoothClass
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import cn.entertech.affectiveclouddemo.app.Constant
@@ -11,6 +15,8 @@ import cn.entertech.affectiveclouddemo.app.SettingManager
 import cn.entertech.affectiveclouddemo.model.TabEntity
 import cn.entertech.affectiveclouddemo.ui.activity.BaseActivity
 import cn.entertech.affectiveclouddemo.ui.fragment.*
+import cn.entertech.affectiveclouddemo.utils.getAppVersionName
+import cn.entertech.affectiveclouddemo.utils.isNewVersion
 import cn.entertech.bleuisdk.ui.DeviceUIConfig
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.liulishuo.filedownloader.BaseDownloadTask
@@ -78,6 +84,7 @@ class MainActivity : BaseActivity() {
                 if (allGranted) {
                     initMta()
                     downloadFirmware()
+                    checkAppUpdate()
                 } else {
                 }
             }
@@ -120,7 +127,7 @@ class MainActivity : BaseActivity() {
     }
 
     fun initMta() {
-        StatConfig.setDebugEnable(false);
+        StatConfig.setDebugEnable(true);
         // 基础统计API
         StatService.registerActivityLifecycleCallbacks(this.application)
         SettingManager.getInstance().serverFirmwareVersion =
@@ -131,6 +138,34 @@ class MainActivity : BaseActivity() {
             StatConfig.getCustomProperty(this, Constant.MTA_APP_VERSION)
     }
 
+    fun checkAppUpdate(){
+        var currentAppVersion = getAppVersionName(this)
+        var serverAppVersion = SettingManager.getInstance().serverAppVersion
+        if (isNewVersion(currentAppVersion,serverAppVersion)){
+            showDialog()
+        }
+    }
+
+    fun showDialog() {
+        var dialog = AlertDialog.Builder(this)
+            .setTitle(Html.fromHtml("<font color='${R.color.colorDialogTitle}'>App升级提示</font>"))
+            .setMessage(Html.fromHtml("<font color='${R.color.colorDialogContent}'>有新的APP版本是否更新？</font>"))
+            .setPositiveButton(
+                Html.fromHtml("<font color='${R.color.colorDialogExit}'>确定</font>")
+            ) { dialog, which ->
+                dialog.dismiss()
+                val uri = Uri.parse("market://details?id=$packageName")
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+            }
+            .setNegativeButton(
+                Html.fromHtml("<font color='${R.color.colorDialogCancel}'>取消</font>")
+            ) { dialog, which ->
+                dialog.dismiss()
+            }.create()
+        dialog.show()
+    }
 
     fun initView() {
         var mTitles = arrayOf(
