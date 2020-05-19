@@ -22,7 +22,7 @@ interface LogService {
         @Field("app") app: String,
         @Field("platform") platform: String,
         @Field("version") version: String,
-        @Field("user_id") user_id: Int,
+        @Field("user_id") user_id: String,
         @Field("date") date: String,
         @Field("event") event: String,
         @Field("message") message: String

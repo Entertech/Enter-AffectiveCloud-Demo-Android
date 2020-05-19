@@ -8,6 +8,7 @@ import android.view.View
 import cn.entertech.affectiveclouddemo.R
 import cn.entertech.affectiveclouddemo.app.Constant.Companion.IS_SHOW_SKIP
 import cn.entertech.affectiveclouddemo.app.Constant.Companion.MEDITATION_TYPE
+import cn.entertech.affectiveclouddemo.utils.LogManager
 import cn.entertech.ble.multiple.MultipleBiomoduleBleManager
 import cn.entertech.bleuisdk.ui.DeviceUIConfig
 import kotlinx.android.synthetic.main.activity_sensor_contact_check.*
@@ -57,6 +58,7 @@ class SensorContactCheckActivity : BaseActivity() {
             tv_skip.visibility = View.VISIBLE
         }
         tv_skip.setOnClickListener {
+            LogManager.getInstance().logPost("Button ${currentActivity} SKIP")
             toMeditaitionActivity()
         }
         device_contact_indicator.addContactListener(fun() {

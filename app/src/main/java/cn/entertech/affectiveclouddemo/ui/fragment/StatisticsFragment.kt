@@ -14,6 +14,8 @@ import cn.entertech.affectiveclouddemo.database.UserLessonRecordDao
 import cn.entertech.affectiveclouddemo.model.MeditationEntity
 import cn.entertech.affectiveclouddemo.model.UserLessonEntity
 import cn.entertech.affectiveclouddemo.ui.activity.RecordHistoryActivity
+import cn.entertech.affectiveclouddemo.ui.activity.currentActivity
+import cn.entertech.affectiveclouddemo.utils.LogManager
 import cn.entertech.bleuisdk.utils.SettingManager
 import kotlinx.android.synthetic.main.layout_common_title.*
 
@@ -49,6 +51,7 @@ class StatisticsFragment : Fragment() {
         iv_menu_icon.visibility = View.VISIBLE
         iv_menu_icon.setImageResource(R.drawable.vector_drawable_record_history_icon)
         iv_menu_icon.setOnClickListener {
+            LogManager.getInstance().logPost("Button $currentActivity to history record list")
             var intent = Intent(activity!!,RecordHistoryActivity::class.java)
             activity!!.startActivity(intent)
         }

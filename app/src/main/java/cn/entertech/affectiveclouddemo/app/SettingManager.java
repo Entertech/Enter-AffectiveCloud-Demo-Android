@@ -3,7 +3,9 @@ package cn.entertech.affectiveclouddemo.app;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import static cn.entertech.affectiveclouddemo.app.Constant.SP_BLE_MAC;
 import static cn.entertech.affectiveclouddemo.app.Constant.SP_DEFAULT_FIRMWARE_URL;
+import static cn.entertech.affectiveclouddemo.app.Constant.SP_LOG_TOKEN;
 import static cn.entertech.affectiveclouddemo.app.Constant.SP_SERVER_APP_VERSION;
 import static cn.entertech.affectiveclouddemo.app.Constant.SP_SERVER_FIRMWARE_URL;
 import static cn.entertech.affectiveclouddemo.app.Constant.SP_SERVER_FIRMWARE_VERSION;
@@ -63,6 +65,24 @@ public class SettingManager {
 
     public synchronized String getServerAppVersion() {
         return getSharedPreferences().getString(SP_SERVER_APP_VERSION, "1.0.0");
+    }
+
+
+    public synchronized void setLogToken(String token) {
+        getEditor().putString(SP_LOG_TOKEN, "JWT " + token).apply();
+    }
+
+    public synchronized String getLogToken() {
+        return getSharedPreferences().getString(SP_LOG_TOKEN, "");
+    }
+
+
+    public synchronized void setBleMac(String mac) {
+        getEditor().putString(SP_BLE_MAC, mac).apply();
+    }
+
+    public synchronized String getBleMac() {
+        return getSharedPreferences().getString(SP_BLE_MAC, "");
     }
 
 }

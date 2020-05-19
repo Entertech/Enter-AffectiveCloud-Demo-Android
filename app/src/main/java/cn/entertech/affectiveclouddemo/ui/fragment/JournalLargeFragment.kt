@@ -13,6 +13,7 @@ import cn.entertech.affectiveclouddemo.database.MeditationDao
 import cn.entertech.affectiveclouddemo.database.UserLessonRecordDao
 import cn.entertech.affectiveclouddemo.model.UserLessonEntity
 import cn.entertech.affectiveclouddemo.ui.activity.*
+import cn.entertech.affectiveclouddemo.utils.LogManager
 import cn.entertech.affectiveclouddemo.utils.reportfileutils.FileHelper
 import cn.entertech.affectiveclouddemo.utils.reportfileutils.MeditationReportDataAnalyzed
 import kotlinx.android.synthetic.main.activity_report_detail_brainwave_spectrrm.*
@@ -50,6 +51,7 @@ class JournalLargeFragment : Fragment() {
 
     fun initView() {
         card_brainwave.setOnClickListener {
+            LogManager.getInstance().logPost("Button $currentActivity to brainwave report")
             activity?.startActivity(
                 Intent(
                     activity,
@@ -58,6 +60,7 @@ class JournalLargeFragment : Fragment() {
             )
         }
         card_hrv.setOnClickListener {
+            LogManager.getInstance().logPost("Button $currentActivity to hrv report")
             activity?.startActivity(
                 Intent(activity, ReportDetailHRVActivity::class.java).putExtra(
                     RECORD_ID,
@@ -66,6 +69,7 @@ class JournalLargeFragment : Fragment() {
             )
         }
         card_hr.setOnClickListener {
+            LogManager.getInstance().logPost("Button $currentActivity to hr report")
             activity?.startActivity(
                 Intent(activity, ReportDetailHRActivity::class.java).putExtra(
                     RECORD_ID,
@@ -74,6 +78,7 @@ class JournalLargeFragment : Fragment() {
             )
         }
         card_relaxation.setOnClickListener {
+            LogManager.getInstance().logPost("Button $currentActivity to relaxation report")
             activity?.startActivity(
                 Intent(
                     activity,
@@ -82,6 +87,7 @@ class JournalLargeFragment : Fragment() {
             )
         }
         card_pressure.setOnClickListener {
+            LogManager.getInstance().logPost("Button $currentActivity to pressure report")
             activity?.startActivity(
                 Intent(
                     activity,

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import cn.entertech.ble.multiple.MultipleBiomoduleBleManager
 import cn.entertech.bleuisdk.ui.DeviceUIConfig
 import cn.entertech.bleuisdk.ui.activity.DeviceManagerActivity
@@ -15,6 +16,8 @@ import cn.entertech.affectiveclouddemo.app.Constant.Companion.MEDITATION_TYPE
 import cn.entertech.affectiveclouddemo.ui.activity.DeviceStatusActivity
 import cn.entertech.affectiveclouddemo.ui.activity.MeditationActivity
 import cn.entertech.affectiveclouddemo.ui.activity.SensorContactCheckActivity
+import cn.entertech.affectiveclouddemo.ui.activity.currentActivity
+import cn.entertech.affectiveclouddemo.utils.LogManager
 import kotlinx.android.synthetic.main.fragment_hone.*
 
 class HomeFragment : Fragment() {
@@ -33,12 +36,18 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initDeviceIcon()
         iv_device.setOnClickListener {
+            LogManager.getInstance().logPost("Button $currentActivity to device")
             startActivity(Intent(activity, DeviceManagerActivity::class.java))
         }
         btn_start_meditation.setOnClickListener {
-            var intent = Intent(activity, SensorContactCheckActivity::class.java)
-            intent.putExtra(MEDITATION_TYPE,"meditation")
-            startActivity(intent)
+            if (DeviceUIConfig.getInstance(activity!!).managers[0].isConnected()){
+                LogManager.getInstance().logPost("Button $currentActivity to meditation")
+                var intent = Intent(activity, SensorContactCheckActivity::class.java)
+                intent.putExtra(MEDITATION_TYPE,"meditation")
+                startActivity(intent)
+            }else{
+                Toast.makeText(activity!!,"请先连接设备！",Toast.LENGTH_SHORT).show()
+            }
         }
     }
     var connectListener = fun(str: String) {

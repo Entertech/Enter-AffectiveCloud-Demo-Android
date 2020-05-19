@@ -1,9 +1,9 @@
 package cn.entertech.affectiveclouddemo.app
 
-import android.util.Log
 import cn.entertech.affectiveclouddemo.app.Constant.Companion.MTA_APP_VERSION
 import cn.entertech.affectiveclouddemo.app.Constant.Companion.MTA_FIRMWARE_URL
 import cn.entertech.affectiveclouddemo.app.Constant.Companion.MTA_FIRMWARE_VERSION
+import cn.entertech.affectiveclouddemo.utils.LogManager
 import cn.entertech.bleuisdk.ui.DeviceUIConfig
 import com.liulishuo.filedownloader.BaseDownloadTask
 import com.liulishuo.filedownloader.FileDownloadListener
@@ -23,9 +23,14 @@ class Application : android.app.Application() {
         application = this
         initLogger()
         initMta()
+        initLogSystem()
         initBugly()
         downloadFirmware()
         DeviceUIConfig.getInstance(this).init(false, false, 1)
+    }
+
+    private fun initLogSystem() {
+        LogManager.getInstance().logAuth()
     }
 
     fun initBugly() {
@@ -36,7 +41,6 @@ class Application : android.app.Application() {
         StatConfig.setDebugEnable(false);
         // 基础统计API
         StatService.registerActivityLifecycleCallbacks(this)
-        Log.d("#######","mta firmware is ${StatConfig.getCustomProperty(this, MTA_FIRMWARE_VERSION)}")
         SettingManager.getInstance().serverFirmwareVersion =
             StatConfig.getCustomProperty(this, MTA_FIRMWARE_VERSION)
         SettingManager.getInstance().serverFirmwareUrl =
@@ -52,19 +56,19 @@ class Application : android.app.Application() {
     fun downloadFirmware() {
         var downloadlistener = object : FileDownloadListener() {
             override fun warn(task: BaseDownloadTask?) {
-                Log.d("#####", "download firmware warn:$task")
+//                Log.d("#####", "download firmware warn:$task")
             }
 
             override fun pending(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
             }
 
             override fun error(task: BaseDownloadTask?, e: Throwable?) {
-                Log.d("#####", "download firmware error:$e")
+//                Log.d("#####", "download firmware error:$e")
             }
 
             override fun progress(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
 
-                Log.d("#####", "download firmware progress:$soFarBytes")
+//                Log.d("#####", "download firmware progress:$soFarBytes")
             }
 
             override fun paused(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {

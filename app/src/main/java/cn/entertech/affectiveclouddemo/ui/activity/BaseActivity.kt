@@ -7,12 +7,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.view.WindowManager
 import android.view.MotionEvent
+import cn.entertech.affectiveclouddemo.utils.LogManager
 
 
-
+var currentActivity: String = ""
 open class BaseActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        var activity = this.toString().substring(0, this.toString().indexOf("@"))
+        currentActivity = activity.split(".")[activity.split(".").size - 1]
+        LogManager.getInstance().logPost("View ${currentActivity} onCreate")
     }
 
 
@@ -30,19 +35,8 @@ open class BaseActivity : AppCompatActivity() {
             window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
     }
 
-    override fun onResume() {
-        super.onResume()
-//        Bugtags.onResume(this)
-    }
-
-    override fun onPause() {
-        super.onPause()
-//        Bugtags.onPause(this)
-    }
-
-    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
-        //注：回调 3
-//        Bugtags.onDispatchTouchEvent(this, event)
-        return super.dispatchTouchEvent(event)
+    override fun onDestroy() {
+        super.onDestroy()
+        LogManager.getInstance().logPost("View ${currentActivity} onDestroy")
     }
 }

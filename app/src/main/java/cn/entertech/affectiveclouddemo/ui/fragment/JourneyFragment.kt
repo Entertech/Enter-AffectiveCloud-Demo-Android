@@ -12,7 +12,9 @@ import cn.entertech.affectiveclouddemo.database.UserLessonRecordDao
 import cn.entertech.affectiveclouddemo.model.MeditationEntity
 import cn.entertech.affectiveclouddemo.model.UserLessonEntity
 import cn.entertech.affectiveclouddemo.ui.activity.DataActivity
+import cn.entertech.affectiveclouddemo.ui.activity.currentActivity
 import cn.entertech.affectiveclouddemo.ui.adapter.JourneyListAdapter
+import cn.entertech.affectiveclouddemo.utils.LogManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.listener.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_journey.*
@@ -86,6 +88,7 @@ class JourneyFragment : androidx.fragment.app.Fragment() {
         rv_journey_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         rv_journey_list.addOnItemTouchListener(object : OnItemClickListener() {
             override fun onSimpleItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
+                LogManager.getInstance().logPost("Button $currentActivity to history record")
                 var intent = Intent(activity, DataActivity::class.java)
                 intent.putExtra(RECORD_ID, (adapter?.getItem(position) as UserLessonEntity).id)
                 startActivity(intent)

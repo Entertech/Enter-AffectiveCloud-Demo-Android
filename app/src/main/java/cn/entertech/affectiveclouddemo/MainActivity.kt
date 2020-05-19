@@ -69,7 +69,6 @@ class MainActivity : BaseActivity() {
             )
             .request { allGranted, grantedList, deniedList ->
                 if (allGranted) {
-                    Log.d("####", "is allGranted")
                     initMta()
                     downloadFirmware()
                 } else {
@@ -81,19 +80,19 @@ class MainActivity : BaseActivity() {
     fun downloadFirmware() {
         var downloadlistener = object : FileDownloadListener() {
             override fun warn(task: BaseDownloadTask?) {
-                Log.d("#####", "download firmware warn:$task")
+//                Log.d("#####", "download firmware warn:$task")
             }
 
             override fun pending(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
             }
 
             override fun error(task: BaseDownloadTask?, e: Throwable?) {
-                Log.d("#####", "download firmware error:$e")
+//                Log.d("#####", "download firmware error:$e")
             }
 
             override fun progress(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
 
-                Log.d("#####", "download firmware progress:$soFarBytes")
+//                Log.d("#####", "download firmware progress:$soFarBytes")
             }
 
             override fun paused(task: BaseDownloadTask?, soFarBytes: Int, totalBytes: Int) {
