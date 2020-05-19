@@ -55,9 +55,16 @@ class MainActivity : BaseActivity() {
             firmwareFilePath,
             false
         )
+        initBleConnectedListener()
     }
 
+    var bleConnectedListener = fun(mac:String){
+        SettingManager.getInstance().bleMac = mac
+    }
 
+    fun initBleConnectedListener(){
+        DeviceUIConfig.getInstance(this).managers[0].addConnectListener(bleConnectedListener)
+    }
     /**
      * Android6.0以上必须手动申请该权限
      */
@@ -116,12 +123,6 @@ class MainActivity : BaseActivity() {
         StatConfig.setDebugEnable(false);
         // 基础统计API
         StatService.registerActivityLifecycleCallbacks(this.application)
-        Log.d(
-            "#######", "mta firmware is ${StatConfig.getCustomProperty(
-                this,
-                Constant.MTA_FIRMWARE_VERSION
-            )}"
-        )
         SettingManager.getInstance().serverFirmwareVersion =
             StatConfig.getCustomProperty(this, Constant.MTA_FIRMWARE_VERSION)
         SettingManager.getInstance().serverFirmwareUrl =
@@ -147,6 +148,11 @@ class MainActivity : BaseActivity() {
             mTabEntitys.add(TabEntity(mTitles[i], mIconSelected[i], mIconUnselected[i]))
         }
         ctl_main.setTabData(mTabEntitys, this, R.id.fl_container, mFragments)
+    }
+
+    override fun onDestroy() {
+        DeviceUIConfig.getInstance(this).managers[0].removeConnectListener(bleConnectedListener)
+        super.onDestroy()
     }
 
 }
