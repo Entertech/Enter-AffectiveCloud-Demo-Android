@@ -22,6 +22,7 @@ class SensorContactCheckActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sensor_contact_check)
         initFullScreenDisplay()
+        setStatusBarLight()
         meditationType = intent.getStringExtra(MEDITATION_TYPE)
         isShowSkip = intent.getBooleanExtra(IS_SHOW_SKIP, true)
         bleManager = DeviceUIConfig.getInstance(this!!).managers[0]

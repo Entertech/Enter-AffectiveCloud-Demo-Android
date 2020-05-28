@@ -57,5 +57,5 @@
     <string name="skip">跳过</string>
     <string name="checking">检测中...</string>
     <string name="well_done">干得好!</string>
-    <string name="emotion">Emotion</string>
+    <string name="emotion">情绪面板</string>
 </resources>

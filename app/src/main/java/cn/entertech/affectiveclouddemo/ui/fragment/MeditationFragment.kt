@@ -171,8 +171,12 @@ class MeditationFragment : MeditationBaseFragment() {
         activity?.runOnUiThread {
             selfView?.findViewWithTag<MeditationHeartView>("Heart")?.setHeartValue(heartRate)
             selfView?.findViewWithTag<MeditationHeartView>("Heart")?.setHRV(hrv)
-            isHeartViewLoading = heartRate == 0
-            isHRVLoading = hrv == 0.0
+            if (heartRate != 0) {
+                isHeartViewLoading = false
+            }
+            if (hrv != 0.0) {
+                isHRVLoading = false
+            }
             Log.d("###", "isHeartViewLoading:" + isHeartViewLoading + ":" + heartRate)
 
             if (!isMeditationInterrupt) {

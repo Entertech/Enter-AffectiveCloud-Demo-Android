@@ -69,6 +69,8 @@ class MeditationActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_meditation)
+        initFullScreenDisplay()
+        setStatusBarLight()
         meditationStatusPlayer = MeditationStatusPlayer(this)
         userLessonStartTime = getCurrentTimeFormat()
         initFragment()

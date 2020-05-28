@@ -29,8 +29,9 @@ class DeviceStatusActivity : BaseActivity() {
     private lateinit var bleDeviceManager: MultipleBiomoduleBleManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initFullScreenDisplay()
         setContentView(R.layout.activity_device_status)
+        initFullScreenDisplay()
+        setStatusBarLight()
         bleDeviceManager =  DeviceUIConfig.getInstance(this!!).managers[0]
         initViews()
     }

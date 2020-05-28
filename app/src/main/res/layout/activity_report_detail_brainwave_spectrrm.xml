@@ -28,6 +28,7 @@
                 android:layout_height="289dp"
                 android:layout_marginTop="@dimen/activity_margin_half"
                 android:background="@color/white"
+                app:rbs_isTitleIconShow="false"
                 app:rbs_highlightLineColor="?attr/common_line_light_color"
                 app:rbs_isTitleMenuIconShow="true"
                 app:rbs_markViewBgColor="?attr/common_bg_z2_color"
