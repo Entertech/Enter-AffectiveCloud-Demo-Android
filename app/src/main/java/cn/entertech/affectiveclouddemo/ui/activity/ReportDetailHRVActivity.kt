@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import cn.entertech.affectiveclouddemo.R
 import cn.entertech.affectiveclouddemo.app.Constant.Companion.RECORD_ID
+import cn.entertech.affectiveclouddemo.app.SettingManager
 import cn.entertech.affectiveclouddemo.database.UserLessonRecordDao
 import cn.entertech.affectiveclouddemo.ui.activity.BaseActivity
 import cn.entertech.affectiveclouddemo.utils.reportfileutils.MeditationReportDataAnalyzed
@@ -42,6 +43,7 @@ class ReportDetailHRVActivity : BaseActivity() {
         }
         tv_title.text = getString(R.string.hrv)
         iv_menu_icon.visibility = View.GONE
+        about_view.mLearnMoreUrl = SettingManager.getInstance().remoteConfigHRVReportInfo
     }
 
     fun initData() {

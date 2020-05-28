@@ -19,7 +19,7 @@ class ReportAboutView @JvmOverloads constructor(
     def: Int = 0
 ) :
     LinearLayout(context, attributeSet, def) {
-    private var mLearnMoreUrl: String? = null
+    var mLearnMoreUrl: String? = null
     private var mContentText: String? = null
     private var mTitleIcon: Drawable? = null
     var mSelfView: View = LayoutInflater.from(context).inflate(R.layout.layout_report_about, null)
@@ -48,4 +48,5 @@ class ReportAboutView @JvmOverloads constructor(
             }
         }
     }
+
 }

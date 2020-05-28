@@ -17,6 +17,7 @@
         android:textSize="32dp" />
 
     <RelativeLayout
+        android:id="@+id/rl_help_center"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginTop="32dp"
@@ -50,6 +51,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/rl_term_of_use"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="#fff">
@@ -81,6 +83,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_privacy"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="#fff">

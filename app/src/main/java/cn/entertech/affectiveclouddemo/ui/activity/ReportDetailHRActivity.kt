@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import cn.entertech.affectiveclouddemo.R
 import cn.entertech.affectiveclouddemo.app.Constant.Companion.RECORD_ID
+import cn.entertech.affectiveclouddemo.app.SettingManager
 import cn.entertech.affectiveclouddemo.database.UserLessonRecordDao
 import cn.entertech.affectiveclouddemo.ui.activity.BaseActivity
 import cn.entertech.affectiveclouddemo.utils.reportfileutils.MeditationReportDataAnalyzed
@@ -38,6 +39,7 @@ class ReportDetailHRActivity : BaseActivity() {
         }
         tv_title.text = getString(R.string.heart_rate)
         iv_menu_icon.visibility = View.GONE
+        about_view.mLearnMoreUrl = SettingManager.getInstance().remoteConfigHRReportInfo
     }
 
     fun initData() {

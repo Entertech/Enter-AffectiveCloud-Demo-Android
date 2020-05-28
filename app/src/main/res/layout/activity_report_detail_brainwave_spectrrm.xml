@@ -54,6 +54,7 @@
                 android:layout_weight="1">
 
                 <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
+                    android:id="@+id/about_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:rav_contentText="@string/about_brainwave"

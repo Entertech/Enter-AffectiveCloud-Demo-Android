@@ -10,9 +10,11 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import cn.entertech.affectiveclouddemo.R
+import cn.entertech.affectiveclouddemo.app.SettingManager
 import cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveSpectrumView
 import cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveView
 import com.airbnb.lottie.LottieAnimationView
+import kotlinx.android.synthetic.main.card_meditation_brainwave.view.*
 
 class MeditationBrainwaveView @JvmOverloads constructor(
     context: Context,
@@ -25,11 +27,19 @@ class MeditationBrainwaveView @JvmOverloads constructor(
     init {
         var layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         mSelfView.layoutParams = layoutParams
-        initView()
         addView(mSelfView)
+        initView()
     }
 
     fun initView() {
+        brainwave.setIsShowInfoIcon(
+            true,
+            url = SettingManager.getInstance().remoteConfigEEGRealtimeInfo
+        )
+        brainwave_spectrum.setIsShowInfoIcon(
+            true,
+            url = SettingManager.getInstance().remoteConfigBrainRealtimeInfo
+        )
     }
 
     fun setLeftBrainwave(data: ArrayList<Double>?) {
@@ -88,7 +98,7 @@ class MeditationBrainwaveView @JvmOverloads constructor(
     }
 
 
-    fun showErrorMessage(error:String){
+    fun showErrorMessage(error: String) {
         mSelfView.findViewById<RealtimeBrainwaveSpectrumView>(R.id.brainwave_spectrum)
             .showErrorMessage(error)
         mSelfView.findViewById<RealtimeBrainwaveView>(R.id.brainwave).showErrorMessage(error)

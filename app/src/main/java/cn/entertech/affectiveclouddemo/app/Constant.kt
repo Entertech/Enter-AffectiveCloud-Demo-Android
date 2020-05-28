@@ -32,6 +32,7 @@ class Constant {
         const val REMOTE_CONFIG_HELP_CENTER = "help_center"
         const val REMOTE_CONFIG_PRESSURE_REPORT_INFO = "pressure_report_info"
         const val REMOTE_CONFIG_RELAXATION_REPORT_INFO = "relaxation_report_info"
+        const val REMOTE_CONFIG_ATTENTION_RELAXATION_REPORT_INFO = "attention_and_relaxation_report_info"
         const val REMOTE_CONFIG_ATTENTION_REPORT_INFO = "attention_report_info"
         const val REMOTE_CONFIG_HRV_REPORT_INFO = "hrv_report_info"
         const val REMOTE_CONFIG_HR_REPORT_INFO = "hr_report_info"
@@ -45,41 +46,48 @@ class Constant {
         const val REMOTE_CONFIG_FLOWTIME_HEADHAND_INTRO = "flowtime_headband_intro"
         const val REMOTE_CONFIG_TERMS_OF_USER = "terms_of_use"
         const val REMOTE_CONFIG_PRIVACY = "privacy"
+        const val REMOTE_CONFIG_COHERENCE_REALTIME_INFO = "coherence_realtime_info"
         const val REMOTE_CONFIG_PRODUCT_PRICE = "product_price"
         const val REMOTE_CONFIG_FILL_ADDRESS = "fill_address"
         const val REMOTE_CONFIG_DEVICE_CAN_NOT_CONNECT = "device_can_not_connect"
         const val LOCAL_VERSION_NAME = "local_version_name"
         const val APP_COULD_UPDATE = "app_could_update"
+        const val REMOTE_CONFIG_FIRMWARE_VERSION = "new_firmware_version"
+        const val REMOTE_CONFIG_APP_VERSION = "new_app_version"
+        const val REMOTE_CONFIG_FIRMWARE_URL = "firmware_url"
 
         const val DEFAULT_LINK_FILL_ADDRESS = "https://jinshuju.net/f/tQP3iq"
         const val DEFAULT_LINK_HELP_CENTER =
-            "https://www.notion.so/Flowtime-Help-Center-b151d8677e5c41d8af6364f44fb93369"
+            "https://docs.myflowtime.cn/"
         const val DEFAULT_LINK_PRESSURE_REPORT_INFO =
-            "https://www.notion.so/Pressure-Graph-48593014d6e44f7f8366364d70dced05"
-        const val DEFAULT_LINK_RELAXATION_REPORT_INFO =
-            "https://www.notion.so/Relaxation-Graph-d04c7d161ca94c6eb9c526cdefe88f02"
+            "https://docs.myflowtime.cn/%E7%9C%8B%E6%87%82%E5%9B%BE%E8%A1%A8/%E5%A6%82%E4%BD%95%E7%9C%8B%E5%8E%8B%E5%8A%9B%E6%B0%B4%E5%B9%B3%E6%9B%B2%E7%BA%BF%EF%BC%9F.html"
+        const val DEFAULT_LINK_ATTENTION_RELAXATION_REPORT_INFO =
+            "https://docs.myflowtime.cn/%E7%9C%8B%E6%87%82%E5%9B%BE%E8%A1%A8/%E5%A6%82%E4%BD%95%E7%9C%8B%E6%B3%A8%E6%84%8F%E5%8A%9B%E5%92%8C%E6%94%BE%E6%9D%BE%E5%BA%A6%E6%9B%B2%E7%BA%BF%EF%BC%9F.html"
         const val DEFAULT_LINK_ATTENTION_REPORT_INFO =
             "https://www.notion.so/Attention-Graph-8f9fa5017ba74a34866c1977a323960a"
-        const val DEFAULT_LINK_HRV_REPORT_INFO = "https://www.notion.so/HRV-Graph-6f93225bf7934cb8a16eb6ba55da52cb"
+        const val DEFAULT_LINK_HRV_REPORT_INFO = "https://docs.myflowtime.cn/%E7%9C%8B%E6%87%82%E5%9B%BE%E8%A1%A8/%E5%A6%82%E4%BD%95%E7%9C%8B%E5%BF%83%E7%8E%87%E5%8F%98%E5%BC%82%E6%80%A7%EF%BC%88HRV%EF%BC%89%E7%9A%84%E5%8F%98%E5%8C%96%E6%9B%B2%E7%BA%BF%EF%BC%9F.html"
         const val DEFAULT_LINK_HR_REPORT_INFO =
-            "https://www.notion.so/Heart-Rate-Graph-fa83da8528694fd1a265882db31d3778"
+            "https://docs.myflowtime.cn/%E7%9C%8B%E6%87%82%E5%9B%BE%E8%A1%A8/%E5%A6%82%E4%BD%95%E7%9C%8B%E5%BF%83%E7%8E%87%E5%8F%98%E5%8C%96%E6%9B%B2%E7%BA%BF%EF%BC%9F.html"
         const val DEFAULT_LINK_BRAIN_REPORT_INFO =
-            "https://www.notion.so/Brainwave-Power-Graph-6f2a784b347d4d7d98b9fd0da89de454"
+            "https://docs.myflowtime.cn/%E7%9C%8B%E6%87%82%E5%9B%BE%E8%A1%A8/%E5%A6%82%E4%BD%95%E7%9C%8B%E8%84%91%E6%B3%A2%E9%A2%91%E8%B0%B1%E8%83%BD%E9%87%8F%E8%B6%8B%E5%8A%BF%E5%9B%BE%EF%BC%9F.html"
         const val DEFAULT_LINK_PRESSURE_REALTIME_INFO =
-            "https://www.notion.so/Pressure-ee57f4590373442b9107b7ce665e1253"
+            "https://docs.myflowtime.cn/%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/%E5%8E%8B%E5%8A%9B%E6%B0%B4%E5%B9%B3.html"
         const val DEFAULT_LINK_RELAXATION_REALTIME_INFO =
-            "https://www.notion.so/Relaxation-c9e3b39634a14d2fa47eaed1d55d872b"
+            "https://docs.myflowtime.cn/%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/%E6%94%BE%E6%9D%BE%E5%BA%A6.html"
         const val DEFAULT_LINK_ATTENTION_REALTIME_INFO =
-            "https://www.notion.so/Attention-84fef81572a848efbf87075ab67f4cfe"
+            "https://docs.myflowtime.cn/%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/%E6%B3%A8%E6%84%8F%E5%8A%9B.html"
         const val DEFAULT_LINK_BRAIN_REALTIME_INFO =
-            "https://www.notion.so/Brainwave-Power-4cdadda14a69424790c2d7913ad775ff"
+            "https://docs.myflowtime.cn/%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/%E8%84%91%E7%94%B5%E6%B3%A2%E8%8A%82%E5%BE%8B%EF%BC%88Brainwave%20Rhythms%EF%BC%89.html"
         const val DEFAULT_LINK_DEVICE_CAN_NOT_CONNECT =
-            "https://www.notion.so/I-can-t-connect-the-headband-with-the-app-1ae10dc7fe1049c4953fc879f9042730"
-        const val DEFAULT_LINK_EEG_REALTIME_INFO = "https://www.notion.so/EEG-b3a44e9eb01549c29da1d8b2cc7bc08d"
-        const val DEFAULT_LINK_HR_REALTIME_INFO = "https://www.notion.so/Heart-Rate-4d64215ac50f4520af7ff516c0f0e00b"
-        const val DEFAULT_LINK_FLOWTIME_HEADHAND_INTRO = "https://www.meetinnerpeace.com/flowtime"
-        const val DEFAULT_LINK_TERMS_OF_USER = "https://www.meetinnerpeace.com/terms-of-service"
-        const val DEFAULT_LINK_PRIVACY = "https://www.meetinnerpeace.com/privacy-policy"
+            "https://docs.myflowtime.cn/%E8%AE%BE%E5%A4%87%E4%BD%BF%E7%94%A8/%E5%BF%83%E6%B5%81%E5%A4%B4%E7%8E%AF%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9.html"
+        const val DEFAULT_LINK_EEG_REALTIME_INFO = "https://docs.myflowtime.cn/%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/%E8%84%91%E7%94%B5%E6%B3%A2%EF%BC%88EEG%EF%BC%89.html"
+        const val DEFAULT_LINK_HR_REALTIME_INFO = "https://docs.myflowtime.cn/%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/%E5%BF%83%E7%8E%87.html"
+        const val DEFAULT_LINK_FLOWTIME_HEADHAND_INTRO = "https://docs.myflowtime.cn/%E8%AE%BE%E5%A4%87%E4%BD%BF%E7%94%A8/%E5%BF%83%E6%B5%81%E5%A4%B4%E7%8E%AF%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E.html"
+        const val DEFAULT_LINK_TERMS_OF_USER = "https://www.entertech.cn/term-of-use"
+        const val DEFAULT_LINK_PRIVACY = "https://www.entertech.cn/privacy"
+        const val DEFAULT_LINK_COHERENCE_REALTIME =
+            "https://docs.myflowtime.cn/名词解释/和谐度（Coherence）.html"
+
         const val ITEM_PURCHASE = "itemPurchase"
         const val MEDITATION_UNGUIDED_TIME = "meditationUnguideTime"
         const val MEDITATION_TIME_IS_CUSTOM = "meditationTimeIsCustom"
@@ -133,9 +141,6 @@ class Constant {
 
         var MEDITATION_TYPE = "meditationType"
         var IS_SHOW_SKIP = "isShowSkip"
-        const val MTA_FIRMWARE_VERSION = "new_firmware_version"
-        const val MTA_APP_VERSION = "new_app_version"
-        const val MTA_FIRMWARE_URL = "firmware_url"
         const val SP_DEFAULT_FIRMWARE_URL = "http://heartflow.oss-cn-hangzhou.aliyuncs.com/firmware/"
         const val SP_SERVER_FIRMWARE_VERSION = "serverFirmwareVersion"
         const val SP_SERVER_FIRMWARE_URL = "serverFirmwareUrl"

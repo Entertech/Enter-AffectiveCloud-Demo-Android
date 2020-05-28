@@ -8,6 +8,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import cn.entertech.affectiveclouddemo.R
+import cn.entertech.affectiveclouddemo.app.SettingManager
 import kotlinx.android.synthetic.main.card_meditation_emotion.view.*
 
 class MeditationEmotionView @JvmOverloads constructor(
@@ -24,39 +25,35 @@ class MeditationEmotionView @JvmOverloads constructor(
     init {
         var layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         mSelfView.layoutParams = layoutParams
-        initView()
         addView(mSelfView)
+        initView()
     }
 
     fun initView() {
-//        var attentionScale = arrayOf(0, 60, 80, 100)
-//        var relaxationScale = arrayOf(0, 60, 80, 100)
-//        var stressScale = arrayOf(0, 1, 2, 3, 4, 5)
-//        var moodScale = arrayOf(-2, -1, 0, 1, 2)
-//        var attentionIndicatorItems = arrayListOf<EmotionIndicatorView.IndicateItem>()
-//        var relaxationIndicatorItems = arrayListOf<EmotionIndicatorView.IndicateItem>()
-//        var stressIndicatorItems = arrayListOf<EmotionIndicatorView.IndicateItem>()
-//        var moodIndicatorItems = arrayListOf<EmotionIndicatorView.IndicateItem>()
-//        attentionIndicatorItems.add(EmotionIndicatorView.IndicateItem(0.6f, Color.parseColor("#3352a27c")))
-//        attentionIndicatorItems.add(EmotionIndicatorView.IndicateItem(0.2f, Color.parseColor("#8052a27c")))
-//        attentionIndicatorItems.add(EmotionIndicatorView.IndicateItem(0.2f, Color.parseColor("#52a27c")))
-//        relaxationIndicatorItems.add(EmotionIndicatorView.IndicateItem(0.6f, Color.parseColor("#335e75fe")))
-//        relaxationIndicatorItems.add(EmotionIndicatorView.IndicateItem(0.2f, Color.parseColor("#805e75fe")))
-//        relaxationIndicatorItems.add(EmotionIndicatorView.IndicateItem(0.2f, Color.parseColor("#5e75fe")))
-//        stressIndicatorItems.add(EmotionIndicatorView.IndicateItem(0.2f, Color.parseColor("#33cc5268")))
-//        stressIndicatorItems.add(EmotionIndicatorView.IndicateItem(0.5f, Color.parseColor("#80cc5268")))
-//        stressIndicatorItems.add(EmotionIndicatorView.IndicateItem(0.3f, Color.parseColor("#cc5268")))
-//        moodIndicatorItems.add(EmotionIndicatorView.IndicateItem(0.5f, Color.parseColor("#7f725e")))
-//        moodIndicatorItems.add(EmotionIndicatorView.IndicateItem(0.5f, Color.parseColor("#ffc56f")))
-//        mSelfView.findViewById<EmotionIndicatorView>(R.id.eiv_attention).setScales(attentionScale)
-//        mSelfView.findViewById<EmotionIndicatorView>(R.id.eiv_attention).setIndicatorItems(attentionIndicatorItems)
-//        mSelfView.findViewById<EmotionIndicatorView>(R.id.eiv_relaxation).setScales(relaxationScale)
-//        mSelfView.findViewById<EmotionIndicatorView>(R.id.eiv_relaxation).setIndicatorItems(relaxationIndicatorItems)
-//        mSelfView.findViewById<EmotionIndicatorView>(R.id.eiv_stress).setScales(stressScale)
-//        mSelfView.findViewById<EmotionIndicatorView>(R.id.eiv_stress).setIndicatorItems(stressIndicatorItems)
-//        mSelfView.findViewById<EmotionIndicatorView>(R.id.eiv_mood).setScales(moodScale)
-//        mSelfView.findViewById<EmotionIndicatorView>(R.id.eiv_mood).setIndicatorItems(moodIndicatorItems)
-
+        realtime_attention_view.setIsShowInfoIcon(
+            true,
+            url = SettingManager.getInstance().remoteConfigAttentionRealtimeInfo
+        )
+        realtime_relaxation_view.setIsShowInfoIcon(
+            true,
+            url = SettingManager.getInstance().remoteConfigRelaxationRealtimeInfo
+        )
+        realtime_pressure_view.setIsShowInfoIcon(
+            true,
+            url = SettingManager.getInstance().remoteConfigPressureRealtimeInfo
+        )
+//        realtime_arousal_view.setIsShowInfoIcon(
+//            true,
+//            url = SettingManager.getInstance().remoteConfig
+//        )
+//        realtime_pleasure_view.setIsShowInfoIcon(
+//            true,
+//            url = SettingManager.getInstance().remoteConfigAttentionRealtimeInfo
+//        )
+        realtime_coherence_view.setIsShowInfoIcon(
+            true,
+            url = SettingManager.getInstance().remoteConfigCoherenceRealtimeInfo
+        )
     }
 
     fun setAttention(value: Float?) {

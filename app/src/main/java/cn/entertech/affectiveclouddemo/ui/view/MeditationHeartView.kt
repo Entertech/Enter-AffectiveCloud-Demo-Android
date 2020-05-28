@@ -8,6 +8,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import cn.entertech.affectiveclouddemo.R
+import cn.entertech.affectiveclouddemo.app.SettingManager
 import kotlinx.android.synthetic.main.card_heart_rate.view.*
 
 class MeditationHeartView @JvmOverloads constructor(
@@ -23,11 +24,13 @@ class MeditationHeartView @JvmOverloads constructor(
     init {
         var layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         mSelfView.layoutParams = layoutParams
-        initView()
         addView(mSelfView)
+        initView()
     }
 
     fun initView() {
+        heart_rate.setIsShowInfoIcon(true,url = SettingManager.getInstance().remoteConfigHRRealtimeInfo)
+        realtime_hrv.setIsShowInfoIcon(true,url=SettingManager.getInstance().remoteConfigHRVReportInfo)
     }
 
     fun setHeartValue(heartRate: Int?) {

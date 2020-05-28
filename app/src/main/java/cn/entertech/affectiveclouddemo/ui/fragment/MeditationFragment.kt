@@ -476,6 +476,9 @@ class MeditationFragment : MeditationBaseFragment() {
     }
 
     override fun handleInterruptTip() {
+        if (activity == null){
+            return
+        }
         isBleConnected = DeviceUIConfig.getInstance(activity!!).managers[0].isConnected()
         if (isBleConnected) {
             if ((activity as MeditationActivity).enterAffectiveCloudManager!!.isWebSocketOpen()) {
