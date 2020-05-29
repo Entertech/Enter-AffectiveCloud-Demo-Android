@@ -34,6 +34,7 @@ import java.util.*
 
 class MeditationFragment : MeditationBaseFragment() {
 
+    private var isToConnect: Boolean = false
     private var isMeditationInterrupt: Boolean = false
     var selfView: View? = null
     var llContainer: LinearLayout? = null
@@ -356,6 +357,15 @@ class MeditationFragment : MeditationBaseFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (isToConnect) {
+            mMainHandler.postDelayed(Runnable {
+                toSensorCheckActivity()
+                isToConnect = false
+            }, 1000)
+        }
+    }
     var runnable = Runnable {
         handleInterruptTip()
     }
@@ -390,6 +400,7 @@ class MeditationFragment : MeditationBaseFragment() {
     }
 
     var toConnectDeviceListener = fun() {
+        isToConnect = true
         startActivity(Intent(activity, DeviceManagerActivity::class.java))
     }
 
@@ -424,7 +435,7 @@ class MeditationFragment : MeditationBaseFragment() {
         isPressureLoading = true
     }
 
-    var toSignalCheckListener = fun() {
+    fun toSensorCheckActivity(){
         if (activity is MeditationActivity) {
             activity!!.startActivity(
                 Intent(activity!!, SensorContactCheckActivity::class.java).putExtra(
@@ -440,6 +451,10 @@ class MeditationFragment : MeditationBaseFragment() {
                 )
             )
         }
+    }
+
+    var toSignalCheckListener = fun() {
+        toSensorCheckActivity()
     }
 
     var toNetRestoreLinstener = fun() {
