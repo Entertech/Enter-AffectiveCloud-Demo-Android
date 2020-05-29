@@ -30,7 +30,7 @@ class MeditationHeartView @JvmOverloads constructor(
 
     fun initView() {
         heart_rate.setIsShowInfoIcon(true,url = SettingManager.getInstance().remoteConfigHRRealtimeInfo)
-        realtime_hrv.setIsShowInfoIcon(true,url=SettingManager.getInstance().remoteConfigHRVReportInfo)
+        realtime_hrv.setIsShowInfoIcon(true,url= SettingManager.getInstance().remoteConfigHRVRealtimeInfo )
     }
 
     fun setHeartValue(heartRate: Int?) {

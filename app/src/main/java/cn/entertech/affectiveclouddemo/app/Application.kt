@@ -74,6 +74,8 @@ class Application : android.app.Application() {
             StatConfig.getCustomProperty(this, REMOTE_CONFIG_ATTENTION_RELAXATION_REPORT_INFO)
         SettingManager.getInstance().remoteConfigHRVReportInfo =
             StatConfig.getCustomProperty(this, REMOTE_CONFIG_HRV_REPORT_INFO)
+        SettingManager.getInstance().remoteConfigHRVRealtimeInfo =
+            StatConfig.getCustomProperty(this, Constant.REMOTE_CONFIG_HRV_REALTIME_INFO)
         SettingManager.getInstance().remoteConfigHRReportInfo =
             StatConfig.getCustomProperty(this, REMOTE_CONFIG_HR_REPORT_INFO)
         SettingManager.getInstance().remoteConfigBrainReportInfo =

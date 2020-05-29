@@ -35,6 +35,7 @@ class Constant {
         const val REMOTE_CONFIG_ATTENTION_RELAXATION_REPORT_INFO = "attention_and_relaxation_report_info"
         const val REMOTE_CONFIG_ATTENTION_REPORT_INFO = "attention_report_info"
         const val REMOTE_CONFIG_HRV_REPORT_INFO = "hrv_report_info"
+        const val REMOTE_CONFIG_HRV_REALTIME_INFO = "hrv_realtime_info"
         const val REMOTE_CONFIG_HR_REPORT_INFO = "hr_report_info"
         const val REMOTE_CONFIG_BRAIN_REPORT_INFO = "brainwave_spectrum_report_info"
         const val REMOTE_CONFIG_PRESSURE_REALTIME_INFO = "pressure_realtime_info"
@@ -66,6 +67,7 @@ class Constant {
         const val DEFAULT_LINK_ATTENTION_REPORT_INFO =
             "https://www.notion.so/Attention-Graph-8f9fa5017ba74a34866c1977a323960a"
         const val DEFAULT_LINK_HRV_REPORT_INFO = "https://docs.myflowtime.cn/%E7%9C%8B%E6%87%82%E5%9B%BE%E8%A1%A8/%E5%A6%82%E4%BD%95%E7%9C%8B%E5%BF%83%E7%8E%87%E5%8F%98%E5%BC%82%E6%80%A7%EF%BC%88HRV%EF%BC%89%E7%9A%84%E5%8F%98%E5%8C%96%E6%9B%B2%E7%BA%BF%EF%BC%9F.html"
+        const val DEFAULT_LINK_HRV_REALTIME_INFO = "https://docs.myflowtime.cn/%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/%E5%BF%83%E7%8E%87%E5%8F%98%E5%BC%82%E6%80%A7%EF%BC%88HRV%EF%BC%89.html"
         const val DEFAULT_LINK_HR_REPORT_INFO =
             "https://docs.myflowtime.cn/%E7%9C%8B%E6%87%82%E5%9B%BE%E8%A1%A8/%E5%A6%82%E4%BD%95%E7%9C%8B%E5%BF%83%E7%8E%87%E5%8F%98%E5%8C%96%E6%9B%B2%E7%BA%BF%EF%BC%9F.html"
         const val DEFAULT_LINK_BRAIN_REPORT_INFO =

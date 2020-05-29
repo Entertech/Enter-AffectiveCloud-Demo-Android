@@ -13,6 +13,7 @@ import static cn.entertech.affectiveclouddemo.app.Constant.DEFAULT_LINK_DEVICE_C
 import static cn.entertech.affectiveclouddemo.app.Constant.DEFAULT_LINK_EEG_REALTIME_INFO;
 import static cn.entertech.affectiveclouddemo.app.Constant.DEFAULT_LINK_FLOWTIME_HEADHAND_INTRO;
 import static cn.entertech.affectiveclouddemo.app.Constant.DEFAULT_LINK_HELP_CENTER;
+import static cn.entertech.affectiveclouddemo.app.Constant.DEFAULT_LINK_HRV_REALTIME_INFO;
 import static cn.entertech.affectiveclouddemo.app.Constant.DEFAULT_LINK_HRV_REPORT_INFO;
 import static cn.entertech.affectiveclouddemo.app.Constant.DEFAULT_LINK_HR_REALTIME_INFO;
 import static cn.entertech.affectiveclouddemo.app.Constant.DEFAULT_LINK_HR_REPORT_INFO;
@@ -30,6 +31,7 @@ import static cn.entertech.affectiveclouddemo.app.Constant.REMOTE_CONFIG_DEVICE_
 import static cn.entertech.affectiveclouddemo.app.Constant.REMOTE_CONFIG_EEG_REALTIME_INFO;
 import static cn.entertech.affectiveclouddemo.app.Constant.REMOTE_CONFIG_FLOWTIME_HEADHAND_INTRO;
 import static cn.entertech.affectiveclouddemo.app.Constant.REMOTE_CONFIG_HELP_CENTER;
+import static cn.entertech.affectiveclouddemo.app.Constant.REMOTE_CONFIG_HRV_REALTIME_INFO;
 import static cn.entertech.affectiveclouddemo.app.Constant.REMOTE_CONFIG_HRV_REPORT_INFO;
 import static cn.entertech.affectiveclouddemo.app.Constant.REMOTE_CONFIG_HR_REALTIME_INFO;
 import static cn.entertech.affectiveclouddemo.app.Constant.REMOTE_CONFIG_HR_REPORT_INFO;
@@ -134,6 +136,13 @@ public class SettingManager {
 
     public synchronized String getRemoteConfigHRVReportInfo() {
         return getSharedPreferences().getString(REMOTE_CONFIG_HRV_REPORT_INFO, DEFAULT_LINK_HRV_REPORT_INFO);
+    }
+    public synchronized void setRemoteConfigHRVRealtimeInfo(String str) {
+        getEditor().putString(REMOTE_CONFIG_HRV_REALTIME_INFO, str).apply();
+    }
+
+    public synchronized String getRemoteConfigHRVRealtimeInfo() {
+        return getSharedPreferences().getString(REMOTE_CONFIG_HRV_REALTIME_INFO, DEFAULT_LINK_HRV_REALTIME_INFO);
     }
 
     public synchronized void setRemoteConfigHRReportInfo(String str) {
