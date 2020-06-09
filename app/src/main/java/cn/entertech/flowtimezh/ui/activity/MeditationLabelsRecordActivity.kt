@@ -116,7 +116,7 @@ class MeditationLabelsRecordActivity : BaseActivity() {
                 meditationLabelsDao.create(meditationLabelsModel)
                 Toast.makeText(this, "提交成功", Toast.LENGTH_SHORT).show()
                 clearSelectInDB()
-                startActivity(Intent(this, MeditationTimeRecordActivity::class.java))
+                startActivity(Intent(this, MeditationActivity::class.java))
                 finish()
             }
         }

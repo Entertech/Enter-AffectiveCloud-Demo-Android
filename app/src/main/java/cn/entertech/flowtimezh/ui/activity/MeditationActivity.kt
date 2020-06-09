@@ -7,6 +7,7 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
+import android.os.SystemClock
 import android.text.Html
 import android.util.Log
 import android.view.View
@@ -53,6 +54,10 @@ import cn.entertech.flowtimezh.utils.getCurrentTimeFormat
 import com.google.gson.Gson
 import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.activity_meditation.*
+import kotlinx.android.synthetic.main.activity_meditation.chronometer
+import kotlinx.android.synthetic.main.activity_meditation.tv_experiment_name
+import kotlinx.android.synthetic.main.activity_meditation.tv_record_btn
+import kotlinx.android.synthetic.main.activity_meditation_time_record.*
 import kotlinx.android.synthetic.main.layout_common_title.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -62,6 +67,7 @@ import java.util.*
 import kotlin.collections.HashMap
 
 class MeditationActivity : BaseActivity() {
+    private var isRecordTime: Boolean = false
     private var userId: String = ""
     private lateinit var biomoduleBleManager: MultipleBiomoduleBleManager
     private var meditaiton: MeditationEntity? = null
@@ -91,6 +97,10 @@ class MeditationActivity : BaseActivity() {
 
     var isFixingFirmware = false
     var isFirstReceiveData = true
+
+    private var endTime: Long? = null
+    private var startTime: Long? = null
+//    var canExit = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_meditation)
@@ -212,16 +222,87 @@ class MeditationActivity : BaseActivity() {
 
     fun initView() {
         btn_start_record.setOnClickListener {
-            var intent = Intent(this, MeditationTimeRecordActivity::class.java)
-            intent.putExtra(EXTRA_MEDITATION_ID, meditationId)
-            intent.putExtra(EXTRA_MEDITATION_START_TIME, meditationStartTime)
-            startActivity(intent)
+            isRecordTime = true
+            ll_home_layout.visibility = View.GONE
+            ll_time_record_layout.visibility = View.VISIBLE
+            initTimeRecordView()
+//            var intent = Intent(this, MeditationTimeRecordActivity::class.java)
+//            intent.putExtra(EXTRA_MEDITATION_ID, meditationId)
+//            intent.putExtra(EXTRA_MEDITATION_START_TIME, meditationStartTime)
+//            startActivity(intent)
+        }
+        btn_end_record.setOnClickListener {
+            var meditationLabelsDao = MeditationLabelsDao(this@MeditationActivity)
+            var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)
+            if (meditationId == -1L || meditationLabels == null || meditationLabels.isEmpty()) {
+                finishMeditation()
+            } else {
+                var intent = Intent(this, MeditationLabelsCommitActivity::class.java)
+                intent.putExtra(EXTRA_MEDITATION_ID, meditationId)
+                startActivity(intent)
+            }
         }
         initTilte()
         initDataFragment()
         initScrollLayout()
     }
 
+    fun initTimeRecordView(){
+        var meditationId = meditationId
+        var meditationStartTime = meditationStartTime
+        if (meditationId == -1L || meditationStartTime == -1L) {
+            finish()
+            Toast.makeText(this, "请先开始有效的体验", Toast.LENGTH_LONG).show()
+        }
+        tv_record_btn.setOnClickListener {
+            if (tv_record_btn.text == "开始记录") {
+                ll_back.visibility = View.GONE
+                chronometer.visibility = View.VISIBLE
+                chronometer.base = SystemClock.elapsedRealtime()
+                chronometer.start()
+                startTime = MeditationTimeManager.getInstance().currentTimeMs()
+                tv_record_btn.setBackgroundResource(R.drawable.shape_time_record_end_bg)
+                tv_record_btn.text = "结束记录"
+            } else {
+                ll_back.visibility = View.VISIBLE
+                ll_back.setOnClickListener {
+                    ll_back.visibility = View.GONE
+                    isRecordTime = false
+                    ll_home_layout.visibility = View.VISIBLE
+                    ll_time_record_layout.visibility = View.GONE
+                }
+                endTime = MeditationTimeManager.getInstance().currentTimeMs()
+                chronometer.stop()
+                var intent = Intent(this, MeditationLabelsRecordActivity::class.java)
+                intent.putExtra(Constant.EXTRA_LABEL_START_TIME, startTime)
+                intent.putExtra(Constant.EXTRA_LABEL_END_TIME, endTime!!)
+                intent.putExtra(
+                    EXTRA_MEDITATION_ID,
+                    meditationId
+                )
+                intent.putExtra(
+                    EXTRA_MEDITATION_START_TIME,
+                    meditationStartTime
+                )
+
+                startActivity(intent)
+            }
+        }
+
+        var experimentDao = ExperimentDao(this)
+        var experimentName = experimentDao.findExperimentBySelected().nameCn
+        tv_experiment_name.text = experimentName
+    }
+
+
+    private fun resetPage() {
+        ll_back.visibility = View.VISIBLE
+        chronometer.base = SystemClock.elapsedRealtime()
+        chronometer.stop()
+//        chronometer.visibility = View.INVISIBLE
+        tv_record_btn.setBackgroundResource(R.drawable.shape_time_record_start_bg)
+        tv_record_btn.text = "开始记录"
+    }
 
     private lateinit var rawListener: (ByteArray) -> Unit
 
@@ -490,13 +571,13 @@ class MeditationActivity : BaseActivity() {
     }
 
     fun initTilte() {
-        iv_back.setImageResource(R.mipmap.ic_premium_close)
-        iv_back.setOnClickListener {
-            showDialog()
-//            showExitView()
-        }
+//        iv_back.setImageResource(R.mipmap.ic_premium_close)
+//        iv_back.setOnClickListener {
+//            showDialog()
+////            showExitView()
+//        }
         tv_title.visibility = View.INVISIBLE
-        rl_menu_ic.visibility = View.VISIBLE
+        rl_menu_ic.visibility = View.GONE
         rl_menu_ic.setOnClickListener {
             var meditationLabelsDao = MeditationLabelsDao(this@MeditationActivity)
             var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)
@@ -634,7 +715,11 @@ class MeditationActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        finishMeditation()
+        if (isRecordTime){
+            resetPage()
+        }else{
+            finishMeditation()
+        }
     }
 
     fun finishMeditation() {
