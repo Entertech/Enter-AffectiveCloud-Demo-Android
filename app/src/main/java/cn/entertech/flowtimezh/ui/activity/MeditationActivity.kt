@@ -221,8 +221,15 @@ class MeditationActivity : BaseActivity() {
     }
 
     fun initView() {
+        ll_back.setOnClickListener {
+            ll_back.visibility = View.GONE
+            isRecordTime = false
+            ll_home_layout.visibility = View.VISIBLE
+            ll_time_record_layout.visibility = View.GONE
+        }
         btn_start_record.setOnClickListener {
             isRecordTime = true
+            ll_back.visibility = View.VISIBLE
             ll_home_layout.visibility = View.GONE
             ll_time_record_layout.visibility = View.VISIBLE
             initTimeRecordView()
@@ -265,12 +272,6 @@ class MeditationActivity : BaseActivity() {
                 tv_record_btn.text = "结束记录"
             } else {
                 ll_back.visibility = View.VISIBLE
-                ll_back.setOnClickListener {
-                    ll_back.visibility = View.GONE
-                    isRecordTime = false
-                    ll_home_layout.visibility = View.VISIBLE
-                    ll_time_record_layout.visibility = View.GONE
-                }
                 endTime = MeditationTimeManager.getInstance().currentTimeMs()
                 chronometer.stop()
                 var intent = Intent(this, MeditationLabelsRecordActivity::class.java)
