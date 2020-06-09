@@ -23,30 +23,57 @@ class MeditationHeartView @JvmOverloads constructor(
     init {
         var layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         mSelfView.layoutParams = layoutParams
-        initView()
         addView(mSelfView)
+        initView()
     }
 
     fun initView() {
+//        heart_rate.setIsShowInfoIcon(true,url = SettingManager.getInstance().remoteConfigHRRealtimeInfo)
+//        realtime_hrv.setIsShowInfoIcon(true,url= SettingManager.getInstance().remoteConfigHRVRealtimeInfo )
     }
 
     fun setHeartValue(heartRate: Int?) {
         heart_rate.setHeartValue(heartRate)
     }
 
-    fun showLoadingCover() {
+    fun setHRV(hrv:Double?){
+        realtime_hrv.appendHrv(hrv)
+    }
+
+    fun showHRLoadingCover() {
         heart_rate.showLoading()
     }
 
-    fun hindLoadingCover() {
+    fun hideHRLoadingCover() {
         heart_rate.hideLoading()
     }
 
-    fun showSampleData() {
+    fun showHRSampleData() {
         heart_rate.showDisconnectTip()
     }
 
-    fun hideSampleData() {
+    fun showErrorMessage(error:String){
+        heart_rate.showErrorMessage(error)
+        realtime_hrv.showErrorMessage(error)
+    }
+
+    fun hideHRSampleData() {
         heart_rate.hideDisconnectTip()
+    }
+
+    fun showHRVLoadingCover() {
+        realtime_hrv.showLoadingCover()
+    }
+
+    fun hideHRVLoadingCover() {
+        realtime_hrv.hindLoadingCover()
+    }
+
+    fun showHRVSampleData() {
+        realtime_hrv.showSampleData()
+    }
+
+    fun hideHRVSampleData() {
+        realtime_hrv.hideSampleData()
     }
 }

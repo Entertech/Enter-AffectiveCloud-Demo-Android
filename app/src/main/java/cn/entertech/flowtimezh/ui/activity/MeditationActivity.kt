@@ -143,7 +143,7 @@ class MeditationActivity : BaseActivity() {
             .eeg(4)
             .build()
         var availableAffectiveServices =
-            listOf(Service.ATTENTION, Service.PRESSURE, Service.RELAXATION, Service.PLEASURE)
+            listOf(Service.ATTENTION, Service.PRESSURE, Service.RELAXATION, Service.PLEASURE,Service.AROUSAL,Service.COHERENCE)
         var availableBioServices = listOf(Service.EEG, Service.HR)
         var biodataSubscribeParams = BiodataSubscribeParams.Builder()
             .requestAllEEGData()
@@ -156,6 +156,8 @@ class MeditationActivity : BaseActivity() {
             .requestRelaxation()
             .requestPressure()
             .requestPleasure()
+            .requestArousal()
+            .requestCoherence()
             .build()
         var url = "wss://${SettingManager.getInstance().affectiveCloudServer}/ws/algorithm/v1/"
         var enterAffectiveCloudConfig = EnterAffectiveCloudConfig.Builder(
@@ -193,7 +195,7 @@ class MeditationActivity : BaseActivity() {
                     }
                     MeditationTimeManager.getInstance().timeIncrease()
                 }
-                meditationFragment?.showHeart(it?.realtimeHrData?.hr?.toInt())
+                meditationFragment?.showHeart(it?.realtimeHrData?.hr?.toInt(),it?.realtimeHrData?.hrv)
                 meditationFragment?.showBrain(it?.realtimeEEGData)
             }
         }
@@ -203,7 +205,9 @@ class MeditationActivity : BaseActivity() {
                 meditationFragment?.showAttention(it?.realtimeAttentionData?.attention?.toFloat())
                 meditationFragment?.showRelaxation(it?.realtimeRelaxationData?.relaxation?.toFloat())
                 meditationFragment?.showPressure(it?.realtimePressureData?.pressure?.toFloat())
-                meditationFragment?.showMood(it?.realtimePleasureData?.pressure?.toFloat())
+                meditationFragment?.showMood(it?.realtimePleasureData?.pleasure?.toFloat())
+                meditationFragment?.showArousal(it?.realtimeArousalData?.arousal?.toFloat())
+                meditationFragment?.showCoherence(it?.realtimeCoherenceData?.coherence?.toFloat())
             }
         }
         if (biomoduleBleManager.isConnected()) {

@@ -40,12 +40,6 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
     private var startTime: String? = null
     private lateinit var fileName: String
     var self: View? = null
-    val TAG_OF_BRAIN_VIEW = "Brainwave Sepctrum"
-    val TAG_OF_HR_VIEW = "Heart Rate"
-    val TAG_OF_HRV_VIEW = "Heart Rate Variability"
-    val TAG_OF_ATTENTION_VIEW = "Attention"
-    val TAG_OF_RELAXATION_VIEW = "Relaxation"
-    val TAG_OF_PRESSURE_VIEW = "Pressure"
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -103,12 +97,6 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
                 )
             )
 
-        report_brainwave_view.isDataNull(true)
-        report_attention_view.isDataNull(true)
-        report_relaxation_view.isDataNull(true)
-//        report_hr_view.isDataNull(true)
-//        report_hrv_view.isDataNull(true)
-//        report_pressure_view.isDataNull(true)
         if (userLessonRecord.meditation == 0L) {
             return
         }
@@ -136,9 +124,6 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
         }
 
         meditaitonId = userLessonRecord.meditation
-        report_brainwave_view.isDataNull(false)
-        report_attention_view.isDataNull(false)
-        report_relaxation_view.isDataNull(false)
 //        report_hr_view.isDataNull(false)
 //        report_hrv_view.isDataNull(false)
 //        report_pressure_view.isDataNull(false)
@@ -207,54 +192,53 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
     }
 
     fun setViewData() {
-        var stackItems = ArrayList<StackedAreaChart.StackItem>()
-        var alphaItems = StackedAreaChart.StackItem()
-        var betaItems = StackedAreaChart.StackItem()
-        var thetaItems = StackedAreaChart.StackItem()
-        var deltaItems = StackedAreaChart.StackItem()
-        var gammaItems = StackedAreaChart.StackItem()
-        gammaItems.stackColor = ContextCompat.getColor(activity!!, R.color.colorStatisticsGammaWave)
-        deltaItems.stackColor = ContextCompat.getColor(activity!!, R.color.colorStatisticsDeltaWave)
-        thetaItems.stackColor = ContextCompat.getColor(activity!!, R.color.colorStatisticsThetaWave)
-        betaItems.stackColor = ContextCompat.getColor(activity!!, R.color.colorStatisticsBetaWave)
-        alphaItems.stackColor = ContextCompat.getColor(activity!!, R.color.colorStatisticsAlphaWave)
-        gammaItems.stackData = meditationReportDataAnalyzed!!.gammaCurve
-        deltaItems.stackData = meditationReportDataAnalyzed!!.deltaCurve
-        thetaItems.stackData = meditationReportDataAnalyzed!!.thetaCurve
-        betaItems.stackData = meditationReportDataAnalyzed!!.betaCurve
-        alphaItems.stackData = meditationReportDataAnalyzed!!.alphaCurve
-        stackItems.add(gammaItems)
-        stackItems.add(betaItems)
-        stackItems.add(alphaItems)
-        stackItems.add(thetaItems)
-        stackItems.add(deltaItems)
-
-        var meditationStart =
-            getStringToDate(startTime!!.replace("T", " ").replace("Z", ""), "yyyy-MM-dd HH:mm:ss")
-        report_brainwave_view.setData(meditationStart, stackItems)
-//        report_hr_view.setData(
-//            meditationStart,
-//            meditationReportDataAnalyzed!!.hrRec,
-//            meditationReportDataAnalyzed!!.hrRec.max(),
-//            meditationReportDataAnalyzed!!.hrRec.min(),
-//            meditationReportDataAnalyzed!!.hrRec.average()
-//        )
-//        report_hrv_view.setData(
-//            meditationStart,
-//            meditationReportDataAnalyzed!!.hrvRec,
-//            meditationReportDataAnalyzed!!.hrvRec.average()
-//        )
-//
-//        report_pressure_view.setData(meditationStart, meditationReportDataAnalyzed!!.pressureRec)
-        var removeZeroAttentionRec = removeZeroData(meditationReportDataAnalyzed!!.attentionRec)
-        var removeZeroRelaxationRec = removeZeroData(meditationReportDataAnalyzed!!.relaxationRec)
-
-        if (!removeZeroAttentionRec.isNullOrEmpty()) {
-            report_attention_view.setData(meditationStart, removeZeroAttentionRec)
+        var alphaAverage = meditationReportDataAnalyzed!!.alphaCurve
+        var betaAverage = meditationReportDataAnalyzed!!.betaCurve
+        var deltaAverage = meditationReportDataAnalyzed!!.deltaCurve
+        var gammaAverage = meditationReportDataAnalyzed!!.gammaCurve
+        var thetaAverage = meditationReportDataAnalyzed!!.thetaCurve
+        if (alphaAverage.average() == 0.0 && betaAverage.average() == 0.0 && deltaAverage.average() == 0.0){
+            return
         }
-        if (!removeZeroRelaxationRec.isNullOrEmpty()) {
-            report_relaxation_view.setData(meditationStart, removeZeroRelaxationRec)
+        var brainwaveList = ArrayList<ArrayList<Double>>()
+        brainwaveList.add(gammaAverage as ArrayList<Double>)
+        brainwaveList.add(betaAverage as ArrayList<Double>)
+        brainwaveList.add(alphaAverage as ArrayList<Double>)
+        brainwaveList.add(thetaAverage as ArrayList<Double>)
+        brainwaveList.add(deltaAverage as ArrayList<Double>)
+        chart_brainwave.setData(brainwaveList)
+
+        var hrLine = meditationReportDataAnalyzed?.hrRec
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrAvg != null){
+            chart_hr.setAverage(meditationReportDataAnalyzed!!.hrAvg.toInt())
         }
+        chart_hr.setAverageLineColor(R.color.common_line_hard_color_light)
+        chart_hr.setData(hrLine)
+        var hrvLine = meditationReportDataAnalyzed?.hrvRec
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrvAvg != null) {
+            chart_hrv.setAverage(meditationReportDataAnalyzed!!.hrvAvg.toInt())
+        }
+        chart_hrv.setAverageLineColor(R.color.common_line_hard_color_light)
+        chart_hrv.setData(hrvLine)
+
+
+        var relaxationRec = meditationReportDataAnalyzed?.relaxationRec
+        var attentionRec = meditationReportDataAnalyzed?.attentionRec
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.attentionAvg != null) {
+            chart_relaxation_and_attention.setAttentionAverage(meditationReportDataAnalyzed!!.attentionAvg.toInt())
+        }
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.relaxationAvg != null) {
+            chart_relaxation_and_attention.setRelaxationAverage(meditationReportDataAnalyzed!!.relaxationAvg.toInt())
+        }
+        chart_relaxation_and_attention.setAverageLineColor(R.color.common_line_hard_color_light)
+        chart_relaxation_and_attention.setData(attentionRec,relaxationRec)
+
+        var pressureLine = meditationReportDataAnalyzed?.pressureRec
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.pressureAvg != null){
+            chart_pressure.setAverage(meditationReportDataAnalyzed!!.pressureAvg.toInt())
+        }
+        chart_pressure.setAverageLineColor(R.color.common_line_hard_color_light)
+        chart_pressure.setData(pressureLine)
     }
 
     private var llContainer: LinearLayout? = null

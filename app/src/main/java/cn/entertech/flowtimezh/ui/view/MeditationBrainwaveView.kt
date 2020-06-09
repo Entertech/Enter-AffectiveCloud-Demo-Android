@@ -22,11 +22,19 @@ class MeditationBrainwaveView @JvmOverloads constructor(
     init {
         var layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         mSelfView.layoutParams = layoutParams
-        initView()
         addView(mSelfView)
+        initView()
     }
 
     fun initView() {
+//        brainwave.setIsShowInfoIcon(
+//            true,
+//            url = SettingManager.getInstance().remoteConfigEEGRealtimeInfo
+//        )
+//        brainwave_spectrum.setIsShowInfoIcon(
+//            true,
+//            url = SettingManager.getInstance().remoteConfigBrainRealtimeInfo
+//        )
     }
 
     fun setLeftBrainwave(data: ArrayList<Double>?) {
@@ -82,6 +90,13 @@ class MeditationBrainwaveView @JvmOverloads constructor(
         mSelfView.findViewById<RealtimeBrainwaveSpectrumView>(R.id.brainwave_spectrum)
             .hideLoading()
         mSelfView.findViewById<RealtimeBrainwaveView>(R.id.brainwave).hideDisconnectTip()
+    }
+
+
+    fun showErrorMessage(error: String) {
+        mSelfView.findViewById<RealtimeBrainwaveSpectrumView>(R.id.brainwave_spectrum)
+            .showErrorMessage(error)
+        mSelfView.findViewById<RealtimeBrainwaveView>(R.id.brainwave).showErrorMessage(error)
     }
 
 }
