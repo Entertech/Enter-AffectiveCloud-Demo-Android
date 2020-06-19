@@ -1,8 +1,11 @@
 package cn.entertech.flowtimezh.ui.activity
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.Html
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.entertech.flowtimezh.R
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_IS_FROM_REPORT
@@ -82,9 +85,44 @@ class MeditationLabelsCommitActivity : BaseActivity() {
         rv_list.adapter = adapter
         rv_list.layoutManager = LinearLayoutManager(this)
         btn_commit.setOnClickListener {
-            startActivity(Intent(this, MeditationActivity::class.java))
-            finish()
+            showCommitDialog()
         }
+    }
+
+
+    fun showCommitDialog() {
+        var dialog = AlertDialog.Builder(this)
+            .setMessage(
+                Html.fromHtml(
+                    "<font color='${ContextCompat.getColor(
+                        this,
+                        R.color.colorDialogContent
+                    )}'>结束前请确认各项数据标签无误</font>"
+                )
+            )
+            .setPositiveButton(
+                Html.fromHtml(
+                    "<font color='${ContextCompat.getColor(
+                        this,
+                        R.color.colorDialogExit
+                    )}'>确定</font>"
+                )
+            ) { dialog, which ->
+                dialog.dismiss()
+                startActivity(Intent(this, MeditationActivity::class.java))
+                finish()
+            }
+            .setNegativeButton(
+                Html.fromHtml(
+                    "<font color='${ContextCompat.getColor(
+                        this,
+                        R.color.colorDialogCancel
+                    )}'>取消</font>"
+                )
+            ) { dialog, which ->
+                dialog.dismiss()
+            }.create()
+        dialog.show()
     }
 
     override fun onResume() {

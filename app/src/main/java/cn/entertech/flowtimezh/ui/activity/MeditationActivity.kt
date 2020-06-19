@@ -736,7 +736,7 @@ class MeditationActivity : BaseActivity() {
         if (meditationLabels != null && meditationLabels.isNotEmpty()) {
             for (meditationLabel in meditationLabels) {
                 var recData = RecData()
-                recData.note = listOf()
+                recData.note = listOf(meditationLabel.note)
                 recData.st =
                     (meditationLabel.startTime) / 1000f
                 recData.et =

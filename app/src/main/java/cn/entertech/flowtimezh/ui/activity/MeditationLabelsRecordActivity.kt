@@ -113,6 +113,7 @@ class MeditationLabelsRecordActivity : BaseActivity() {
                 meditationLabelsModel.startTime = labelStartTime
                 meditationLabelsModel.meditationId = meditationId
                 meditationLabelsModel.meditationStartTime = meditationStartTime
+                meditationLabelsModel.note = et_note?.text?.toString()
                 meditationLabelsDao.create(meditationLabelsModel)
                 Toast.makeText(this, "提交成功", Toast.LENGTH_SHORT).show()
                 clearSelectInDB()

@@ -10,52 +10,84 @@
 
     <include layout="@layout/layout_common_title" />
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_margin"
-        android:layout_marginTop="@dimen/activity_margin"
-        android:text="选择数据标签"
-        android:textColor="@color/colorBlack"
-        android:textSize="28sp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/label_list"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginLeft="@dimen/activity_margin"
-        android:layout_marginTop="@dimen/activity_margin" />
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_commit_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_margin"
-        android:layout_marginTop="24dp"
-        android:layout_marginRight="@dimen/activity_margin"
-        android:background="@drawable/meditation_labels_commit_disable_bg"
-        android:text="提交"
-        android:textColor="@color/white" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginTop="@dimen/activity_margin"
+                android:text="选择数据标签"
+                android:textColor="@color/colorBlack"
+                android:textSize="28sp" />
 
-    <Button
-        android:id="@+id/btn_delete"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_margin"
-        android:layout_marginTop="@dimen/activity_margin"
-        android:layout_marginRight="@dimen/activity_margin"
-        android:background="@drawable/meditation_labels_delete_bg"
-        android:text="删除记录"
-        android:textColor="@color/white" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/label_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginTop="@dimen/activity_margin" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/activity_margin"
-        android:layout_marginBottom="24dp"
-        android:text="如果标签数据不理想，或者误操作，请删除本条记录."
-        android:textColor="@color/colorAccent" />
+            <TextView
+                android:layout_marginTop="@dimen/activity_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="备注"
+                android:textSize="28sp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="@dimen/activity_margin"/>
+
+            <EditText
+                android:id="@+id/et_note"
+                android:minHeight="56dp"
+                android:paddingTop="@dimen/activity_margin_half"
+                android:paddingBottom="@dimen/activity_margin_half"
+                android:paddingLeft="@dimen/activity_margin"
+                android:paddingRight="@dimen/activity_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:background="@drawable/shape_note_edit_bg"
+                />
+
+            <Button
+                android:id="@+id/btn_commit_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginTop="24dp"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:background="@drawable/meditation_labels_commit_disable_bg"
+                android:text="提交"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/btn_delete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginTop="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:background="@drawable/meditation_labels_delete_bg"
+                android:text="删除记录"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/activity_margin"
+                android:layout_marginBottom="24dp"
+                android:text="如果标签数据不理想，或者误操作，请删除本条记录."
+                android:textColor="@color/colorAccent" />
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>

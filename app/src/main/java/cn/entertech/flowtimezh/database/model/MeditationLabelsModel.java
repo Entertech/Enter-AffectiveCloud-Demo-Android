@@ -19,6 +19,8 @@ public class MeditationLabelsModel {
     private String dimIds;
     @DatabaseField(columnName = "meditation_start_time")
     private long meditationStartTime;
+    @DatabaseField(columnName = "note")
+    private String note = "";
 
     public int getmId() {
         return mId;
@@ -74,5 +76,13 @@ public class MeditationLabelsModel {
 
     public void setMeditationStartTime(long meditationStartTime) {
         this.meditationStartTime = meditationStartTime;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }
