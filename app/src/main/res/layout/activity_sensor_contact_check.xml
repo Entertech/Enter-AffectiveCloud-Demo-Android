@@ -38,7 +38,7 @@
                 android:textSize="17sp" />
         </RelativeLayout>
 
-        <cn.entertech.affectiveclouddemo.ui.view.SensorContactCheckView
+        <cn.entertech.flowtimezh.ui.view.SensorContactCheckView
             android:id="@+id/device_contact_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <cn.entertech.affectiveclouddemo.ui.view.DeviceContactTipView
+            <cn.entertech.flowtimezh.ui.view.DeviceContactTipView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin"
@@ -102,7 +102,7 @@
                 app:dctv_tip="@string/tip1_content"
                 app:dctv_title="@string/tip1_title" />
 
-            <cn.entertech.affectiveclouddemo.ui.view.DeviceContactTipView
+            <cn.entertech.flowtimezh.ui.view.DeviceContactTipView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin"
@@ -112,7 +112,7 @@
                 app:dctv_tip="@string/tip2_content"
                 app:dctv_title="@string/tip2_title" />
 
-            <cn.entertech.affectiveclouddemo.ui.view.DeviceContactTipView
+            <cn.entertech.flowtimezh.ui.view.DeviceContactTipView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin"
@@ -122,7 +122,7 @@
                 app:dctv_tip="@string/tip3_content"
                 app:dctv_title="@string/tip3_title" />
 
-            <cn.entertech.affectiveclouddemo.ui.view.DeviceContactTipView
+            <cn.entertech.flowtimezh.ui.view.DeviceContactTipView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin"
@@ -132,7 +132,7 @@
                 app:dctv_tip="@string/tip4_content"
                 app:dctv_title="@string/tip4_title" />
 
-            <cn.entertech.affectiveclouddemo.ui.view.DeviceContactTipView
+            <cn.entertech.flowtimezh.ui.view.DeviceContactTipView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin"
@@ -142,7 +142,7 @@
                 app:dctv_tip="@string/tip5_content"
                 app:dctv_title="@string/tip5_title" />
 
-            <cn.entertech.affectiveclouddemo.ui.view.DeviceContactTipView
+            <cn.entertech.flowtimezh.ui.view.DeviceContactTipView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin"
@@ -152,7 +152,7 @@
                 app:dctv_tip="@string/tip6_content"
                 app:dctv_title="@string/tip6_title" />
 
-            <cn.entertech.affectiveclouddemo.ui.view.DeviceContactTipView
+            <cn.entertech.flowtimezh.ui.view.DeviceContactTipView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin"

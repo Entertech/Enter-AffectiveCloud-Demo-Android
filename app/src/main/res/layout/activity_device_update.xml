@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.activity.DeviceUpdateActivity"
+        >
+
+    <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_fileName="bg_premium.json"
+            />
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/common_mask_color">
+
+    </RelativeLayout>
+
+
+    <include
+            android:layout_alignParentTop="true"
+            layout="@layout/layout_common_title"
+            android:layout_marginTop="32dp"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            />
+
+
+    <LinearLayout
+            android:layout_marginTop="245dp"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+        <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/anim_update_loading"
+                android:visibility="gone"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@mipmap/ic_launcher"
+                android:layout_gravity="center_horizontal"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_fileName="loading.json"
+                />
+
+        <ImageView
+                android:id="@+id/ic_update"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/vector_drawable_cloud_download"
+                android:layout_gravity="center_horizontal"
+                />
+
+        <TextView
+                android:id="@+id/tv_update_state"
+                android:layout_marginTop="@dimen/activity_margin_half"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="#42000000"
+                android:shadowDy="2"
+                android:shadowRadius="12"
+                android:textSize="24sp"
+                android:textColor="?attr/common_white_color"
+                android:gravity="center_horizontal"
+                android:text="@string/update_completed"
+                />
+
+        <TextView
+                android:id="@+id/tv_update_tip"
+                android:layout_marginTop="@dimen/activity_margin"
+                android:layout_marginLeft="@dimen/margin_vertical"
+                android:layout_marginRight="@dimen/margin_vertical"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="?attr/common_white_color"
+                android:lineSpacingExtra="7sp"
+                android:gravity="left"
+                android:text="@string/update_complete_tip"
+                />
+
+
+        <Button
+                android:id="@+id/btn_update"
+                android:layout_marginTop="148dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="158dp"
+                android:layout_height="45dp"
+                android:text="@string/update"
+                android:onClick="startUpdate"
+                android:textSize="16sp"
+                android:textAllCaps="false"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
+                android:textColor="?attr/common_blue_primary_color"
+                android:gravity="center"
+                android:background="@drawable/shape_change_plan_bg"
+                />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

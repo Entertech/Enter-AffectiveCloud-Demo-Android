@@ -1,92 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        >
 
     <include layout="@layout/layout_common_title" />
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/scroll_view"
-        android:background="#E5E5E5"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+            android:id="@+id/scroll_view"
+            android:background="?attr/common_bg2_color"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
 
 
         <LinearLayout
-            android:id="@+id/ll_bg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+                android:id="@+id/ll_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
 
             <cn.entertech.uicomponentsdk.report.ReportLineChartCard
-                android:id="@+id/chart_hrv"
-                android:layout_width="match_parent"
-                android:layout_height="262dp"
-                android:layout_marginTop="@dimen/activity_margin_half"
-                android:background="@color/white"
-                app:rlcc_background="?attr/common_bg_z1_color"
-                app:rlcc_textColor="?attr/common_text_lv1_base_color"
-                app:rlcc_gridLineColor="?attr/common_line_light_color"
-                app:rlcc_isTitleMenuIconShow="true"
-                app:rlcc_lineColor="#FFC56F"
-                app:rlcc_lineWidth="0.75dp"
-                app:rlcc_pointCount="100"
-                app:rlcc_timeUnit="400"
-                app:rlcc_markViewTitle="@string/sdk_hrv"
-                app:rlcc_markViewBgColor="?attr/common_bg_z2_color"
-                app:rlcc_highlightLineColor="?attr/common_line_light_color"
-                app:rlcc_markViewTitleColor="?attr/common_text_lv2_base_color"
-                app:rlcc_markViewValueColor="?attr/common_text_lv1_base_color"
-                app:rlcc_highlightLineWidth="2"
-                app:rlcc_title="@string/change_during_meditation"
-                app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
-                app:rlcc_xAxisUnit="@string/sdk_time_unit" />
+                    android:id="@+id/chart_hrv"
+                    android:layout_width="match_parent"
+                    android:layout_height="262dp"
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:background="@color/white"
+                    app:rlcc_background="?attr/common_bg_z1_color"
+                    app:rlcc_textColor="?attr/common_text_lv1_base_color"
+                    app:rlcc_gridLineColor="?attr/common_line_light_color"
+                    app:rlcc_isTitleMenuIconShow="true"
+                    app:rlcc_lineColor="#FFC56F"
+                    app:rlcc_lineWidth="0.75dp"
+                    app:rlcc_pointCount="100"
+                    app:rlcc_averageLabelBgColor="?attr/common_bg1_color"
+                    app:rlcc_xAxisUnit="Time(min)"
+                    app:rlcc_timeUnit="400"
+                    app:rlcc_markViewTitle="HRV"
+                    app:rlcc_markViewBgColor="?attr/common_bg_z2_color"
+                    app:rlcc_highlightLineColor="?attr/common_line_light_color"
+                    app:rlcc_markViewTitleColor="?attr/common_text_lv2_base_color"
+                    app:rlcc_markViewValueColor="?attr/common_text_lv1_base_color"
+                    app:rlcc_highlightLineWidth="2"
+                    app:rlcc_title="Changes During Meditation"
+                    app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
+                    />
 
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginTop="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:visibility="gone"
-                app:cardCornerRadius="@dimen/activity_margin_half">
-
-                <cn.entertech.uicomponentsdk.report.ReportAverageChartCard
-                    android:id="@+id/hrv_average_chart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:racc_barHighLightColor="#FFC56F"
-                    app:racc_barValueBgColor="#FFE4BB"
-                    app:racc_isTitleMenuIconShow="true"
-                    app:racc_tag="HRV"
-                    app:racc_title="Last 7 times"
-                    app:racc_titleIcon="@drawable/vector_drawable_last_average_title_icon_hrv"
-                    app:racc_titleMenuIcon="@drawable/vector_drawable_info_circle"
-                    app:racc_unit="ms" />
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    app:cardCornerRadius="@dimen/activity_margin_half"
+                    android:background="?attr/common_bg_z1_color"
+                    >
+
+                <cn.entertech.uicomponentsdk.report.ReportAverageChartCard
+                        android:id="@+id/hrv_average_chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/common_bg_z1_color"
+                        app:racc_textColor="?attr/common_text_lv2_base_color"
+                        app:racc_mainColor="?attr/common_text_lv1_base_color"
+                        app:racc_background="?attr/common_bg_z1_color"
+                        app:racc_barColor="?attr/common_line_light_color"
+                        app:racc_barHighLightColor="?attr/common_yellow_primary_color"
+                        app:racc_barValueBgColor="?attr/common_yellow5_color"
+                        app:racc_isTitleMenuIconShow="true"
+                        app:racc_tag="HRV"
+                        app:racc_unit="ms"
+                        app:racc_isMenuIconInfo="true"
+                        app:racc_infoUrl="https://www.notion.so/Last-7-Times-15a5331f15a3438ca1abdcbf2b0ff331"
+                        app:racc_title="Last 7 times"
+                        app:racc_titleIcon="@drawable/vector_drawable_last_average_title_icon_hrv"
+                        app:racc_titleMenuIcon="@drawable/vector_drawable_info_circle"
+                        />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginTop="@dimen/activity_margin"
-                app:cardCornerRadius="@dimen/activity_margin_half"
-                android:layout_weight="1">
-
-                <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
-                    android:id="@+id/about_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:rav_contentText="@string/about_hrv"
-                    app:rav_learnMoreUrl="https://www.notion.so/HRV-Graph-6f93225bf7934cb8a16eb6ba55da52cb"
-                    app:rav_titleIcon="@drawable/vector_drawable_stockholm_help_blue" />
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:layout_marginBottom="@dimen/margin_vertical"
+                    app:cardCornerRadius="@dimen/activity_margin_half"
+                    >
 
+                <cn.entertech.flowtimezh.ui.view.ReportAboutView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/common_bg_z1_color"
+                        app:rav_textColor="?attr/common_text_lv1_base_color"
+                        app:rav_buttonTextColor="?attr/common_btn_1"
+                        app:rav_learnMoreUrl="https://www.notion.so/HRV-Graph-6f93225bf7934cb8a16eb6ba55da52cb"
+                        app:rav_contentText="@string/hrv_about_text"
+                        app:rav_titleIcon="@drawable/vector_drawable_report_about_hrv"
+                        />
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>

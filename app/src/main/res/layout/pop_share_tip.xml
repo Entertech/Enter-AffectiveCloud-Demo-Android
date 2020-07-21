@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:elevation="5dp">
+    <LinearLayout
+            android:layout_marginRight="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <ImageView
+                android:layout_gravity="right"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:src="@drawable/vector_drawable_share_polygon"/>
+
+        <TextView
+                android:layout_marginTop="-4dp"
+                android:text="Share Progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:background="@drawable/shape_share_tip"
+                />
+    </LinearLayout>
+</LinearLayout>

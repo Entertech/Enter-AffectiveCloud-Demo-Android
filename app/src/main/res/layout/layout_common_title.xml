@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:id="@+id/rl_title_bg"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rl_title_bg"
+        android:background="?attr/common_bg1_color"
         >
 
     <ImageView
@@ -16,6 +18,19 @@
             />
 
     <TextView
+            android:id="@+id/tv_left_text"
+            android:clickable="true"
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:textSize="18sp"
+            android:textColor="?attr/common_btn_1"
+            />
+
+    <TextView
             android:id="@+id/tv_title"
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"
@@ -23,7 +38,7 @@
             android:textSize="18sp"
             android:fontFamily="sans-serif-medium"
             android:textStyle="normal"
-            android:textColor="#232323"
+            android:textColor="?attr/common_text_lv1_base_color"
             android:lineSpacingExtra="6sp"
             android:gravity="center_horizontal"
             android:text=""
@@ -46,14 +61,35 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 >
+            <cn.entertech.flowtimezh.ui.view.DeviceConnectView
+                    android:visibility="gone"
+                    android:id="@+id/dcv_conect_view"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_centerInParent="true"
+                    >
+
+            </cn.entertech.flowtimezh.ui.view.DeviceConnectView>
 
             <ImageView
+                    android:visibility="gone"
                     android:id="@+id/iv_menu_icon"
                     android:layout_centerInParent="true"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:background="@mipmap/ic_device_white"
+                    android:src="@mipmap/ic_device_white"
                     />
+            <com.airbnb.lottie.LottieAnimationView
+                    android:visibility="gone"
+                    android:id="@+id/lottie_view"
+                    android:layout_width="32dp"
+                    android:clickable="true"
+                    android:layout_height="32dp"
+                    android:layout_centerInParent="true"
+                    app:lottie_fileName="share.json"
+                    app:lottie_repeatCount="1"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"/>
         </RelativeLayout>
 
         <TextView

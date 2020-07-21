@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.fragment.OverviewDetailFragment"
+        android:background="?attr/common_bg2_color"
+        >
+
+    <androidx.core.widget.NestedScrollView
+            android:background="?attr/common_bg2_color"
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <LinearLayout
+                android:id="@+id/ll_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                    android:id="@+id/card_sample_tip"
+                    android:visibility="gone"
+                    app:cardCornerRadius="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="161dp"
+                        android:orientation="vertical"
+                        android:background="@mipmap/pic_report_sample_bg"
+                        >
+                    <TextView
+                            android:layout_marginTop="20dp"
+                            android:layout_width="match_parent"
+                            android:layout_marginLeft="@dimen/margin_vertical"
+                            android:layout_marginRight="@dimen/margin_vertical"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:text="@string/fragment_overview_detail_22"
+                            android:textColor="@color/white"
+                            />
+
+                    <TextView
+                            android:gravity="center_vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="@string/fragment_overview_detail_sample_data"
+                            android:textColor="@color/white"
+                            android:textSize="24sp"
+                            android:layout_marginLeft="@dimen/margin_vertical"
+                            android:layout_marginTop="@dimen/activity_margin"
+                            />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    app:cardCornerRadius="@dimen/activity_margin_half"
+                    >
+
+                <LinearLayout
+                        android:background="?attr/common_bg_z1_color"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+
+                    <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="46dp"
+                            >
+
+                        <ImageView
+                                android:id="@+id/iv_meditation_title_icon"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/activity_margin"
+                                android:src="@drawable/vector_drawable_report_meditation_time"
+                                />
+
+                        <TextView
+                                android:id="@+id/tv_meditation_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/activity_margin"
+                                android:layout_toRightOf="@+id/iv_meditation_title_icon"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="@string/fragment_overview_detail_meditation_time"
+                                android:textColor="?attr/common_text_lv1_base_color"
+                                android:textSize="16sp"
+                                android:textStyle="normal"
+                                />
+
+                        <ImageView
+                                android:id="@+id/iv_meditation_info"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/activity_margin"
+                                android:src="@drawable/vector_drawable_info_circle"
+                                android:visibility="visible"
+                                />
+
+                    </RelativeLayout>
+
+                    <cn.entertech.uicomponentsdk.widget.AverageBarChart
+                            android:id="@+id/last_meditation_time_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="146dp"
+                            android:layout_marginLeft="@dimen/activity_margin"
+                            android:layout_marginTop="@dimen/activity_margin_half"
+                            android:layout_marginRight="@dimen/activity_margin"
+                            app:abc_primaryTextColor="?attr/common_text_lv1_base_color"
+                            app:abc_secondTextColor="?attr/common_text_lv2_base_color"
+                            app:abc_background="?attr/common_bg_z1_color"
+                            app:abc_barColor="?attr/common_line_light_color"
+                            app:abc_barHighLightColor="?attr/common_blue_primary_color"
+                            app:abc_isShowUnit="true"
+                            app:abc_barValueBgColor="?attr/common_blue5_color"
+                            app:abc_unit="mins"
+                            />
+
+                    <LinearLayout
+                            android:id="@+id/tip_bg"
+                            android:layout_width="match_parent"
+                            android:layout_height="64dp"
+                            android:layout_marginLeft="@dimen/activity_margin"
+                            android:layout_marginTop="@dimen/activity_margin"
+                            android:layout_marginRight="@dimen/activity_margin"
+                            android:layout_marginBottom="@dimen/activity_margin"
+                            android:background="@drawable/shape_tip_bg"
+                            android:orientation="horizontal"
+                            >
+
+                        <ImageView
+                                android:id="@+id/iv_average_icon"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/activity_margin"
+                                android:src="@drawable/vector_drawable_report_average_arrow_up"
+                                />
+
+                        <TextView
+                                android:id="@+id/tv_average_tip"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="@dimen/activity_margin"
+                                android:text="@string/fragment_overview_detail_23"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                    android:id="@+id/card_statistics"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    app:cardCornerRadius="@dimen/activity_margin_half"
+                    >
+
+                <LinearLayout
+                        android:background="?attr/common_bg_z1_color"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+
+                    <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="46dp"
+                            >
+
+                        <ImageView
+                                android:id="@+id/iv_statistics_title_icon"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/activity_margin"
+                                android:src="@drawable/vector_drawable_statistics_streak"
+                                />
+
+                        <TextView
+                                android:id="@+id/tv_statistics_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/activity_margin"
+                                android:layout_toRightOf="@+id/iv_statistics_title_icon"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="@string/fragment_overview_detail_statistics"
+                                android:textColor="?attr/common_text_lv1_base_color"
+                                android:textSize="16sp"
+                                android:textStyle="normal"
+                                />
+
+                        <ImageView
+                                android:id="@+id/iv_statistics_info"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/activity_margin"
+                                android:src="@drawable/vector_drawable_arrow_right_blue"
+                                android:visibility="visible"
+                                />
+
+                    </RelativeLayout>
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/activity_margin"
+                            android:orientation="horizontal"
+                            >
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/fragment_overview_detail_head"
+                                android:textColor="?attr/common_text_lv1_base_color"
+                                android:textSize="16sp"
+                                />
+
+                        <TextView
+                                android:id="@+id/tv_experience_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/activity_margin_half"
+                                android:text="@string/fragment_overview_detail_foot"
+                                android:textColor="?attr/common_text_lv1_base_color"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="4dp"
+                                android:text="@string/fragment_overview_detail_meditation"
+                                android:textColor="?attr/common_text_lv1_base_color"
+                                android:textSize="16sp"
+                                />
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/activity_margin_half"
+                            >
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/fragment_overview_detail_24"
+                                android:textColor="?attr/common_text_lv1_base_color"
+                                android:textSize="16sp"
+                                />
+
+                        <TextView
+                                android:id="@+id/tv_experience_total_min"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="4dp"
+                                android:text="@string/fragment_overview_detail_minutes"
+                                android:textColor="?attr/common_text_lv1_base_color"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                />
+
+                    </LinearLayout>
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/activity_margin_half"
+                            android:layout_marginBottom="@dimen/activity_margin"
+                            android:text="@string/fragment_overview_detail_from_the_beginning"
+                            android:textColor="?attr/common_text_lv1_base_color"
+                            android:textSize="16sp"
+                            />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                    android:id="@+id/card_course"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_vertical"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    app:cardCornerRadius="@dimen/activity_margin_half"
+                    >
+
+                <LinearLayout
+                        android:background="?attr/common_bg_z1_color"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+
+                    <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="46dp"
+                            >
+
+                        <ImageView
+                                android:id="@+id/iv_course_title_icon"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/activity_margin"
+                                android:src="@mipmap/ic_tab_bar_lib_selected"
+                                />
+
+                        <TextView
+                                android:id="@+id/tv_course_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/activity_margin"
+                                android:layout_toRightOf="@+id/iv_course_title_icon"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="@string/fragment_overview_detail_course"
+                                android:textColor="?attr/common_text_lv1_base_color"
+                                android:textSize="16sp"
+                                android:textStyle="normal"
+                                />
+
+                        <ImageView
+                                android:scaleType="center"
+                                android:id="@+id/iv_course_info"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="@dimen/activity_margin"
+                                android:src="@drawable/vector_drawable_arrow_right_blue"
+                                android:visibility="visible"
+                                />
+
+                    </RelativeLayout>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/activity_margin"
+                            android:text="@string/fragment_overview_detail_25"
+                            android:textColor="?attr/common_text_lv3_base_color"
+                            android:textSize="16sp"
+                            />
+
+                    <TextView
+                            android:id="@+id/tv_course_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/activity_margin_half"
+                            android:layout_marginBottom="@dimen/activity_margin"
+                            android:text="@string/fragment_overview_detail_empty"
+                            android:textColor="?attr/common_blue_primary_color"
+                            android:textSize="20sp"
+                            />
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/activity_margin_half"
+                            android:layout_marginBottom="@dimen/activity_margin"
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            >
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/fragment_overview_detail_from"
+                                android:textColor="#999999"
+                                android:textSize="16sp"
+                                />
+
+                        <TextView
+                                android:id="@+id/tv_collection_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/activity_margin_half"
+                                android:text="@string/fragment_overview_detail_empty"
+                                android:textColor="?attr/common_text_lv1_base_color"
+                                android:textSize="16sp"
+                                />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

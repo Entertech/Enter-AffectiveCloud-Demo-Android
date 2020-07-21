@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/toolbar_layout"
+        android:background="#fb9c98">
+
+    <LinearLayout
+            android:id="@+id/ll_mask_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layoutDirection="ltr"
+            android:fitsSystemWindows="true"
+            android:orientation="vertical"
+            android:background="?attr/common_mask_color"
+            >
+
+        <include layout="@layout/layout_common_title"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:orientation="vertical"
+                >
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="192dp"
+                    >
+
+                <cn.entertech.testpull.BatteryCircle
+                        android:id="@+id/device_battery"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="@dimen/activity_margin"
+                        />
+
+                <RelativeLayout
+                        android:visibility="gone"
+                        android:id="@+id/device_connecting_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical"
+                        >
+
+                    <com.airbnb.lottie.LottieAnimationView
+                            android:layout_gravity="center"
+                            android:layout_width="112dp"
+                            android:layout_height="112dp"
+                            android:layout_centerInParent="true"
+                            app:lottie_fileName="loading_white.json"
+                            app:lottie_loop="true"
+                            app:lottie_autoPlay="true"
+                            />
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="@dimen/activity_margin"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:text="@string/connecting"
+                            />
+                </RelativeLayout>
+
+
+                <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/device_disconnect_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical"
+                        >
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:alpha="0.5"
+                            android:textSize="24sp"
+                            android:text="@string/no_device_found"
+                            />
+
+                    <LinearLayout
+                            android:layout_gravity="center_horizontal"
+                            android:clickable="true"
+                            android:gravity="center"
+                            android:layout_marginTop="40dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="onReConnect"
+                            android:background="@drawable/shape_device_reconnect"
+                            android:orientation="horizontal"
+                            >
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                android:text="@string/try_connect"
+                                />
+
+                        <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_marginLeft="@dimen/activity_margin_half"
+                                />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <ScrollView
+                    android:background="?attr/common_bg2_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+
+                    <RelativeLayout
+                            android:id="@+id/device_hardware_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/activity_margin"
+                            android:onClick="onHardware"
+                            android:background="@drawable/touch_ripple_2"
+                            android:orientation="horizontal"
+                            >
+
+                        <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:src="@mipmap/ic_device_hardware"
+                                />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="40dp"
+                                android:textSize="16sp"
+                                android:textColor="?attr/common_text_lv1_base_color"
+                                android:text="@string/hardware_version"
+                                />
+
+                        <TextView
+                                android:id="@+id/device_hardware"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_alignParentRight="true"
+                                android:textSize="14sp"
+                                android:textColor="?attr/common_text_lv2_base_color"
+                                android:text=""
+                                />
+                    </RelativeLayout>
+
+                    <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="?attr/common_line_hard_color"
+                            />
+
+                    <RelativeLayout
+                            android:id="@+id/device_firmware_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/activity_margin"
+                            android:onClick="onFirmware"
+                            android:background="@drawable/touch_ripple_2"
+                            android:orientation="horizontal"
+                            >
+
+                        <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/vector_drawable_device_firmware_version"
+                                />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="40dp"
+                                android:textSize="16sp"
+                                android:textColor="?attr/common_text_lv1_base_color"
+                                android:text="@string/firmware_version"
+                                />
+
+                        <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_centerVertical="true"
+                                android:layout_alignParentRight="true"
+                                >
+
+                            <TextView
+                                    android:id="@+id/device_firmware"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:textSize="14sp"
+                                    android:textColor="?attr/common_text_lv2_base_color"
+                                    android:text=""
+                                    />
+
+                            <ImageView
+                                    android:layout_marginLeft="@dimen/activity_margin_half"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:src="@mipmap/ic_in_me"
+                                    android:visibility="gone"
+                                    />
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="?attr/common_line_hard_color"
+                            />
+
+                    <RelativeLayout
+                            android:id="@+id/device_mac_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/activity_margin"
+                            android:onClick="onMac"
+                            android:background="@drawable/touch_ripple_2"
+                            android:orientation="horizontal"
+                            >
+
+                        <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/vector_drawable_device_bluetooth"
+                                />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="40dp"
+                                android:textSize="16sp"
+                                android:textColor="?attr/common_text_lv1_base_color"
+                                android:text="@string/bluetooth_address"
+                                />
+
+                        <TextView
+                                android:id="@+id/device_mac"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_alignParentRight="true"
+                                android:textSize="14sp"
+                                android:textColor="?attr/common_text_lv2_base_color"
+                                android:text=""
+                                />
+                    </RelativeLayout>
+
+                    <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="?attr/common_line_hard_color"
+                            />
+
+
+                    <RelativeLayout
+                            android:id="@+id/device_know_layout"
+                            android:layout_marginTop="@dimen/activity_margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/activity_margin"
+                            android:onClick="onNaptimeState"
+                            android:background="@drawable/touch_ripple_2"
+                            android:orientation="horizontal"
+                            >
+
+                        <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/vector_drawable_device_status"
+                                />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="40dp"
+                                android:textSize="16sp"
+                                android:textColor="?attr/common_text_lv1_base_color"
+                                android:text="@string/know_more_about_flowtime_headband"
+                                />
+
+                        <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_alignParentRight="true"
+                                android:src="@mipmap/ic_in_me"
+                                />
+                    </RelativeLayout>
+
+                    <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="?attr/common_line_hard_color"
+                            />
+
+                    <RelativeLayout
+                            android:id="@+id/device_guide_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/activity_margin"
+                            android:onClick="onConnectGuide"
+                            android:background="@drawable/touch_ripple_2"
+                            android:orientation="horizontal"
+                            >
+
+                        <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/vector_drawable_device_unconnected"
+                                />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="40dp"
+                                android:textSize="16sp"
+                                android:textColor="?attr/common_text_lv1_base_color"
+                                android:text="@string/can_t_connect_to_the_device"
+                                />
+
+                        <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_alignParentRight="true"
+                                android:src="@mipmap/ic_in_me"
+                                />
+                    </RelativeLayout>
+
+                    <View
+                            android:id="@+id/device_guide_layout_line"
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/lineColor"
+                            />
+                </LinearLayout>
+            </ScrollView>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>

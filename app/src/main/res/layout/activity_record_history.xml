@@ -13,7 +13,7 @@
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="cn.entertech.affectiveclouddemo.ui.fragment.JourneyFragment"
+        android:name="cn.entertech.flowtimezh.ui.fragment.JourneyFragment"
         android:id="@+id/fl_container"/>
 
 </LinearLayout>

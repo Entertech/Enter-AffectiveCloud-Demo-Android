@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
     xmlns:tools="http://schemas.android.com/tools"
-    package="cn.entertech.affectiveclouddemo">
+    package="cn.entertech.flowtimezh">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -12,11 +12,11 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
-
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <dist:module dist:instant="true" />
 
     <application
-        android:name=".app.Application"
+        android:name="cn.entertech.flowtimezh.app.Application"
         android:allowBackup="true"
         android:icon="@mipmap/ic_logo"
         android:label="@string/app_name"
@@ -26,12 +26,11 @@
         android:theme="@style/AppTheme"
         >
         <uses-library android:name="org.apache.http.legacy" android:required="false"/>
-        <activity android:name=".ui.activity.RecordHistoryActivity"></activity>
-        <activity android:name=".ui.activity.DataActivity" />
-        <activity
-            android:name=".ui.activity.MeditationActivity"
-            android:configChanges="screenSize|orientation" />
-        <activity android:name=".MainActivity">
+        <activity android:name="cn.entertech.flowtimezh.ui.activity.RecordHistoryActivity"></activity>
+        <activity android:name="cn.entertech.flowtimezh.ui.activity.DataActivity" />
+        <activity android:name="cn.entertech.flowtimezh.MainActivity"
+            android:configChanges="orientation|screenSize">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,35 +38,53 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.ReportDetailBrainwaveSpectrumActivity"
+            android:name="cn.entertech.flowtimezh.ui.activity.ReportDetailBrainwaveSpectrumActivity"
             android:configChanges="orientation|screenSize" />
         <activity
-            android:name=".ui.activity.ReportDetailHRActivity"
+            android:name="cn.entertech.flowtimezh.ui.activity.ReportDetailHRActivity"
             android:configChanges="orientation|screenSize" />
         <activity
-            android:name=".ui.activity.ReportDetailHRVActivity"
+            android:name="cn.entertech.flowtimezh.ui.activity.ReportDetailHRVActivity"
             android:configChanges="orientation|screenSize" />
         <activity
-            android:name=".ui.activity.ReportDetailRelaxationAndAttentionActivity"
+            android:name="cn.entertech.flowtimezh.ui.activity.ReportDetailRelaxationAndAttentionActivity"
             android:configChanges="orientation|screenSize" />
         <activity
-            android:name=".ui.activity.ReportDetailPressureActivity"
+            android:name="cn.entertech.flowtimezh.ui.activity.ReportDetailPressureActivity"
             android:configChanges="orientation|screenSize" />
         <activity
-            android:name=".ui.activity.SensorContactCheckActivity"
+            android:name="cn.entertech.flowtimezh.ui.activity.SensorContactCheckActivity"
             android:configChanges="orientation|screenSize" />
         <activity
-            android:name=".ui.activity.DeviceStatusActivity"
+            android:name="cn.entertech.flowtimezh.ui.activity.DeviceStatusActivity"
             android:configChanges="orientation|screenSize" />
 
         <activity
-            android:name=".ui.activity.ReportDetailCoherenceActivity"
+            android:name="cn.entertech.flowtimezh.ui.activity.ReportDetailCoherenceActivity"
             android:configChanges="orientation|screenSize" />
 
+        <activity android:name="cn.entertech.flowtimezh.ui.activity.UnguidePreSettingsActivity"/>
+        <activity android:name="cn.entertech.flowtimezh.ui.activity.MeditationWithoutGuideActivity"/>
+        <activity android:name="cn.entertech.flowtimezh.ui.activity.MeditationTimeSettingActivity"/>
+        <activity android:name="cn.entertech.flowtimezh.ui.activity.DeviceTurnOnActivity"/>
+        <activity android:name="cn.entertech.flowtimezh.ui.activity.DeviceCanNotConnectActivity"/>
+        <activity android:name="cn.entertech.flowtimezh.ui.activity.DeviceIntroduceActivity"/>
+        <activity android:name="cn.entertech.flowtimezh.ui.activity.DevicePermissionActivity"/>
+        <activity android:name="cn.entertech.flowtimezh.ui.activity.DeviceActivity"/>
+        <activity android:name="cn.entertech.flowtimezh.ui.activity.LoginActivity">
+        </activity>
+        <activity android:name=".ui.activity.LaunchActivity">
+        </activity>
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:colorMode="wideColorGamut"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <provider
             android:name="com.tencent.mid.api.MidProvider"
-            android:authorities="cn.entertech.affectiveclouddemo.TENCENT.MID.V3"
+            android:authorities="cn.entertech.flowtimezh.TENCENT.MID.V3"
             android:exported="true"
             tools:replace="android:authorities">
 

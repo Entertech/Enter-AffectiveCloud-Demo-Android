@@ -58,4 +58,137 @@
     <string name="checking">检测中...</string>
     <string name="well_done">干得好!</string>
     <string name="emotion">情绪面板</string>
+
+    <string name="activity_device_turn_on_1">Press and hold the button until the indicator lights up. If the light is not on, charge the device first and try again after 10 minutes.</string>
+    <string name="activity_device_turn_on_next">Next</string>
+
+    <string name="dialogExitTitle">Exit Now?</string>
+    <string name="dialogExitContent">Meditation complete, exit and generate report.</string>
+    <string name="dialogCancel">Cancel</string>
+    <string name="dialogExit">Exit</string>
+
+    <string name="fragment_data_18">Connect the headband to show data</string>
+    <string name="fragment_data_real_time_biodata">Real-time Biodata</string>
+    <string name="fragment_data_edit">Edit</string>
+
+    <string name="fragment_data_edit_done">Done</string>
+    <string name="fragment_data_edit_19">Drag and drop to reorder dashboard.</string>
+
+    <string name="meditation_time_less_5_min_tip_unguide">The report requires at least 3 minutes of meditation.</string>
+    <string name="meditation_time_lesson_5_min_tip">Meditation time must not less than 3 minutes!</string>
+
+    <string name="min">min</string>
+    <string name="hour">hour</string>
+    <string name="hours">hours</string>
+
+    <string name="activity_meditation_time_setting_meditation_stop_time">Meditation Stop Time</string>
+    <string name="activity_meditation_time_setting_custom">Custom</string>
+    <string name="activity_meditation_time_setting_15_min"> 15 min</string>
+    <string name="activity_meditation_time_setting_end_sound">End Sound</string>
+    <string name="activity_meditation_time_setting_12">When meditation timer ends, we will play the end sound to remind you.</string>
+    <string name="loginTip">We won\'t post anything with your Facebook. By signing means you agree with our Terms and
+        Privacy
+    </string>
+
+    <string name="fragment_me_martín_abasto">Martín Abasto</string>
+    <string name="fragment_me_flowtime_headband">Flowtime Headband</string>
+    <string name="fragment_me_settings">Settings</string>
+    <string name="fragment_me_flowtime">Flowtime</string>
+    <string name="fragment_me_support">Support</string>
+    <string name="fragment_me_sign_out">Sign out</string>
+    <string name="fragment_me_app_version">1.0.0(22)</string>
+    <string name="fragment_me_copyright">© 2019 Entertech Ltd.</string>
+    <string name="logout_tip">Logout will not delete any data. You can still log in with this account.</string>
+    <string name="OK">OK</string>
+    <string name="CANCEL">CANCEL</string>
+
+    <string name="web_title_help_center">Help Center</string>
+    <string name="web_title_term_of_use">Terms of use</string>
+    <string name="web_title_privacy">Privacy</string>
+    <string name="activity_login_or">or</string>
+
+    <string name="fragment_count_total">Total</string>
+    <string name="fragment_count_time_min">Time(min)</string>
+    <string name="fragment_count_lessons">Lessons</string>
+    <string name="fragment_count_days">Days</string>
+    <string name="fragment_count_streak">Streak</string>
+    <string name="fragment_count_current_streak">Current Streak</string>
+    <string name="fragment_count_longest_streak">Longest Streak</string>
+    <string name="fragment_count_0">0</string>
+
+    <string name="fragment_overview_detail_22">Biosensing Meditation Headband provide rich data feedback including brainwaves, heart rate, heart rate variability, etc. to perceive your performance better.</string>
+    <string name="fragment_overview_detail_sample_data">Sample Data 👇</string>
+    <string name="fragment_overview_detail_meditation_time">Meditation Time</string>
+    <string name="fragment_overview_detail_23">The meditation time is shorter than the average of last 7 times.</string>
+    <string name="fragment_overview_detail_statistics">Statistics</string>
+    <string name="fragment_overview_detail_head">🎊🎉This is my</string>
+    <string name="fragment_overview_detail_foot">--th</string>
+    <string name="fragment_overview_detail_meditation">meditation</string>
+    <string name="fragment_overview_detail_24">✌️And I have meditated for</string>
+    <string name="fragment_overview_detail_minutes">-- minutes</string>
+    <string name="fragment_overview_detail_from_the_beginning">from the beginning!👏👏</string>
+    <string name="fragment_overview_detail_course">Course</string>
+    <string name="fragment_overview_detail_25">The course I learned is:</string>
+    <string name="fragment_overview_detail_empty">--</string>
+    <string name="fragment_overview_detail_from">from</string>
+
+    <string name="device_introduce_meet_flowtime">Meet Flowtime</string>
+    <string name="flowtime">Flowtime</string>
+
+    <string name="activity_device_introduce_flowtime">Flowtime</string>
+    <string name="activity_device_introduce_biosensing_meditation_headband">Biosensing Meditation Headband</string>
+    <string name="activity_device_introduce_8">Master meditation by brainwave &#038; heart-rate biosensing technology.</string>
+    <string name="activity_device_introduce_9">Regulate meditation performance by visualized rich data.</string>
+    <string name="activity_device_introduce_10">Minimum light. Maximum comfort. Unique elegant design. Weight: 28g.</string>
+    <string name="activity_device_introduce_connect_device">Connect Device</string>
+    <string name="activity_device_introduce_know_more">Know More</string>
+
+    <string name="device_open_button">Next</string>
+
+    <string name="activity_can_not_connect_can_not_connect">Can not connect?</string>
+    <string name="activity_can_not_connect_2">Please press and hold the power button for 4 seconds. The paired device will have a blue flashing light.</string>
+    <string name="activity_can_not_connect_3">If there is no light after the button is held for more than 4 seconds, please charge the device first. Try again in 10 minutes.</string>
+    <string name="activity_can_not_connect_4">Make sure the device is near your phone. If there are other Bluetooth smart devices around, please put them away.</string>
+    <string name="activity_can_not_connect_5">Check the Bluetooth status in the system settings to make sure Bluetooth is turned on.</string>
+    <string name="activity_can_not_connect_6">If Bluetooth is already on, turn it off and on.</string>
+    <string name="activity_can_not_connect_7">After above operations are done, return to search for the device.</string>
+    <string name="webTitleDeviceCanNotConnect">Can not connect?</string>
+    <string name="turn_deveice_on">Turn Device On</string>
+
+    <string name="connecting">Connecting...</string>
+    <string name="no_device_found">No device found</string>
+    <string name="try_connect">Try again</string>
+    <string name="hardware_version">Hardware version</string>
+    <string name="firmware_version">Firmware version</string>
+    <string name="bluetooth_address">Bluetooth address</string>
+    <string name="know_more_about_flowtime_headband">Know more about Flowtime headband</string>
+    <string name="can_t_connect_to_the_device">Can\'t connect to the device?</string>
+
+    <string name="activity_sensor_contact_check_sensor_contact_check">Wearing Guide</string>
+
+    <string name="device_permission">Allow related permissions for Bluetooth connection</string>
+    <string name="device_permission_location">Enable location access</string>
+    <string name="device_permission_location_tip">In order to protect user privacy, Android 6.0 or later versions needs
+        you to apply for location access when accessing the Unique Device Identifier.
+    </string>
+    <string name="device_permission_ble">Turn on system Bluetooth</string>
+
+    <string name="update_completed">Update Completed</string>
+    <string name="update_complete_tip">The device will be restarted and connected automatically to your phone. Please keep the device near the phone.</string>
+    <string name="update">Update</string>
+    <string name="device_update_title">Frimware Update</string>
+    <string name="update_tip_title">What\'s new?</string>
+    <string name="updating">Updating...</string>
+    <string name="updating_tip">It takes a few minutes to update the firmware.Please keep the device near your phone.</string>
+    <string name="update_completed_tip">The device will be restarted and connected automatically to your phone.Please keep the device near the phone.</string>
+    <string name="update_failed">Update Failed</string>
+    <string name="update_failed_tip">Please go back to connect the device again and retry.</string>
+    <string name="app_update_title">App Update</string>
+
+    <string name="brainwave_about_text">The change of the power ratio of the brainwaves reflects the change of mental state during meditation.</string>
+    <string name="hr_about_text">In general, the change of heart rate is disordered. Through long-term training, the heart rate can be seen in a certain periodic rhythm during meditation. At this time, the breathing and heartbeat reach a coordinated state.</string>
+    <string name="hrv_about_text">HRV changes with the state of meditation. The HRV is generally higher in the relaxed state. With long-term meditation practice, the overall level of HRV will increase.</string>
+    <string name="pressure_about_text">Deep breathing training can effectively reduce stress, and long-term meditation training can improve stress resilience. Pressure and relaxation graphs reflect your relaxation state on physical and phycological level.</string>
+    <string name="r_and_a_about_text">If you do not have long-term meditation training, your brainwaves in a specific brain state is concentrated. When you are focused, the Relaxation value is generally low, and when you are relaxed, the Attention value is low. Attention and Relaxation are mutually exclusive. After long-term practice of meditation, brainwaves are spread more broadly and even. You can be relaxed and focused at the same time with a high score of both Attention and Relaxation. In this state, it is easier to have inspiration and creativity.</string>
+    <string name="r_and_a"><![CDATA[Relaxation & Attention]]></string>
 </resources>

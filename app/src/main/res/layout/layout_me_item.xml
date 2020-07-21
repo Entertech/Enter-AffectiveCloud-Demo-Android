@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/touch_ripple_2"
+                android:id="@+id/bg"
+        >
+
+    <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_centerVertical="true"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@mipmap/ic_launcher"
+            />
+
+    <TextView
+            android:id="@+id/tv_text"
+            android:layout_toRightOf="@+id/iv_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="?attr/common_text_lv1_base_color"
+            android:lineSpacingExtra="8sp"
+            android:text="Membership"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_margin"
+            />
+
+    <ImageView
+            android:id="@+id/iv_arrow"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@mipmap/ic_arrow_gray_right"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/activity_margin"
+            />
+
+    <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_label"
+            android:layout_marginRight="@dimen/dp_4"
+            android:layout_toLeftOf="@+id/iv_arrow"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif"
+            android:textStyle="normal"
+            android:textColor="?attr/common_text_lv2_base_color"
+            android:lineSpacingExtra="6sp"
+            android:gravity="end"
+            android:text="Basic"
+            />
+
+
+</RelativeLayout>

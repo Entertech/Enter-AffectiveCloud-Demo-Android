@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_meditation_bg"
+        >
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+<!--        <cn.entertech.flowtime.ui.view.MeditationAnimBgView-->
+<!--                android:id="@+id/meditaion_anim_bg"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                />-->
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+            <ImageView
+                    android:id="@+id/iv_unguide_image_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="361dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="55dp"
+                    android:src="@mipmap/pic_meditation_without_guide"
+                    />
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/common_mask_color"
+                    >
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <include
+                layout="@layout/layout_common_title"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="30dp"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+        <cn.entertech.flowtimezh.ui.view.ProgressPlayButton
+                android:id="@+id/ppb_play"
+                android:layout_width="92dp"
+                android:layout_height="92dp"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone"
+                app:btnBg="#80ffffff"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.35"
+                app:pauseSrc="@mipmap/ic_pause_white"
+                app:playSrc="@mipmap/ic_play_white"
+                app:progressBarColor="#ffffff"
+                />
+
+        <RelativeLayout
+                android:id="@+id/rl_wave_loading"
+                android:layout_width="92dp"
+                android:layout_height="92dp"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.35"
+                >
+
+            <cn.entertech.flowtimezh.ui.view.WaveLoadingView
+                    android:id="@+id/wlv_download_loading"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:progressBarColor="#ffffff"
+                    app:strokeColor="@color/waveLoadingStrokeColor"
+                    app:waveColor="#b2b9e2"
+                    app:waveHeight="10dp"
+                    />
+
+            <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_centerInParent="true"
+                    app:lottie_autoPlay="true"
+                    app:lottie_fileName="loading.json"
+                    app:lottie_loop="true"
+                    />
+        </RelativeLayout>
+        <!--<cn.entertech.flowtime.ui.view.MeditationStatisticsScrollView-->
+        <!--android:id="@+id/mssv_meditation_viiew"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--&gt;-->
+
+        <!--</cn.entertech.flowtime.ui.view.MeditationStatisticsScrollView>-->
+
+
+        <RelativeLayout
+                android:id="@+id/rl_cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#80000000"
+                android:clickable="true"
+                android:visibility="gone"
+                >
+
+        </RelativeLayout>
+
+
+        <cn.entertech.flowtimezh.utils.scrolllayout.ScrollLayout
+                android:id="@+id/sl_statistics_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="32dp"
+                android:background="#00ffffff"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:translationZ="10dp"
+                android:visibility="gone"
+                app:isChildListView="false"
+                app:layout_constraintTop_toTopOf="parent"
+                >
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_scroll_layout_bg"
+                    >
+
+                <TextView
+                        android:id="@+id/tv_drag_bar"
+                        android:layout_width="56dp"
+                        android:layout_height="6dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/activity_margin"
+                        android:background="@drawable/shape_drag_bar_bg"
+                        />
+
+                <FrameLayout
+                        android:id="@+id/container"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/tv_drag_bar"
+                        android:layout_marginTop="@dimen/activity_margin"
+                        >
+
+                </FrameLayout>
+            </RelativeLayout>
+
+        </cn.entertech.flowtimezh.utils.scrolllayout.ScrollLayout>
+
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="113dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                >
+
+            <TextView
+                    android:id="@+id/tv_lesson_index"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:lineSpacingExtra="4sp"
+                    android:text=""
+                    android:textColor="?attr/common_white_color"
+                    android:textSize="16sp"
+                    android:textStyle="normal"
+                    android:visibility="visible"
+                    />
+
+            <TextView
+                    android:id="@+id/tv_lesson_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="7dp"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="?attr/common_white_color"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    />
+
+            <LinearLayout
+                    android:id="@+id/ll_meditation_no_guide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    >
+
+
+                <Chronometer
+                        android:id="@+id/tv_time_count_down"
+                        android:layout_width="126dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/margin_vertical"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="?attr/common_white_color"
+                        android:textSize="24sp"
+                        />
+
+<!--                <cn.entertech.flowtime.ui.view.GuideTipView-->
+<!--                        android:id="@+id/gtv_unguided"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="50dp"-->
+<!--                        android:layout_marginTop="@dimen/activity_margin"-->
+<!--                        android:visibility="gone"-->
+<!--                        app:gtv_tipText="Tap the button to set the suitable meditation stop time and end sound for you."-->
+<!--                        app:gtv_type="5"-->
+<!--                        >-->
+
+<!--                </cn.entertech.flowtime.ui.view.GuideTipView>-->
+
+                <cn.entertech.flowtimezh.ui.view.ProgressPlayButton
+                        android:id="@+id/ppb_play_unguide"
+                        android:layout_width="92dp"
+                        android:layout_height="92dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:visibility="gone"
+                        app:btnBg="#80ffffff"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.35"
+                        app:pauseSrc="@mipmap/ic_pause_white"
+                        app:playSrc="@mipmap/ic_play_white"
+                        app:progressBarBg="#52A27C"
+                        app:progressBarColor="#ffffff"
+                        />
+
+                <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <RelativeLayout
+                android:id="@+id/rl_cover_sensor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#80000000"
+                android:clickable="true"
+                android:visibility="gone"
+                >
+
+        </RelativeLayout>
+        <cn.entertech.flowtimezh.ui.view.SensorCheckAnimateLayout
+                android:id="@+id/sensor_check_animate_layout"
+                android:layout_width="match_parent"
+                android:layout_height="384dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/activity_margin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                >
+
+            <androidx.cardview.widget.CardView
+                    android:id="@+id/card_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:visibility="visible"
+                    app:cardCornerRadius="@dimen/activity_margin"
+                    >
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/activity_margin"
+                        android:paddingRight="@dimen/activity_margin"
+                        >
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?attr/common_bg1_color"
+                            android:orientation="vertical"
+                            >
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="@dimen/margin_vertical"
+                                android:text="Sensor Contact Check"
+                                android:textColor="?attr/common_text_lv1_base_color"
+                                android:textSize="24sp"
+                                />
+
+                        <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/margin_vertical"
+                                android:layout_marginTop="@dimen/activity_margin"
+                                android:layout_marginRight="@dimen/margin_vertical"
+                                android:elevation="0dp"
+                                app:cardCornerRadius="@dimen/activity_margin"
+                                app:cardElevation="0dp"
+                                >
+
+                            <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="137dp"
+                                    android:background="@drawable/shape_head_mode_bg"
+                                    >
+
+                                <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="horizontal"
+                                        >
+
+                                    <ImageView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="match_parent"
+                                            android:src="@mipmap/pic_head_mode"
+                                            />
+
+                                    <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center_vertical"
+                                            android:layout_marginLeft="20dp"
+                                            android:layout_marginRight="12dp"
+                                            android:text="Wear the headband and wait for the check to pass. Sensors must be fully in contact with the skin to get a good signal."
+                                            android:textColor="?attr/common_white_color"
+                                            android:textSize="14dp"
+                                            />
+                                </LinearLayout>
+
+                                <cn.entertech.flowtimezh.ui.view.SensorCheckBlinkView
+                                        android:layout_width="32dp"
+                                        android:layout_height="32dp"
+                                        android:layout_marginLeft="74dp"
+                                        android:layout_marginTop="28dp"
+                                        />
+                            </RelativeLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <com.airbnb.lottie.LottieAnimationView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="-16dp"
+                                app:lottie_autoPlay="true"
+                                app:lottie_fileName="loading_sensor.json"
+                                app:lottie_loop="true"
+                                />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:text="Sensor contact checking..."
+                                android:textColor="?attr/common_red4_color"
+                                android:textSize="16sp"
+                                />
+
+                        <RelativeLayout
+                                android:id="@+id/rl_get_good_signal"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginLeft="@dimen/activity_margin"
+                                android:layout_marginTop="@dimen/activity_margin"
+                                android:layout_marginRight="@dimen/activity_margin"
+                                android:background="@drawable/shape_get_good_signal_tip_bg"
+                                android:clickable="true"
+                                android:paddingLeft="@dimen/activity_margin"
+                                android:paddingRight="@dimen/activity_margin"
+                                >
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:text="How to get a good signal?"
+                                    android:textColor="?attr/common_blue_primary_color"
+                                    android:textSize="16sp"
+                                    />
+
+                            <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:src="@drawable/vector_drawable_rightback_blue"
+                                    />
+
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <ImageView
+                            android:id="@+id/iv_skip"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginRight="12dp"
+                            android:src="@mipmap/ic_sensor_check_close"
+                            />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                    android:id="@+id/card_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:visibility="gone"
+                    app:cardCornerRadius="@dimen/activity_margin"
+                    >
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/activity_margin"
+                        android:background="?attr/common_bg1_color"
+                        android:orientation="vertical"
+                        android:paddingRight="@dimen/activity_margin"
+                        >
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/margin_vertical"
+                            android:text="Sensor Contact Check"
+                            android:textColor="?attr/common_text_lv1_base_color"
+                            android:textSize="24sp"
+                            />
+
+                    <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="80dp"
+                            android:src="@drawable/vector_drawable_sensor_check_well"
+                            />
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/activity_margin_half"
+                            android:text="All sensors are contacted!"
+                            android:textColor="#5FC695"
+                            android:textSize="16sp"
+                            />
+
+                    <Button
+                            android:id="@+id/btn_begin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/activity_margin"
+                            android:layout_marginTop="63dp"
+                            android:layout_marginRight="@dimen/activity_margin"
+                            android:background="@drawable/shape_sensor_contact_btn_bg"
+                            android:text="Let's begin!"
+                            android:textAllCaps="false"
+                            android:textColor="?attr/common_white_color"
+                            android:textSize="16sp"
+                            />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                    android:id="@+id/card_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    app:cardCornerRadius="@dimen/activity_margin"
+                    >
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/activity_margin"
+                        android:background="?attr/common_bg1_color"
+                        android:orientation="vertical"
+                        android:paddingRight="@dimen/activity_margin"
+                        >
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/margin_vertical"
+                            android:text="Skip Check"
+                            android:textColor="?attr/common_text_lv1_base_color"
+                            android:textSize="24sp"
+                            />
+
+                    <com.airbnb.lottie.LottieAnimationView
+                            android:layout_width="72dp"
+                            android:layout_height="72dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="45dp"
+                            app:lottie_autoPlay="true"
+                            app:lottie_fileName="no_signal.json"
+                            app:lottie_loop="true"
+                            />
+
+                    <TextView
+                            android:layout_width="248dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/activity_margin_half"
+                            android:gravity="center"
+                            android:text="Skipping the check will result in poor signal quality."
+                            android:textColor="?attr/common_red2_color"
+                            android:textSize="16sp"
+                            />
+
+                    <Button
+                            android:id="@+id/btn_skip_cancel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/activity_margin"
+                            android:layout_marginTop="41dp"
+                            android:layout_marginRight="@dimen/activity_margin"
+                            android:background="@drawable/shape_sensor_contact_btn_bg"
+                            android:text="Cancel"
+                            android:textAllCaps="false"
+                            android:textColor="?attr/common_white_color"
+                            android:textSize="16sp"
+                            />
+
+                    <TextView
+                            android:id="@+id/tv_skip_ok"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/activity_margin"
+                            android:text="OK"
+                            android:textColor="?attr/common_btn_1"
+                            android:textSize="16sp"
+                            />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </cn.entertech.flowtimezh.ui.view.SensorCheckAnimateLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <cn.entertech.flowtimezh.ui.view.MeditationExitView
+            android:id="@+id/exit_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:translationZ="11dp"
+            android:visibility="gone"
+            >
+
+    </cn.entertech.flowtimezh.ui.view.MeditationExitView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

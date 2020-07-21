@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/common_bg2_color"
+        android:orientation="vertical"
+        tools:context=".ui.fragment.CountFragment"
+        >
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/srl_data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+        <androidx.core.widget.NestedScrollView
+                android:id="@+id/scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+            <LinearLayout
+                    android:id="@+id/ll_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+
+                <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_margin"
+                        android:layout_marginTop="@dimen/activity_margin"
+                        android:layout_marginRight="@dimen/activity_margin"
+                        app:cardCornerRadius="@dimen/activity_margin_half"
+                        app:cardElevation="0dp"
+                        >
+
+                    <LinearLayout
+                            android:background="?attr/common_bg_z1_color"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            >
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/activity_margin"
+                                >
+
+                            <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_marginLeft="@dimen/activity_margin"
+                                    android:src="@drawable/vector_drawable_statistics_total"
+                                    />
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/activity_margin"
+                                    android:fontFamily="sans-serif"
+                                    android:text="@string/fragment_count_total"
+                                    android:textColor="?attr/common_text_lv1_base_color"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold"
+                                    />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/activity_margin"
+                                android:layout_marginBottom="@dimen/margin_vertical"
+                                android:orientation="horizontal"
+                                >
+
+                            <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    >
+
+                                <TextView
+                                        android:id="@+id/tv_total_time"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:text="0"
+                                        android:textColor="?attr/common_text_lv1_base_color"
+                                        android:textSize="24sp"
+                                        android:textStyle="bold"
+                                        />
+
+                                <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center_horizontal"
+                                        android:text="@string/fragment_count_time_min"
+                                        android:textColor="?attr/common_text_lv2_base_color"
+                                        android:textSize="14sp"
+                                        android:textStyle="normal"
+                                        />
+                            </LinearLayout>
+
+                            <LinearLayout
+
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    >
+
+                                <TextView
+                                        android:id="@+id/tv_total_lessons"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:text="0"
+                                        android:textColor="?attr/common_text_lv1_base_color"
+                                        android:textSize="24sp"
+                                        android:textStyle="bold"
+                                        />
+
+                                <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center_horizontal"
+                                        android:text="@string/fragment_count_lessons"
+                                        android:textColor="?attr/common_text_lv2_base_color"
+                                        android:textSize="14sp"
+                                        android:textStyle="normal"
+                                        />
+                            </LinearLayout>
+
+                            <LinearLayout
+
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    >
+
+                                <TextView
+                                        android:id="@+id/tv_total_days"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:text="0"
+                                        android:textColor="?attr/common_text_lv1_base_color"
+                                        android:textSize="24sp"
+                                        android:textStyle="bold"
+                                        />
+
+                                <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center_horizontal"
+                                        android:text="@string/fragment_count_days"
+                                        android:textColor="?attr/common_text_lv2_base_color"
+                                        android:textSize="14sp"
+                                        android:textStyle="normal"
+                                        />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_margin"
+                        android:layout_marginTop="@dimen/activity_margin"
+                        android:layout_marginRight="@dimen/activity_margin"
+                        android:layout_marginBottom="@dimen/margin_vertical"
+                        app:cardCornerRadius="@dimen/activity_margin_half"
+                        app:cardElevation="0dp"
+                        >
+
+                    <LinearLayout
+                            android:background="?attr/common_bg_z1_color"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            >
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/activity_margin"
+                                >
+
+                            <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_marginLeft="@dimen/activity_margin"
+                                    android:src="@drawable/vector_drawable_statistics_streak"
+                                    />
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/activity_margin"
+                                    android:fontFamily="sans-serif"
+                                    android:text="@string/fragment_count_streak"
+                                    android:textColor="?attr/common_text_lv1_base_color"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold"
+                                    />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/activity_margin"
+                                android:layout_marginBottom="@dimen/margin_vertical"
+                                android:orientation="horizontal"
+                                >
+
+                            <LinearLayout
+
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    >
+
+                                <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center_horizontal"
+                                        android:text="@string/fragment_count_current_streak"
+                                        android:textColor="?attr/common_text_lv2_base_color"
+                                        android:textSize="14sp"
+                                        android:textStyle="normal"
+                                        />
+
+                                <TextView
+                                        android:id="@+id/tv_current_streak"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center_horizontal"
+                                        android:text="0"
+                                        android:textColor="?attr/common_text_lv1_base_color"
+                                        android:textSize="24sp"
+                                        android:textStyle="bold"
+                                        />
+                            </LinearLayout>
+
+                            <LinearLayout
+
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    >
+
+                                <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center_horizontal"
+                                        android:text="@string/fragment_count_longest_streak"
+                                        android:textColor="?attr/common_text_lv2_base_color"
+                                        android:textSize="14sp"
+                                        android:textStyle="normal"
+                                        />
+
+                                <TextView
+                                        android:id="@+id/tv_longest_streak"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="sans-serif"
+                                        android:gravity="center_horizontal"
+                                        android:text="0"
+                                        android:textColor="?attr/common_text_lv1_base_color"
+                                        android:textSize="24sp"
+                                        android:textStyle="bold"
+                                        />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <cn.entertech.flowtimezh.ui.view.StatisticsCalendarView
+                                android:id="@+id/scv_statistics_calendar"
+                                android:layout_width="match_parent"
+                                android:layout_height="126dp"
+                                android:layout_marginLeft="11dp"
+                                android:layout_marginRight="11dp"
+                                />
+
+                        <TextView
+                                android:id="@+id/tv_date"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="@dimen/activity_margin"
+                                android:layout_marginBottom="@dimen/activity_margin"
+                                android:fontFamily="sans-serif"
+                                android:gravity="center_horizontal"
+                                android:text="may.2019"
+                                android:textColor="#666666"
+                                android:textSize="12sp"
+                                android:textStyle="normal"
+                                />
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</LinearLayout>

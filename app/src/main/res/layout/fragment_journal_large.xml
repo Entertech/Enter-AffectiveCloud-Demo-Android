@@ -117,7 +117,7 @@
                     android:layout_marginRight="50dp"
                     android:layout_weight="1">
 
-                    <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
+                    <cn.entertech.flowtimezh.ui.view.ReportAboutView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:rav_contentText="@string/about_brainwave"
@@ -205,7 +205,7 @@
                     app:cardCornerRadius="@dimen/activity_margin_half"
                     android:layout_weight="1">
 
-                    <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
+                    <cn.entertech.flowtimezh.ui.view.ReportAboutView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:rav_contentText="@string/about_hrv"
@@ -295,7 +295,7 @@
                     app:cardCornerRadius="@dimen/activity_margin_half"
                     android:layout_weight="1">
 
-                    <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
+                    <cn.entertech.flowtimezh.ui.view.ReportAboutView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:rav_contentText="@string/about_hr"
@@ -385,7 +385,7 @@
                     app:cardCornerRadius="@dimen/activity_margin_half"
                     android:layout_weight="1">
 
-                    <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
+                    <cn.entertech.flowtimezh.ui.view.ReportAboutView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:rav_contentText="@string/about_relaxation_attention"
@@ -474,7 +474,7 @@
                     app:cardCornerRadius="@dimen/activity_margin_half"
                     android:layout_weight="1">
 
-                    <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
+                    <cn.entertech.flowtimezh.ui.view.ReportAboutView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:rav_learnMoreUrl="https://www.notion.so/Pressure-Graph-48593014d6e44f7f8366364d70dced05"

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/rl_bg"
+                android:clickable="true"
+        >
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#A6000000"
+            >
+
+
+        <LinearLayout
+                android:layout_centerInParent="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                >
+
+            <LinearLayout
+                    android:id="@+id/ll_normal_view"
+                    android:layout_marginBottom="87dp"
+                    android:visibility="visible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+
+                <ImageView
+                        android:id="@+id/iv_icon"
+                        android:layout_width="263dp"
+                        android:layout_height="214dp"
+                        android:layout_gravity="center_horizontal"
+                        />
+
+                <TextView
+                        android:id="@+id/tv_tip"
+                        android:layout_marginTop="42dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="24sp"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:lineSpacingExtra="5sp"
+                        android:gravity="center_horizontal"
+                        android:text="You did it!"
+                        />
+
+                <TextView
+                        android:id="@+id/tv_remark"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/activity_margin_half"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="normal"
+                        android:textColor="@color/white"
+                        android:lineSpacingExtra="8sp"
+                        android:gravity="center_horizontal"
+                        android:text="Exit and you'll have the report."
+                        />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/ll_disconnect_view"
+                    android:visibility="gone"
+                    android:layout_marginBottom="32dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+
+                <ImageView
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="118dp"
+                        android:layout_height="118dp"
+                        android:src="@mipmap/pic_meditation_exit_disconnect"
+                        android:scaleType="center"
+                        />
+
+                <TextView
+                        android:layout_marginTop="@dimen/activity_margin"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="24sp"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:lineSpacingExtra="5sp"
+                        android:gravity="center_horizontal"
+                        android:text="Oops"
+                        />
+
+                <TextView
+                        android:layout_marginTop="@dimen/activity_margin_half"
+                        android:layout_marginLeft="48dp"
+                        android:layout_marginRight="48dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="#ffffff"
+                        android:lineSpacingExtra="8sp"
+                        android:gravity="center_horizontal"
+                        android:text="Some issues happened during the meditation. You'll have a report without biodata."
+                        />
+
+                <TextView
+                        android:layout_marginTop="@dimen/margin_vertical"
+                        android:layout_marginLeft="48dp"
+                        android:layout_marginRight="48dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="#ffffff"
+                        android:lineSpacingExtra="7sp"
+                        android:gravity="center_horizontal"
+                        android:text="You can hear the warning tone when the headband or network disconnected."
+                        />
+
+                <ImageView
+                        android:id="@+id/iv_voice"
+                        android:clickable="true"
+                        android:layout_marginTop="@dimen/activity_margin_half"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:padding="@dimen/activity_margin_half"
+                        android:src="@drawable/vector_drawable_meditation_exit_voice"
+                        android:background="@drawable/shape_voice_bg_white"
+                        />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                <Button
+                        android:id="@+id/btn_not_now"
+                        android:textAllCaps="false"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Not Now"
+                        android:textSize="16sp"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="bold"
+                        android:textColor="#ffffff"
+                        android:gravity="center"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/shape_meditation_exit_btn_bg"
+                        />
+
+                <TextView
+                        android:id="@+id/tv_exit"
+                        android:layout_marginTop="@dimen/activity_margin"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textStyle="normal"
+                        android:textColor="#ffffff"
+                        android:letterSpacing="-0.02"
+                        android:lineSpacingExtra="8sp"
+                        android:gravity="center_horizontal"
+                        android:text="Exit And Get Report"
+                        />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

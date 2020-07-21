@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:lineSpacingExtra="6sp"
+                android:text="Heart"
+                android:textColor="?attr/common_text_lv1_base_color"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                />
+
+        <TextView
+                android:id="@+id/tv_sample"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_margin_half"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="end"
+                android:lineSpacingExtra="4sp"
+                android:text="(Sample)"
+                android:textColor="?attr/common_text_lv1_base_color"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                android:visibility="gone"
+                />
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="123dp"
+                android:layout_marginTop="@dimen/activity_margin_half"
+                >
+
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_heart_rate_card_bg"
+                    android:orientation="vertical"
+                    >
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/activity_margin"
+                            android:layout_marginTop="@dimen/activity_margin"
+                            android:fontFamily="sans-serif-medium"
+                            android:lineSpacingExtra="8.8sp"
+                            android:text="Heart Rate"
+                            android:textColor="?attr/common_red2_color"
+                            android:textSize="13.2sp"
+                            android:textStyle="normal"
+                            />
+
+                    <ImageView
+                            android:id="@+id/iv_heart_real_time_info"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="@dimen/activity_margin"
+                            android:layout_marginRight="@dimen/activity_margin"
+                            android:src="@drawable/vector_drawable_info_circle"
+                            />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_margin"
+                        android:layout_marginTop="@dimen/activity_margin_half"
+                        android:layout_marginBottom="@dimen/activity_margin_half"
+                        >
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="vertical"
+                            >
+
+                        <com.airbnb.lottie.LottieAnimationView
+                                android:layout_width="27dp"
+                                android:layout_height="24.3dp"
+                                app:lottie_autoPlay="true"
+                                app:lottie_fileName="heart_bit.json"
+                                app:lottie_loop="true"
+                                />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif"
+                                android:gravity="center_horizontal"
+                                android:lineSpacingExtra="4sp"
+                                android:text="bpm"
+                                android:textColor="?attr/common_text_lv1_base_color"
+                                android:textSize="16sp"
+                                android:textStyle="normal"
+                                />
+                    </LinearLayout>
+
+                    <TextView
+
+                            android:id="@+id/tv_heart_rate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/activity_margin"
+                            android:fontFamily="sans-serif"
+                            android:lineSpacingExtra="0sp"
+                            android:text="0"
+                            android:textColor="?attr/common_text_lv1_base_color"
+                            android:textSize="48sp"
+                            android:textStyle="bold"
+                            />
+
+
+                    <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            />
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="@dimen/activity_margin"
+                            android:orientation="vertical"
+                            >
+
+                        <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                >
+
+                            <TextView
+                                    android:id="@+id/tv_max_heart"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:gravity="end"
+                                    android:lineSpacingExtra="2sp"
+                                    android:text="Max: 0 "
+                                    android:textColor="?attr/common_text_lv2_base_color"
+                                    android:textSize="14sp"
+                                    android:textStyle="normal"
+                                    />
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/dp_4"
+                                    android:fontFamily="sans-serif"
+                                    android:text="bpm"
+                                    android:textColor="?attr/common_text_lv2_base_color"
+                                    android:textSize="12sp"
+                                    android:textStyle="normal"
+                                    />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:layout_marginTop="12dp"
+                                android:gravity="right"
+                                >
+
+                            <TextView
+                                    android:id="@+id/tv_min_heart"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="sans-serif-medium"
+                                    android:gravity="end"
+                                    android:lineSpacingExtra="2sp"
+                                    android:text="Min: 0"
+                                    android:textColor="?attr/common_text_lv2_base_color"
+                                    android:textSize="14sp"
+                                    android:textStyle="normal"
+                                    />
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/dp_4"
+                                    android:fontFamily="sans-serif"
+                                    android:text="bpm"
+                                    android:textColor="?attr/common_text_lv2_base_color"
+                                    android:textSize="12sp"
+                                    android:textStyle="normal"
+                                    />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                    android:id="@+id/rl_loading_cover"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_meditation_loading_bg"
+                    android:visibility="visible"
+                    >
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/icon_loading"
+                        android:layout_width="124dp"
+                        android:layout_height="60dp"
+                        android:layout_centerInParent="true"
+                        android:visibility="gone"
+                        app:lottie_autoPlay="true"
+                        app:lottie_fileName="loading_puash.json"
+                        app:lottie_loop="true"
+                        />
+
+                <TextView
+                        android:id="@+id/tv_disconnect_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="48dp"
+                        android:layout_marginRight="48dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center_horizontal"
+                        android:text=""
+                        android:textColor="?attr/common_white_color"
+                        android:textSize="16sp"
+                        android:textStyle="normal"
+                        />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <cn.entertech.uicomponentsdk.realtime.RealtimeHRVView
+                android:id="@+id/hrv"
+                android:layout_marginTop="@dimen/activity_margin_half"
+                android:layout_width="match_parent"
+                android:layout_height="168dp"
+                app:rhrvv_infoUrl="https://www.notion.so/HRV-80f6c62658f948cabca943d0e11ee429"
+                app:rhrvv_axisColor="?attr/common_line_hard_color"
+                app:rhrvv_background="@drawable/shape_hrv_bg"
+                app:rhrvv_gridLineColor="?attr/common_line_hard_color"
+                app:rhrvv_lineColor="?attr/common_yellow_primary_color"
+                app:rhrvv_mainColor="?attr/common_yellow2_color"
+                app:rhrvv_titleText="HRV"
+                app:rhrvv_buffer="10"
+                />
+
+    </LinearLayout>
+
+</LinearLayout>

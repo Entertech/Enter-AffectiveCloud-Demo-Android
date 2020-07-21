@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="104dp"
+        android:layout_height="104dp"
+        android:layout_marginTop="@dimen/activity_margin"
+        android:id="@+id/rl_bg"
+        android:background="@drawable/shape_meditation_time_select"
+        >
+
+    <TextView
+            android:id="@+id/tv_no_time_text"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Custom"
+            android:textColor="?attr/common_text_lv1_base_color"
+            android:textSize="16sp"
+            />
+
+    <LinearLayout
+            android:id="@+id/ll_time_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            >
+
+        <LinearLayout
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+            <TextView
+                    android:id="@+id/tv_hour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:textColor="?attr/common_white_color"
+                    android:textSize="18sp"
+                    />
+
+            <TextView
+                    android:id="@+id/tv_hour_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="hr"
+                    android:textColor="?attr/common_white_color"
+                    android:textSize="12sp"
+                    />
+
+            <TextView
+                    android:id="@+id/tv_min"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="30"
+                    android:textColor="?attr/common_white_color"
+                    android:textSize="18sp"
+                    />
+
+            <TextView
+                    android:id="@+id/tv_min_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="min"
+                    android:textColor="?attr/common_white_color"
+                    android:textSize="12sp"
+                    />
+        </LinearLayout>
+
+        <TextView
+                android:id="@+id/tv_small_custom_text"
+                android:layout_marginTop="@dimen/activity_margin_half"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="custom"
+                android:textColor="?attr/common_white_color"
+                android:textSize="12sp"
+                />
+    </LinearLayout>
+</RelativeLayout>

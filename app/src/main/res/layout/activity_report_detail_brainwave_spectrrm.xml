@@ -1,69 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
-
-    <include layout="@layout/layout_common_title" />
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/scroll_view"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#E5E5E5">
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        >
+
+    <include layout="@layout/layout_common_title" />
+    <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
+            android:background="?attr/common_bg2_color"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/ll_bg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+                android:id="@+id/ll_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
 
             <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView
-                android:id="@+id/chart_brainwave"
-                android:layout_width="match_parent"
-                android:layout_height="289dp"
-                android:layout_marginTop="@dimen/activity_margin_half"
-                android:background="@color/white"
-                app:rbs_isTitleIconShow="false"
-                app:rbs_highlightLineColor="?attr/common_line_light_color"
-                app:rbs_isTitleMenuIconShow="true"
-                app:rbs_markViewBgColor="?attr/common_bg_z2_color"
-                app:rbs_markViewDivideLineColor="?attr/common_line_hard_color"
-                app:rbs_markViewTitleColor="?attr/common_text_lv2_base_color"
-                app:rbs_markViewValueColor="?attr/common_text_lv1_base_color"
-                app:rbs_pointCount="100"
-                app:rbs_spectrumColors="#FF6682,#FB9C98,#F7C77E,#5FC695,#5E75FF"
-                app:rbs_timeUnit="400"
-                app:rbs_title="@string/change_during_meditation"
-                app:rbs_titleMenuIcon="@drawable/vector_drawable_full_screen"
-                app:rbs_xAxisUnit="@string/sdk_time_unit" />
-
-
+                    android:id="@+id/chart_brainwave"
+                    android:layout_width="match_parent"
+                    android:layout_height="289dp"
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    app:rbs_background="?attr/common_bg_z1_color"
+                    app:rbs_isTitleMenuIconShow="true"
+                    app:rbs_isTitleIconShow="false"
+                    app:rbs_spectrumColors="#FF6682,#FB9C98,#F7C77E,#5FC695,#5E75FF"
+                    app:rbs_timeUnit="400"
+                    app:rbs_textColor="?attr/common_text_lv1_base_color"
+                    app:rbs_xAxisUnit="Time(min)"
+                    app:rbs_pointCount="100"
+                    app:rbs_title="Changes During Meditation"
+                    app:rbs_titleMenuIcon="@drawable/vector_drawable_full_screen"
+                    app:rbs_markViewBgColor="?attr/common_bg_z2_color"
+                    app:rbs_highlightLineColor="?attr/common_line_light_color"
+                    app:rbs_markViewTitleColor="?attr/common_text_lv2_base_color"
+                    app:rbs_markViewValueColor="?attr/common_text_lv1_base_color"
+                    app:rbs_markViewDivideLineColor="?attr/common_line_hard_color"
+                    />
 
             <androidx.cardview.widget.CardView
-                android:layout_marginTop="@dimen/activity_margin"
-                app:cardCornerRadius="@dimen/activity_margin_half"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_weight="1">
-
-                <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
-                    android:id="@+id/about_view"
+                    android:layout_marginBottom="@dimen/activity_margin"
+                    app:cardCornerRadius="@dimen/activity_margin_half"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:rav_contentText="@string/about_brainwave"
-                    app:rav_learnMoreUrl="https://www.notion.so/Brainwave-Power-Graph-6f2a784b347d4d7d98b9fd0da89de454"
-                    app:rav_titleIcon="@drawable/vector_drawable_stockholm_help_blue" />
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    >
 
+                <cn.entertech.flowtimezh.ui.view.ReportAboutView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/common_bg_z1_color"
+                        app:rav_textColor="?attr/common_text_lv1_base_color"
+                        app:rav_buttonTextColor="?attr/common_btn_1"
+                        app:rav_learnMoreUrl="https://www.notion.so/Brainwave-Power-Graph-6f2a784b347d4d7d98b9fd0da89de454"
+                        app:rav_titleIcon="@drawable/vector_drawable_report_about_brainwave"
+                        app:rav_contentText="@string/brainwave_about_text"
+                        />
             </androidx.cardview.widget.CardView>
+
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
 
 
 </LinearLayout>

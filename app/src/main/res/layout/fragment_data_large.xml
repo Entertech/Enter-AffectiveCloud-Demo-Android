@@ -82,22 +82,22 @@
                     android:elevation="0dp"
                     app:cardCornerRadius="@dimen/activity_margin">
 
-                    <cn.entertech.affectiveclouddemo.ui.view.MeditationWearStateView
+                    <cn.entertech.flowtimezh.ui.view.MeditationWearStateView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                 </androidx.cardview.widget.CardView>
 
-                <cn.entertech.affectiveclouddemo.ui.view.MeditationInterruptView
+                <cn.entertech.flowtimezh.ui.view.MeditationInterruptView
                     android:id="@+id/miv_interrupt_device"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/activity_margin"
                     android:visibility="gone">
 
-                </cn.entertech.affectiveclouddemo.ui.view.MeditationInterruptView>
+                </cn.entertech.flowtimezh.ui.view.MeditationInterruptView>
 
-                <cn.entertech.affectiveclouddemo.ui.view.MeditationHeartView
+                <cn.entertech.flowtimezh.ui.view.MeditationHeartView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:tag="Heart" />
@@ -116,7 +116,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <cn.entertech.affectiveclouddemo.ui.view.MeditationBrainwaveView
+                <cn.entertech.flowtimezh.ui.view.MeditationBrainwaveView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:tag="Brainwave" />
@@ -159,7 +159,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <cn.entertech.affectiveclouddemo.ui.view.RealtimePleasureAndArousalView
+                        <cn.entertech.flowtimezh.ui.view.RealtimePleasureAndArousalView
                             android:id="@+id/realtime_arousal_pleasure"
                             android:layout_width="match_parent"
                             android:layout_height="110dp" />
@@ -182,7 +182,7 @@
                         android:layout_gravity="center_vertical|right"/>
                 </LinearLayout>
 
-                <cn.entertech.affectiveclouddemo.ui.view.MeditationEmotionLargeView
+                <cn.entertech.flowtimezh.ui.view.MeditationEmotionLargeView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:tag="Emotion" />
@@ -243,7 +243,7 @@
                             app:clv_color="#5E75FE"
                             app:clv_legend="专注度"/>
                     </LinearLayout>
-                    <cn.entertech.affectiveclouddemo.ui.view.AffectiveSurfaceView
+                    <cn.entertech.flowtimezh.ui.view.AffectiveSurfaceView
                         android:id="@+id/realtime_affective_line_chart"
                         android:layout_width="match_parent"
                         android:layout_height="104dp"

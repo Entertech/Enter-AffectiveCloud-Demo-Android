@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:background="?attr/common_bg1_color"
+        android:orientation="vertical">
+
+
+    <include layout="@layout/layout_common_title" />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_margin">
+
+        <TextView
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/common_text_lv1_base_color"
+                android:textSize="24sp"
+                android:text="@string/device_permission"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin_quarter"
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+        <LinearLayout
+                android:id="@+id/permisson_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:textSize="14sp"
+                    android:textColor="?attr/common_text_lv2_base_color"
+                    android:gravity="center"
+                    android:text="@string/device_permission_location_tip"/>
+
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_margin_half"
+                    android:textSize="16sp"
+                    android:textColor="?attr/common_btn_1"
+                    android:gravity="center"
+                    android:onClick="onLocation"
+                    android:text="@string/device_permission_location"/>
+
+        </LinearLayout>
+
+
+        <TextView
+                android:id="@+id/permisson_ble"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12sp"
+                android:layout_marginTop="48dp"
+                android:textSize="16sp"
+                android:textColor="?attr/common_btn_1"
+                android:gravity="center"
+                android:onClick="onBluetooth"
+                android:text="@string/device_permission_ble"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical">
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:textSize="@dimen/text_size_secondary"-->
+        <!--android:onClick="onCanNotOpen"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:text="@string/device_open_can_not"-->
+        <!--android:background="@drawable/shape_device_reconnect"/>-->
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12sp"
+                android:layout_marginTop="16dp"
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:onClick="onConnect"
+                android:text="@string/device_open_button"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -19,84 +19,116 @@
             />
 
     <LinearLayout
-            android:layout_marginRight="@dimen/activity_margin"
-            android:layout_marginLeft="@dimen/activity_margin"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
-
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:layout_marginLeft="@dimen/activity_margin">
         <RelativeLayout
-                android:layout_marginTop="18dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:id="@+id/rl_check"
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:layout_gravity="center_vertical"
+                android:visibility="visible">
 
-            <TextView
-                    android:id="@+id/tv_date"
-                    android:layout_centerVertical="true"
+            <CheckBox
+                    android:layout_centerInParent="true"
+                    android:id="@+id/check_box"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
+                    />
+        </RelativeLayout>
+        <LinearLayout
+                android:id="@+id/ll_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+            <RelativeLayout
+                    android:layout_marginTop="18dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                <TextView
+                        android:id="@+id/tv_time"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="normal"
+                        android:textColor="#ffffff"
+                        android:text="5.5.2019"
+                        />
+
+                <TextView
+                        android:id="@+id/tv_feedback_flag"
+                        android:visibility="gone"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:gravity="center_vertical"
+                        android:drawableLeft="@drawable/vector_drawable_biofeedback_flag"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="bold"
+                        android:textColor="#ffe4bb"
+                        android:text="Biodata"
+                        android:background="@drawable/shape_biofeedback_flag_bg"
+                        />
+            </RelativeLayout>
+
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="5dp"
+                    >
+
+                <TextView
+                        android:id="@+id/tv_duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="bold"
+                        android:textColor="#ffffff"
+                        android:text="Mindful Positivity Mindful "
+                        />
+
+
+                <TextView
+                        android:id="@+id/tv_sample_data"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="normal"
+                        android:textColor="#ffffff"
+                        android:text="(Sample data)"
+                        />
+
+            </LinearLayout>
+
+            <TextView
+                    android:id="@+id/tv_lesson_name"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_marginBottom="@dimen/activity_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
                     android:fontFamily="sans-serif"
                     android:textStyle="normal"
                     android:textColor="#ffffff"
-                    android:text="5.5.2019"
+                    android:text="Balance"
                     />
-
-            <TextView
-                    android:id="@+id/tv_feedback_flag"
-                    android:visibility="gone"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:gravity="center_vertical"
-                    android:drawableLeft="@drawable/vector_drawable_biofeedback_flag"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:fontFamily="sans-serif"
-                    android:textStyle="bold"
-                    android:textColor="#ffe4bb"
-                    android:text="Biodata"
-                    android:background="@drawable/shape_biofeedback_flag_bg"
-                    />
-        </RelativeLayout>
-
-        <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="5dp"
-                >
-
-            <TextView
-                    android:id="@+id/tv_duration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:fontFamily="sans-serif"
-                    android:textStyle="bold"
-                    android:textColor="#ffffff"
-                    android:text="Mindful Positivity Mindful "
-                    />
-
-
         </LinearLayout>
-
-        <TextView
-            android:layout_marginTop="8dp"
-            android:id="@+id/tv_time_duration"
-            android:visibility="visible"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:fontFamily="sans-serif"
-            android:textStyle="normal"
-            android:textColor="#ffffff"
-            android:text="(Sample data)"
-            />
-
     </LinearLayout>
 </androidx.cardview.widget.CardView>

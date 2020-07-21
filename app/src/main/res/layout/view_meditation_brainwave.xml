@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+        android:background="?attr/common_bg_z1_color"
+        >
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-medium"
+                android:textStyle="normal"
+                android:textColor="?attr/common_text_lv1_base_color"
+                android:lineSpacingExtra="6sp"
+                android:text="Brainwave"
+                />
+
+        <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_sample"
+                android:layout_marginLeft="@dimen/activity_margin_half"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:fontFamily="sans-serif-medium"
+                android:textStyle="normal"
+                android:textColor="?attr/common_text_lv1_base_color"
+                android:lineSpacingExtra="4sp"
+                android:gravity="end"
+                android:text="(Sample)"
+                />
+    </LinearLayout>
+
+    <RelativeLayout
+            android:layout_marginTop="@dimen/activity_margin_half"
+            android:layout_width="match_parent"
+            android:layout_height="323dp"
+            android:background="@drawable/shape_brainwave_card_bg"
+            >
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+            <RelativeLayout
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                <TextView
+                        android:layout_marginTop="@dimen/activity_margin"
+                        android:layout_marginLeft="@dimen/activity_margin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textStyle="normal"
+                        android:textColor="?attr/common_blue2_color"
+                        android:lineSpacingExtra="8sp"
+                        android:layout_centerVertical="true"
+                        android:text="Real-time Brainwave (EEG)"
+                        />
+
+                <ImageView
+                        android:id="@+id/iv_brain_real_time_info"
+                        android:layout_marginRight="@dimen/activity_margin"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/vector_drawable_info_circle"
+                        />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                <TextView
+                        android:id="@+id/tv_legend_right"
+                        android:layout_centerVertical="true"
+                        android:drawablePadding="@dimen/activity_margin_half"
+                        android:drawableLeft="@drawable/shape_brainwave_legend_right"
+                        android:layout_marginRight="@dimen/activity_margin"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="normal"
+                        android:textColor="?attr/common_text_lv1_base_color"
+                        android:gravity="top"
+                        android:text="Right Brain"
+                        />
+
+
+                <TextView
+                        android:id="@+id/tv_legend_left"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/tv_legend_right"
+                        android:drawablePadding="@dimen/activity_margin_half"
+                        android:drawableLeft="@drawable/shape_brainwave_legend_left"
+                        android:layout_marginRight="@dimen/activity_margin_half"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif"
+                        android:textStyle="normal"
+                        android:textColor="?attr/common_text_lv1_base_color"
+                        android:gravity="top"
+                        android:text="Left Brain"
+                        />
+            </RelativeLayout>
+
+            <cn.entertech.uicomponentsdk.realtime.BrainWaveSurfaceView
+                    android:id="@+id/bsv_brainwave_left"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    app:bwsf_bgColor="?attr/common_blue5_color"
+                    />
+
+            <cn.entertech.uicomponentsdk.realtime.BrainWaveSurfaceView
+                    android:id="@+id/bsv_brainwave_right"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:layout_marginBottom="@dimen/margin_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    app:bwsf_bgColor="?attr/common_blue5_color"
+                    app:bwsf_lineColor="@color/brainwaveLegendRight"
+                    />
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+                android:id="@+id/rl_loading_cover_1"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_meditation_loading_bg"
+                >
+
+            <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/icon_loading_1"
+                    android:layout_centerInParent="true"
+                    android:layout_width="124dp"
+                    android:layout_height="60dp"
+                    app:lottie_fileName="loading_puash.json"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    android:visibility="gone"
+                    />
+
+            <TextView
+                    android:id="@+id/tv_disconnect_text_1"
+                    android:layout_marginLeft="48dp"
+                    android:layout_marginRight="48dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textStyle="normal"
+                    android:textColor="?attr/common_white_color"
+                    android:gravity="center_horizontal"
+                    android:text=""
+                    />
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="270dp"
+            android:layout_marginTop="@dimen/activity_margin"
+            >
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/shape_brainwave_card_bg"
+                >
+
+            <RelativeLayout
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                <TextView
+                        android:layout_marginTop="@dimen/activity_margin"
+                        android:layout_marginLeft="@dimen/activity_margin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textStyle="normal"
+                        android:textColor="?attr/common_text_lv1_base_color"
+                        android:lineSpacingExtra="8sp"
+                        android:layout_centerVertical="true"
+                        android:text="@string/brainwave_spectrum"
+                        />
+
+                <ImageView
+                        android:id="@+id/iv_spectrum_real_time_info"
+                        android:layout_marginRight="@dimen/activity_margin"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/vector_drawable_info_circle"
+                        />
+
+            </RelativeLayout>
+
+
+            <cn.entertech.uicomponentsdk.realtime.PercentProgressBar
+                    android:id="@+id/ppb_one"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="23dp"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    app:ppb_labelTextSize="12sp"
+                    app:ppb_percent="1"
+                    app:ppb_barLeftPadding="@dimen/activity_margin"
+                    app:ppb_barRightPadding="@dimen/activity_margin"
+                    app:ppb_barWidth="@dimen/dp_4"
+                    app:ppb_labelTextColor="?attr/common_text_lv1_base_color"
+                    app:ppb_labelText="γ wave"
+                    app:ppb_barColor="?attr/common_yellow_primary_color"
+                    app:ppb_percentTextSize="12sp"
+                    >
+
+            </cn.entertech.uicomponentsdk.realtime.PercentProgressBar>
+
+            <cn.entertech.uicomponentsdk.realtime.PercentProgressBar
+                    android:id="@+id/ppb_two"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="23dp"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    app:ppb_labelTextSize="12sp"
+                    app:ppb_labelTextColor="?attr/common_text_lv1_base_color"
+                    app:ppb_percent="1"
+                    app:ppb_barColor="?attr/common_red4_color"
+                    app:ppb_barLeftPadding="@dimen/activity_margin"
+                    app:ppb_barRightPadding="@dimen/activity_margin"
+                    app:ppb_barWidth="@dimen/dp_4"
+                    app:ppb_labelText="β wave"
+                    app:ppb_percentTextSize="12sp"
+                    >
+
+            </cn.entertech.uicomponentsdk.realtime.PercentProgressBar>
+
+            <cn.entertech.uicomponentsdk.realtime.PercentProgressBar
+                    android:id="@+id/ppb_three"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="23dp"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    app:ppb_labelTextSize="12sp"
+                    app:ppb_labelTextColor="?attr/common_text_lv1_base_color"
+                    app:ppb_barLeftPadding="@dimen/activity_margin"
+                    app:ppb_barRightPadding="@dimen/activity_margin"
+                    app:ppb_percent="1"
+                    app:ppb_barColor="?attr/common_green_primary_color"
+                    app:ppb_barWidth="@dimen/dp_4"
+                    app:ppb_labelText="α wave"
+                    app:ppb_percentTextSize="12sp"
+                    >
+
+            </cn.entertech.uicomponentsdk.realtime.PercentProgressBar>
+
+            <cn.entertech.uicomponentsdk.realtime.PercentProgressBar
+                    android:id="@+id/ppb_four"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="23dp"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    app:ppb_labelTextSize="12sp"
+                    app:ppb_percent="1"
+                    app:ppb_labelTextColor="?attr/common_text_lv1_base_color"
+                    app:ppb_barColor="?attr/common_blue4_color"
+                    app:ppb_barLeftPadding="@dimen/activity_margin"
+                    app:ppb_barRightPadding="@dimen/activity_margin"
+                    app:ppb_barWidth="@dimen/dp_4"
+                    app:ppb_labelText="θ wave"
+                    app:ppb_percentTextSize="12sp"
+                    >
+
+            </cn.entertech.uicomponentsdk.realtime.PercentProgressBar>
+
+            <cn.entertech.uicomponentsdk.realtime.PercentProgressBar
+                    android:id="@+id/ppb_five"
+                    android:layout_marginBottom="@dimen/margin_vertical"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="23dp"
+                    app:ppb_barWidth="@dimen/dp_4"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    app:ppb_labelTextColor="?attr/common_text_lv1_base_color"
+                    app:ppb_labelTextSize="12sp"
+                    app:ppb_labelText="δ wave"
+                    app:ppb_barColor="?attr/common_text_lv1_base_color"
+                    app:ppb_barLeftPadding="@dimen/activity_margin"
+                    app:ppb_barRightPadding="@dimen/activity_margin"
+                    app:ppb_percent="1"
+                    app:ppb_percentTextSize="12sp"
+                    >
+
+            </cn.entertech.uicomponentsdk.realtime.PercentProgressBar>
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+                android:id="@+id/rl_loading_cover_2"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_meditation_loading_bg"
+                >
+
+            <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/icon_loading_2"
+                    android:layout_centerInParent="true"
+                    android:layout_width="124dp"
+                    android:layout_height="60dp"
+                    app:lottie_fileName="loading_puash.json"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    android:visibility="gone"
+                    />
+
+            <TextView
+                    android:id="@+id/tv_disconnect_text_2"
+                    android:layout_marginLeft="48dp"
+                    android:layout_marginRight="48dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textStyle="normal"
+                    android:textColor="#ffffff"
+                    android:gravity="center_horizontal"
+                    android:text=""
+                    />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+        >
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-medium"
+                android:textStyle="normal"
+                android:textColor="?attr/common_text_lv1_base_color"
+                android:lineSpacingExtra="6sp"
+                android:text="Emotion"
+                />
+
+        <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_sample"
+                android:layout_marginLeft="@dimen/activity_margin_half"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:fontFamily="sans-serif-medium"
+                android:textStyle="normal"
+                android:textColor="?attr/common_text_lv1_base_color"
+                android:lineSpacingExtra="4sp"
+                android:gravity="end"
+                android:text="(Sample)"
+                />
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_marginTop="@dimen/activity_margin_half"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+        <RelativeLayout
+                android:layout_marginRight="@dimen/activity_margin_half"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                >
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/shape_emotion_attention_card_bg"
+                    >
+
+                <RelativeLayout
+                        android:layout_marginTop="@dimen/activity_margin"
+                        android:layout_marginLeft="@dimen/activity_margin"
+                        android:layout_marginRight="@dimen/activity_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textStyle="normal"
+                            android:textColor="?attr/common_green2_color"
+                            android:lineSpacingExtra="8sp"
+                            android:text="Attention"
+                            />
+
+                    <ImageView
+                            android:id="@+id/iv_attention_real_time_info"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/vector_drawable_info_circle"
+                            android:layout_alignParentRight="true"
+                            />
+                </RelativeLayout>
+
+                <LinearLayout
+                        android:layout_marginLeft="@dimen/activity_margin"
+                        android:layout_marginTop="46dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        >
+
+                    <TextView
+                            android:id="@+id/tv_attention_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="24sp"
+                            android:fontFamily="sans-serif"
+                            android:textStyle="bold"
+                            android:textColor="?attr/common_green2_color"
+                            android:lineSpacingExtra="0sp"
+                            android:text="0"
+                            />
+
+                    <TextView
+                            android:id="@+id/tv_attention_level"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12.1sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textStyle="normal"
+                            android:textColor="?attr/common_green2_color"
+                            android:lineSpacingExtra="0sp"
+                            android:text=" (NORMAL)"
+                            />
+                </LinearLayout>
+
+                <cn.entertech.flowtimezh.ui.view.EmotionIndicatorAppView
+                        android:id="@+id/eiv_attention"
+                        app:eiv_barWidth="4dp"
+                        android:layout_marginTop="@dimen/activity_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        app:eiv_textSize="10sp"
+                        app:eiv_textColor="?attr/common_green2_color"
+                        app:eiv_rightPadding="16dp"
+                        app:eiv_leftPadding="16dp"
+                        app:eiv_textBottomPadding="5dp"
+                        app:eiv_indicatorColor="?attr/common_green3_color"
+                        />
+
+
+            </LinearLayout>
+
+
+            <RelativeLayout
+                    android:id="@+id/rl_loading_cover_1"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_meditation_loading_bg"
+                    >
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/icon_loading_1"
+                        android:layout_centerInParent="true"
+                        android:layout_width="124dp"
+                        android:layout_height="60dp"
+                        app:lottie_fileName="loading_puash.json"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        android:visibility="gone"
+                        />
+
+                <TextView
+                        android:id="@+id/tv_disconnect_text_1"
+                        android:layout_marginLeft="@dimen/activity_margin_half"
+                        android:layout_marginRight="@dimen/activity_margin_half"
+                        android:layout_centerInParent="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textStyle="normal"
+                        android:textColor="?attr/common_white_color"
+                        android:gravity="center_horizontal"
+                        android:text=""
+                        />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:layout_marginRight="@dimen/activity_margin_half"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                >
+
+
+            <LinearLayout
+                    android:background="@drawable/shape_emotion_relaxation_card_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+
+                <RelativeLayout
+                        android:layout_marginTop="@dimen/activity_margin"
+                        android:layout_marginLeft="@dimen/activity_margin"
+                        android:layout_marginRight="@dimen/activity_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textStyle="normal"
+                            android:textColor="?attr/common_blue2_color"
+                            android:lineSpacingExtra="8sp"
+                            android:text="Relaxation"
+                            />
+
+                    <ImageView
+                            android:id="@+id/iv_relaxation_real_time_info"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/vector_drawable_info_circle"
+                            android:layout_alignParentRight="true"
+                            />
+                </RelativeLayout>
+
+                <LinearLayout
+                        android:layout_marginLeft="@dimen/activity_margin"
+                        android:layout_marginTop="46dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        >
+
+                    <TextView
+                            android:id="@+id/tv_relaxation_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="24sp"
+                            android:fontFamily="sans-serif"
+                            android:textStyle="bold"
+                            android:textColor="?attr/common_blue2_color"
+                            android:lineSpacingExtra="0sp"
+                            android:text="0"
+                            />
+
+                    <TextView
+                            android:id="@+id/tv_relaxation_level"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12.1sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textStyle="normal"
+                            android:textColor="?attr/common_blue2_color"
+                            android:lineSpacingExtra="0sp"
+                            android:text=" (NORMAL)"
+                            />
+                </LinearLayout>
+
+                <cn.entertech.flowtimezh.ui.view.EmotionIndicatorAppView
+
+                        android:id="@+id/eiv_relaxation"
+                        app:eiv_barWidth="4dp"
+                        android:layout_marginTop="@dimen/activity_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        app:eiv_textSize="10sp"
+                        app:eiv_textColor="?attr/common_blue2_color"
+                        app:eiv_rightPadding="16dp"
+                        app:eiv_leftPadding="16dp"
+                        app:eiv_textBottomPadding="5dp"
+                        app:eiv_indicatorColor="?attr/common_blue3_color"
+                        />
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+                    android:id="@+id/rl_loading_cover_2"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_meditation_loading_bg"
+                    >
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/icon_loading_2"
+                        android:layout_centerInParent="true"
+                        android:layout_width="124dp"
+                        android:layout_height="60dp"
+                        app:lottie_fileName="loading_puash.json"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        android:visibility="gone"
+                        />
+
+                <TextView
+                        android:id="@+id/tv_disconnect_text_2"
+                        android:layout_marginLeft="@dimen/activity_margin_half"
+                        android:layout_marginRight="@dimen/activity_margin_half"
+                        android:layout_centerInParent="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textStyle="normal"
+                        android:textColor="?attr/common_white_color"
+                        android:gravity="center_horizontal"
+                        android:text=""
+                        />
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_marginTop="@dimen/activity_margin_half"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+        <RelativeLayout
+                android:layout_marginRight="@dimen/activity_margin_half"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                >
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/shape_emotion_stresslevel_card_bg"
+                    >
+
+                <RelativeLayout
+                        android:layout_marginTop="@dimen/activity_margin"
+                        android:layout_marginLeft="@dimen/activity_margin"
+                        android:layout_marginRight="@dimen/activity_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textStyle="normal"
+                            android:textColor="?attr/common_red2_color"
+                            android:lineSpacingExtra="8sp"
+                            android:text="Pressure"
+                            />
+
+                    <ImageView
+                            android:id="@+id/iv_pressure_real_time_info"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/vector_drawable_info_circle"
+                            android:layout_alignParentRight="true"
+                            />
+                </RelativeLayout>
+
+                <LinearLayout
+                        android:layout_marginLeft="@dimen/activity_margin"
+                        android:layout_marginTop="46dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        >
+
+                    <TextView
+                            android:id="@+id/tv_stress_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="24sp"
+                            android:fontFamily="sans-serif"
+                            android:textStyle="bold"
+                            android:textColor="?attr/common_red2_color"
+                            android:lineSpacingExtra="0sp"
+                            android:text="0"
+                            />
+
+                    <TextView
+                            android:id="@+id/tv_stress_level"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12.1sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textStyle="normal"
+                            android:textColor="?attr/common_red2_color"
+                            android:lineSpacingExtra="0sp"
+                            android:text=" (NORMAL)"
+                            />
+                </LinearLayout>
+
+                <cn.entertech.flowtimezh.ui.view.EmotionIndicatorAppView
+
+                        android:id="@+id/eiv_stress"
+                        app:eiv_barWidth="4dp"
+                        android:layout_marginTop="@dimen/activity_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        app:eiv_textSize="10sp"
+                        app:eiv_textColor="?attr/common_red2_color"
+                        app:eiv_rightPadding="16dp"
+                        app:eiv_leftPadding="16dp"
+                        app:eiv_textBottomPadding="5dp"
+                        app:eiv_indicatorColor="?attr/common_red3_color"
+                        />
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+                    android:id="@+id/rl_loading_cover_3"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_meditation_loading_bg"
+                    >
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/icon_loading_3"
+                        android:layout_centerInParent="true"
+                        android:layout_width="124dp"
+                        android:layout_height="60dp"
+                        app:lottie_fileName="loading_puash.json"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        android:visibility="gone"
+                        />
+
+                <TextView
+                        android:id="@+id/tv_disconnect_text_3"
+                        android:layout_marginLeft="@dimen/activity_margin_half"
+                        android:layout_marginRight="@dimen/activity_margin_half"
+                        android:layout_centerInParent="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textStyle="normal"
+                        android:textColor="?attr/common_white_color"
+                        android:gravity="center_horizontal"
+                        android:text=""
+                        />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:visibility="invisible"
+                android:layout_marginRight="@dimen/activity_margin_half"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                >
+
+            <LinearLayout
+                    android:visibility="invisible"
+                    android:background="@drawable/shape_emotion_mood_card_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+
+                <RelativeLayout
+                        android:layout_marginTop="@dimen/activity_margin"
+                        android:layout_marginLeft="@dimen/activity_margin"
+                        android:layout_marginRight="@dimen/activity_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textStyle="normal"
+                            android:textColor="?attr/common_yellow2_color"
+                            android:lineSpacingExtra="8sp"
+                            android:text="Mood"
+                            />
+
+                    <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/vector_drawable_info_circle"
+                            android:layout_alignParentRight="true"
+                            />
+                </RelativeLayout>
+
+                <LinearLayout
+                        android:layout_marginLeft="@dimen/activity_margin"
+                        android:layout_marginTop="46dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        >
+
+                    <TextView
+                            android:id="@+id/tv_mood_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="24sp"
+                            android:fontFamily="sans-serif"
+                            android:textStyle="bold"
+                            android:textColor="?attr/common_yellow2_color"
+                            android:lineSpacingExtra="0sp"
+                            android:text="0"
+                            />
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12.1sp"
+                            android:fontFamily="sans-serif-medium"
+                            android:textStyle="normal"
+                            android:textColor="?attr/common_yellow2_color"
+                            android:lineSpacingExtra="0sp"
+                            android:text=" (NORMAL)"
+                            />
+                </LinearLayout>
+
+                <cn.entertech.flowtimezh.ui.view.EmotionIndicatorAppView
+                        android:id="@+id/eiv_mood"
+                        app:eiv_barWidth="4dp"
+                        android:layout_marginTop="@dimen/activity_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        app:eiv_textSize="10sp"
+                        app:eiv_rightPadding="16dp"
+                        app:eiv_textColor="?attr/common_yellow2_color"
+                        app:eiv_leftPadding="16dp"
+                        app:eiv_textBottomPadding="5dp"
+                        app:eiv_indicatorColor="?attr/common_yellow3_color"
+                        />
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_meditation_loading_bg"
+                    >
+
+                <com.airbnb.lottie.LottieAnimationView
+                        android:layout_centerInParent="true"
+                        android:layout_width="124dp"
+                        android:layout_height="60dp"
+                        app:lottie_fileName="loading_puash.json"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        />
+
+                <TextView
+                        android:layout_marginLeft="@dimen/activity_margin_half"
+                        android:layout_marginRight="@dimen/activity_margin_half"
+                        android:layout_centerInParent="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textStyle="normal"
+                        android:textColor="?attr/common_white_color"
+                        android:gravity="center_horizontal"
+                        android:text=""
+                        />
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -89,16 +89,77 @@
         <item name="common_share_bg_color">@color/common_share_bg_color_dark</item>
     </style>
 
+    <declare-styleable name="DeviceContactTipView">
+        <attr name="dctv_title" format="string"/>
+        <attr name="dctv_image" format="reference"/>
+        <attr name="dctv_tip" format="string"/>
+    </declare-styleable>
+
+
+    <!--进度条播放按钮-->
+    <declare-styleable name="ProgressPlayButton">
+        <attr name="progressBarBg" format="color" />
+        <attr name="progressBarWidth" format="dimension" />
+        <attr name="progressBarColor" format="color" />
+        <attr name="btnBg" format="color" />
+        <attr name="playSrc" format="reference" />
+        <attr name="pauseSrc" format="reference" />
+        <attr name="max" format="integer" />
+        <attr name="progress" format="integer" />
+    </declare-styleable>
+
+    <!--水波球加载loading-->
+    <declare-styleable name="WaveLoadingView">
+        <attr name="strokeColor" format="color" />
+        <attr name="strokeWidth" format="dimension" />
+        <attr name="BgColor" format="color" />
+        <attr name="waveColor" format="color" />
+        <attr name="waveHeight" format="dimension" />
+        <attr name="waveLength" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="EmotionIndicatorAppView">
+        <attr name="eiv_textColor" format="color" />
+        <attr name="eiv_textSize" format="dimension" />
+        <attr name="eiv_textBottomPadding" format="dimension" />
+        <attr name="eiv_barWidth" format="dimension" />
+        <attr name="eiv_indicatorColor" format="color" />
+        <attr name="eiv_indicatorTopPadding" format="dimension" />
+        <attr name="eiv_leftPadding" format="dimension" />
+        <attr name="eiv_rightPadding" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="ScrollLayout">
+        <attr name="minOffset" format="dimension" />
+        <attr name="maxOffset" format="dimension" />
+        <attr name="exitOffset" format="dimension" />
+        <attr name="mode">
+            <flag name="open" value="0x0" />
+            <flag name="close" value="0x1" />
+            <flag name="exit" value="0x2" />
+        </attr>
+        <attr name="isChildListView" format="boolean" />
+        <attr name="allowHorizontalScroll" format="boolean" />
+        <attr name="isSupportExit" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="MeItemView">
+        <attr name="item_icon" format="reference" />
+        <attr name="item_text" format="string" />
+        <attr name="item_label" format="string" />
+        <attr name="item_isLabelShow" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="GuideTipView">
+        <attr name="gtv_tipText"    format="string"/>
+        <attr name="gtv_type"    format="integer"/>
+    </declare-styleable>
 
     <declare-styleable name="ReportAboutView">
         <attr name="rav_titleIcon" format="reference" />
         <attr name="rav_contentText" format="string" />
         <attr name="rav_learnMoreUrl" format="string" />
-    </declare-styleable>
-
-    <declare-styleable name="DeviceContactTipView">
-        <attr name="dctv_title" format="string"/>
-        <attr name="dctv_image" format="reference"/>
-        <attr name="dctv_tip" format="string"/>
+        <attr name="rav_textColor" format="color" />
+        <attr name="rav_buttonTextColor" format="color" />
     </declare-styleable>
 </resources>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="?attr/common_bg_z1_color"
+        >
+
+    <TextView
+            android:id="@+id/tv_label"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-medium"
+            android:textStyle="normal"
+            android:textColor="?attr/common_text_lv1_base_color"
+            android:lineSpacingExtra="6sp"
+            android:text="Brainwave"
+            />
+
+    <ImageView
+            android:clickable="true"
+            android:id="@+id/iv_drag"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:src="@drawable/vector_drawable_drag_icon"
+            />
+
+
+</RelativeLayout>

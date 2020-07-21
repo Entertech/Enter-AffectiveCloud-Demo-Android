@@ -82,6 +82,9 @@
     <color name="colorPrimaryDark">#999999</color>
     <color name="colorAccent">#D81B60</color>
 
+    <color name="colorThemeBlue">#4b5dcc</color>
+    <color name="colorThemeGray">#999999</color>
+    <color name="colorBtnClick">#cccccc</color>
     <color name="colorRecordBgGreen">#c7ffe4</color>
     <color name="colorRecordBgYellow">#fdf1ea</color>
     <color name="colorRecordBgBlue">#e5eaf7</color>
@@ -94,8 +97,9 @@
     <color name="colorRecordBiofeedbackBg">#CC13110d</color>
 
     <color name="colorReportAboutTitle">#333333</color>
-
-
-
-
+    <color name="colorUnselectedText">#80848f</color>
+    <color name="statisticsBg">#f4f5f9</color>
+    <color name="deviceConnected">#4b5dcc</color>
+    <color name="deviceConnecting">#555b7f</color>
+    <color name="lineColor">#d8d8d8</color>
 </resources>
