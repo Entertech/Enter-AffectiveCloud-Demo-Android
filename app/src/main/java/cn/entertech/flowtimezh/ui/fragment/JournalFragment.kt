@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import cn.entertech.flowtimezh.R
 import cn.entertech.flowtimezh.app.Constant.Companion.RECORD_ID
+import cn.entertech.flowtimezh.app.SettingManager
 import cn.entertech.flowtimezh.database.MeditationDao
 import cn.entertech.flowtimezh.database.UserLessonRecordDao
 import cn.entertech.flowtimezh.mvp.model.UserLessonEntity
@@ -112,7 +113,7 @@ class JournalFragment : Fragment() {
     fun setData() {
         userLessonRecordDao = UserLessonRecordDao(activity)
         var userLessonRecord: UserLessonEntity? =
-            userLessonRecordDao?.findRecordById(0, recordId!!)
+            userLessonRecordDao?.findRecordById(SettingManager.getInstance().userId, recordId!!)
                 ?: return
         var meditationDao = MeditationDao(activity)
 
@@ -120,12 +121,10 @@ class JournalFragment : Fragment() {
             return
         }
         var meditation = meditationDao.findMeditationById(userLessonRecord!!.meditation)
-        if (meditation == null || meditation.meditationFile == null) {
+        if (meditation == null) {
             return
         }
-        var fileUri = meditation.meditationFile
-        var uris = fileUri.split("/")
-        fileName = uris[uris.size - 1]
+        fileName = meditation.startTime
 //        Logger.d("file name is " + fileName)
 
         if (fileName == null) {
