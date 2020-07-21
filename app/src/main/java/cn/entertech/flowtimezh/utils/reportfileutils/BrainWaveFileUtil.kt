@@ -11,6 +11,7 @@ import java.util.*
  */
 class BrainWaveFileUtil ()  {
 
+    private var fileWriteCompleteCallback: ((String) -> Unit)? = null
     constructor(type: Type) : this() {
         brainFileHelper = if (type == Type.V2) {
             DeviceHelperV2()
@@ -57,8 +58,11 @@ class BrainWaveFileUtil ()  {
         if (!meditationReport.exists()) {
             meditationReport.mkdirs()
         }
+
+        var filePath = getReportDir() + "/" + fileName + getReportExtention()
         writeFile(getReportDir() + "/" + fileName + getReportExtention(), byteArray,
                 HexDump.hexStringToByteArray(getReportHeader(byteArray,sleepType)))
+        fileWriteCompleteCallback?.invoke(filePath)
     }
     /**
      * 写文件(新文件协议);
@@ -127,6 +131,11 @@ class BrainWaveFileUtil ()  {
             e.printStackTrace()
         }
 
+    }
+
+
+    fun addFileWriteCompleteCallback(callback:((String)->Unit)?){
+        fileWriteCompleteCallback = callback
     }
 
 }

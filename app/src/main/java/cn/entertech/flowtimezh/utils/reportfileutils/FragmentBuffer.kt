@@ -51,6 +51,9 @@ class FragmentBuffer {
             writeMeditationReport()
         }
     }
+    fun addFileWriteCompleteCallback(callback:((String)->Unit)?){
+        brainWaveFileUtil.addFileWriteCompleteCallback(callback)
+    }
 
     @Synchronized
     private fun writeMeditationReport() {

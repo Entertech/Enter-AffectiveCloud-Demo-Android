@@ -353,16 +353,19 @@ abstract class MeditationBaseActivity : BaseActivity() {
 
     fun exitMeditation() {
         if (meditationStartTime != null) {
-            saveReportFile(reportMeditationData)
-            saveMeditationInDB(reportMeditationData)
-            saveUserLessonInDB()
+            saveReportFile(reportMeditationData,fun(filePath){
+                saveMeditationInDB(reportMeditationData)
+                saveUserLessonInDB()
+                postRecord()
+            })
         } else {
             saveUserLessonInDB()
+            postRecord()
         }
-        postRecord()
     }
 
-    fun saveReportFile(reportMeditationData: ReportMeditationDataEntity) {
+    fun saveReportFile(reportMeditationData: ReportMeditationDataEntity,fileWriteComplete:((String)->Unit)?) {
+        fragmentBuffer.addFileWriteCompleteCallback(fileWriteComplete)
         fragmentBuffer.appendMeditationReport(
             reportMeditationData,
             meditationStartTime!!,
@@ -394,7 +397,6 @@ abstract class MeditationBaseActivity : BaseActivity() {
         meditaiton!!.pressureAvg = report.reportPressureEnitty!!.pressureRec!!.average().toFloat()
         meditaiton!!.user = SettingManager.getInstance().userId
         meditaiton!!.acSessionId = enterAffectiveCloudManager?.mApi?.getSessionId()
-        Log.d("#######","session id is ${enterAffectiveCloudManager?.mApi?.getSessionId()}")
         var reportFileUri =
             "${SettingManager.getInstance().userId}/${courseId}/${lessonId}/${fragmentBuffer.fileName}"
         meditaiton!!.meditationFile = reportFileUri
