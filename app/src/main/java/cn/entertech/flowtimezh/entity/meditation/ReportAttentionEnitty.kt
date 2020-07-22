@@ -1,8 +1,8 @@
-package cn.entertech.flowtime.mvp.model.meditation
+package cn.entertech.flowtimezh.entity.meditation;
 
 class ReportAttentionEnitty{
-    var attentionAvg:Double? = null
-    var attentionRec:ArrayList<Double>? = null
+    var attentionAvg:Double? = 0.0
+    var attentionRec:ArrayList<Double>? = ArrayList()
     override fun toString(): String {
         return "ReportAttentionEnitty(attentionAvg=$attentionAvg, attentionRec=$attentionRec)"
     }

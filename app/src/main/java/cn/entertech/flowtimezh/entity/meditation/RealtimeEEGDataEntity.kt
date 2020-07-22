@@ -1,14 +1,14 @@
-package cn.entertech.flowtime.mvp.model.meditation
+package cn.entertech.flowtimezh.entity.meditation;
 
 class RealtimeEEGDataEntity {
-    var leftwave: ArrayList<Double>? = null
-    var rightwave: ArrayList<Double>? = null
-    var alphaPower: Double? = null
-    var betaPower: Double? = null
-    var thetaPower: Double? = null
-    var deltaPower: Double? = null
-    var gammaPower: Double? = null
-    var progress: Double? = null
+    var leftwave: ArrayList<Double>? = ArrayList()
+    var rightwave: ArrayList<Double>? = ArrayList()
+    var alphaPower: Double? = 0.0
+    var betaPower: Double? = 0.0
+    var thetaPower: Double? = 0.0
+    var deltaPower: Double? = 0.0
+    var gammaPower: Double? = 0.0
+    var progress: Double? = 0.0
     override fun toString(): String {
         return "RealtimeEEGDataEntity(leftwave=$leftwave, rightwave=$rightwave, alphaPower=$alphaPower, betaPower=$betaPower, thetaPower=$thetaPower, deltaPower=$deltaPower, gammaPower=$gammaPower, progress=$progress)"
     }

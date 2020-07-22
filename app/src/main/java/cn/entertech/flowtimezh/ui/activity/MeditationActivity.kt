@@ -29,7 +29,6 @@ import cn.entertech.ble.multiple.MultipleBiomoduleBleManager
 import cn.entertech.ble.single.BiomoduleBleManager
 import cn.entertech.bleuisdk.ui.DeviceUIConfig
 import cn.entertech.bleuisdk.ui.activity.DeviceManagerActivity
-import cn.entertech.flowtime.mvp.model.meditation.*
 import cn.entertech.flowtime.utils.reportfileutils.*
 import cn.entertech.flowtimezh.R
 import cn.entertech.flowtimezh.app.Application
@@ -42,6 +41,7 @@ import cn.entertech.flowtimezh.entity.MeditationEntity
 import cn.entertech.flowtimezh.entity.MessageEvent
 import cn.entertech.flowtimezh.entity.RecDataRecord
 import cn.entertech.flowtimezh.entity.UserLessonEntity
+import cn.entertech.flowtimezh.entity.meditation.*
 import cn.entertech.flowtimezh.ui.activity.BaseActivity
 import cn.entertech.flowtimezh.ui.activity.DataActivity
 import cn.entertech.flowtimezh.ui.fragment.MeditationFragment
@@ -100,7 +100,8 @@ class MeditationActivity : BaseActivity() {
 
     private var endTime: Long? = null
     private var startTime: Long? = null
-//    var canExit = true
+
+    //    var canExit = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_meditation)
@@ -143,7 +144,14 @@ class MeditationActivity : BaseActivity() {
             .eeg(4)
             .build()
         var availableAffectiveServices =
-            listOf(Service.ATTENTION, Service.PRESSURE, Service.RELAXATION, Service.PLEASURE,Service.AROUSAL,Service.COHERENCE)
+            listOf(
+                Service.ATTENTION,
+                Service.PRESSURE,
+                Service.RELAXATION,
+                Service.PLEASURE,
+                Service.AROUSAL,
+                Service.COHERENCE
+            )
         var availableBioServices = listOf(Service.EEG, Service.HR)
         var biodataSubscribeParams = BiodataSubscribeParams.Builder()
             .requestAllEEGData()
@@ -180,7 +188,7 @@ class MeditationActivity : BaseActivity() {
             runOnUiThread {
                 //            Logger.d("bio realtime data is " + it.toString())
                 if (it != null && it!!.realtimeEEGData != null) {
-                    Log.d("####","eeg data:"+it!!.realtimeEEGData?.alphaPower)
+                    Log.d("####", "eeg data:" + it!!.realtimeEEGData?.alphaPower)
                     if (isFirstReceiveData) {
                         MeditationTimeManager.getInstance().timeReset()
                         meditationStartTime = System.currentTimeMillis()
@@ -195,7 +203,10 @@ class MeditationActivity : BaseActivity() {
                     }
                     MeditationTimeManager.getInstance().timeIncrease()
                 }
-                meditationFragment?.showHeart(it?.realtimeHrData?.hr?.toInt(),it?.realtimeHrData?.hrv)
+                meditationFragment?.showHeart(
+                    it?.realtimeHrData?.hr?.toInt(),
+                    it?.realtimeHrData?.hrv
+                )
                 meditationFragment?.showBrain(it?.realtimeEEGData)
             }
         }
@@ -258,7 +269,7 @@ class MeditationActivity : BaseActivity() {
         initScrollLayout()
     }
 
-    fun initTimeRecordView(){
+    fun initTimeRecordView() {
         var meditationId = meditationId
         var meditationStartTime = meditationStartTime
         if (meditationId == -1L || meditationStartTime == -1L) {
@@ -662,51 +673,62 @@ class MeditationActivity : BaseActivity() {
                             return
                         }
                         var reportAttentionEnitty = ReportAttentionEnitty()
-                        var attentionMap = t["attention"] as Map<Any, Any?>
-                        if (attentionMap!!.containsKey("attention_avg")) {
-                            Logger.d("attention avg is " + attentionMap["attention_avg"] as Double)
-                            reportAttentionEnitty.attentionAvg =
-                                attentionMap["attention_avg"] as Double
-                        }
-                        if (attentionMap!!.containsKey("attention_rec")) {
-                            reportAttentionEnitty.attentionRec =
-                                attentionMap["attention_rec"] as ArrayList<Double>
+                        var attentionMap = t["attention"]
+                        if (attentionMap != null) {
+                            attentionMap = attentionMap as Map<Any, Any?>
+                            if (attentionMap.containsKey("attention_avg")) {
+                                Logger.d("attention avg is " + attentionMap["attention_avg"] as Double)
+                                reportAttentionEnitty.attentionAvg =
+                                    attentionMap["attention_avg"] as Double
+                            }
+                            if (attentionMap.containsKey("attention_rec")) {
+                                reportAttentionEnitty.attentionRec =
+                                    attentionMap["attention_rec"] as ArrayList<Double>
+                            }
                         }
                         reportMeditationData.reportAttentionEnitty = reportAttentionEnitty
                         var reportRelxationEntity = ReportRelaxationEnitty()
-                        var relaxationMap = t["relaxation"] as Map<Any, Any?>
-                        if (relaxationMap!!.containsKey("relaxation_avg")) {
-                            reportRelxationEntity.relaxationAvg =
-                                relaxationMap["relaxation_avg"] as Double
-                        }
-                        if (relaxationMap!!.containsKey("relaxation_rec")) {
-                            reportRelxationEntity.relaxationRec =
-                                relaxationMap["relaxation_rec"] as ArrayList<Double>
+                        var relaxationMap = t["relaxation"]
+                        if (relaxationMap != null) {
+                            relaxationMap = relaxationMap as Map<Any, Any?>
+                            if (relaxationMap.containsKey("relaxation_avg")) {
+                                reportRelxationEntity.relaxationAvg =
+                                    relaxationMap["relaxation_avg"] as Double
+                            }
+                            if (relaxationMap.containsKey("relaxation_rec")) {
+                                reportRelxationEntity.relaxationRec =
+                                    relaxationMap["relaxation_rec"] as ArrayList<Double>
+                            }
                         }
                         reportMeditationData.reportRelaxationEnitty = reportRelxationEntity
 
                         var reportPressureEnitty = ReportPressureEnitty()
-
-                        var pressureMap = t["pressure"] as Map<Any, Any?>
-                        if (pressureMap!!.containsKey("pressure_avg")) {
-                            reportPressureEnitty.pressureAvg =
-                                pressureMap["pressure_avg"] as Double
-                        }
-                        if (pressureMap!!.containsKey("pressure_rec")) {
-                            reportPressureEnitty.pressureRec =
-                                pressureMap["pressure_rec"] as ArrayList<Double>
+                        var pressureMap = t["pressure"]
+                        if (pressureMap != null) {
+                            pressureMap = pressureMap as Map<Any, Any?>
+                            if (pressureMap.containsKey("pressure_avg")) {
+                                reportPressureEnitty.pressureAvg =
+                                    pressureMap["pressure_avg"] as Double
+                            }
+                            if (pressureMap.containsKey("pressure_rec")) {
+                                reportPressureEnitty.pressureRec =
+                                    pressureMap["pressure_rec"] as ArrayList<Double>
+                            }
                         }
                         reportMeditationData.reportPressureEnitty = reportPressureEnitty
 
                         var reportPleasureEnitty = ReportPleasureEnitty()
-                        var pleasureMap = t["pleasure"] as Map<Any, Any?>
-                        if (pleasureMap!!.containsKey("pleasure_avg")) {
-                            reportPleasureEnitty.pleasureAvg =
-                                pleasureMap["pleasure_avg"] as Double
-                        }
-                        if (pleasureMap!!.containsKey("pleasure_rec")) {
-                            reportPleasureEnitty.pleasureRec =
-                                pleasureMap["pleasure_rec"] as ArrayList<Double>
+                        var pleasureMap = t["pleasure"]
+                        if (pleasureMap != null){
+                            pleasureMap = pleasureMap as Map<Any, Any?>
+                            if (pleasureMap.containsKey("pleasure_avg")) {
+                                reportPleasureEnitty.pleasureAvg =
+                                    pleasureMap["pleasure_avg"] as Double
+                            }
+                            if (pleasureMap.containsKey("pleasure_rec")) {
+                                reportPleasureEnitty.pleasureRec =
+                                    pleasureMap["pleasure_rec"] as ArrayList<Double>
+                            }
                         }
                         reportMeditationData.reportPleasureEnitty = reportPleasureEnitty
                         exitWithMeditation(reportMeditationData)
@@ -720,9 +742,9 @@ class MeditationActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        if (isRecordTime){
+        if (isRecordTime) {
             resetPage()
-        }else{
+        } else {
             finishMeditation()
         }
     }
@@ -805,22 +827,20 @@ class MeditationActivity : BaseActivity() {
 
 
     fun exitWithMeditation(reportMeditationData: ReportMeditationDataEntity) {
-        if (reportMeditationData.isDataSetCompletly()) {
-            handler.removeCallbacks(finishRunnable)
-            saveReportFile(reportMeditationData)
-            saveMeditationInDB(reportMeditationData)
-            saveUserLessonInDB()
-            enterAffectiveCloudManager?.release(object : Callback {
-                override fun onError(error: Error?) {
+        handler.removeCallbacks(finishRunnable)
+        saveReportFile(reportMeditationData)
+        saveMeditationInDB(reportMeditationData)
+        saveUserLessonInDB()
+        enterAffectiveCloudManager?.release(object : Callback {
+            override fun onError(error: Error?) {
 
-                }
+            }
 
-                override fun onSuccess() {
-                    toDataActivity()
-                }
+            override fun onSuccess() {
+                toDataActivity()
+            }
 
-            })
-        }
+        })
     }
 
     fun exitWithoutMeditation() {

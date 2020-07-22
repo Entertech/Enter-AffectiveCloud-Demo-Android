@@ -5,8 +5,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.entertech.flowtime.mvp.model.meditation.ReportMeditationDataEntity;
 import cn.entertech.flowtime.utils.reportfileutils.MeditaionInterruptManager;
+import cn.entertech.flowtimezh.entity.meditation.ReportMeditationDataEntity;
 
 import static cn.entertech.flowtimezh.utils.reportfileutils.HexDump.floatArrayToByteArray;
 import static cn.entertech.flowtimezh.utils.reportfileutils.HexDump.mergeByteArrays;

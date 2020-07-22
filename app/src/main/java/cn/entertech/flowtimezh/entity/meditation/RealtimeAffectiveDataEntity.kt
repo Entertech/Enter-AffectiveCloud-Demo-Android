@@ -1,8 +1,8 @@
-package cn.entertech.flowtime.mvp.model.meditation
+package cn.entertech.flowtimezh.entity.meditation;
 
 class RealtimeAffectiveDataEntity {
-    var attention: Double? = null
-    var relaxation: Double? = null
-    var pressure: Double? = null
-    var pleasure: Double? = null
+    var attention: Double? = 0.0
+    var relaxation: Double? = 0.0
+    var pressure: Double? = 0.0
+    var pleasure: Double? = 0.0
 }

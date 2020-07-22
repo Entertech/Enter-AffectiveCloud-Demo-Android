@@ -2,7 +2,7 @@ package cn.entertech.flowtime.utils.reportfileutils
 
 import android.os.Handler
 import android.os.HandlerThread
-import cn.entertech.flowtime.mvp.model.meditation.ReportMeditationDataEntity
+import cn.entertech.flowtimezh.entity.meditation.ReportMeditationDataEntity
 import cn.entertech.flowtimezh.utils.reportfileutils.BrainWaveFileUtil
 import cn.entertech.flowtimezh.utils.reportfileutils.FileFragment
 import cn.entertech.flowtimezh.utils.reportfileutils.FileFragmentContent

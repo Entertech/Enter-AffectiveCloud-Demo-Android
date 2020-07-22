@@ -1,4 +1,4 @@
-package cn.entertech.flowtime.mvp.model.meditation
+package cn.entertech.flowtimezh.entity.meditation;
 
 class ReportMeditationDataEntity {
     @Volatile var  reportPleasureEnitty: ReportPleasureEnitty? = null

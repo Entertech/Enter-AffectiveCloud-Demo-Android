@@ -1,8 +1,8 @@
-package cn.entertech.flowtime.mvp.model.meditation
+package cn.entertech.flowtimezh.entity.meditation;
 
 class ReportPressureEnitty{
-    var pressureAvg:Double? = null
-    var pressureRec:ArrayList<Double>? = null
+    var pressureAvg:Double? = 0.0
+    var pressureRec:ArrayList<Double>? = ArrayList()
     override fun toString(): String {
         return "ReportPressureEnitty(pressureAvg=$pressureAvg, pressureRec=$pressureRec)"
     }
