@@ -36,11 +36,11 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 class StatisticsFragment : androidx.fragment.app.Fragment() {
+    private var titles: Array<String>? = null
     private var recordId: Long = -1
 
     private var popupWindow: PopupWindow? = null
     var self: View? = null
-    var titles = arrayOf("Journal", "Statistics")
     var mFragment = ArrayList<androidx.fragment.app.Fragment>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +48,7 @@ class StatisticsFragment : androidx.fragment.app.Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         EventBus.getDefault().register(this)
+        titles = arrayOf(getString(R.string.report_title_journal), getString(R.string.report_title_statistics))
         self = inflater.inflate(R.layout.fragment_statistics, container, false)
         return self
     }
@@ -228,7 +229,7 @@ class StatisticsFragment : androidx.fragment.app.Fragment() {
         }
 
         override fun getPageTitle(position: Int): CharSequence? {
-            return titles[position]
+            return titles!![position]
         }
 
         override fun getItem(position: Int): androidx.fragment.app.Fragment {

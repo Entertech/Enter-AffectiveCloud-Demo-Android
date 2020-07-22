@@ -151,7 +151,7 @@
                     android:layout_height="wrap_content"
                     android:visibility="visible"
                     app:item_icon="@drawable/vector_drawable_reminder"
-                    app:item_text="Reminder"
+                    app:item_text="@string/reminder"
                     ></cn.entertech.flowtimezh.ui.view.MeItemView>
 
             <TextView
@@ -176,7 +176,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:item_icon="@drawable/vector_drawable_me_app_store"
-                    app:item_text="Rate the Flowtime App"
+                    app:item_text="@string/rate_the_flowtime_app"
                     ></cn.entertech.flowtimezh.ui.view.MeItemView>
 
             <cn.entertech.flowtimezh.ui.view.MeItemView
@@ -207,7 +207,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:item_icon="@drawable/vector_drawable_me_feedback"
-                    app:item_text="Feedback"
+                    app:item_text="@string/feedback"
                     ></cn.entertech.flowtimezh.ui.view.MeItemView>
 
             <cn.entertech.flowtimezh.ui.view.MeItemView
@@ -215,7 +215,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:item_icon="@drawable/vector_drawable_me_help"
-                    app:item_text="Help Center"
+                    app:item_text="@string/help_center"
                     ></cn.entertech.flowtimezh.ui.view.MeItemView>
 
             <cn.entertech.flowtimezh.ui.view.MeItemView
@@ -223,7 +223,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:item_icon="@drawable/vector_drawable_me_terms_of_services"
-                    app:item_text="Terms of Service"
+                    app:item_text="@string/term_of_serivce"
                     ></cn.entertech.flowtimezh.ui.view.MeItemView>
 
             <cn.entertech.flowtimezh.ui.view.MeItemView
@@ -231,7 +231,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:item_icon="@drawable/vector_drawable_me_privacy"
-                    app:item_text="Privacy"
+                    app:item_text="@string/privacy"
                     ></cn.entertech.flowtimezh.ui.view.MeItemView>
 
             <TextView

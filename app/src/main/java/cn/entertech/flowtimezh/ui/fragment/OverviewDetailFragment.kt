@@ -123,13 +123,13 @@ class OverviewDetailFragment : Fragment() {
         if (currentDuration > average) {
             isMeditationTimeLongerThanAverage = true
             iv_average_icon.setImageResource(R.drawable.vector_drawable_report_average_arrow_up)
-            tv_average_tip.text = "The meditation time is longer than the average of last 7 times."
+            tv_average_tip.text = getString(R.string.meditation_longer_than_average)
         } else if (currentDuration < average) {
             iv_average_icon.setImageResource(R.drawable.vector_drawable_report_average_arrow_down)
-            tv_average_tip.text = "The meditation time is shorter than the average of last 7 times."
+            tv_average_tip.text = getString(R.string.meditation_shoter_than_average)
         } else {
             iv_average_icon.setImageResource(R.mipmap.ic_average_equal)
-            tv_average_tip.text = "The meditation time is the same as the average of last 7 times."
+            tv_average_tip.text = getString(R.string.meditation_same_as_average)
         }
         tv_average_tip.setTextColor((activity as BaseActivity).getColorInDarkMode(R.color.common_text_lv1_base_color_light,R.color.common_text_lv1_base_color_dark))
         (tip_bg.background as GradientDrawable).setColor((activity as BaseActivity).getColorInDarkMode(R.color.common_bg_z2_color_light,R.color.common_bg_z2_color_dark))
@@ -147,12 +147,12 @@ class OverviewDetailFragment : Fragment() {
             }
         }
         tv_experience_time.text =
-            "${currentRecordIndex + 1}${getFormatNumSuffix(currentRecordIndex + 1)}"
+            "${currentRecordIndex + 1}次冥想"
         var statisticsDao = StatisticsDao(activity!!)
         var statistics = statisticsDao.listAll(SettingManager.getInstance().userId)
         if (statistics != null && statistics.isNotEmpty()) {
             totalDuration = statisticsDao.totalMins
-            tv_experience_total_min.text = "${statisticsDao.totalMins} minutes"
+            tv_experience_total_min.text = "${statisticsDao.totalMins} ${R.string.minutes}"
         }
         card_statistics.setOnClickListener {
 //            postButtonEvent(activity!!,"1903","课程详情报表界面 statistics详情")

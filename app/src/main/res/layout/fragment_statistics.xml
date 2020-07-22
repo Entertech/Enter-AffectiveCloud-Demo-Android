@@ -35,13 +35,13 @@
                     android:id="@+id/tv_title_journey"
                     android:textSize="19sp"
                     android:textColor="@color/colorThemeBlue"
-                    android:text="JOURNEY"
+                    android:text="@string/report_title_journal"
                     android:textStyle="bold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             <TextView
                     android:id="@+id/tv_title_statistics"
-                    android:text="STATISTICS"
+                    android:text="@string/report_title_statistics"
                     android:textSize="16sp"
                     android:textColor="@color/colorUnselectedText"
                     android:layout_marginLeft="@dimen/margin_vertical"

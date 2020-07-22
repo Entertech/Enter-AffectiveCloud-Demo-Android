@@ -98,7 +98,7 @@
                         app:rav_textColor="?attr/common_text_lv1_base_color"
                         app:rav_buttonTextColor="?attr/common_btn_1"
                         app:rav_learnMoreUrl="https://www.notion.so/Heart-Rate-Graph-fa83da8528694fd1a265882db31d3778"
-                        app:rav_contentText="@string/hr_about_text"
+                        app:rav_contentText="@string/about_hr"
                         app:rav_titleIcon="@drawable/vector_drawable_report_about_hr"
                         />
             </androidx.cardview.widget.CardView>

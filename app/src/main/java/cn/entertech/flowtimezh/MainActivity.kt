@@ -14,7 +14,7 @@ import cn.entertech.flowtimezh.ui.activity.BaseActivity
 import cn.entertech.flowtimezh.ui.fragment.*
 import cn.entertech.flowtimezh.utils.getAppVersionName
 import cn.entertech.flowtimezh.utils.isNewVersion
-import com.amitshekhar.DebugDB
+//import com.amitshekhar.DebugDB
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
 import com.liulishuo.filedownloader.BaseDownloadTask
@@ -52,7 +52,7 @@ class MainActivity : BaseActivity() {
         initFullScreenDisplay(false)
         initView()
         initPermission()
-        DebugDB.getAddressLog()
+//        DebugDB.getAddressLog()
     }
 
     /**

@@ -62,7 +62,7 @@
                         app:rav_buttonTextColor="?attr/common_btn_1"
                         app:rav_learnMoreUrl="https://www.notion.so/Brainwave-Power-Graph-6f2a784b347d4d7d98b9fd0da89de454"
                         app:rav_titleIcon="@drawable/vector_drawable_report_about_brainwave"
-                        app:rav_contentText="@string/brainwave_about_text"
+                        app:rav_contentText="@string/about_brainwave"
                         />
             </androidx.cardview.widget.CardView>
 

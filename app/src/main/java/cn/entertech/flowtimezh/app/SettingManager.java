@@ -142,7 +142,7 @@ public class SettingManager {
     }
 
     public synchronized String getToken() {
-        return getSharedPreferences().getString(TOKEN, "Bearer 7TaNz2wbBDujxDjCBReAAX5pQ6LxLfvRJGot4RuO");
+        return getSharedPreferences().getString(TOKEN, "");
     }
 
     public synchronized void setIsCustomMeditationTime(boolean flag){
@@ -173,7 +173,7 @@ public class SettingManager {
     }
 
     public synchronized int getUserId() {
-        return getSharedPreferences().getInt(USER_ID, 4);
+        return getSharedPreferences().getInt(USER_ID, 0);
     }
 
     public synchronized void setSocialUserId(String userId) {

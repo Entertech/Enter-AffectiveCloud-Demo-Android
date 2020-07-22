@@ -127,7 +127,7 @@
                         android:layout_height="wrap_content"
                         android:background="?attr/common_bg_z1_color"
                         app:rav_learnMoreUrl="https://www.notion.so/Attention-Relaxation-Graph-519883390a63453da0db9e12b9a09755"
-                        app:rav_contentText="@string/r_and_a_about_text"
+                        app:rav_contentText="@string/about_relaxation_attention"
                         app:rav_titleIcon="@drawable/vector_drawable_report_about_relaxation"
                         />
             </androidx.cardview.widget.CardView>

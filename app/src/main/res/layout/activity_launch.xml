@@ -17,7 +17,7 @@
             android:layout_gravity="center"
             android:layout_width="100dp"
             android:layout_height="88dp"
-            android:src="@mipmap/pic_launch_icon"/>
+            android:src="@mipmap/ic_logo"/>
 
         <!--<TextView-->
             <!--android:layout_width="wrap_content"-->

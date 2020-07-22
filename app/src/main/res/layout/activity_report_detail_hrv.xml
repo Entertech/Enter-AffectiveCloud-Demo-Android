@@ -100,7 +100,7 @@
                         app:rav_textColor="?attr/common_text_lv1_base_color"
                         app:rav_buttonTextColor="?attr/common_btn_1"
                         app:rav_learnMoreUrl="https://www.notion.so/HRV-Graph-6f93225bf7934cb8a16eb6ba55da52cb"
-                        app:rav_contentText="@string/hrv_about_text"
+                        app:rav_contentText="@string/about_hrv"
                         app:rav_titleIcon="@drawable/vector_drawable_report_about_hrv"
                         />
             </androidx.cardview.widget.CardView>

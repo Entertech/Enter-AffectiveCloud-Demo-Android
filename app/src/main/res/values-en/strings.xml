@@ -183,11 +183,13 @@
     <string name="update_failed">Update Failed</string>
     <string name="update_failed_tip">Please go back to connect the device again and retry.</string>
     <string name="app_update_title">App Update</string>
-
-    <string name="brainwave_about_text">The change of the power ratio of the brainwaves reflects the change of mental state during meditation.</string>
-    <string name="hr_about_text">In general, the change of heart rate is disordered. Through long-term training, the heart rate can be seen in a certain periodic rhythm during meditation. At this time, the breathing and heartbeat reach a coordinated state.</string>
-    <string name="hrv_about_text">HRV changes with the state of meditation. The HRV is generally higher in the relaxed state. With long-term meditation practice, the overall level of HRV will increase.</string>
-    <string name="pressure_about_text">Deep breathing training can effectively reduce stress, and long-term meditation training can improve stress resilience. Pressure and relaxation graphs reflect your relaxation state on physical and phycological level.</string>
-    <string name="r_and_a_about_text">If you do not have long-term meditation training, your brainwaves in a specific brain state is concentrated. When you are focused, the Relaxation value is generally low, and when you are relaxed, the Attention value is low. Attention and Relaxation are mutually exclusive. After long-term practice of meditation, brainwaves are spread more broadly and even. You can be relaxed and focused at the same time with a high score of both Attention and Relaxation. In this state, it is easier to have inspiration and creativity.</string>
-    <string name="r_and_a"><![CDATA[Relaxation & Attention]]></string>
+   <string name="r_and_a"><![CDATA[Relaxation & Attention]]></string>
+    <string name="report_title_statistics">Statistics</string>
+    <string name="report_title_journal">Journal</string>
+    <string name="meditation_longer_than_average">The meditation time is longer than the average of last 7 times.</string>
+    <string name="meditation_shoter_than_average">The meditation time is shorter than the average of last 7 times.</string>
+    <string name="meditation_same_as_average">The meditation time is the same as the average of last 7 times.</string>
+    <string name="reminder">Reminder</string>
+    <string name="rate_the_flowtime_app">Rate the Flowtime App</string>
+    <string name="feedback">Feedback</string>
 </resources>

@@ -8,6 +8,7 @@ import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
 import cn.entertech.flowtimezh.MainActivity
 import cn.entertech.flowtimezh.R
@@ -27,6 +28,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.util.*
 
 class LoginActivity : BaseActivity() {
 
@@ -74,8 +76,7 @@ class LoginActivity : BaseActivity() {
         spannableStringBuilder.append(getText(R.string.loginTip))
         var termsColorSpan = ForegroundColorSpan(getColor(R.color.colorThemeBlue))
         var privacyColorSpan = ForegroundColorSpan(getColor(R.color.colorThemeBlue))
-        spannableStringBuilder.setSpan(termsColorSpan, 79, 85, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
-        spannableStringBuilder.setSpan(privacyColorSpan, 89, 96, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+        var currentLanguage = Locale.getDefault().language
         var termsClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
                 var uri = Uri.parse(SettingManager.getInstance().remoteConfigTermsOfUser)
@@ -88,8 +89,89 @@ class LoginActivity : BaseActivity() {
                 startActivity(Intent(Intent.ACTION_VIEW, uri))
             }
         }
-        spannableStringBuilder.setSpan(termsClickableSpan, 79, 85, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
-        spannableStringBuilder.setSpan(privacyClickableSpan, 89, 96, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+        when (currentLanguage) {
+            "zh" -> {
+                spannableStringBuilder.setSpan(
+                    termsColorSpan,
+                    28,
+                    32,
+                    Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+                )
+                spannableStringBuilder.setSpan(
+                    privacyColorSpan,
+                    33,
+                    37,
+                    Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+                )
+
+                spannableStringBuilder.setSpan(
+                    termsClickableSpan,
+                    28,
+                    32,
+                    Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+                )
+                spannableStringBuilder.setSpan(
+                    privacyClickableSpan,
+                    33,
+                    37,
+                    Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+                )
+            }
+            "en" -> {
+                spannableStringBuilder.setSpan(
+                    termsColorSpan,
+                    79,
+                    85,
+                    Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+                )
+                spannableStringBuilder.setSpan(
+                    privacyColorSpan,
+                    89,
+                    96,
+                    Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+                )
+
+                spannableStringBuilder.setSpan(
+                    termsClickableSpan,
+                    79,
+                    85,
+                    Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+                )
+                spannableStringBuilder.setSpan(
+                    privacyClickableSpan,
+                    89,
+                    96,
+                    Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+                )
+            }
+            else -> {
+                spannableStringBuilder.setSpan(
+                    termsColorSpan,
+                    28,
+                    32,
+                    Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+                )
+                spannableStringBuilder.setSpan(
+                    privacyColorSpan,
+                    33,
+                    37,
+                    Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+                )
+
+                spannableStringBuilder.setSpan(
+                    termsClickableSpan,
+                    28,
+                    32,
+                    Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+                )
+                spannableStringBuilder.setSpan(
+                    privacyClickableSpan,
+                    33,
+                    37,
+                    Spannable.SPAN_EXCLUSIVE_INCLUSIVE
+                )
+            }
+        }
         tv_tip.text = spannableStringBuilder
         tv_tip.movementMethod = LinkMovementMethod.getInstance()
     }
@@ -125,7 +207,7 @@ class LoginActivity : BaseActivity() {
         if (event.messageCode == 111) {
             SettingManager.getInstance().socialType = Constant.SOCIAL_LOGIN_TYPE_WECHAT
             SettingManager.getInstance().socialImage = event.wxImage
-            var name =  String(event.wxName.toByteArray(Charsets.ISO_8859_1), Charsets.UTF_8)
+            var name = String(event.wxName.toByteArray(Charsets.ISO_8859_1), Charsets.UTF_8)
             SettingManager.getInstance().socialUserName = name
             loadingDialog?.loading()
             mAuthSocialPresenter.authSocial(

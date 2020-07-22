@@ -31,11 +31,6 @@
         <activity android:name="cn.entertech.flowtimezh.MainActivity"
             android:configChanges="orientation|screenSize">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="cn.entertech.flowtimezh.ui.activity.ReportDetailBrainwaveSpectrumActivity"
@@ -74,6 +69,12 @@
         <activity android:name="cn.entertech.flowtimezh.ui.activity.LoginActivity">
         </activity>
         <activity android:name=".ui.activity.LaunchActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".wxapi.WXEntryActivity"
