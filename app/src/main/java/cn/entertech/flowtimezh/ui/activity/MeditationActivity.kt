@@ -141,7 +141,7 @@ class MeditationActivity : BaseActivity() {
 
 
         var biodataTolerance = BiodataTolerance.Builder()
-            .eeg(4)
+            .eeg(2)
             .build()
         var availableAffectiveServices =
             listOf(
