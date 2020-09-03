@@ -196,7 +196,7 @@
                     app:rbs_textColor="?attr/common_text_lv1_base_color"
                     app:rbs_xAxisUnit="Time(min)"
                     app:rbs_pointCount="100"
-                    app:rbs_title="Changes During Meditation"
+                    app:rbs_title="脑点波频谱"
                     app:rbs_titleMenuIcon="@drawable/vector_drawable_full_screen"
                     app:rbs_markViewBgColor="?attr/common_bg_z2_color"
                     app:rbs_highlightLineColor="?attr/common_line_light_color"
@@ -229,7 +229,7 @@
                     app:rlcc_highlightLineWidth="2"
                     app:rlcc_markViewBgColor="?attr/common_bg_z2_color"
                     app:rlcc_highlightLineColor="?attr/common_line_light_color"
-                    app:rlcc_title="Changes During Meditation"
+                    app:rlcc_title="心率"
                     app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
                     />
 
@@ -257,7 +257,7 @@
                     app:rlcc_markViewTitleColor="?attr/common_text_lv2_base_color"
                     app:rlcc_markViewValueColor="?attr/common_text_lv1_base_color"
                     app:rlcc_highlightLineWidth="2"
-                    app:rlcc_title="Changes During Meditation"
+                    app:rlcc_title="心率变异性"
                     app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
                     />
 
@@ -278,7 +278,7 @@
                     app:ralcc_timeUnit="800"
                     app:ralcc_lineWidth="0.75dp"
                     app:ralcc_averageLabelBgColor="?attr/common_bg1_color"
-                    app:ralcc_title="Changes During Meditation"
+                    app:ralcc_title="专注度和放松度"
                     app:ralcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
                     app:ralcc_xAxisUnit="Time(min)"
                     app:ralcc_markViewTitle1="Attention"
@@ -301,7 +301,7 @@
                     app:rlcc_background="?attr/common_bg_z1_color"
                     app:rlcc_gridLineColor="?attr/common_line_light_color"
                     app:rlcc_textColor="?attr/common_text_lv1_base_color"
-                    app:rlcc_title="Changes During Meditation"
+                    app:rlcc_title="压力值"
                     app:rlcc_isTitleMenuIconShow="true"
                     app:rlcc_lineColor="#FF6682"
                     app:rlcc_pointCount="100"
