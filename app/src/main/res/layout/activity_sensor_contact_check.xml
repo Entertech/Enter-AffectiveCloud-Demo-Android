@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:background="?attr/common_bg1_color"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true"
+        tools:context=".ui.activity.SensorContactCheckActivity"
+        >
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                >
+
+            <ImageView
+                    android:id="@+id/iv_back"
+                    android:visibility="visible"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@mipmap/ic_back_colorful"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/activity_sensor_contact_check_sensor_contact_check"
+                    android:textColor="?attr/common_text_lv1_base_color"
+                    android:textSize="17sp"
+                    />
+
+            <TextView
+                    android:id="@+id/tv_skip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:text="@string/activity_sensor_contact_check_skip"
+                    android:textColor="?attr/common_btn_1"
+                    android:textSize="17sp"
+                    />
+        </RelativeLayout>
+
+        <cn.entertech.flowtimezh.ui.view.SensorContactCheckView
+                android:id="@+id/device_contact_indicator"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginTop="@dimen/activity_margin_half"
+                android:layout_marginBottom="@dimen/margin_vertical"
+                android:layout_height="wrap_content"/>
+
+        <LinearLayout
+                android:id="@+id/ll_well_done_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/activity_margin"
+                android:orientation="vertical"
+                android:visibility="gone"
+                >
+
+            <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    app:lottie_autoPlay="true"
+                    app:lottie_fileName="welldone.json"
+                    app:lottie_repeatCount="1"
+                    />
+
+            <TextView
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/activity_sensor_contact_check_well_done"
+                    android:textColor="#5FC695"
+                    android:textSize="16sp"
+                    />
+        </LinearLayout>
+
+        <TextView
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_margin"
+                android:text="@string/activity_sensor_contact_check_16"
+                android:textColor="?attr/common_text_lv1_base_color"
+                android:textSize="16sp"
+                />
+
+    </LinearLayout>
+
+    <ScrollView
+            android:background="?attr/common_bg2_color"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+
+            <cn.entertech.flowtimezh.ui.view.DeviceContactTipView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    app:dctv_image="@mipmap/pic_device_contact_tip1"
+                    app:dctv_tip="@string/tip1_content"
+                    app:dctv_title="@string/tip1_title"
+                    />
+
+            <cn.entertech.flowtimezh.ui.view.DeviceContactTipView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    app:dctv_image="@mipmap/pic_device_contact_tip2"
+                    app:dctv_tip="@string/tip2_content"
+                    app:dctv_title="@string/tip2_title"
+                    />
+
+            <cn.entertech.flowtimezh.ui.view.DeviceContactTipView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    app:dctv_image="@mipmap/pic_device_contact_tip3"
+                    app:dctv_tip="@string/tip3_content"
+                    app:dctv_title="@string/tip3_title"
+                    />
+
+            <cn.entertech.flowtimezh.ui.view.DeviceContactTipView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    app:dctv_image="@mipmap/pic_device_contact_tip4"
+                    app:dctv_tip="@string/tip4_content"
+                    app:dctv_title="@string/tip4_title"
+                    />
+
+            <cn.entertech.flowtimezh.ui.view.DeviceContactTipView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    app:dctv_image="@mipmap/pic_device_contact_tip5"
+                    app:dctv_tip="@string/tip5_content"
+                    app:dctv_title="@string/tip5_title"
+                    />
+
+            <cn.entertech.flowtimezh.ui.view.DeviceContactTipView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    app:dctv_image="@mipmap/pic_device_contact_tip6"
+                    app:dctv_tip="@string/tip6_content"
+                    app:dctv_title="@string/tip6_title"
+                    />
+
+            <cn.entertech.flowtimezh.ui.view.DeviceContactTipView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:layout_marginRight="@dimen/activity_margin"
+                    android:layout_marginBottom="@dimen/margin_vertical"
+                    app:dctv_image="@mipmap/pic_device_contact_tip7"
+                    app:dctv_tip="@string/tip7_content"
+                    app:dctv_title="@string/tip7_title"
+                    />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

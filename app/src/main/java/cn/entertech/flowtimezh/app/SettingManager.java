@@ -97,7 +97,7 @@ public class SettingManager {
     }
 
     public synchronized String getMeditationViewOrder() {
-        return getSharedPreferences().getString(MEDITATION_VIEW_ORDER, "Heart,Brainwave,Emotion");
+        return getSharedPreferences().getString(MEDITATION_VIEW_ORDER, "0,1,2");
     }
 
 }

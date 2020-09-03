@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <dist:module dist:instant="true" />
 
     <application
@@ -23,6 +24,7 @@
         android:roundIcon="@mipmap/ic_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.activity.SensorContactCheckActivity"/>
         <activity android:name=".ui.activity.MeditationDimListActivity"></activity>
         <activity android:name=".ui.activity.MeditationLabelsCommitActivity" />
         <activity android:name=".ui.activity.MeditationLabelsRecordActivity" />
@@ -48,6 +50,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name=".ui.service.AffectiveCloudService"></service>
     </application>
 
 </manifest>

@@ -210,13 +210,13 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
 
         var hrLine = meditationReportDataAnalyzed?.hrRec
         if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrAvg != null){
-            chart_hr.setAverage(meditationReportDataAnalyzed!!.hrAvg.toInt())
+            chart_hr.setAverage("${meditationReportDataAnalyzed!!.hrAvg.toInt()}")
         }
         chart_hr.setAverageLineColor(R.color.common_line_hard_color_light)
         chart_hr.setData(hrLine)
         var hrvLine = meditationReportDataAnalyzed?.hrvRec
         if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrvAvg != null) {
-            chart_hrv.setAverage(meditationReportDataAnalyzed!!.hrvAvg.toInt())
+            chart_hrv.setAverage("${meditationReportDataAnalyzed!!.hrvAvg.toInt()}")
         }
         chart_hrv.setAverageLineColor(R.color.common_line_hard_color_light)
         chart_hrv.setData(hrvLine)
@@ -235,7 +235,7 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
 
         var pressureLine = meditationReportDataAnalyzed?.pressureRec
         if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.pressureAvg != null){
-            chart_pressure.setAverage(meditationReportDataAnalyzed!!.pressureAvg.toInt())
+            chart_pressure.setAverage("${meditationReportDataAnalyzed!!.pressureAvg.toInt()}")
         }
         chart_pressure.setAverageLineColor(R.color.common_line_hard_color_light)
         chart_pressure.setData(pressureLine)

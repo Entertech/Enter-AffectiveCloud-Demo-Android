@@ -1,16 +1,21 @@
 package cn.entertech.flowtimezh.ui.activity
 
+import android.animation.Animator
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.app.AlertDialog
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.media.AudioManager
 import android.media.MediaPlayer
-import android.os.Bundle
-import android.os.Environment
-import android.os.Handler
-import android.os.SystemClock
+import android.os.*
 import android.text.Html
 import android.util.Log
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AccelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.widget.ImageView
@@ -45,12 +50,11 @@ import cn.entertech.flowtimezh.entity.meditation.*
 import cn.entertech.flowtimezh.ui.activity.BaseActivity
 import cn.entertech.flowtimezh.ui.activity.DataActivity
 import cn.entertech.flowtimezh.ui.fragment.MeditationFragment
+import cn.entertech.flowtimezh.ui.service.AffectiveCloudService
 import cn.entertech.flowtimezh.ui.view.LoadingDialog
 import cn.entertech.flowtimezh.ui.view.scrolllayout.ScrollLayout
-import cn.entertech.flowtimezh.utils.FileStoreHelper
-import cn.entertech.flowtimezh.utils.MeditationTimeManager
-import cn.entertech.flowtimezh.utils.ScreenUtil
-import cn.entertech.flowtimezh.utils.getCurrentTimeFormat
+import cn.entertech.flowtimezh.utils.*
+import cn.entertech.uicomponentsdk.utils.dp
 import com.google.gson.Gson
 import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.activity_meditation.*
@@ -67,12 +71,16 @@ import java.util.*
 import kotlin.collections.HashMap
 
 class MeditationActivity : BaseActivity() {
+    private var connection: ServiceConnection? = null
+    internal var affectiveCloudService: AffectiveCloudService? = null
     private var isRecordTime: Boolean = false
     private var userId: String = ""
-    private lateinit var biomoduleBleManager: MultipleBiomoduleBleManager
+
+    var animatorSet: AnimatorSet? = null
+    var biomoduleBleManager: MultipleBiomoduleBleManager =
+        DeviceUIConfig.getInstance(Application.getInstance()).managers[0]
     private var meditaiton: MeditationEntity? = null
     private var userLessonEntity: UserLessonEntity? = null
-    var enterAffectiveCloudManager: EnterAffectiveCloudManager? = null
     var handler: Handler = Handler()
     var lessonId: Int = 0
     var courseId: Int = 0
@@ -101,6 +109,19 @@ class MeditationActivity : BaseActivity() {
     private var endTime: Long? = null
     private var startTime: Long? = null
 
+    var isCheckContact = false
+    var isSensorCheckShow = false
+    var contactWellCount = 0
+    var isContactWell = false
+    var needToCheckSensor = false
+    var isTimeEnd = false
+
+    var lastReceiveDataTimeMs: Long? = null
+
+    private var wl: PowerManager.WakeLock? = null
+    private var airSoundMediaPlayer: MediaPlayer? = null
+
+    var isMeditationPause = true
     //    var canExit = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,83 +131,367 @@ class MeditationActivity : BaseActivity() {
         EventBus.getDefault().register(this)
         userLessonStartTime = getCurrentTimeFormat()
         loadingDialog = LoadingDialog(this)
-        initFlowtimeManager()
+        bindAffectiveService()
         initView()
-        initAffectiveCloudManager()
+        initFlowtimeManager()
+        playAirSound()
+        initPowerManager()
     }
 
-    fun initAffectiveCloudManager() {
+    fun bindAffectiveService() {
+        var serviceIntent = Intent(this, AffectiveCloudService::class.java)
+        var userId = intent.getStringExtra("userId")
+        var sex = intent.getStringExtra("sex")
+        var age = intent.getStringExtra("age")
         var experimentDao = ExperimentDao(this)
         var modeDao = ExperimentModeDao(this)
         var experiment = experimentDao.findExperimentBySelected()
-        userId = intent.getStringExtra("userId")
-        var sex = intent.getStringExtra("sex")
-        var age = intent.getStringExtra("age")
-        var storageSettings = StorageSettings.Builder()
-            .age(
-                if (age == "") {
-                    0
-                } else {
-                    Integer.parseInt(age)
-                }
-            ).sex(
-                if (sex == "m") {
-                    StorageSettings.Sex.MALE
-                } else {
-                    StorageSettings.Sex.FEMALE
-                }
-            ).case(listOf(experiment.id))
-            .mode(modeDao.findModeByExperimentId(experiment.id).map { it.id })
-            .build()
+        var case = listOf(experiment.id).toIntArray()
+        var mode = modeDao.findModeByExperimentId(experiment.id).map { it.id }.toIntArray()
+        serviceIntent.putExtra("userId", userId)
+        serviceIntent.putExtra("sex", sex)
+        serviceIntent.putExtra("age", age)
+        serviceIntent.putExtra("case", case)
+        serviceIntent.putExtra("mode", mode)
+        connection = object : ServiceConnection {
+            override fun onServiceDisconnected(name: ComponentName?) {
 
+            }
 
-        var biodataTolerance = BiodataTolerance.Builder()
-            .eeg(2)
-            .build()
-        var availableAffectiveServices =
-            listOf(
-                Service.ATTENTION,
-                Service.PRESSURE,
-                Service.RELAXATION,
-                Service.PLEASURE,
-                Service.AROUSAL,
-                Service.COHERENCE
+            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                affectiveCloudService = (service as AffectiveCloudService.MyBinder).service
+                initAffectiveCloudManager()
+                meditationFragment?.initNetListener()
+            }
+
+        }
+        bindService(serviceIntent, connection!!, Context.BIND_AUTO_CREATE)
+    }
+
+    fun initSensorCheckDialog() {
+        initAnimate()
+        iv_skip.setOnClickListener {
+            isCheckContact = false
+            card_2.visibility = View.GONE
+            card_3.visibility = View.VISIBLE
+            sensor_check_animate_layout.toSecondPage()
+        }
+        btn_begin.setOnClickListener {
+            isCheckContact = false
+            hideSensorCheckDialog()
+        }
+        btn_skip_cancel.setOnClickListener {
+            isCheckContact = true
+            sensor_check_animate_layout.toFirstPage()
+        }
+        tv_skip_ok.setOnClickListener {
+            isCheckContact = false
+            hideSensorCheckDialog()
+        }
+        rl_get_good_signal.setOnClickListener {
+            startActivity(
+                Intent(
+                    this@MeditationActivity,
+                    SensorContactCheckActivity::class.java
+                )
             )
-        var availableBioServices = listOf(Service.EEG, Service.HR)
-        var biodataSubscribeParams = BiodataSubscribeParams.Builder()
-            .requestAllEEGData()
-            .requestAllHrData()
-            .build()
+            if (!isMeditationPause) {
+                pauseMeditation()
+            }
+        }
+    }
 
-        var affectiveSubscribeParams = AffectiveSubscribeParams.Builder()
-            .requestAllSleepData()
-            .requestAttention()
-            .requestRelaxation()
-            .requestPressure()
-            .requestPleasure()
-            .requestArousal()
-            .requestCoherence()
-            .build()
-        var url = "wss://${SettingManager.getInstance().affectiveCloudServer}/ws/algorithm/v1/"
-        var enterAffectiveCloudConfig = EnterAffectiveCloudConfig.Builder(
-            SettingManager.getInstance().appKey,
-            SettingManager.getInstance().appSecret,
-            userId
+    fun initAnimate() {
+        var currentDialogY = sensor_check_animate_layout.translationY
+        var dialogAnimator = ObjectAnimator.ofFloat(
+            sensor_check_animate_layout,
+            "translationY",
+            currentDialogY,
+            currentDialogY + 434f.dp()
         )
-            .url(url)
-            .timeout(10000)
-            .availableBiodataServices(availableBioServices)
-            .availableAffectiveServices(availableAffectiveServices)
-            .biodataSubscribeParams(biodataSubscribeParams!!)
-            .affectiveSubscribeParams(affectiveSubscribeParams!!)
-            .storageSettings(storageSettings)
-            .biodataTolerance(biodataTolerance)
-            .build()
-        enterAffectiveCloudManager = EnterAffectiveCloudManager(enterAffectiveCloudConfig)
+        dialogAnimator.duration = 1
+        dialogAnimator.interpolator = AccelerateInterpolator()
+        dialogAnimator.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {
 
-        enterAffectiveCloudManager!!.addBiodataRealtimeListener {
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                if (biomoduleBleManager.isConnected()) {
+                    if (!isSensorCheckShow) {
+                        showSensorCheckDialog()
+                    }
+                }
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+            }
+
+        })
+        dialogAnimator.start()
+    }
+
+    fun showSensorCheckDialog() {
+        if (biomoduleBleManager.isConnected()) {
+            biomoduleBleManager.startHeartAndBrainCollection()
+        }
+        rl_cover_sensor.visibility = View.VISIBLE
+        rl_cover_sensor.setOnClickListener {
+        }
+        var currentY = sl_statistics_container.translationY
+        var objectAnimation = ObjectAnimator.ofFloat(
+            sl_statistics_container,
+            "translationY",
+            currentY,
+            currentY + sl_statistics_container.screenHeight - sl_statistics_container.top
+        )
+        objectAnimation.duration = 300
+        objectAnimation.interpolator = AccelerateDecelerateInterpolator()
+        var currentDialogY = sensor_check_animate_layout.translationY
+        var dialogAnimator = ObjectAnimator.ofFloat(
+            sensor_check_animate_layout,
+            "translationY",
+            currentDialogY,
+            currentDialogY - 434f.dp()
+        )
+        dialogAnimator.duration = 300
+        dialogAnimator.interpolator = AccelerateDecelerateInterpolator()
+        dialogAnimator.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                isCheckContact = true
+                isSensorCheckShow = true
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+            }
+
+        })
+        animatorSet = AnimatorSet()
+        animatorSet?.play(objectAnimation)?.before(dialogAnimator)
+        animatorSet?.start()
+    }
+
+
+    fun hideSensorCheckDialog() {
+        rl_cover_sensor.visibility = View.GONE
+        var currentY = sl_statistics_container.translationY
+        var objectAnimation = ObjectAnimator.ofFloat(
+            sl_statistics_container,
+            "translationY",
+            currentY,
+            0f
+        )
+        objectAnimation.duration = 300
+        objectAnimation.interpolator = AccelerateDecelerateInterpolator()
+        var currentDialogY = sensor_check_animate_layout.translationY
+        var dialogAnimator = ObjectAnimator.ofFloat(
+            sensor_check_animate_layout,
+            "translationY",
+            currentDialogY,
+            currentDialogY + 434f.dp()
+        )
+        dialogAnimator.duration = 300
+        dialogAnimator.interpolator = AccelerateDecelerateInterpolator()
+        animatorSet = AnimatorSet()
+        animatorSet?.play(dialogAnimator)?.before(objectAnimation)
+        animatorSet?.start()
+        isSensorCheckShow = false
+        needToCheckSensor = false
+        if (affectiveCloudService != null && !affectiveCloudService!!.isInited() && !affectiveCloudService!!.isConnected()) {
+            connectWebSocket()
+        }
+    }
+
+    fun resumeMeditation() {
+        isMeditationPause = false
+        biomoduleBleManager.startHeartAndBrainCollection()
+    }
+    fun pauseMeditation() {
+        isMeditationPause = true
+        biomoduleBleManager.stopHeartAndBrainCollection()
+    }
+
+    var mMainHanlder = Handler()
+    var isToConnectDevice: Boolean = false
+    override fun onResume() {
+        super.onResume()
+        if (isToConnectDevice && biomoduleBleManager.isConnected()) {
+            mMainHanlder.postDelayed(Runnable {
+                showSensorCheckDialog()
+                isToConnectDevice = false
+            }, 1000)
+        }
+        if (!needToCheckSensor && isMeditationPause) {
+            resumeMeditation()
+        }
+    }
+
+    fun connectWebSocket() {
+        if (biomoduleBleManager.isConnected()) {
+            affectiveCloudService?.connectCloud(object : Callback {
+                override fun onError(error: Error?) {
+                }
+
+                override fun onSuccess() {
+//                    Logger.d("affectivecloudmanager init success:")
+//                    biomoduleBleManager.startHeartAndBrainCollection()
+                }
+            })
+        }
+    }
+
+    fun initAffectiveCloudManager() {
+//        var experimentDao = ExperimentDao(this)
+//        var modeDao = ExperimentModeDao(this)
+//        var experiment = experimentDao.findExperimentBySelected()
+//        userId = intent.getStringExtra("userId")
+//        var sex = intent.getStringExtra("sex")
+//        var age = intent.getStringExtra("age")
+//        var storageSettings = StorageSettings.Builder()
+//            .age(
+//                if (age == "") {
+//                    0
+//                } else {
+//                    Integer.parseInt(age)
+//                }
+//            ).sex(
+//                if (sex == "m") {
+//                    StorageSettings.Sex.MALE
+//                } else {
+//                    StorageSettings.Sex.FEMALE
+//                }
+//            ).case(listOf(experiment.id))
+//            .mode(modeDao.findModeByExperimentId(experiment.id).map { it.id })
+//            .build()
+//
+//
+//        var biodataTolerance = BiodataTolerance.Builder()
+//            .eeg(2)
+//            .build()
+//        var availableAffectiveServices =
+//            listOf(
+//                Service.ATTENTION,
+//                Service.PRESSURE,
+//                Service.RELAXATION,
+//                Service.PLEASURE,
+//                Service.AROUSAL,
+//                Service.COHERENCE
+//            )
+//        var availableBioServices = listOf(Service.EEG, Service.HR)
+//        var biodataSubscribeParams = BiodataSubscribeParams.Builder()
+//            .requestAllEEGData()
+//            .requestAllHrData()
+//            .build()
+//
+//        var affectiveSubscribeParams = AffectiveSubscribeParams.Builder()
+//            .requestAllSleepData()
+//            .requestAttention()
+//            .requestRelaxation()
+//            .requestPressure()
+//            .requestPleasure()
+//            .requestArousal()
+//            .requestCoherence()
+//            .build()
+//        var url = "wss://${SettingManager.getInstance().affectiveCloudServer}/ws/algorithm/v1/"
+//        var enterAffectiveCloudConfig = EnterAffectiveCloudConfig.Builder(
+//            SettingManager.getInstance().appKey,
+//            SettingManager.getInstance().appSecret,
+//            userId
+//        )
+//            .url(url)
+//            .timeout(10000)
+//            .availableBiodataServices(availableBioServices)
+//            .availableAffectiveServices(availableAffectiveServices)
+//            .biodataSubscribeParams(biodataSubscribeParams!!)
+//            .affectiveSubscribeParams(affectiveSubscribeParams!!)
+//            .storageSettings(storageSettings)
+//            .biodataTolerance(biodataTolerance)
+//            .build()
+//        enterAffectiveCloudManager = EnterAffectiveCloudManager(enterAffectiveCloudConfig)
+//
+//        enterAffectiveCloudManager!!.addBiodataRealtimeListener {
+//            runOnUiThread {
+//                //            Logger.d("bio realtime data is " + it.toString())
+//                if (it != null && it!!.realtimeEEGData != null) {
+//                    Log.d("####", "eeg data:" + it!!.realtimeEEGData?.alphaPower)
+//                    if (isFirstReceiveData) {
+//                        MeditationTimeManager.getInstance().timeReset()
+//                        meditationStartTime = System.currentTimeMillis()
+//                        meditationId = -System.currentTimeMillis()
+//                        Log.d("####", "meditation id is " + meditationId)
+//                        fragmentBuffer.fileName = getCurrentTimeFormat(meditationStartTime!!)
+//                        FileStoreHelper.getInstance().setPath(
+//                            MEDITATION_LABEL_RECORD_PATH,
+//                            getCurrentTimeFormat(meditationStartTime!!)
+//                        )
+//                        isFirstReceiveData = false
+//                    }
+//                    MeditationTimeManager.getInstance().timeIncrease()
+//                }
+//                meditationFragment?.showHeart(
+//                    it?.realtimeHrData?.hr?.toInt(),
+//                    it?.realtimeHrData?.hrv
+//                )
+//                meditationFragment?.showBrain(it?.realtimeEEGData)
+//            }
+//        }
+//        enterAffectiveCloudManager!!.addAffectiveDataRealtimeListener {
+//            //            Logger.d("affective realtime data is " + it.toString())
+//            runOnUiThread {
+//                meditationFragment?.showAttention(it?.realtimeAttentionData?.attention?.toFloat())
+//                meditationFragment?.showRelaxation(it?.realtimeRelaxationData?.relaxation?.toFloat())
+//                meditationFragment?.showPressure(it?.realtimePressureData?.pressure?.toFloat())
+//                meditationFragment?.showMood(it?.realtimePleasureData?.pleasure?.toFloat())
+//                meditationFragment?.showArousal(it?.realtimeArousalData?.arousal?.toFloat())
+//                meditationFragment?.showCoherence(it?.realtimeCoherenceData?.coherence?.toFloat())
+//            }
+//        }
+//        if (biomoduleBleManager.isConnected()) {
+//            enterAffectiveCloudManager?.init(object : Callback {
+//                override fun onError(error: Error?) {
+////                    Logger.d("affectivecloudmanager init failed:" + error.toString())
+//                }
+//
+//                override fun onSuccess() {
+////                    Logger.d("affectivecloudmanager init success:")
+//                    biomoduleBleManager.startHeartAndBrainCollection()
+//                }
+//            })
+//        }
+
+
+        affectiveCloudService?.addListener({
             runOnUiThread {
-                //            Logger.d("bio realtime data is " + it.toString())
+//                lastReceiveDataTimeMs = System.currentTimeMillis()
+//                //            Logger.d("bio realtime data is " + it.toString())
+//                if (it != null && it.realtimeEEGData != null) {
+//                    if (isFirstReceiveData) {
+//                        qualityCollection.clear()
+//                        meditationStartTime = System.currentTimeMillis()
+//                        fragmentBuffer.fileName = getCurrentTimeFormat(meditationStartTime!!)
+//                        isFirstReceiveData = false
+//                    }
+//                }
+//                meditationFragment?.showHeart(
+//                    it?.realtimeHrData?.hr?.toInt(),
+//                    it?.realtimeHrData?.hrv
+//                )
+//                meditationFragment?.showBrain(it?.realtimeEEGData)
+//                meditationFragment?.dealQuality(it?.realtimeEEGData?.quality)
+//                if (it != null && it.realtimeEEGData != null && it.realtimeEEGData!!.quality != null) {
+//                    qualityCollection.add(it.realtimeEEGData!!.quality!!)
+//                }
+
                 if (it != null && it!!.realtimeEEGData != null) {
                     Log.d("####", "eeg data:" + it!!.realtimeEEGData?.alphaPower)
                     if (isFirstReceiveData) {
@@ -209,30 +514,28 @@ class MeditationActivity : BaseActivity() {
                 )
                 meditationFragment?.showBrain(it?.realtimeEEGData)
             }
-        }
-        enterAffectiveCloudManager!!.addAffectiveDataRealtimeListener {
-            //            Logger.d("affective realtime data is " + it.toString())
+        }, {
             runOnUiThread {
+//                meditationFragment?.showAttention(it?.realtimeAttentionData?.attention?.toFloat())
+//                meditationFragment?.showRelaxation(it?.realtimeRelaxationData?.relaxation?.toFloat())
+//                meditationFragment?.showPressure(it?.realtimePressureData?.pressure?.toFloat())
+//                meditationFragment?.showMood(it?.realtimePleasureData?.pleasure?.toFloat())
+
                 meditationFragment?.showAttention(it?.realtimeAttentionData?.attention?.toFloat())
                 meditationFragment?.showRelaxation(it?.realtimeRelaxationData?.relaxation?.toFloat())
                 meditationFragment?.showPressure(it?.realtimePressureData?.pressure?.toFloat())
                 meditationFragment?.showMood(it?.realtimePleasureData?.pleasure?.toFloat())
                 meditationFragment?.showArousal(it?.realtimeArousalData?.arousal?.toFloat())
                 meditationFragment?.showCoherence(it?.realtimeCoherenceData?.coherence?.toFloat())
+                meditationFragment?.showPleasure(it?.realtimePleasureData?.pleasure?.toFloat())
             }
-        }
-        if (biomoduleBleManager.isConnected()) {
-            enterAffectiveCloudManager?.init(object : Callback {
-                override fun onError(error: Error?) {
-//                    Logger.d("affectivecloudmanager init failed:" + error.toString())
-                }
+        })
+    }
 
-                override fun onSuccess() {
-//                    Logger.d("affectivecloudmanager init success:")
-                    biomoduleBleManager.startHeartAndBrainCollection()
-                }
-            })
-        }
+    fun initPowerManager() {
+        var pm = getSystemService(Context.POWER_SERVICE) as PowerManager
+        wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My:sdf")
+        wl?.acquire()
     }
 
     fun initView() {
@@ -267,6 +570,7 @@ class MeditationActivity : BaseActivity() {
         initTilte()
         initDataFragment()
         initScrollLayout()
+        initSensorCheckDialog()
     }
 
     fun initTimeRecordView() {
@@ -321,26 +625,69 @@ class MeditationActivity : BaseActivity() {
     }
 
     private lateinit var rawListener: (ByteArray) -> Unit
-
     private lateinit var heartRateListener: (Int) -> Unit
+    private lateinit var bleConnectListener: (String) -> Unit
+    private lateinit var contactListener: (Int) -> Unit
+    private lateinit var bleDisconnectListener: (String) -> Unit
 
     //    var brainDataList = ArrayList<Int>()
     fun initFlowtimeManager() {
-        biomoduleBleManager = DeviceUIConfig.getInstance(this).managers[0]
+
+        if (biomoduleBleManager.isConnected()) {
+            needToCheckSensor = true
+        }
         rawListener = fun(bytes: ByteArray) {
-//            brainDataList.clear()
-//            for (byte in bytes) {
-//                var brainData = ConvertUtil.converUnchart(byte)
-//                brainDataList.add(brainData)
-//            }
-//            Log.d("######", "firmware fixing brain:" + Arrays.toString(brainDataList.toArray()))
-            enterAffectiveCloudManager?.appendEEGData(bytes)
+            var currentTimeMs = System.currentTimeMillis()
+            if (affectiveCloudService?.isInited() == true) {
+                affectiveCloudService?.appendEEGData(bytes)
+            }
+            if (lastReceiveDataTimeMs != null) {
+                if ((currentTimeMs - lastReceiveDataTimeMs!!) >= 15000L) {
+                    lastReceiveDataTimeMs = null
+                    affectiveCloudService?.closeWebSocket()
+                }
+            }
+
         }
         heartRateListener = fun(heartRate: Int) {
-            enterAffectiveCloudManager?.appendHeartRateData(heartRate)
+            if (affectiveCloudService?.isInited() == true) {
+                affectiveCloudService?.appendHeartRateData(heartRate)
+            }
+        }
+        bleConnectListener = fun(mac: String) {
+            needToCheckSensor = true
+        }
+        bleDisconnectListener = fun(error: String) {
+            needToCheckSensor = true
+        }
+        contactListener = fun(state: Int) {
+//            Log.d("######", "contact is $state")
+            runOnUiThread {
+                if (isCheckContact) {
+                    if (state == 0) {
+                        if (!isContactWell) {
+                            contactWellCount++
+//                            Log.d("######", "contact is well")
+                            if (contactWellCount == 5) {
+                                isContactWell = true
+                                card_2.visibility = View.VISIBLE
+                                card_3.visibility = View.GONE
+                                sensor_check_animate_layout.toSecondPage()
+                            }
+                        }
+                    } else {
+                        isContactWell = false
+                        contactWellCount = 0
+                    }
+                }
+            }
         }
         biomoduleBleManager.addRawDataListener(rawListener)
         biomoduleBleManager.addHeartRateListener(heartRateListener)
+        biomoduleBleManager.addConnectListener(bleConnectListener)
+        biomoduleBleManager.addContactListener(contactListener)
+        biomoduleBleManager.addDisConnectListener(bleDisconnectListener)
+        biomoduleBleManager.startHeartAndBrainCollection()
 
     }
 
@@ -504,25 +851,28 @@ class MeditationActivity : BaseActivity() {
 //        var fragmentTransaction = fragmentManager.beginTransaction()
         when (event.messageCode) {
             MessageEvent.MESSAGE_CODE_TO_DEVICE_CONNECT -> {
+                if (!biomoduleBleManager.isConnected()) {
+                    isToConnectDevice = true
+                }
+                if (!isMeditationPause) {
+                    pauseMeditation()
+                }
                 scrollLayout.scrollToOpen()
                 startActivity(Intent(this, DeviceManagerActivity::class.java))
             }
             MessageEvent.MESSAGE_CODE_TO_NET_RESTORE -> {
-                if (enterAffectiveCloudManager!!.isInited()) {
-                    enterAffectiveCloudManager?.restore(object : Callback {
+                if (affectiveCloudService!!.getSessionId() != null) {
+                    affectiveCloudService?.restoreCloud(object : Callback {
                         override fun onError(error: Error?) {
-
                         }
 
                         override fun onSuccess() {
-                            biomoduleBleManager.startHeartAndBrainCollection()
                         }
 
                     })
                 } else {
-                    enterAffectiveCloudManager?.init(object : Callback {
+                    affectiveCloudService?.connectCloud(object : Callback {
                         override fun onError(error: Error?) {
-
                         }
 
                         override fun onSuccess() {
@@ -608,136 +958,10 @@ class MeditationActivity : BaseActivity() {
     }
 
     fun getReportAndExit() {
-        enterAffectiveCloudManager?.getBiodataReport(object : Callback2<HashMap<Any, Any?>> {
-            override fun onError(error: Error?) {
-            }
-
-            override fun onSuccess(t: HashMap<Any, Any?>?) {
-//                Logger.d("report bio is " + t.toString())
-                if (t == null) {
-                    return
-                }
-                var reportHRDataEntity = ReportHRDataEntity()
-                var hrMap = t!!["hr"] as Map<Any, Any?>
-                if (hrMap!!.containsKey("hr_avg")) {
-                    reportHRDataEntity.hrAvg = hrMap["hr_avg"] as Double
-                }
-                if (hrMap!!.containsKey("hr_max")) {
-                    reportHRDataEntity.hrMax = hrMap["hr_max"] as Double
-                }
-                if (hrMap!!.containsKey("hr_min")) {
-                    reportHRDataEntity.hrMin = hrMap["hr_min"] as Double
-                }
-                if (hrMap!!.containsKey("hr_rec")) {
-                    reportHRDataEntity.hrRec = hrMap["hr_rec"] as ArrayList<Double>
-                }
-                if (hrMap!!.containsKey("hrv_rec")) {
-                    reportHRDataEntity.hrvRec = hrMap["hrv_rec"] as ArrayList<Double>
-                }
-                if (hrMap!!.containsKey("hrv_avg")) {
-                    reportHRDataEntity.hrvAvg = hrMap["hrv_avg"] as Double
-                }
-                reportMeditationData.reportHRDataEntity = reportHRDataEntity
-                var reportEEGDataEntity = ReportEEGDataEntity()
-                var eegMap = t!!["eeg"] as Map<Any, Any?>
-                if (eegMap!!.containsKey("eeg_alpha_curve")) {
-                    reportEEGDataEntity.alphaCurve =
-                        eegMap["eeg_alpha_curve"] as ArrayList<Double>
-                }
-                if (eegMap!!.containsKey("eeg_beta_curve")) {
-                    reportEEGDataEntity.betaCurve =
-                        eegMap["eeg_beta_curve"] as ArrayList<Double>
-                }
-                if (eegMap!!.containsKey("eeg_theta_curve")) {
-                    reportEEGDataEntity.thetaCurve =
-                        eegMap["eeg_theta_curve"] as ArrayList<Double>
-                }
-                if (eegMap!!.containsKey("eeg_delta_curve")) {
-                    reportEEGDataEntity.deltaCurve =
-                        eegMap["eeg_delta_curve"] as ArrayList<Double>
-                }
-                if (eegMap!!.containsKey("eeg_gamma_curve")) {
-                    reportEEGDataEntity.gammaCurve =
-                        eegMap["eeg_gamma_curve"] as ArrayList<Double>
-                }
-                reportMeditationData.reportEEGDataEntity = reportEEGDataEntity
-
-                enterAffectiveCloudManager?.getAffectiveDataReport(object :
-                    Callback2<HashMap<Any, Any?>> {
-                    override fun onError(error: Error?) {
-                    }
-
-                    override fun onSuccess(t: HashMap<Any, Any?>?) {
-//                        Logger.d("report affectve is " + t.toString())
-                        if (t == null) {
-                            return
-                        }
-                        var reportAttentionEnitty = ReportAttentionEnitty()
-                        var attentionMap = t["attention"]
-                        if (attentionMap != null) {
-                            attentionMap = attentionMap as Map<Any, Any?>
-                            if (attentionMap.containsKey("attention_avg")) {
-                                Logger.d("attention avg is " + attentionMap["attention_avg"] as Double)
-                                reportAttentionEnitty.attentionAvg =
-                                    attentionMap["attention_avg"] as Double
-                            }
-                            if (attentionMap.containsKey("attention_rec")) {
-                                reportAttentionEnitty.attentionRec =
-                                    attentionMap["attention_rec"] as ArrayList<Double>
-                            }
-                        }
-                        reportMeditationData.reportAttentionEnitty = reportAttentionEnitty
-                        var reportRelxationEntity = ReportRelaxationEnitty()
-                        var relaxationMap = t["relaxation"]
-                        if (relaxationMap != null) {
-                            relaxationMap = relaxationMap as Map<Any, Any?>
-                            if (relaxationMap.containsKey("relaxation_avg")) {
-                                reportRelxationEntity.relaxationAvg =
-                                    relaxationMap["relaxation_avg"] as Double
-                            }
-                            if (relaxationMap.containsKey("relaxation_rec")) {
-                                reportRelxationEntity.relaxationRec =
-                                    relaxationMap["relaxation_rec"] as ArrayList<Double>
-                            }
-                        }
-                        reportMeditationData.reportRelaxationEnitty = reportRelxationEntity
-
-                        var reportPressureEnitty = ReportPressureEnitty()
-                        var pressureMap = t["pressure"]
-                        if (pressureMap != null) {
-                            pressureMap = pressureMap as Map<Any, Any?>
-                            if (pressureMap.containsKey("pressure_avg")) {
-                                reportPressureEnitty.pressureAvg =
-                                    pressureMap["pressure_avg"] as Double
-                            }
-                            if (pressureMap.containsKey("pressure_rec")) {
-                                reportPressureEnitty.pressureRec =
-                                    pressureMap["pressure_rec"] as ArrayList<Double>
-                            }
-                        }
-                        reportMeditationData.reportPressureEnitty = reportPressureEnitty
-
-                        var reportPleasureEnitty = ReportPleasureEnitty()
-                        var pleasureMap = t["pleasure"]
-                        if (pleasureMap != null){
-                            pleasureMap = pleasureMap as Map<Any, Any?>
-                            if (pleasureMap.containsKey("pleasure_avg")) {
-                                reportPleasureEnitty.pleasureAvg =
-                                    pleasureMap["pleasure_avg"] as Double
-                            }
-                            if (pleasureMap.containsKey("pleasure_rec")) {
-                                reportPleasureEnitty.pleasureRec =
-                                    pleasureMap["pleasure_rec"] as ArrayList<Double>
-                            }
-                        }
-                        reportMeditationData.reportPleasureEnitty = reportPleasureEnitty
-                        exitWithMeditation(reportMeditationData)
-                    }
-
-                })
-            }
-
-        })
+        affectiveCloudService?.getBiodataReport {
+            reportMeditationData = it
+            exitWithMeditation(reportMeditationData)
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -782,14 +1006,14 @@ class MeditationActivity : BaseActivity() {
         startFinishTimer()
         reportMeditationData = ReportMeditationDataEntity()
         meditationEndTime = getCurrentTimeFormat()
-        if (meditationTimeError() || !enterAffectiveCloudManager!!.isWebSocketOpen()) {
+        if (meditationTimeError() || !affectiveCloudService!!.isConnected()) {
             exitWithoutMeditation()
         } else {
             if (meditationLabels == null || meditationLabels.isEmpty()) {
                 getReportAndExit()
             } else {
                 loadingDialog?.loading("正在提交数标签...")
-                enterAffectiveCloudManager?.submit(recDatas, object : Callback {
+                affectiveCloudService?.submit(recDatas, object : Callback {
                     override fun onSuccess() {
                         runOnUiThread {
                             loadingDialog?.dismiss()
@@ -810,7 +1034,6 @@ class MeditationActivity : BaseActivity() {
                             getReportAndExit()
                         }
                     }
-
                 })
             }
 
@@ -820,7 +1043,7 @@ class MeditationActivity : BaseActivity() {
     fun saveLabelInLocal(recDatas: List<RecData>) {
         var recDataRecord = RecDataRecord()
         recDataRecord.recDatas = recDatas
-        recDataRecord.session_id = enterAffectiveCloudManager?.mApi?.getSessionId()
+        recDataRecord.session_id = affectiveCloudService?.getSessionId()
         var json = Gson().toJson(recDataRecord)
         FileStoreHelper.getInstance().writeData(json)
     }
@@ -831,35 +1054,11 @@ class MeditationActivity : BaseActivity() {
         saveReportFile(reportMeditationData)
         saveMeditationInDB(reportMeditationData)
         saveUserLessonInDB()
-        enterAffectiveCloudManager?.release(object : Callback {
-            override fun onError(error: Error?) {
-
-            }
-
-            override fun onSuccess() {
-                toDataActivity()
-            }
-
-        })
+        toDataActivity()
     }
 
     fun exitWithoutMeditation() {
-//        saveUserLessonInDB()
-//        Toast.makeText(activity!!,"体验时间过短！",Toast.LENGTH_SHORT).show()
-        if (enterAffectiveCloudManager!!.isWebSocketOpen()) {
-            enterAffectiveCloudManager?.release(object : Callback {
-                override fun onError(error: Error?) {
-
-                }
-
-                override fun onSuccess() {
-                    finish()
-                }
-
-            })
-        } else {
-            finish()
-        }
+        finish()
     }
 
     fun meditationTimeError(): Boolean {
@@ -891,23 +1090,42 @@ class MeditationActivity : BaseActivity() {
         }, 10000)
     }
 
+    fun unBindAffectiveService() {
+        unbindService(connection!!)
+    }
+
+
+    fun playAirSound() {
+        airSoundMediaPlayer = MediaPlayer.create(
+            this@MeditationActivity,
+            R.raw.airsound
+        )
+        airSoundMediaPlayer?.setOnCompletionListener {
+            airSoundMediaPlayer?.start()
+        }
+        airSoundMediaPlayer?.start()
+    }
+
+    fun stopAirSound() {
+        airSoundMediaPlayer?.stop()
+        airSoundMediaPlayer?.release()
+    }
+
     override fun onDestroy() {
+        affectiveCloudService?.stopForeground()
+        unBindAffectiveService()
+        stopAirSound()
+        wl?.release()
         handler?.removeCallbacks(finishRunnable)
         sessionId = null
         biomoduleBleManager.stopHeartAndBrainCollection()
         biomoduleBleManager.stopBrainCollection()
         biomoduleBleManager.removeRawDataListener(rawListener)
         biomoduleBleManager.removeHeartRateListener(heartRateListener)
-        if (enterAffectiveCloudManager!!.isInit) {
-            enterAffectiveCloudManager?.release(object : Callback {
-                override fun onError(error: Error?) {
-
-                }
-
-                override fun onSuccess() {
-                }
-
-            })
+        biomoduleBleManager.removeContactListener(contactListener)
+        biomoduleBleManager.removeDisConnectListener(bleDisconnectListener)
+        if (affectiveCloudService!!.isInited()) {
+            affectiveCloudService?.release()
         }
         EventBus.getDefault().unregister(this)
         super.onDestroy()

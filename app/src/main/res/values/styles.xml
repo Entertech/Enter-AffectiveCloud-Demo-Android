@@ -88,6 +88,12 @@
         <item name="common_mask2_color">@color/common_mask2_color_dark</item>
         <item name="common_share_bg_color">@color/common_share_bg_color_dark</item>
     </style>
+
+    <declare-styleable name="DeviceContactTipView">
+        <attr name="dctv_title" format="string" />
+        <attr name="dctv_image" format="reference" />
+        <attr name="dctv_tip" format="string" />
+    </declare-styleable>
     <declare-styleable name="ScrollLayout">
         <attr name="minOffset" format="dimension"/>
         <attr name="maxOffset" format="dimension"/>
