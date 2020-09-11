@@ -65,7 +65,7 @@ public class SettingManager {
     }
 
     public synchronized String getApiServer() {
-        return getSharedPreferences().getString(SP_API_SERVER, "server.affectivecloud.cn");
+        return getSharedPreferences().getString(SP_API_SERVER, "api.affectivecloud.cn");
     }
 
     public synchronized void setCurrentServer(int currentServer) {
@@ -81,7 +81,7 @@ public class SettingManager {
     }
 
     public synchronized String getAppSecret() {
-        return getSharedPreferences().getString(SP_APP_SECRET, "api.affectivecloud.cn");
+        return getSharedPreferences().getString(SP_APP_SECRET, "");
     }
     public synchronized void setToken(String token) {
         getEditor().putString(SP_TOKEN, token).apply();
