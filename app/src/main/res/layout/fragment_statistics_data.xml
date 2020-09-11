@@ -196,7 +196,7 @@
                     app:rbs_textColor="?attr/common_text_lv1_base_color"
                     app:rbs_xAxisUnit="Time(min)"
                     app:rbs_pointCount="100"
-                    app:rbs_title="脑点波频谱"
+                    app:rbs_title="脑电波频谱"
                     app:rbs_titleMenuIcon="@drawable/vector_drawable_full_screen"
                     app:rbs_markViewBgColor="?attr/common_bg_z2_color"
                     app:rbs_highlightLineColor="?attr/common_line_light_color"

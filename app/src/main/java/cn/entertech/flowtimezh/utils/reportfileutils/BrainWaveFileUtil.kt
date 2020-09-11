@@ -23,6 +23,7 @@ class BrainWaveFileUtil ()  {
     private val HEADER_LEN = "20"
     private val DATA_VERSION = "0.0.0.1"
 
+    private var fileWriteCompleteCallback: ((String) -> Unit)? = null
     enum class FileType(val value: String) {
         RAW("01"),
         ANALYZED("02"),
@@ -57,8 +58,10 @@ class BrainWaveFileUtil ()  {
         if (!meditationReport.exists()) {
             meditationReport.mkdirs()
         }
-        writeFile(getReportDir() + "/" + fileName + getReportExtention(), byteArray,
+        var filePath = getReportDir() + "/" + fileName + getReportExtention()
+        writeFile(filePath, byteArray,
                 HexDump.hexStringToByteArray(getReportHeader(byteArray,sleepType)))
+        fileWriteCompleteCallback?.invoke(filePath)
     }
     /**
      * 写文件(新文件协议);
@@ -127,6 +130,10 @@ class BrainWaveFileUtil ()  {
             e.printStackTrace()
         }
 
+    }
+
+    fun addFileWriteCompleteCallback(callback:((String)->Unit)?){
+        fileWriteCompleteCallback = callback
     }
 
 }

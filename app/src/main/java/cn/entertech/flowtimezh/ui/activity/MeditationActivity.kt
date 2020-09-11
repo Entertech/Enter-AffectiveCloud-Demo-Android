@@ -316,6 +316,7 @@ class MeditationActivity : BaseActivity() {
         isMeditationPause = false
         biomoduleBleManager.startHeartAndBrainCollection()
     }
+
     fun pauseMeditation() {
         isMeditationPause = true
         biomoduleBleManager.stopHeartAndBrainCollection()
@@ -697,7 +698,8 @@ class MeditationActivity : BaseActivity() {
         exitWithoutMeditation()
     }
 
-    fun saveReportFile(reportMeditationData: ReportMeditationDataEntity) {
+    fun saveReportFile(reportMeditationData: ReportMeditationDataEntity, fileWriteComplete: ((String) -> Unit)?) {
+        fragmentBuffer.addFileWriteCompleteCallback(fileWriteComplete)
         fragmentBuffer.appendMeditationReport(
             reportMeditationData,
             meditationStartTime!!,
@@ -1051,10 +1053,11 @@ class MeditationActivity : BaseActivity() {
 
     fun exitWithMeditation(reportMeditationData: ReportMeditationDataEntity) {
         handler.removeCallbacks(finishRunnable)
-        saveReportFile(reportMeditationData)
-        saveMeditationInDB(reportMeditationData)
-        saveUserLessonInDB()
-        toDataActivity()
+        saveReportFile(reportMeditationData,fun(filePath){
+            saveMeditationInDB(reportMeditationData)
+            saveUserLessonInDB()
+            toDataActivity()
+        })
     }
 
     fun exitWithoutMeditation() {
