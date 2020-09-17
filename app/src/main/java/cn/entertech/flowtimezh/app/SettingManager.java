@@ -57,7 +57,7 @@ public class SettingManager {
     }
 
     public synchronized String getAffectiveCloudServer() {
-        return getSharedPreferences().getString(SP_AFFECTIVE_CLOUD_SERVER, "server-test.affectivecloud.cn");
+        return getSharedPreferences().getString(SP_AFFECTIVE_CLOUD_SERVER, "server.affectivecloud.cn");
     }
 
     public synchronized void setApiServer(String url) {
