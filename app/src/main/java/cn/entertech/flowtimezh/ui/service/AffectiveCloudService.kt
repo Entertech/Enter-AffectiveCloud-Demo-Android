@@ -120,7 +120,8 @@ internal class AffectiveCloudService : Service() {
                 cn.entertech.affectivecloudsdk.entity.Service.RELAXATION,
                 cn.entertech.affectivecloudsdk.entity.Service.PLEASURE,
                 cn.entertech.affectivecloudsdk.entity.Service.AROUSAL,
-                cn.entertech.affectivecloudsdk.entity.Service.COHERENCE
+                cn.entertech.affectivecloudsdk.entity.Service.COHERENCE,
+                cn.entertech.affectivecloudsdk.entity.Service.SLEEP
             )
         var availableBioServices = listOf(cn.entertech.affectivecloudsdk.entity.Service.EEG, cn.entertech.affectivecloudsdk.entity.Service.HR)
         var biodataSubscribeParams = BiodataSubscribeParams.Builder()
@@ -320,6 +321,38 @@ internal class AffectiveCloudService : Service() {
                             }
                         }
                         reportMeditationData.reportPleasureEnitty = reportPleasureEnitty
+
+                        var reportSleepEntity = ReportSleepEnitty()
+                        var sleepMap = t["sleep"]
+                        if (sleepMap != null) {
+                            sleepMap = sleepMap as Map<Any, Any?>
+                            if (sleepMap.containsKey("sleep_point")) {
+                                reportSleepEntity.sleepPoint =
+                                    sleepMap["sleep_point"] as Double
+                            }
+                            if (sleepMap.containsKey("sleep_latency")) {
+                                reportSleepEntity.sleepLatency =
+                                    sleepMap["sleep_latency"] as Double
+                            }
+                            if (sleepMap.containsKey("awake_duration")) {
+                                reportSleepEntity.soberDuration =
+                                    sleepMap["awake_duration"] as Double
+                            }
+                            if (sleepMap.containsKey("light_duration")) {
+                                reportSleepEntity.lightDuration =
+                                    sleepMap["light_duration"] as Double
+                            }
+                            if (sleepMap.containsKey("deep_duration")) {
+                                reportSleepEntity.deepDuration =
+                                    sleepMap["deep_duration"] as Double
+                            }
+                            if (sleepMap.containsKey("sleep_curve")) {
+                                reportSleepEntity.sleepCurve =
+                                    sleepMap["sleep_curve"] as ArrayList<Double>
+                            }
+                        }
+                        reportMeditationData.reportSleepEntity = reportSleepEntity
+
                         listener.invoke(reportMeditationData)
                     }
 

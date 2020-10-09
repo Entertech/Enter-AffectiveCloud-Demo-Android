@@ -88,6 +88,10 @@ class MeditationEmotionView @JvmOverloads constructor(
         realtime_coherence_view.setValue(value)
     }
 
+    fun setSleepState(value:Float?){
+        realtime_sleep_view.setValue(value)
+    }
+
     fun showSampleData() {
         realtime_pressure_view.showDisconnectTip()
         realtime_relaxation_view.showDisconnectTip()
@@ -95,6 +99,7 @@ class MeditationEmotionView @JvmOverloads constructor(
         realtime_arousal_view.showDisconnectTip()
         realtime_pleasure_view.showDisconnectTip()
         realtime_coherence_view.showDisconnectTip()
+        realtime_sleep_view.showDisconnectTip()
     }
 
     fun hideSampleData() {
@@ -132,6 +137,10 @@ class MeditationEmotionView @JvmOverloads constructor(
         realtime_coherence_view.showLoading()
     }
 
+    fun showSleepLoading() {
+        realtime_sleep_view.showLoading()
+    }
+
     fun hideLoading() {
         realtime_arousal_view.hideLoading()
         realtime_attention_view.hideLoading()
@@ -163,6 +172,10 @@ class MeditationEmotionView @JvmOverloads constructor(
         realtime_coherence_view.hideLoading()
     }
 
+    fun hideSleepLoaidng() {
+        realtime_sleep_view.hideLoading()
+    }
+
     fun showErrorMessage(error: String) {
         realtime_attention_view.showErrorMessage(error)
         realtime_relaxation_view.showErrorMessage(error)
@@ -170,6 +183,7 @@ class MeditationEmotionView @JvmOverloads constructor(
         realtime_arousal_view.showErrorMessage(error)
         realtime_pleasure_view.showErrorMessage(error)
         realtime_coherence_view.showErrorMessage(error)
+        realtime_sleep_view.showErrorMessage(error)
     }
 
 

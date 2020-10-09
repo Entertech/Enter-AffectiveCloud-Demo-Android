@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <cn.entertech.flowtimezh.ui.view.NapProgressView
+        android:id="@+id/npv_progress_line_one"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:gravity="center_vertical"
+        app:npv_label="清醒时长"
+        app:npv_unit="分钟"
+        app:npv_maxValue="100"
+        app:npv_value="50"
+        app:npv_foregroundColor="@color/colorNapProgressSober"
+        app:npv_backgroundColor="@color/colorNapProgressBg">
+
+    </cn.entertech.flowtimezh.ui.view.NapProgressView>
+    <cn.entertech.flowtimezh.ui.view.NapProgressView
+        android:id="@+id/npv_progress_line_two"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:gravity="center_vertical"
+        app:npv_label="迷糊时长"
+        app:npv_unit="分钟"
+        app:npv_maxValue="100"
+        app:npv_value="50"
+        app:npv_foregroundColor="@color/colorNapProgressBlur"
+        app:npv_backgroundColor="@color/colorNapProgressBg">
+
+    </cn.entertech.flowtimezh.ui.view.NapProgressView>
+
+    <cn.entertech.flowtimezh.ui.view.NapProgressView
+        android:id="@+id/npv_progress_line_three"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:gravity="center_vertical"
+        app:npv_label="浅睡时长"
+        app:npv_unit="分钟"
+        app:npv_maxValue="100"
+        app:npv_value="61"
+        app:npv_foregroundColor="@color/colorNapProgressSleep"
+        app:npv_backgroundColor="@color/colorNapProgressBg">
+
+    </cn.entertech.flowtimezh.ui.view.NapProgressView>
+
+
+</LinearLayout>

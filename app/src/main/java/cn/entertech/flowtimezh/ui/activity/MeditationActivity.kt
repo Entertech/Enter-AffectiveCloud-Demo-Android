@@ -352,147 +352,8 @@ class MeditationActivity : BaseActivity() {
     }
 
     fun initAffectiveCloudManager() {
-//        var experimentDao = ExperimentDao(this)
-//        var modeDao = ExperimentModeDao(this)
-//        var experiment = experimentDao.findExperimentBySelected()
-//        userId = intent.getStringExtra("userId")
-//        var sex = intent.getStringExtra("sex")
-//        var age = intent.getStringExtra("age")
-//        var storageSettings = StorageSettings.Builder()
-//            .age(
-//                if (age == "") {
-//                    0
-//                } else {
-//                    Integer.parseInt(age)
-//                }
-//            ).sex(
-//                if (sex == "m") {
-//                    StorageSettings.Sex.MALE
-//                } else {
-//                    StorageSettings.Sex.FEMALE
-//                }
-//            ).case(listOf(experiment.id))
-//            .mode(modeDao.findModeByExperimentId(experiment.id).map { it.id })
-//            .build()
-//
-//
-//        var biodataTolerance = BiodataTolerance.Builder()
-//            .eeg(2)
-//            .build()
-//        var availableAffectiveServices =
-//            listOf(
-//                Service.ATTENTION,
-//                Service.PRESSURE,
-//                Service.RELAXATION,
-//                Service.PLEASURE,
-//                Service.AROUSAL,
-//                Service.COHERENCE
-//            )
-//        var availableBioServices = listOf(Service.EEG, Service.HR)
-//        var biodataSubscribeParams = BiodataSubscribeParams.Builder()
-//            .requestAllEEGData()
-//            .requestAllHrData()
-//            .build()
-//
-//        var affectiveSubscribeParams = AffectiveSubscribeParams.Builder()
-//            .requestAllSleepData()
-//            .requestAttention()
-//            .requestRelaxation()
-//            .requestPressure()
-//            .requestPleasure()
-//            .requestArousal()
-//            .requestCoherence()
-//            .build()
-//        var url = "wss://${SettingManager.getInstance().affectiveCloudServer}/ws/algorithm/v1/"
-//        var enterAffectiveCloudConfig = EnterAffectiveCloudConfig.Builder(
-//            SettingManager.getInstance().appKey,
-//            SettingManager.getInstance().appSecret,
-//            userId
-//        )
-//            .url(url)
-//            .timeout(10000)
-//            .availableBiodataServices(availableBioServices)
-//            .availableAffectiveServices(availableAffectiveServices)
-//            .biodataSubscribeParams(biodataSubscribeParams!!)
-//            .affectiveSubscribeParams(affectiveSubscribeParams!!)
-//            .storageSettings(storageSettings)
-//            .biodataTolerance(biodataTolerance)
-//            .build()
-//        enterAffectiveCloudManager = EnterAffectiveCloudManager(enterAffectiveCloudConfig)
-//
-//        enterAffectiveCloudManager!!.addBiodataRealtimeListener {
-//            runOnUiThread {
-//                //            Logger.d("bio realtime data is " + it.toString())
-//                if (it != null && it!!.realtimeEEGData != null) {
-//                    Log.d("####", "eeg data:" + it!!.realtimeEEGData?.alphaPower)
-//                    if (isFirstReceiveData) {
-//                        MeditationTimeManager.getInstance().timeReset()
-//                        meditationStartTime = System.currentTimeMillis()
-//                        meditationId = -System.currentTimeMillis()
-//                        Log.d("####", "meditation id is " + meditationId)
-//                        fragmentBuffer.fileName = getCurrentTimeFormat(meditationStartTime!!)
-//                        FileStoreHelper.getInstance().setPath(
-//                            MEDITATION_LABEL_RECORD_PATH,
-//                            getCurrentTimeFormat(meditationStartTime!!)
-//                        )
-//                        isFirstReceiveData = false
-//                    }
-//                    MeditationTimeManager.getInstance().timeIncrease()
-//                }
-//                meditationFragment?.showHeart(
-//                    it?.realtimeHrData?.hr?.toInt(),
-//                    it?.realtimeHrData?.hrv
-//                )
-//                meditationFragment?.showBrain(it?.realtimeEEGData)
-//            }
-//        }
-//        enterAffectiveCloudManager!!.addAffectiveDataRealtimeListener {
-//            //            Logger.d("affective realtime data is " + it.toString())
-//            runOnUiThread {
-//                meditationFragment?.showAttention(it?.realtimeAttentionData?.attention?.toFloat())
-//                meditationFragment?.showRelaxation(it?.realtimeRelaxationData?.relaxation?.toFloat())
-//                meditationFragment?.showPressure(it?.realtimePressureData?.pressure?.toFloat())
-//                meditationFragment?.showMood(it?.realtimePleasureData?.pleasure?.toFloat())
-//                meditationFragment?.showArousal(it?.realtimeArousalData?.arousal?.toFloat())
-//                meditationFragment?.showCoherence(it?.realtimeCoherenceData?.coherence?.toFloat())
-//            }
-//        }
-//        if (biomoduleBleManager.isConnected()) {
-//            enterAffectiveCloudManager?.init(object : Callback {
-//                override fun onError(error: Error?) {
-////                    Logger.d("affectivecloudmanager init failed:" + error.toString())
-//                }
-//
-//                override fun onSuccess() {
-////                    Logger.d("affectivecloudmanager init success:")
-//                    biomoduleBleManager.startHeartAndBrainCollection()
-//                }
-//            })
-//        }
-
-
         affectiveCloudService?.addListener({
             runOnUiThread {
-//                lastReceiveDataTimeMs = System.currentTimeMillis()
-//                //            Logger.d("bio realtime data is " + it.toString())
-//                if (it != null && it.realtimeEEGData != null) {
-//                    if (isFirstReceiveData) {
-//                        qualityCollection.clear()
-//                        meditationStartTime = System.currentTimeMillis()
-//                        fragmentBuffer.fileName = getCurrentTimeFormat(meditationStartTime!!)
-//                        isFirstReceiveData = false
-//                    }
-//                }
-//                meditationFragment?.showHeart(
-//                    it?.realtimeHrData?.hr?.toInt(),
-//                    it?.realtimeHrData?.hrv
-//                )
-//                meditationFragment?.showBrain(it?.realtimeEEGData)
-//                meditationFragment?.dealQuality(it?.realtimeEEGData?.quality)
-//                if (it != null && it.realtimeEEGData != null && it.realtimeEEGData!!.quality != null) {
-//                    qualityCollection.add(it.realtimeEEGData!!.quality!!)
-//                }
-
                 if (it != null && it!!.realtimeEEGData != null) {
                     Log.d("####", "eeg data:" + it!!.realtimeEEGData?.alphaPower)
                     if (isFirstReceiveData) {
@@ -517,11 +378,6 @@ class MeditationActivity : BaseActivity() {
             }
         }, {
             runOnUiThread {
-//                meditationFragment?.showAttention(it?.realtimeAttentionData?.attention?.toFloat())
-//                meditationFragment?.showRelaxation(it?.realtimeRelaxationData?.relaxation?.toFloat())
-//                meditationFragment?.showPressure(it?.realtimePressureData?.pressure?.toFloat())
-//                meditationFragment?.showMood(it?.realtimePleasureData?.pleasure?.toFloat())
-
                 meditationFragment?.showAttention(it?.realtimeAttentionData?.attention?.toFloat())
                 meditationFragment?.showRelaxation(it?.realtimeRelaxationData?.relaxation?.toFloat())
                 meditationFragment?.showPressure(it?.realtimePressureData?.pressure?.toFloat())
@@ -529,6 +385,7 @@ class MeditationActivity : BaseActivity() {
                 meditationFragment?.showArousal(it?.realtimeArousalData?.arousal?.toFloat())
                 meditationFragment?.showCoherence(it?.realtimeCoherenceData?.coherence?.toFloat())
                 meditationFragment?.showPleasure(it?.realtimePleasureData?.pleasure?.toFloat())
+                meditationFragment?.showSleep(it?.realtimeSleepData?.sleepDegree?.toFloat())
             }
         })
     }
@@ -552,10 +409,6 @@ class MeditationActivity : BaseActivity() {
             ll_home_layout.visibility = View.GONE
             ll_time_record_layout.visibility = View.VISIBLE
             initTimeRecordView()
-//            var intent = Intent(this, MeditationTimeRecordActivity::class.java)
-//            intent.putExtra(EXTRA_MEDITATION_ID, meditationId)
-//            intent.putExtra(EXTRA_MEDITATION_START_TIME, meditationStartTime)
-//            startActivity(intent)
         }
         btn_end_record.setOnClickListener {
             var meditationLabelsDao = MeditationLabelsDao(this@MeditationActivity)

@@ -107,4 +107,21 @@
         <attr name="allowHorizontalScroll" format="boolean"/>
         <attr name="isSupportExit" format="boolean"/>
     </declare-styleable>
+    <declare-styleable name="ChartCardView">
+        <attr name="cc_titleIcon"    format="reference"/>
+        <attr name="cc_titleText"    format="string"/>
+        <attr name="cc_titleTextColor"    format="color"/>
+        <attr name="cc_menuText"   format="string"/>
+        <attr name="cc_menuTextColor"   format="color"/>
+        <attr name="cc_cornerRadius"   format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="NapProgressView">
+        <attr name="npv_label"    format="string"/>
+        <attr name="npv_unit"    format="string"/>
+        <attr name="npv_foregroundColor"    format="color"/>
+        <attr name="npv_backgroundColor"   format="color"/>
+        <attr name="npv_value"   format="integer"/>
+        <attr name="npv_maxValue"   format="integer"/>
+    </declare-styleable>
 </resources>

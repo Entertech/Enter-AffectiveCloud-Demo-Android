@@ -95,5 +95,14 @@
     <color name="common_share_bg_color_dark">#06070A</color>
 
     <color name="colorReportAboutTitle">#333333</color>
+    <color name="colorHomeBackground">#f8f8f8</color>
+    <color name="colorTextImportant">#333333</color>
+    <color name="colorMusicLocal">#6665ff</color>
 
+    <color name="colorNapProgressBg">#f4f6f8</color>
+    <color name="colorNapProgressSober">#adb7bd</color>
+    <color name="colorNapProgressBlur">#9e9eff</color>
+    <color name="colorNapProgressSleep">#6665ff</color>
+    <color name="colorSleepChartPoint">#595884</color>
+    <color name="colorSleepChartGridLine">#ebebeb</color>
 </resources>

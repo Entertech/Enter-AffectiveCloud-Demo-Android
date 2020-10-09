@@ -128,6 +128,7 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
 //        report_hrv_view.isDataNull(false)
 //        report_pressure_view.isDataNull(false)
 //        Logger.d("user record is " + userLessonRecord.toString() + "meditation record is " + meditation.toString())
+        sleep_chart.setSourceData(fileProtocol)
         setViewData()
         initLabelsView()
     }
@@ -192,6 +193,7 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
     }
 
     fun setViewData() {
+        Log.d("########","meditationReportDataAnalyzed is ${meditationReportDataAnalyzed.toString()}")
         var alphaAverage = meditationReportDataAnalyzed!!.alphaCurve
         var betaAverage = meditationReportDataAnalyzed!!.betaCurve
         var deltaAverage = meditationReportDataAnalyzed!!.deltaCurve
@@ -243,126 +245,6 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
 
     private var llContainer: LinearLayout? = null
 
-//    fun refreshStatisticsView() {
-//        llContainer = self?.findViewById<LinearLayout>(R.id.ll_card_container)
-//        llContainer?.removeAllViews()
-//        var viewOrders = convertJsonString2List(SettingManager.getInstance().statisticsViewOrder)
-//        var lp = LinearLayout.LayoutParams(
-//            ViewGroup.LayoutParams.MATCH_PARENT,
-//            ViewGroup.LayoutParams.WRAP_CONTENT
-//        )
-//        lp.leftMargin = ScreenUtil.dip2px(activity!!, 16f)
-//        lp.rightMargin = ScreenUtil.dip2px(activity!!, 16f)
-//        lp.topMargin = ScreenUtil.dip2px(activity!!, 16f)
-//        lp.bottomMargin = 0
-//        for (i in 0 until viewOrders.size) {
-//            when (viewOrders[i].name) {
-//                TAG_OF_BRAIN_VIEW -> {
-//                    var statistiBrainwaveView = StatisticsBrainwaveView(activity!!)
-//                    statistiBrainwaveView.cardElevation = 0f
-//                    statistiBrainwaveView.radius = ScreenUtil.dip2px(activity, 8f).toFloat()
-//                    statistiBrainwaveView.tag = viewOrders[i].name
-//                    statistiBrainwaveView.layoutParams = lp
-//                    llContainer?.addView(statistiBrainwaveView)
-//                    if (viewOrders[i].isShow) {
-//                        statistiBrainwaveView.visibility = View.VISIBLE
-//                    } else {
-//                        statistiBrainwaveView.visibility = View.GONE
-//                    }
-//                }
-//                TAG_OF_HR_VIEW -> {
-//                    var statisticsHeartRateView = StatisticsHeartRateView(activity!!)
-//                    statisticsHeartRateView.cardElevation = 0f
-//                    statisticsHeartRateView.radius = ScreenUtil.dip2px(activity, 8f).toFloat()
-//                    statisticsHeartRateView.tag = viewOrders[i].name
-//                    statisticsHeartRateView.layoutParams = lp
-//                    llContainer?.addView(statisticsHeartRateView)
-//                    if (viewOrders[i].isShow) {
-//                        statisticsHeartRateView.visibility = View.VISIBLE
-//                    } else {
-//                        statisticsHeartRateView.visibility = View.GONE
-//                    }
-//                }
-//                TAG_OF_HRV_VIEW -> {
-//                    var statisticsHeartRateVariabilityView =
-//                        StatisticsHeartRateVariabilityView(activity!!)
-//                    statisticsHeartRateVariabilityView.cardElevation = 0f
-//                    statisticsHeartRateVariabilityView.radius =
-//                        ScreenUtil.dip2px(activity, 8f).toFloat()
-//                    statisticsHeartRateVariabilityView.tag = viewOrders[i].name
-//                    statisticsHeartRateVariabilityView.layoutParams = lp
-//                    llContainer?.addView(statisticsHeartRateVariabilityView)
-//                    if (viewOrders[i].isShow) {
-//                        statisticsHeartRateVariabilityView.visibility = View.VISIBLE
-//                    } else {
-//                        statisticsHeartRateVariabilityView.visibility = View.GONE
-//                    }
-//                }
-//                TAG_OF_ATTENTION_VIEW -> {
-//                    var statisticsAttentionView = StatisticsAttentionView(activity!!)
-//                    statisticsAttentionView.cardElevation = 0f
-//                    statisticsAttentionView.radius = ScreenUtil.dip2px(activity, 8f).toFloat()
-//                    statisticsAttentionView.tag = viewOrders[i].name
-//                    statisticsAttentionView.layoutParams = lp
-//                    llContainer?.addView(statisticsAttentionView)
-//                    if (viewOrders[i].isShow) {
-//                        statisticsAttentionView.visibility = View.VISIBLE
-//                    } else {
-//                        statisticsAttentionView.visibility = View.GONE
-//                    }
-//                }
-//                TAG_OF_RELAXATION_VIEW -> {
-//                    var statisticsRelaxationView = StatisticsRelaxationView(activity!!)
-//                    statisticsRelaxationView.cardElevation = 0f
-//                    statisticsRelaxationView.radius = ScreenUtil.dip2px(activity, 8f).toFloat()
-//                    statisticsRelaxationView.tag = viewOrders[i].name
-//                    statisticsRelaxationView.layoutParams = lp
-//                    llContainer?.addView(statisticsRelaxationView)
-//                    if (viewOrders[i].isShow) {
-//                        statisticsRelaxationView.visibility = View.VISIBLE
-//                    } else {
-//                        statisticsRelaxationView.visibility = View.GONE
-//                    }
-//                }
-//                TAG_OF_PRESSURE_VIEW -> {
-//                    var statisticsPressureView = StatisticsPressureView(activity!!)
-//                    statisticsPressureView.cardElevation = 0f
-//                    statisticsPressureView.radius = ScreenUtil.dip2px(activity, 8f).toFloat()
-//                    statisticsPressureView.tag = viewOrders[i].name
-//                    statisticsPressureView.layoutParams = lp
-//                    llContainer?.addView(statisticsPressureView)
-//                    if (viewOrders[i].isShow) {
-//                        statisticsPressureView.visibility = View.VISIBLE
-//                    } else {
-//                        statisticsPressureView.visibility = View.GONE
-//                    }
-//                }
-//            }
-//        }
-//
-//    }
-
-
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    fun onMessageEvent(event: MessageEvent) {
-//        if (event.messageCode == MessageEvent.MESSAGE_CODE_STATISTICS_EDIT_DONE) {
-////            initView()
-//            refreshStatisticsView()
-//            if (fileName != null) {
-//                self?.findViewWithTag<StatisticsBrainwaveView>(TAG_OF_BRAIN_VIEW)?.isDataNull(false)
-//                self?.findViewWithTag<StatisticsRelaxationView>(TAG_OF_RELAXATION_VIEW)
-//                    ?.isDataNull(false)
-//                self?.findViewWithTag<StatisticsAttentionView>(TAG_OF_ATTENTION_VIEW)
-//                    ?.isDataNull(false)
-//                self?.findViewWithTag<StatisticsPressureView>(TAG_OF_PRESSURE_VIEW)
-//                    ?.isDataNull(false)
-//                self?.findViewWithTag<StatisticsHeartRateVariabilityView>(TAG_OF_HRV_VIEW)
-//                    ?.isDataNull(false)
-//                self?.findViewWithTag<StatisticsHeartRateView>(TAG_OF_HR_VIEW)?.isDataNull(false)
-//            }
-//            setViewData()
-//        }
-//    }
 
     override fun onDestroy() {
 //        EventBus.getDefault().unregister(this)

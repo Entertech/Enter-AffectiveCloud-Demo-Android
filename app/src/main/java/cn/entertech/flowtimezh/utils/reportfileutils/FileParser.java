@@ -51,6 +51,21 @@ public class FileParser {
                 case "10":
                     meditationReportDataAnalyzed.setPleasureAvg(floatValue);
                     break;
+                case "1A":
+                    meditationReportDataAnalyzed.setSleepPoint(floatValue);
+                    break;
+                case "1B":
+                    meditationReportDataAnalyzed.setSleepLatency(floatValue);
+                    break;
+                case "1C":
+                    meditationReportDataAnalyzed.setSoberDuration(floatValue);
+                    break;
+                case "1D":
+                    meditationReportDataAnalyzed.setLightDuration(floatValue);
+                    break;
+                case "1E":
+                    meditationReportDataAnalyzed.setDeepDuration(floatValue);
+                    break;
                 default:
                     break;
             }
@@ -72,6 +87,7 @@ public class FileParser {
         List<Double> gammaCurve = new ArrayList<>();
         List<Double> hrRec = new ArrayList<>();
         List<Double> hrvRec = new ArrayList<>();
+        List<Double> sleepCurve = new ArrayList<>();
 
         int recKeyStartIndex = keyStartIndex;
         int dataEndIndex = recKeyStartIndex;
@@ -174,6 +190,14 @@ public class FileParser {
                                 dataStartIndex + j * 8, dataStartIndex + 8 + j * 8)));
                         pleasureRec.add((double) cruveValue);
                         meditationReportDataAnalyzed.setPleasureRec(pleasureRec);
+                    }
+                    break;
+                case "FE":
+                    for (int j = 0; j < length; j++) {
+                        float cruveValue = getFloat(HexDump.hexSringToBytes(StringUtil.substring(source,
+                                dataStartIndex + j * 8, dataStartIndex + 8 + j * 8)));
+                        sleepCurve.add((double) cruveValue);
+                        meditationReportDataAnalyzed.setSleepCurve(sleepCurve);
                     }
                     break;
                 default:

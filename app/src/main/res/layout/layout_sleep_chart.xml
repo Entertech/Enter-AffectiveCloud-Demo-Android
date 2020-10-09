@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <cn.entertech.flowtimezh.ui.view.ChartCardView
+        android:id="@+id/ccv_sleep_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cc_titleText="睡眠状态"
+        app:cc_titleTextColor="@color/colorTextImportant"
+        app:cc_menuTextColor="@color/colorMusicLocal"
+        app:cc_cornerRadius="8dp">
+
+    </cn.entertech.flowtimezh.ui.view.ChartCardView>
+
+</LinearLayout>

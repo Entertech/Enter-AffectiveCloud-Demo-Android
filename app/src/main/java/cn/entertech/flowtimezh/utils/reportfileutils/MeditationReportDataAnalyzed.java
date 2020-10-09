@@ -15,10 +15,18 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
     //数据实时间隔 单位毫秒
     public static final int INTERRUPT_TIME_OF_BIODATA = 400;
     public static final int INTERRUPT_TIME_OF_AFFECTIVE = 800;
+    /*新算法实时时间间隔默认为600ms*/
+    public static final int INTERRUPT_TIME = 600;
     //标量数据容量，单位字节
     public static final int CONTAINER_OF_SCALAR_DATA = 3;
     //数组长度容量，单位字节
     public static final int CONTAINER_OF_ARRAY_LENGTH = 4;
+    private float deepDuration;
+    private float lightDuration;
+    private float soberDuration;
+    private float sleepLatency;
+    private float sleepPoint;
+    private List<Double> sleepCurve;
     private ArrayList<MeditaionInterruptManager.MeditationInterrupt> interruptTimeStamps;
     private long startTime;
 
@@ -54,6 +62,7 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
                 , getListByteArray("f2", betaCurve)
                 , getListByteArray("f3", thetaCurve), getListByteArray("f4", deltaCurve)
                 , getListByteArray("f5", gammaCurve)
+                , getListByteArray("fe", sleepCurve)
         );
     }
 
@@ -71,18 +80,25 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
         this.hrMax = reportMeditationDataEntity.getReportHRDataEntity().getHrMax().floatValue();
         this.hrMin = reportMeditationDataEntity.getReportHRDataEntity().getHrMin().floatValue();
         this.hrvAvg = reportMeditationDataEntity.getReportHRDataEntity().getHrvAvg().floatValue();
+        this.sleepPoint = reportMeditationDataEntity.getReportSleepEntity().getSleepPoint().floatValue();
+        this.sleepLatency = reportMeditationDataEntity.getReportSleepEntity().getSleepLatency().floatValue();
+        this.soberDuration = reportMeditationDataEntity.getReportSleepEntity().getSoberDuration().floatValue();
+        this.lightDuration = reportMeditationDataEntity.getReportSleepEntity().getLightDuration().floatValue();
+        this.deepDuration = reportMeditationDataEntity.getReportSleepEntity().getDeepDuration().floatValue();
 
-        this.attentionRec = addInterruptData(reportMeditationDataEntity.getReportAttentionEnitty().getAttentionRec(), INTERRUPT_TIME_OF_AFFECTIVE);
-        this.relaxationRec = addInterruptData(reportMeditationDataEntity.getReportRelaxationEnitty().getRelaxationRec(), INTERRUPT_TIME_OF_AFFECTIVE);
-        this.pressureRec = addInterruptData(reportMeditationDataEntity.getReportPressureEnitty().getPressureRec(), INTERRUPT_TIME_OF_AFFECTIVE);
-        this.pleasureRec = addInterruptData(reportMeditationDataEntity.getReportPleasureEnitty().getPleasureRec(), INTERRUPT_TIME_OF_AFFECTIVE);
-        this.hrRec = addInterruptData(reportMeditationDataEntity.getReportHRDataEntity().getHrRec(), INTERRUPT_TIME_OF_BIODATA);
-        this.hrvRec = addInterruptData(reportMeditationDataEntity.getReportHRDataEntity().getHrvRec(), INTERRUPT_TIME_OF_BIODATA);
-        this.alphaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getAlphaCurve(), INTERRUPT_TIME_OF_BIODATA);
-        this.betaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getBetaCurve(), INTERRUPT_TIME_OF_BIODATA);
-        this.thetaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getThetaCurve(), INTERRUPT_TIME_OF_BIODATA);
-        this.deltaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getDeltaCurve(), INTERRUPT_TIME_OF_BIODATA);
-        this.gammaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getGammaCurve(), INTERRUPT_TIME_OF_BIODATA);
+        this.attentionRec = addInterruptData(reportMeditationDataEntity.getReportAttentionEnitty().getAttentionRec(), INTERRUPT_TIME);
+        this.relaxationRec = addInterruptData(reportMeditationDataEntity.getReportRelaxationEnitty().getRelaxationRec(), INTERRUPT_TIME);
+        this.pressureRec = addInterruptData(reportMeditationDataEntity.getReportPressureEnitty().getPressureRec(), INTERRUPT_TIME);
+        this.pleasureRec = addInterruptData(reportMeditationDataEntity.getReportPleasureEnitty().getPleasureRec(), INTERRUPT_TIME);
+        this.hrRec = addInterruptData(reportMeditationDataEntity.getReportHRDataEntity().getHrRec(), INTERRUPT_TIME);
+        this.hrvRec = addInterruptData(reportMeditationDataEntity.getReportHRDataEntity().getHrvRec(), INTERRUPT_TIME);
+        this.alphaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getAlphaCurve(), INTERRUPT_TIME);
+        this.betaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getBetaCurve(), INTERRUPT_TIME);
+        this.thetaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getThetaCurve(), INTERRUPT_TIME);
+        this.deltaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getDeltaCurve(), INTERRUPT_TIME);
+        this.gammaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getGammaCurve(), INTERRUPT_TIME);
+        this.gammaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getGammaCurve(), INTERRUPT_TIME);
+        this.sleepCurve = addInterruptData(reportMeditationDataEntity.getReportSleepEntity().getSleepCurve(), INTERRUPT_TIME);
     }
 
     /**
@@ -121,7 +137,12 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
                 HexDump.hexSringToBytes("07"), HexDump.float2byte(attentionAvg),
                 HexDump.hexSringToBytes("0a"), HexDump.float2byte(relaxationAvg),
                 HexDump.hexSringToBytes("0d"), HexDump.float2byte(pressureAvg),
-                HexDump.hexSringToBytes("10"), HexDump.float2byte(pleasureAvg)
+                HexDump.hexSringToBytes("10"), HexDump.float2byte(pleasureAvg),
+                HexDump.hexSringToBytes("1a"), HexDump.float2byte(sleepPoint),
+                HexDump.hexSringToBytes("1b"), HexDump.float2byte(sleepLatency),
+                HexDump.hexSringToBytes("1c"), HexDump.float2byte(soberDuration),
+                HexDump.hexSringToBytes("1d"), HexDump.float2byte(lightDuration),
+                HexDump.hexSringToBytes("1e"), HexDump.float2byte(deepDuration)
         );
 
     }
@@ -308,7 +329,15 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
     @Override
     public String toString() {
         return "MeditationReportDataAnalyzed{" +
-                "attentionAvg=" + attentionAvg +
+                "deepDuration=" + deepDuration +
+                ", lightDuration=" + lightDuration +
+                ", soberDuration=" + soberDuration +
+                ", sleepLatency=" + sleepLatency +
+                ", sleepPoint=" + sleepPoint +
+                ", sleepCurve=" + sleepCurve +
+                ", interruptTimeStamps=" + interruptTimeStamps +
+                ", startTime=" + startTime +
+                ", attentionAvg=" + attentionAvg +
                 ", attentionRec=" + attentionRec +
                 ", relaxationAvg=" + relaxationAvg +
                 ", relaxationRec=" + relaxationRec +
@@ -324,9 +353,57 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
                 ", hrAvg=" + hrAvg +
                 ", hrMax=" + hrMax +
                 ", hrMin=" + hrMin +
-                ", hrRec=" + hrRec +
                 ", hrvAvg=" + hrvAvg +
+                ", hrRec=" + hrRec +
                 ", hrvRec=" + hrvRec +
                 '}';
+    }
+
+    public float getDeepDuration() {
+        return deepDuration;
+    }
+
+    public void setDeepDuration(float deepDuration) {
+        this.deepDuration = deepDuration;
+    }
+
+    public float getLightDuration() {
+        return lightDuration;
+    }
+
+    public void setLightDuration(float lightDuration) {
+        this.lightDuration = lightDuration;
+    }
+
+    public float getSoberDuration() {
+        return soberDuration;
+    }
+
+    public void setSoberDuration(float soberDuration) {
+        this.soberDuration = soberDuration;
+    }
+
+    public float getSleepLatency() {
+        return sleepLatency;
+    }
+
+    public void setSleepLatency(float sleepLatency) {
+        this.sleepLatency = sleepLatency;
+    }
+
+    public float getSleepPoint() {
+        return sleepPoint;
+    }
+
+    public void setSleepPoint(float sleepPoint) {
+        this.sleepPoint = sleepPoint;
+    }
+
+    public List<Double> getSleepCurve() {
+        return sleepCurve;
+    }
+
+    public void setSleepCurve(List<Double> sleepCurve) {
+        this.sleepCurve = sleepCurve;
     }
 }

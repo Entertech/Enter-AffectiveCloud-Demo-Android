@@ -58,4 +58,19 @@
     <string name="meditation_error_signal_tip">可能是您没有正确佩戴头带。传感器必须与皮肤完全接触。请按照指南操作，以获得良好的信号。</string>
 
     <string name="meditation_tap_to_show_data">点击显示数据</string>
+    <string name="minute">分钟</string>
+    <string name="hour">小时</string>
+
+    <string name="data_sleep_more">睡着点</string>
+    <string name="data_sleep_wake">唤醒点</string>
+    <string name="data_sleep_wake_duration">清醒时长</string>
+    <string name="data_sleep_tosleep_duration">迷糊时长</string>
+    <string name="data_sleep_sleep_duration">睡眠时长</string>
+    <string name="data_sleep_light_duration">浅睡时长</string>
+    <string name="data_sleep_light_duration1">浅睡时长</string>
+    <string name="data_sleep_deep_duration">深睡时长</string>
+    <string name="data_state_wake">清醒</string>
+    <string name="data_state_tosleep">迷糊</string>
+    <string name="data_state_sleep">浅睡</string>
+    <string name="data_state_deep_sleep">深睡</string>
 </resources>

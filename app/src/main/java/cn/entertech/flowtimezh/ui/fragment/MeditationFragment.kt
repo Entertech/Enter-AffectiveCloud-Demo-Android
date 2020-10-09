@@ -56,6 +56,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
     var isArousalLoading = true
     var isCoherenceLoading = true
     var isPleasureLoading = true
+    var isSleepLoading = true
 
     companion object {
         val SHOW_LOADING_TIME_DELAY = 3000L
@@ -235,6 +236,10 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
             ?.showPleasureLoading()
     }
+    var showSleepLoadingRunnable = Runnable {
+        selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
+            ?.showSleepLoading()
+    }
 
     fun showHeart(heartRate: Int?, hrv: Double?) {
         if (heartRate == null) {
@@ -386,6 +391,25 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
                     mMainHandler.removeCallbacks(showPleasureLoadingRunnable)
                     selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
                         ?.hidePleasureLoaidng()
+                }
+            }
+        }
+    }
+
+    fun showSleep(sleep: Float?) {
+        if (sleep == null) {
+            return
+        }
+        activity?.runOnUiThread {
+            selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.setSleepState(sleep)
+            isSleepLoading = sleep == 0f
+            if (!isMeditationInterrupt) {
+                if (isSleepLoading) {
+                    mMainHandler.postDelayed(showSleepLoadingRunnable, SHOW_LOADING_TIME_DELAY)
+                } else {
+                    mMainHandler.removeCallbacks(showSleepLoadingRunnable)
+                    selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
+                        ?.hideSleepLoaidng()
                 }
             }
         }

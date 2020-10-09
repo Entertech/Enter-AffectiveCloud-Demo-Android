@@ -119,4 +119,31 @@
             app:rav_mainColor="#52A27C" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_margin_half"
+        android:orientation="horizontal">
+
+
+        <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
+            android:id="@+id/realtime_sleep_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            app:rav_affectiveType="Sleep"
+            app:rav_background="@drawable/shape_realtime_relaxation_bg"
+            app:rav_mainColor="#4b5dcc" />
+
+        <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            app:rav_affectiveType="Pleasure"
+            app:rav_background="@drawable/shape_realtime_coherence_bg"
+            app:rav_mainColor="#52A27C" />
+    </LinearLayout>
+
 </LinearLayout>
