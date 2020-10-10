@@ -250,7 +250,7 @@
                     app:rlcc_pointCount="100"
                     app:rlcc_averageLabelBgColor="?attr/common_bg1_color"
                     app:rlcc_xAxisUnit="Time(min)"
-                    app:rlcc_timeUnit="400"
+                    app:rlcc_timeUnit="200"
                     app:rlcc_markViewTitle="HRV"
                     app:rlcc_markViewBgColor="?attr/common_bg_z2_color"
                     app:rlcc_highlightLineColor="?attr/common_line_light_color"

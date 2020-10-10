@@ -147,7 +147,7 @@ public class SleepChartLayout extends LinearLayout {
                 sleeplayoutParams.leftMargin = (int) (sleepPoint * 1.0 /
                         valueList.size() *
                         (customLineChart.getMeasuredWidth() - Utils.convertDpToPixel(35) + Utils.convertDpToPixel(8)));
-                if (wakePoint != -1) {
+                if (wakePoint != 0) {
                     if (sleeplayoutParams.leftMargin + llSleepTag.getWidth() <
                             awakelayoutParams.leftMargin + llAwakeTag.getWidth() &&
                             sleeplayoutParams.leftMargin + llSleepTag.getWidth() > awakelayoutParams.leftMargin) {
@@ -158,7 +158,7 @@ public class SleepChartLayout extends LinearLayout {
                     sleeplayoutParams.leftMargin = rlChartLabel.getWidth() - llSleepTag.getWidth();
                 }
                 llSleepTag.setLayoutParams(sleeplayoutParams);
-                tvSleepTime.setText("(" + getTimeByIndex(mSleepFileData, (int) sleepPoint).split(" ")[0] + ")");
+                tvSleepTime.setText("(" + getTimeByIndex(fileProtocol, (int) sleepPoint).split(" ")[0] + ")");
             }
         }
     }
@@ -420,7 +420,7 @@ public class SleepChartLayout extends LinearLayout {
         List<Entry> entries = new ArrayList<>();
         for (int i = 0; i < valueList.size(); i++) {
             Entry entry;
-            if (sleepPoint != 0 && (i == wakePoint || i == sleepPoint)) {
+            if (sleepPoint != 0 &&  i == sleepPoint) {
                 entry = new Entry(i, valueList.get(i).intValue(),
                         ContextCompat.getDrawable(mContext, R.drawable.shape_sleep_chart_point));
             } else {
@@ -462,12 +462,12 @@ public class SleepChartLayout extends LinearLayout {
 
     public static String getTimeByIndex(FileProtocol<? extends BrainDataUnit> fileProtocol,
                                         int index) {
-        if (fileProtocol.getList() == null || fileProtocol.getList().size() == 0) {
+        if (fileProtocol == null || fileProtocol.getList() == null || fileProtocol.getList().size() == 0) {
             return "";
         }
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(fileProtocol.getTick() * 1000);
-        calendar.add(Calendar.MILLISECOND, -(((MeditationReportDataAnalyzed) (fileProtocol.getList().get(0))).getSleepCurve().size() - 1 - index) * 600);
+        calendar.add(Calendar.SECOND, -(((MeditationReportDataAnalyzed) (fileProtocol.getList().get(0))).getSleepCurve().size() - 1 - index) * 8);
         SimpleDateFormat formatter = new SimpleDateFormat("hh:mm a", Locale.getDefault());
         return formatter.format(calendar.getTimeInMillis());
     }
