@@ -136,6 +136,7 @@ class MeditationActivity : BaseActivity() {
         initFlowtimeManager()
         playAirSound()
         initPowerManager()
+        playSleepNoise()
     }
 
     fun bindAffectiveService() {
@@ -386,10 +387,21 @@ class MeditationActivity : BaseActivity() {
                 meditationFragment?.showCoherence(it?.realtimeCoherenceData?.coherence?.toFloat())
                 meditationFragment?.showPleasure(it?.realtimePleasureData?.pleasure?.toFloat())
                 meditationFragment?.showSleep(it?.realtimeSleepData?.sleepDegree?.toFloat())
+                isSleep(it?.realtimeSleepData?.sleepState?.toInt())
             }
         })
     }
 
+    var isSleep = false
+    fun isSleep(sleepState:Int?){
+        if(sleepState == null){
+            return
+        }
+        if(!isSleep && sleepState == 1){
+            isSleep = true
+            SoundScapeAudioManager.getInstance(this).pause()
+        }
+    }
     fun initPowerManager() {
         var pm = getSystemService(Context.POWER_SERVICE) as PowerManager
         wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My:sdf")
@@ -468,6 +480,14 @@ class MeditationActivity : BaseActivity() {
         tv_experiment_name.text = experimentName
     }
 
+    fun playSleepNoise(){
+        var experimentDao = ExperimentDao(this)
+        var experimentName = experimentDao.findExperimentBySelected().nameCn
+        if (experimentName == "午休实验"){
+            SoundScapeAudioManager.getInstance(this).setFile(R.raw.sleep_lightrain)
+            SoundScapeAudioManager.getInstance(this).start()
+        }
+    }
 
     private fun resetPage() {
         ll_back.visibility = View.VISIBLE
@@ -968,6 +988,7 @@ class MeditationActivity : BaseActivity() {
     }
 
     override fun onDestroy() {
+        SoundScapeAudioManager.getInstance(this).release()
         affectiveCloudService?.stopForeground()
         unBindAffectiveService()
         stopAirSound()

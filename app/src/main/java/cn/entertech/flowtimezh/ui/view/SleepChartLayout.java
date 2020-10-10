@@ -354,21 +354,21 @@ public class SleepChartLayout extends LinearLayout {
 
         LimitLine ll2 = new LimitLine(50, "浅睡");
         ll2.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_TOP);
-        ll2.setLineColor(Color.parseColor("#ebebeb"));
+        ll2.setLineColor(Color.TRANSPARENT);
         ll2.setTextColor(R.color.colorGrayText);
-        ll2.setLineWidth(1);
+        ll2.setLineWidth(0);
         leftYAxis.addLimitLine(ll2);
 
         LimitLine ll3 = new LimitLine(15, "深睡");
         ll3.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_TOP);
-        ll3.setLineColor(Color.parseColor("#ebebeb"));
+        ll3.setLineColor(Color.TRANSPARENT);
         ll3.setTextColor(R.color.colorGrayText);
-        ll3.setLineWidth(1);
+        ll3.setLineWidth(0);
         leftYAxis.addLimitLine(ll3);
 
         LimitLine ll1 = new LimitLine(85, "清醒");
         ll1.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_TOP);
-        ll1.setLineColor(Color.parseColor("#ebebeb"));
+        ll1.setLineColor(Color.TRANSPARENT);
         ll1.setTextColor(R.color.colorGrayText);
         ll1.setLineWidth(1);
         leftYAxis.addLimitLine(ll1);
@@ -420,7 +420,7 @@ public class SleepChartLayout extends LinearLayout {
         List<Entry> entries = new ArrayList<>();
         for (int i = 0; i < valueList.size(); i++) {
             Entry entry;
-            if (i == wakePoint || i == sleepPoint) {
+            if (sleepPoint != 0 && (i == wakePoint || i == sleepPoint)) {
                 entry = new Entry(i, valueList.get(i).intValue(),
                         ContextCompat.getDrawable(mContext, R.drawable.shape_sleep_chart_point));
             } else {
