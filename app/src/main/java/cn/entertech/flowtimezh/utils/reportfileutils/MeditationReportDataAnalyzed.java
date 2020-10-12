@@ -97,7 +97,6 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
         this.thetaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getThetaCurve(), INTERRUPT_TIME);
         this.deltaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getDeltaCurve(), INTERRUPT_TIME);
         this.gammaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getGammaCurve(), INTERRUPT_TIME);
-        this.gammaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getGammaCurve(), INTERRUPT_TIME);
         this.sleepCurve = addInterruptData(reportMeditationDataEntity.getReportSleepEntity().getSleepCurve(), INTERRUPT_TIME);
     }
 
