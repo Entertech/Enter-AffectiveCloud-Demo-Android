@@ -7,7 +7,7 @@
 
 ## Demo下载
 
-[心流.apk](https://fir.im/pek1)
+[心流.apk](http://fir.entertech.cn/flowtimeCN)
 
 ## 模块说明
 
