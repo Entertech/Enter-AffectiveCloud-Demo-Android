@@ -4,7 +4,8 @@ import androidx.fragment.app.Fragment
 import cn.entertech.affectivecloudsdk.entity.RealtimeEEGData
 
 abstract class MeditationBaseFragment : Fragment() {
-    abstract fun showHeart(hr: Int?, hrv: Double?)
+    abstract fun showHeart(hr: Int?)
+    abstract fun showBreathCoherence(hr: Double?)
     abstract fun showBrain(data: RealtimeEEGData?)
     abstract fun showAttention(attention: Float?)
     abstract fun showRelaxation(relaxation: Float?)

@@ -179,7 +179,7 @@ class JournalFragment : Fragment() {
         }
         report_hr.setValue(hrAvg.toInt())
         report_coherence.setValue(coherenceAvg.toInt())
-        report_hrv.setValue(hrvAvg.toInt())
+        report_hrv.setValue(hrvAvg)
         report_pressure.setValue(pressureAvg.toInt())
         report_relaxation.setValue(relaxationAvg.toInt(), attentionAvg.toInt())
     }

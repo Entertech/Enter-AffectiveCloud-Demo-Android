@@ -57,7 +57,7 @@ class ReportDetailHRActivity : BaseActivity() {
     fun initLineChart() {
         var hrLine = meditationReportDataAnalyzed?.hrRec
         if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrAvg != null){
-            chart_hr.setAverage(meditationReportDataAnalyzed!!.hrAvg.toInt())
+            chart_hr.setAverage("${meditationReportDataAnalyzed!!.hrAvg.toInt()}")
         }
         chart_hr.setData(hrLine)
     }

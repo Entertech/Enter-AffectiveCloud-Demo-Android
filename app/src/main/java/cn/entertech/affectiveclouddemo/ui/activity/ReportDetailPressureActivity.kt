@@ -56,7 +56,7 @@ class ReportDetailPressureActivity : BaseActivity() {
     fun initLineChart() {
         var pressureLine = meditationReportDataAnalyzed?.pressureRec
         if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.pressureAvg != null){
-            chart_pressure.setAverage(meditationReportDataAnalyzed!!.pressureAvg.toInt())
+            chart_pressure.setAverage("${meditationReportDataAnalyzed!!.pressureAvg.toInt()}")
         }
         chart_pressure.setData(pressureLine)
     }

@@ -54,7 +54,7 @@ class ReportDetailCoherenceActivity : BaseActivity() {
     fun initLineChart() {
         var coherenceLine = meditationReportDataAnalyzed?.coherenceRec
         if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.coherenceAvg != null){
-            chart_coherence.setAverage(meditationReportDataAnalyzed!!.coherenceAvg.toInt())
+            chart_coherence.setAverage("${meditationReportDataAnalyzed!!.coherenceAvg.toInt()}")
         }
         chart_coherence.setData(coherenceLine)
     }

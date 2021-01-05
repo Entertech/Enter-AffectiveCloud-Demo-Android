@@ -37,8 +37,8 @@ class MeditationHeartView @JvmOverloads constructor(
         heart_rate.setHeartValue(heartRate)
     }
 
-    fun setHRV(hrv:Double?){
-        realtime_hrv.appendHrv(hrv)
+    fun setBreathCoherence(bc:List<Double>?){
+        realtime_hrv.appendHrv(bc)
     }
 
     fun showHRLoadingCover() {
@@ -62,19 +62,19 @@ class MeditationHeartView @JvmOverloads constructor(
         heart_rate.hideDisconnectTip()
     }
 
-    fun showHRVLoadingCover() {
+    fun showBreathCoherenceLoadingCover() {
         realtime_hrv.showLoadingCover()
     }
 
-    fun hideHRVLoadingCover() {
+    fun hideBreathCoherenceLoadingCover() {
         realtime_hrv.hindLoadingCover()
     }
 
-    fun showHRVSampleData() {
+    fun showBreathCoherenceSampleData() {
         realtime_hrv.showSampleData()
     }
 
-    fun hideHRVSampleData() {
+    fun hideBreathCoherenceSampleData() {
         realtime_hrv.hideSampleData()
     }
 }

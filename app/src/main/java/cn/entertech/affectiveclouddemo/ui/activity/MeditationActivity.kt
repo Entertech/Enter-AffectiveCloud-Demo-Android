@@ -32,7 +32,6 @@ import cn.entertech.flowtime.mvp.model.meditation.*
 import cn.entertech.flowtime.utils.reportfileutils.FragmentBuffer
 import cn.entertech.flowtime.utils.reportfileutils.MeditaionInterruptManager
 import com.orhanobut.logger.Logger
-import kotlinx.android.synthetic.main.activity_meditation.*
 import java.util.ArrayList
 import java.util.HashMap
 
@@ -46,14 +45,14 @@ class MeditationActivity : BaseActivity() {
     var enterAffectiveCloudManager: EnterAffectiveCloudManager? = null
     var bleManager: MultipleBiomoduleBleManager = DeviceUIConfig.getInstance(this!!).managers[0]
     var meditationStartTime: Long? = null
-    var websocketAddress = "wss://server-test.affectivecloud.cn/ws/algorithm/v1/"
+    var websocketAddress = "wss://server.affectivecloud.cn/ws/algorithm/v2/"
 
     var meditationEndTime: String? = null
-//    val APP_KEY: String = "93e3cf84-dea1-11e9-ae15-0242ac120002"
-//    val APP_SECRET: String = "c28e78f98f154962c52fcd3444d8116f"
+    val APP_KEY: String = "93e3cf84-dea1-11e9-ae15-0242ac120002"
+    val APP_SECRET: String = "c28e78f98f154962c52fcd3444d8116f"
 
-    val APP_KEY: String = "015b7118-b81e-11e9-9ea1-8c8590cb54f9"
-    val APP_SECRET: String = "cd9c757ae9a7b7e1cff01ee1bb4d4f98"
+//    val APP_KEY: String = "015b7118-b81e-11e9-9ea1-8c8590cb54f9"
+//    val APP_SECRET: String = "cd9c757ae9a7b7e1cff01ee1bb4d4f98"
     var fragmentBuffer = FragmentBuffer()
     var meditationStatusPlayer: MeditationStatusPlayer? = null
 
@@ -164,7 +163,7 @@ class MeditationActivity : BaseActivity() {
     }
 
     var isFirstIn = true
-    var websocketConnectListener = fun() {
+    var webSocketConnectListener = fun() {
         runOnUiThread {
             if (bleManager!!.isConnected() && !isFirstIn) {
                 meditationStatusPlayer?.playConnectAudio()
@@ -175,7 +174,7 @@ class MeditationActivity : BaseActivity() {
             fragment?.handleWebSocketConnect()
         }
     }
-    var websocketDisconnectListener = fun() {
+    var websocketDisconnectListener = fun(error:String) {
         runOnUiThread {
             if (bleManager!!.isConnected()) {
                 meditationStatusPlayer?.playDisconnectAudio()
@@ -201,12 +200,11 @@ class MeditationActivity : BaseActivity() {
             )
         var availableBioServices = listOf(Service.EEG, Service.HR)
         var biodataSubscribeParams = BiodataSubscribeParams.Builder()
-            .requestAllEEGData()
-            .requestAllHrData()
+            .requestHR()
+            .requestEEG()
             .build()
 
         var affectiveSubscribeParams = AffectiveSubscribeParams.Builder()
-            .requestAllSleepData()
             .requestAttention()
             .requestRelaxation()
             .requestPressure()
@@ -235,7 +233,8 @@ class MeditationActivity : BaseActivity() {
                         isFirstReceiveData = false
                     }
                 }
-                fragment?.showHeart(it?.realtimeHrData?.hr?.toInt(), it?.realtimeHrData?.hrv)
+                fragment?.showHeart(it?.realtimeHrData?.hr?.toInt())
+                fragment?.showBreathCoherence(it?.realtimeHrData?.hr)
                 fragment?.showBrain(it?.realtimeEEGData)
                 fragment?.dealQuality(it?.realtimeEEGData?.quality)
             }
@@ -265,7 +264,7 @@ class MeditationActivity : BaseActivity() {
         }
 
         enterAffectiveCloudManager?.addWebSocketConnectListener(
-            websocketConnectListener
+            webSocketConnectListener
         )
         enterAffectiveCloudManager?.addWebSocketDisconnectListener(
             websocketDisconnectListener
@@ -590,7 +589,7 @@ class MeditationActivity : BaseActivity() {
         bleManager?.removeConnectListener(onDeviceConnectListener)
         bleManager?.removeDisConnectListener(onDeviceDisconnectListener)
         enterAffectiveCloudManager?.removeWebSocketConnectListener(
-            websocketConnectListener
+            webSocketConnectListener
         )
         enterAffectiveCloudManager?.removeWebSocketDisconnectListener(
             websocketDisconnectListener

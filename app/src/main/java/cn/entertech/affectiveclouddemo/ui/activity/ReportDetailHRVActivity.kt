@@ -62,7 +62,7 @@ class ReportDetailHRVActivity : BaseActivity() {
     fun initLineChart() {
         var hrvLine = meditationReportDataAnalyzed?.hrvRec
         if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrvAvg != null){
-            chart_hrv.setAverage(meditationReportDataAnalyzed!!.hrvAvg.toInt())
+            chart_hrv.setAverage("${meditationReportDataAnalyzed!!.hrvAvg.toInt()}")
         }
         chart_hrv.setData(hrvLine)
     }

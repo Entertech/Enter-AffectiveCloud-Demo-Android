@@ -166,7 +166,7 @@ class JournalLargeFragment : Fragment() {
             )
         }
         report_hr.setValue(hrAvg.toInt())
-        report_hrv.setValue(hrvAvg.toInt())
+        report_hrv.setValue(hrvAvg)
         report_pressure.setValue(pressureAvg.toInt())
         report_relaxation.setValue(relaxationAvg.toInt(), attentionAvg.toInt())
         initBrainwaveChart()
@@ -197,19 +197,19 @@ class JournalLargeFragment : Fragment() {
     fun initLineChart() {
         var hrLine = meditationReportDataAnalyzed?.hrRec
         if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrAvg != null){
-            chart_hr.setAverage(meditationReportDataAnalyzed!!.hrAvg.toInt())
+            chart_hr.setAverage("${meditationReportDataAnalyzed!!.hrAvg.toInt()}")
         }
         chart_hr.setData(hrLine)
 
         var hrvLine = meditationReportDataAnalyzed?.hrvRec
         if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrvAvg != null){
-            chart_hrv.setAverage(meditationReportDataAnalyzed!!.hrvAvg.toInt())
+            chart_hrv.setAverage("${meditationReportDataAnalyzed!!.hrvAvg.toInt()}")
         }
         chart_hrv.setData(hrvLine)
 
         var pressureLine = meditationReportDataAnalyzed?.pressureRec
         if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.pressureAvg != null){
-            chart_pressure.setAverage(meditationReportDataAnalyzed!!.pressureAvg.toInt())
+            chart_pressure.setAverage("${meditationReportDataAnalyzed!!.pressureAvg.toInt()}")
         }
         chart_pressure.setData(pressureLine)
 

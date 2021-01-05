@@ -66,17 +66,17 @@ public class AffectiveSurfaceView extends SurfaceView implements SurfaceHolder.C
     public AffectiveSurfaceView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.mContext = context;
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, cn.entertech.uicomponentsdk.R.styleable.HRVSurfaceView);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, cn.entertech.uicomponentsdk.R.styleable.BreathCoherenceSurfaceView);
         if (typedArray != null) {
-            mLineColor = typedArray.getColor(cn.entertech.uicomponentsdk.R.styleable.HRVSurfaceView_hrvsf_lineColor, mLineColor);
-            mBgColor = typedArray.getColor(cn.entertech.uicomponentsdk.R.styleable.HRVSurfaceView_hrvsf_bgColor, mBgColor);
-            mYAxisColor = typedArray.getColor(cn.entertech.uicomponentsdk.R.styleable.HRVSurfaceView_hrvsf_yAxisColor, mYAxisColor);
-            mGridLineColor = typedArray.getColor(cn.entertech.uicomponentsdk.R.styleable.HRVSurfaceView_hrvsf_gridLineColor, mGridLineColor);
-            mGridLineCount = typedArray.getInteger(cn.entertech.uicomponentsdk.R.styleable.HRVSurfaceView_hrvsf_gridLineCount, mGridLineCount);
-            mLeftPadding = typedArray.getDimension(cn.entertech.uicomponentsdk.R.styleable.HRVSurfaceView_hrvsf_leftPadding, ScreenUtil.dip2px(context, 5));
-            mRightPadding = typedArray.getDimension(cn.entertech.uicomponentsdk.R.styleable.HRVSurfaceView_hrvsf_rightPadding, ScreenUtil.dip2px(context, 5));
-            mLineWidth = typedArray.getDimension(cn.entertech.uicomponentsdk.R.styleable.HRVSurfaceView_hrvsf_lineWidth, 3);
-            mMaxValue = typedArray.getInteger(cn.entertech.uicomponentsdk.R.styleable.HRVSurfaceView_hrvsf_maxValue, mMaxValue);
+            mLineColor = typedArray.getColor(cn.entertech.uicomponentsdk.R.styleable.BreathCoherenceSurfaceView_hrvsf_lineColor, mLineColor);
+            mBgColor = typedArray.getColor(cn.entertech.uicomponentsdk.R.styleable.BreathCoherenceSurfaceView_hrvsf_bgColor, mBgColor);
+            mYAxisColor = typedArray.getColor(cn.entertech.uicomponentsdk.R.styleable.BreathCoherenceSurfaceView_hrvsf_yAxisColor, mYAxisColor);
+            mGridLineColor = typedArray.getColor(cn.entertech.uicomponentsdk.R.styleable.BreathCoherenceSurfaceView_hrvsf_gridLineColor, mGridLineColor);
+            mGridLineCount = typedArray.getInteger(cn.entertech.uicomponentsdk.R.styleable.BreathCoherenceSurfaceView_hrvsf_gridLineCount, mGridLineCount);
+            mLeftPadding = typedArray.getDimension(cn.entertech.uicomponentsdk.R.styleable.BreathCoherenceSurfaceView_hrvsf_leftPadding, ScreenUtil.dip2px(context, 5));
+            mRightPadding = typedArray.getDimension(cn.entertech.uicomponentsdk.R.styleable.BreathCoherenceSurfaceView_hrvsf_rightPadding, ScreenUtil.dip2px(context, 5));
+            mLineWidth = typedArray.getDimension(cn.entertech.uicomponentsdk.R.styleable.BreathCoherenceSurfaceView_hrvsf_lineWidth, 3);
+            mMaxValue = typedArray.getInteger(cn.entertech.uicomponentsdk.R.styleable.BreathCoherenceSurfaceView_hrvsf_maxValue, mMaxValue);
         }
         initPaint();
     }

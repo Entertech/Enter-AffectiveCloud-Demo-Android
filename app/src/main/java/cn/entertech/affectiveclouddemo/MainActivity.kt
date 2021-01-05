@@ -56,11 +56,6 @@ class MainActivity : BaseActivity() {
         setStatusBarLight()
         initView()
         initPermission()
-        DeviceUIConfig.getInstance(this).updateFirmware(
-            SettingManager.getInstance().serverFirmwareVersion,
-            firmwareFilePath,
-            false
-        )
         initBleConnectedListener()
     }
 
@@ -124,6 +119,11 @@ class MainActivity : BaseActivity() {
             .setPath(firmwareFilePath)
             .setListener(downloadlistener)
             .start()
+        DeviceUIConfig.getInstance(this).updateFirmware(
+            SettingManager.getInstance().serverFirmwareVersion,
+            firmwareFilePath,
+            false
+        )
     }
 
     fun initMta() {
