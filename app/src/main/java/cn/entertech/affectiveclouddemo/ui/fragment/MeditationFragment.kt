@@ -309,7 +309,7 @@ class MeditationFragment : MeditationBaseFragment() {
         }
         activity?.runOnUiThread {
             selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
-                ?.setStress(arousal)
+                ?.setArousal(arousal)
             isArousalLoading = arousal == 0f
             if (!isMeditationInterrupt) {
                 if (isArousalLoading) {
