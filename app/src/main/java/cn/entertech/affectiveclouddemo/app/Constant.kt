@@ -149,5 +149,6 @@ class Constant {
         const val SP_SERVER_APP_VERSION = "serverAppVersion"
         const val SP_LOG_TOKEN = "logToken"
         const val SP_BLE_MAC = "bleMac"
+        const val SP_BRAIN_CHART_LEGEND_SHOW_LIST = "brainLegendList"
     }
 }

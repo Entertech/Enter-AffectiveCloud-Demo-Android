@@ -1,6 +1,6 @@
-package cn.entertech.flowtime.mvp.model.meditation
+package cn.entertech.affectiveclouddemo.model.meditation;
 
-class ReportAttentionEnitty{
+class ReportAttentionEntity{
     var attentionAvg:Double? = null
     var attentionRec:ArrayList<Double>? = null
     override fun toString(): String {

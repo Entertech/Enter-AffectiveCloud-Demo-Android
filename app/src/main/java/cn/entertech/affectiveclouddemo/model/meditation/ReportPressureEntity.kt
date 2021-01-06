@@ -1,6 +1,6 @@
-package cn.entertech.flowtime.mvp.model.meditation
+package cn.entertech.affectiveclouddemo.model.meditation;
 
-class ReportPressureEnitty{
+class ReportPressureEntity{
     var pressureAvg:Double? = null
     var pressureRec:ArrayList<Double>? = null
     override fun toString(): String {

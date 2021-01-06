@@ -1,12 +1,9 @@
-package cn.entertech.flowtime.utils.reportfileutils
+package cn.entertech.affectiveclouddemo.utils.reportfileutils
 
 import android.os.Handler
 import android.os.HandlerThread
-import cn.entertech.flowtime.mvp.model.meditation.ReportMeditationDataEntity
-import cn.entertech.affectiveclouddemo.utils.reportfileutils.BrainWaveFileUtil
-import cn.entertech.affectiveclouddemo.utils.reportfileutils.FileFragment
-import cn.entertech.affectiveclouddemo.utils.reportfileutils.FileFragmentContent
-import cn.entertech.affectiveclouddemo.utils.reportfileutils.MeditationReportDataAnalyzed
+import cn.entertech.affectiveclouddemo.model.meditation.ReportMeditationDataEntity
+import cn.entertech.flowtime.utils.reportfileutils.MeditaionInterruptManager
 
 class FragmentBuffer {
     private val handlerThread: HandlerThread

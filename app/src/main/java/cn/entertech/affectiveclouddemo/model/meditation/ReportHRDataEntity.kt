@@ -1,4 +1,4 @@
-package cn.entertech.flowtime.mvp.model.meditation
+package cn.entertech.affectiveclouddemo.model.meditation;
 
 class ReportHRDataEntity{
     var hrAvg:Double? = null

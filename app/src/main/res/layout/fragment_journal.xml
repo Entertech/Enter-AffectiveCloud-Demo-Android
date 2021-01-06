@@ -4,355 +4,174 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="cn.entertech.flowtime.ui.fragment.JournalFragment">
+    >
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?attr/common_bg2_color"
+        >
 
         <LinearLayout
             android:id="@+id/ll_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_margin"
+            >
 
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/card_sample_tip"
+                android:id="@+id/card_chart_hr"
+                android:layout_width="match_parent"
+                android:layout_height="288dp"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginTop="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                app:cardCornerRadius="@dimen/activity_margin_half"
+                >
+
+                <cn.entertech.uicomponentsdk.report.ReportHRLineChartCard
+                    android:id="@+id/chart_hr"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:rhlcc_isShowMenuIconBg="true"
+                    app:rhlcc_background="?attr/common_bg_z1_color"
+                    app:rhlcc_menuIconBg="@drawable/vector_drawable_hr_bg_icon"
+                    app:rhlcc_isTitleMenuIconShow="true"
+                    app:rhlcc_lineColor="#FF6682"
+                    app:rhlcc_lineWidth="0.5dp"
+                    app:rhlcc_gridLineColor="?attr/common_line_light_color"
+                    app:rhlcc_isTitleIconShow="true"
+                    app:rhlcc_titleIcon="@drawable/vector_drawable_hr_chart_tiltle_icon"
+                    app:rhlcc_pointCount="200"
+                    app:rhlcc_secondLineColor="?attr/common_green_primary_color"
+                    app:rhlcc_textColor="?attr/common_text_lv1_base_color"
+                    app:rhlcc_timeUnit="600"
+                    app:rhlcc_markViewTitle="@string/sdk_hrv"
+                    app:rhlcc_title="Breath Coherence"
+                    app:rhlcc_titleMenuIcon="@drawable/vector_drawable_arrow_right_blue"
+                    app:rhlcc_xAxisUnit="@string/sdk_time_unit" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_brainwave_new"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginTop="@dimen/activity_margin_half"
+                android:layout_marginTop="@dimen/activity_margin"
                 android:layout_marginRight="@dimen/activity_margin"
+                app:cardCornerRadius="@dimen/activity_margin_half"
+                >
+
+                <cn.entertech.uicomponentsdk.report.ReportOptionalBrainwaveSpectrumView
+                    android:id="@+id/report_brainwave_new"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    app:robs_background="?attr/common_bg_z1_color"
+                    app:robs_spectrumColors="#FF6682,#58B9E0,#FFC56F,#5FC695,#6E7EE1"
+                    app:robs_textColor="?attr/common_text_lv1_base_color"
+                    app:robs_title="@string/brainwave_spectrum"
+                    app:robs_timeUnit="600"
+                    app:robs_lineWidth="0.5dp"
+                    app:robs_gridLineColor="?attr/common_line_light_color"
+                    app:robs_isTitleMenuIconShow="true"
+                    app:robs_titleIcon="@drawable/vector_drawable_brain"
+                    app:robs_titleMenuIcon="@drawable/vector_drawable_arrow_right_blue"
+                    app:robs_isShowMenuIconBg="true"
+                    app:robs_xAxisUnit="@string/sdk_time_unit"
+                    app:robs_menuIconBg="@drawable/vector_drawable_brainwave_spectrum_right_icon"
+                    />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:visibility="gone"
-                app:cardCornerRadius="@dimen/activity_margin">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="161dp"
-                    android:background="@mipmap/pic_report_sample_bg"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_vertical"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginRight="@dimen/margin_vertical"
-                        android:text="Biosensing Meditation Headband provide rich data feedback including brainwaves, heart rate, heart rate variability, etc. to perceive your performance better."
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="@dimen/margin_vertical"
-                        android:layout_marginTop="@dimen/activity_margin"
-                        android:gravity="center_vertical"
-                        android:text="Sample Data 👇"
-                        android:textColor="@color/white"
-                        android:textSize="24sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_overview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginTop="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:visibility="gone"
-                app:cardCornerRadius="@dimen/activity_margin_half">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#5FC695">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:src="@drawable/vector_drawable_report_overview_bg_icon" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="46dp">
-
-                            <ImageView
-                                android:id="@+id/iv_title_icon"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="@dimen/activity_margin"
-                                android:src="@drawable/vector_drawable_overview_title_icon" />
-
-                            <TextView
-                                android:id="@+id/tv_overview_title"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="@dimen/activity_margin"
-                                android:layout_toRightOf="@+id/iv_title_icon"
-                                android:text="5.5.2019"
-                                android:textColor="@color/white"
-                                android:textSize="18sp" />
-
-                            <ImageView
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="@dimen/activity_margin"
-                                android:src="@drawable/vector_drawable_arrow_right_blue" />
-                        </RelativeLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/activity_margin"
-                            android:layout_marginTop="@dimen/activity_margin"
-                            android:text="Duration of this experience:"
-                            android:textColor="@color/white" />
-
-                        <TextView
-                            android:id="@+id/tv_overview_duration"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/activity_margin"
-                            android:text="-- mins"
-                            android:textColor="@color/white"
-                            android:textSize="24sp" />
-
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/activity_margin"
-                            android:orientation="horizontal">
-
-                            <ImageView
-
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="@dimen/activity_margin"
-                                android:src="@drawable/vector_drawable_dial_numbers" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="@dimen/activity_margin"
-                                android:text="This is my"
-                                android:textColor="@color/white" />
-
-                            <TextView
-                                android:id="@+id/tv_experience_time"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="@dimen/dp_4"
-                                android:layout_marginRight="@dimen/dp_4"
-                                android:text="--th"
-                                android:textColor="@color/white"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:text="meditation"
-                                android:textColor="@color/white" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/activity_margin"
-                            android:orientation="horizontal">
-
-                            <ImageView
-
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="@dimen/activity_margin"
-                                android:src="@drawable/vector_drawable_clock" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="@dimen/activity_margin"
-                                android:text="There are"
-                                android:textColor="@color/white" />
-
-                            <TextView
-                                android:id="@+id/tv_experience_total_min"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="@dimen/dp_4"
-                                android:layout_marginRight="@dimen/dp_4"
-                                android:text="-- minutes"
-                                android:textColor="@color/white"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:text="in total"
-                                android:textColor="@color/white" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/activity_margin"
-                            android:layout_marginTop="@dimen/activity_margin"
-                            android:layout_marginRight="@dimen/activity_margin"
-                            android:layout_marginBottom="@dimen/activity_margin"
-                            android:background="@drawable/shape_report_course_bg"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/activity_margin"
-                                android:layout_marginTop="@dimen/activity_margin"
-                                android:layout_marginRight="@dimen/activity_margin"
-                                android:layout_marginBottom="@dimen/activity_margin"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="I have learned"
-                                    android:textColor="@color/white"
-                                    android:textSize="16sp">
-
-                                </TextView>
-
-                                <TextView
-                                    android:id="@+id/tv_course_name"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="@dimen/dp_4"
-                                    android:text="--."
-                                    android:textColor="@color/white"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold">
-
-                                </TextView>
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-                </RelativeLayout>
-
-            </androidx.cardview.widget.CardView>
-
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_brainwave"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginTop="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
-                app:cardCornerRadius="@dimen/activity_margin_half">
-
-                <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumPieView
-                    android:id="@+id/report_brainwave"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:rbsp_spectrumColors="#FF6682,#FB9C98,#F7C77E,#5FC695,#5E75FF"
-                    app:rbsp_title="@string/brainwave_spectrum"
-                    app:rbsp_titleIcon="@drawable/vector_drawable_brain"
-                    app:rbsp_titleMenuIcon="@drawable/vector_drawable_arrow_right_blue" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_hrv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginTop="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
-                app:cardCornerRadius="@dimen/activity_margin_half">
-
-                <cn.entertech.uicomponentsdk.report.ReportHRVCard
-                    android:id="@+id/report_hrv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    app:rchrv_arrowColor="?attr/common_btn_1"
-                    app:rchrv_background="?attr/common_bg_z1_color"
-                    app:rchrv_indicatorColor="?attr/common_yellow_primary_color"
-                    app:rchrv_indicatorTextColor="?attr/common_yellow2_color"
-                    app:rchrv_indicatorTriangleColor="?attr/common_yellow3_color"
-                    app:rchrv_levelBgColor="?attr/common_yellow5_color"
-                    app:rchrv_textColor="?attr/common_text_lv1_base_color"
-                    app:rchrv_unitTextColor="?attr/common_text_lv2_base_color" />
-            </androidx.cardview.widget.CardView>
-
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_coherence"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginTop="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
-                app:cardCornerRadius="@dimen/activity_margin_half">
-
-                <cn.entertech.uicomponentsdk.report.ReportCoherenceCard
-                    android:id="@+id/report_coherence"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:rchrv_arrowColor="?attr/common_btn_1"
-                    app:rchrv_background="?attr/common_bg_z1_color"
-                    app:rchrv_indicatorColor="?attr/common_yellow_primary_color"
-                    app:rchrv_indicatorTextColor="?attr/common_yellow2_color"
-                    app:rchrv_indicatorTriangleColor="?attr/common_yellow3_color"
-                    app:rchrv_levelBgColor="?attr/common_yellow5_color"
-                    app:rchrv_textColor="?attr/common_text_lv1_base_color"
-                    app:rchrv_unitTextColor="?attr/common_text_lv2_base_color" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-
                 android:id="@+id/card_hr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin"
                 android:layout_marginTop="@dimen/activity_margin"
                 android:layout_marginRight="@dimen/activity_margin"
-                app:cardCornerRadius="@dimen/activity_margin_half">
+                android:background="?attr/common_bg_z1_color"
+                app:cardCornerRadius="@dimen/activity_margin_half"
+                >
 
                 <cn.entertech.uicomponentsdk.report.ReportHRCard
                     android:id="@+id/report_hr"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:rchr_textColor="?attr/common_text_lv1_base_color"
                     app:rchr_arrowColor="?attr/common_btn_1"
                     app:rchr_background="?attr/common_bg_z1_color"
                     app:rchr_indicatorColor="?attr/common_red_primary_color"
                     app:rchr_indicatorTextColor="?attr/common_red2_color"
                     app:rchr_indicatorTriangleColor="?attr/common_red3_color"
                     app:rchr_levelBgColor="?attr/common_red5_color"
-                    app:rchr_textColor="?attr/common_text_lv1_base_color"
-                    app:rchr_unitTextColor="?attr/common_text_lv2_base_color" />
+                    app:rchr_unitTextColor="?attr/common_text_lv2_base_color"
+                    />
             </androidx.cardview.widget.CardView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="141dp"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginTop="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_hrv"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="@dimen/activity_margin_half"
+                    android:layout_height="match_parent"
+                    android:background="?attr/common_bg_z1_color"
+                    app:cardCornerRadius="@dimen/activity_margin_half"
+                    >
+
+                    <cn.entertech.uicomponentsdk.report.ReportHRVCard
+                        android:id="@+id/report_hrv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:rchrv_textColor="?attr/common_text_lv1_base_color"
+                        app:rchrv_arrowColor="?attr/common_btn_1"
+                        app:rchrv_background="?attr/common_bg_z1_color"
+                        app:rchrv_indicatorColor="?attr/common_yellow_primary_color"
+                        app:rchrv_indicatorTextColor="?attr/common_yellow2_color"
+                        app:rchrv_indicatorTriangleColor="?attr/common_yellow3_color"
+                        app:rchrv_levelBgColor="?attr/common_yellow5_color"
+                        app:rchrv_unitTextColor="?attr/common_text_lv2_base_color"
+                        />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_pressure"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/activity_margin_half"
+                    android:layout_marginLeft="@dimen/activity_margin_half"
+                    android:background="?attr/common_bg_z1_color"
+                    app:cardCornerRadius="@dimen/activity_margin_half"
+                    >
+
+                    <cn.entertech.uicomponentsdk.report.ReportPressureCard
+                        android:id="@+id/report_pressure"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:rpc_arrowColor="?attr/common_btn_1"
+                        app:rpc_background="?attr/common_bg_z1_color"
+                        app:rpc_textColor="?attr/common_text_lv1_base_color"
+                        app:rpc_levelTextColor="?attr/common_red2_color"
+                        app:rpc_levelBgColor="?attr/common_red5_color"
+                        app:rpc_barBgColor="?attr/common_line_light_color"
+                        app:rpc_barWidth="18dp"
+                        app:rpc_barScaleLength="24dp"
+                        app:rpc_isShowTitleIcon="false"
+                        />
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
 
 
             <androidx.cardview.widget.CardView
@@ -360,47 +179,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginTop="@dimen/activity_margin"
+                android:layout_marginTop="@dimen/activity_margin_half"
                 android:layout_marginRight="@dimen/activity_margin"
-                app:cardCornerRadius="@dimen/activity_margin_half">
+                android:background="?attr/common_bg_z1_color"
+                app:cardCornerRadius="@dimen/activity_margin_half"
+                >
 
                 <cn.entertech.uicomponentsdk.report.ReportRelaxationAndAttentionCard
                     android:id="@+id/report_relaxation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:rcraa_arrowColor="?attr/common_btn_1"
-                    app:rcraa_attentionColor="?attr/common_green_primary_color"
-                    app:rcraa_attentionLevelBgColor="?attr/common_green5_color"
-                    app:rcraa_attentionLevelTextColor="?attr/common_green2_color"
+                    app:rcraa_textColor="?attr/common_text_lv1_base_color"
                     app:rcraa_background="?attr/common_bg_z1_color"
                     app:rcraa_lineColor="?attr/common_line_light_color"
                     app:rcraa_relaxationColor="?attr/common_blue_primary_color"
                     app:rcraa_relaxationLevelBgColor="?attr/common_blue5_color"
                     app:rcraa_relaxationLevelTextColor="?attr/common_blue2_color"
-                    app:rcraa_textColor="?attr/common_text_lv1_base_color" />
+                    app:rcraa_attentionColor="?attr/common_green_primary_color"
+                    app:rcraa_attentionLevelBgColor="?attr/common_green5_color"
+                    app:rcraa_attentionLevelTextColor="?attr/common_green2_color"
+                    />
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_pressure"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginTop="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:layout_marginBottom="@dimen/margin_vertical"
-                app:cardCornerRadius="@dimen/activity_margin_half">
 
-                <cn.entertech.uicomponentsdk.report.ReportPressureCard
-                    android:id="@+id/report_pressure"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:rpc_arrowColor="?attr/common_btn_1"
-                    app:rpc_background="?attr/common_bg_z1_color"
-                    app:rpc_barBgColor="?attr/common_line_light_color"
-                    app:rpc_levelBgColor="?attr/common_red5_color"
-                    app:rpc_levelTextColor="?attr/common_red2_color"
-                    app:rpc_textColor="?attr/common_text_lv1_base_color" />
-            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

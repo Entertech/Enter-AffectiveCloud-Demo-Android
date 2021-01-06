@@ -1,23 +1,23 @@
-package cn.entertech.flowtime.mvp.model.meditation
+package cn.entertech.affectiveclouddemo.model.meditation;
 
 class ReportMeditationDataEntity {
-    @Volatile var  reportPleasureEnitty: ReportPleasureEnitty? = null
-    @Volatile var  reportCoherenceEnitty: ReportCoherenceEnitty? = null
-    @Volatile var reportAttentionEnitty: ReportAttentionEnitty? = null
-    @Volatile var reportPressureEnitty: ReportPressureEnitty? = null
-    @Volatile var reportRelaxationEnitty: ReportRelaxationEnitty? = null
+    @Volatile var  reportPleasureEntity: ReportPleasureEntity? = null
+    @Volatile var  reportCoherenceEntity: ReportCoherenceEntity? = null
+    @Volatile var reportAttentionEntity: ReportAttentionEntity? = null
+    @Volatile var reportPressureEntity: ReportPressureEntity? = null
+    @Volatile var reportRelaxationEntity: ReportRelaxationEntity? = null
     @Volatile var reportHRDataEntity: ReportHRDataEntity? = null
     @Volatile var reportEEGDataEntity: ReportEEGDataEntity? = null
 
 
     fun isDataSetCompletely(): Boolean {
         synchronized(ReportMeditationDataEntity::class.java) {
-            return (reportEEGDataEntity != null && reportHRDataEntity != null && reportRelaxationEnitty != null && reportPressureEnitty != null && reportAttentionEnitty != null && reportPleasureEnitty != null && reportCoherenceEnitty != null)
+            return (reportEEGDataEntity != null && reportHRDataEntity != null && reportRelaxationEntity != null && reportPressureEntity != null && reportAttentionEntity != null && reportPleasureEntity != null && reportCoherenceEntity != null)
         }
     }
 
     override fun toString(): String {
-        return "ReportMeditationDataEntity(reportPleasureEnitty=$reportPleasureEnitty, reportCoherenceEnitty=$reportCoherenceEnitty, reportAttentionEnitty=$reportAttentionEnitty, reportPressureEnitty=$reportPressureEnitty, reportRelaxationEnitty=$reportRelaxationEnitty, reportHRDataEntity=$reportHRDataEntity, reportEEGDataEntity=$reportEEGDataEntity)"
+        return "ReportMeditationDataEntity(reportPleasureEnitty=$reportPleasureEntity, reportCoherenceEnitty=$reportCoherenceEntity, reportAttentionEnitty=$reportAttentionEntity, reportPressureEnitty=$reportPressureEntity, reportRelaxationEnitty=$reportRelaxationEntity, reportHRDataEntity=$reportHRDataEntity, reportEEGDataEntity=$reportEEGDataEntity)"
     }
 
 }

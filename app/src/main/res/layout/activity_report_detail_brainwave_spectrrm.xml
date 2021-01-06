@@ -4,66 +4,91 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <include layout="@layout/layout_common_title" />
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll_view"
+        android:background="?attr/common_bg2_color"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#E5E5E5">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/ll_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
-            <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumView
+
+            <cn.entertech.uicomponentsdk.report.ReportOptionalBrainwaveSpectrumView
+                android:layout_marginTop="@dimen/activity_margin_half"
                 android:id="@+id/chart_brainwave"
                 android:layout_width="match_parent"
-                android:layout_height="289dp"
-                android:layout_marginTop="@dimen/activity_margin_half"
-                android:background="@color/white"
-                app:rbs_isTitleIconShow="false"
-                app:rbs_highlightLineColor="?attr/common_line_light_color"
-                app:rbs_isTitleMenuIconShow="true"
-                app:rbs_markViewBgColor="?attr/common_bg_z2_color"
-                app:rbs_markViewDivideLineColor="?attr/common_line_hard_color"
-                app:rbs_markViewTitleColor="?attr/common_text_lv2_base_color"
-                app:rbs_markViewValueColor="?attr/common_text_lv1_base_color"
-                app:rbs_pointCount="100"
-                app:rbs_spectrumColors="#FF6682,#FB9C98,#F7C77E,#5FC695,#5E75FF"
-                app:rbs_timeUnit="400"
-                app:rbs_title="@string/change_during_meditation"
-                app:rbs_titleMenuIcon="@drawable/vector_drawable_full_screen"
-                app:rbs_xAxisUnit="@string/sdk_time_unit" />
+                android:layout_height="300dp"
+                app:robs_background="?attr/common_bg_z1_color"
+                app:robs_spectrumColors="#FF6682,#58B9E0,#FFC56F,#5FC695,#6E7EE1"
+                app:robs_textColor="?attr/common_text_lv1_base_color"
+                app:robs_title="@string/change_during_meditation"
+                app:robs_timeUnit="600"
+                app:robs_pointCount="200"
+                app:robs_gridLineColor="?attr/common_line_light_color"
+                app:robs_lineWidth="0.5dp"
+                app:robs_xAxisUnit="@string/sdk_time_unit"
+                app:robs_isTitleIconShow="false"
+                app:robs_titleMenuIcon="@drawable/vector_drawable_full_screen"
+                app:robs_isShowMenuIconBg="false"
 
-
-
+                />
             <androidx.cardview.widget.CardView
+                android:id="@+id/card_brainwave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_margin"
                 android:layout_marginTop="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                app:cardCornerRadius="@dimen/activity_margin_half"
+                >
+
+                <cn.entertech.uicomponentsdk.report.ReportBrainwaveSpectrumPieView
+                    android:id="@+id/report_brainwave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:rbsp_background="?attr/common_bg_z1_color"
+                    app:rbsp_spectrumColors="#FF6682,#58B9E0,#FFC56F,#5FC695,#6E7EE1"
+                    app:rbsp_textColor="?attr/common_text_lv1_base_color"
+                    app:rbsp_title="@string/brainwave_spectrum"
+                    app:rbsp_titleIcon="@drawable/vector_drawable_brain"
+                    app:rbsp_isTitleMenuIconShow="false"
+                    />
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_marginBottom="@dimen/activity_margin"
                 app:cardCornerRadius="@dimen/activity_margin_half"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/activity_margin"
                 android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_weight="1">
+                android:layout_marginTop="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                >
 
                 <cn.entertech.affectiveclouddemo.ui.view.ReportAboutView
-                    android:id="@+id/about_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:rav_contentText="@string/about_brainwave"
+                    android:background="?attr/common_bg_z1_color"
+                    app:rav_textColor="?attr/common_text_lv1_base_color"
                     app:rav_learnMoreUrl="https://www.notion.so/Brainwave-Power-Graph-6f2a784b347d4d7d98b9fd0da89de454"
-                    app:rav_titleIcon="@drawable/vector_drawable_stockholm_help_blue" />
-
+                    app:rav_titleIcon="@drawable/vector_drawable_stockholm_help_blue"
+                    app:rav_contentText="@string/about_brainwave"
+                    />
             </androidx.cardview.widget.CardView>
+
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
 
 
 </LinearLayout>

@@ -22,30 +22,42 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <cn.entertech.uicomponentsdk.report.ReportLineChartCard
-                android:id="@+id/chart_hr"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="262dp"
-                android:layout_marginTop="@dimen/activity_margin_half"
-                android:background="@color/white"
-                app:rlcc_background="?attr/common_bg_z1_color"
-                app:rlcc_lineColor="#FF6682"
-                app:rlcc_lineWidth="0.75dp"
-                app:rlcc_gridLineColor="?attr/common_line_light_color"
-                app:rlcc_textColor="?attr/common_text_lv1_base_color"
-                app:rlcc_isTitleMenuIconShow="true"
-                app:rlcc_pointCount="100"
-                app:rlcc_timeUnit="400"
-                app:rlcc_title="@string/change_during_meditation"
-                app:rlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
-                app:rlcc_averageLabelBgColor="?attr/common_bg1_color"
-                app:rlcc_markViewTitle="@string/sdk_heart_rate"
-                app:rlcc_markViewTitleColor="?attr/common_text_lv2_base_color"
-                app:rlcc_markViewValueColor="?attr/common_text_lv1_base_color"
-                app:rlcc_highlightLineWidth="2"
-                app:rlcc_markViewBgColor="?attr/common_bg_z2_color"
-                app:rlcc_highlightLineColor="?attr/common_line_light_color"
-                app:rlcc_xAxisUnit="@string/sdk_time_unit" />
+                android:layout_height="322dp"
+                android:layout_marginTop="@dimen/activity_margin_half">
+
+                <cn.entertech.uicomponentsdk.report.ReportHRLineChartCard
+                    android:id="@+id/chart_hr"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    app:rhlcc_isShowMenuIconBg="false"
+                    app:rhlcc_background="?attr/common_bg_z1_color"
+                    app:rhlcc_isTitleMenuIconShow="true"
+                    app:rhlcc_lineColor="#FF6682"
+                    app:rhlcc_lineWidth="1dp"
+                    app:rhlcc_gridLineColor="?attr/common_line_light_color"
+                    app:rhlcc_isTitleIconShow="false"
+                    app:rhlcc_pointCount="100"
+                    app:rhlcc_averageLabelBgColor="?attr/common_bg1_color"
+                    app:rhlcc_secondLineColor="?attr/common_green_primary_color"
+                    app:rhlcc_textColor="?attr/common_text_lv1_base_color"
+                    app:rhlcc_timeUnit="600"
+                    app:rhlcc_markViewTitle="@string/sdk_hrv"
+                    app:rhlcc_title="@string/heart_rate"
+                    app:rhlcc_titleMenuIcon="@drawable/vector_drawable_full_screen"
+                    app:rhlcc_xAxisUnit="@string/sdk_time_unit" />
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/lottie_tip"
+                    android:layout_centerInParent="true"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    app:lottie_fileName="hr_chart_tip.json"
+                    app:lottie_loop="false"
+                    app:lottie_autoPlay="true"
+                    />
+            </RelativeLayout>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

@@ -42,6 +42,7 @@ import static cn.entertech.affectiveclouddemo.app.Constant.REMOTE_CONFIG_RELAXAT
 import static cn.entertech.affectiveclouddemo.app.Constant.REMOTE_CONFIG_RELAXATION_REPORT_INFO;
 import static cn.entertech.affectiveclouddemo.app.Constant.REMOTE_CONFIG_TERMS_OF_USER;
 import static cn.entertech.affectiveclouddemo.app.Constant.SP_BLE_MAC;
+import static cn.entertech.affectiveclouddemo.app.Constant.SP_BRAIN_CHART_LEGEND_SHOW_LIST;
 import static cn.entertech.affectiveclouddemo.app.Constant.SP_DEFAULT_FIRMWARE_URL;
 import static cn.entertech.affectiveclouddemo.app.Constant.SP_LOG_TOKEN;
 import static cn.entertech.affectiveclouddemo.app.Constant.SP_SERVER_APP_VERSION;
@@ -272,6 +273,14 @@ public class SettingManager {
 
     public synchronized String getBleMac() {
         return getSharedPreferences().getString(SP_BLE_MAC, "");
+    }
+
+    public synchronized void setBrainChartLegendShowList(String flag) {
+        getEditor().putString(SP_BRAIN_CHART_LEGEND_SHOW_LIST, flag).apply();
+    }
+
+    public synchronized String getBrainChartLegendShowList() {
+        return getSharedPreferences().getString(SP_BRAIN_CHART_LEGEND_SHOW_LIST, "1,1,1,1,1");
     }
 
 }

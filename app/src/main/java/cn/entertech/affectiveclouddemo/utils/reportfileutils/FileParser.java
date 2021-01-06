@@ -6,8 +6,7 @@ import java.util.List;
 import static cn.entertech.affectiveclouddemo.utils.reportfileutils.HexDump.getFloat;
 
 public class FileParser {
-    public static MeditationReportDataAnalyzed parseMeditationReport(String source) {
-        MeditationReportDataAnalyzed meditationReportDataAnalyzed = new MeditationReportDataAnalyzed();
+    public static MeditationReportDataAnalyzed parseMeditationReport(String source) {  MeditationReportDataAnalyzed meditationReportDataAnalyzed = new MeditationReportDataAnalyzed();
         int keyStartIndex = 96;
         int keyEndIndex = keyStartIndex + 2;
         int valueStartIndex = keyEndIndex;
@@ -54,6 +53,9 @@ public class FileParser {
                 case "17":
                     meditationReportDataAnalyzed.setCoherenceAvg(floatValue);
                     break;
+                case "1F":
+                    meditationReportDataAnalyzed.setCoherenceDuration(floatValue);
+                    break;
                 default:
                     break;
             }
@@ -64,11 +66,12 @@ public class FileParser {
             key = StringUtil.substring(source, keyStartIndex, keyEndIndex);
         }
 
+        List<Double> coherenceRec = new ArrayList<>();
+        List<Double> coherenceFlag = new ArrayList<>();
         List<Double> attentionRec = new ArrayList<>();
         List<Double> relaxationRec = new ArrayList<>();
         List<Double> pressureRec = new ArrayList<>();
         List<Double> pleasureRec = new ArrayList<>();
-        List<Double> coherenceRec = new ArrayList<>();
         List<Double> alphaCurve = new ArrayList<>();
         List<Double> betaCurve = new ArrayList<>();
         List<Double> thetaCurve = new ArrayList<>();
@@ -79,7 +82,7 @@ public class FileParser {
 
         int recKeyStartIndex = keyStartIndex;
         int dataEndIndex = recKeyStartIndex;
-        while (dataEndIndex < source.length()) {
+        while (dataEndIndex < source.length() && dataEndIndex > 0) {
             int recKeyEndIndex = recKeyStartIndex + 2;
             int lengthStartIndex = recKeyEndIndex;
             int lengthEndIndex = lengthStartIndex + 8;
@@ -186,6 +189,14 @@ public class FileParser {
                                 dataStartIndex + j * 8, dataStartIndex + 8 + j * 8)));
                         coherenceRec.add((double) cruveValue);
                         meditationReportDataAnalyzed.setCoherenceRec(coherenceRec);
+                    }
+                    break;
+                case "FF":
+                    for (int j = 0; j < length; j++) {
+                        float cruveValue = getFloat(HexDump.hexSringToBytes(StringUtil.substring(source,
+                                dataStartIndex + j * 8, dataStartIndex + 8 + j * 8)));
+                        coherenceFlag.add((double) cruveValue);
+                        meditationReportDataAnalyzed.setCoherenceFlag(coherenceFlag);
                     }
                     break;
                 default:

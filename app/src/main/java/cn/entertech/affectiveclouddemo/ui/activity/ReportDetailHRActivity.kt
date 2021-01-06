@@ -7,6 +7,7 @@ import cn.entertech.affectiveclouddemo.app.Constant.Companion.RECORD_ID
 import cn.entertech.affectiveclouddemo.app.SettingManager
 import cn.entertech.affectiveclouddemo.database.UserLessonRecordDao
 import cn.entertech.affectiveclouddemo.ui.activity.BaseActivity
+import cn.entertech.affectiveclouddemo.utils.TimeUtils
 import cn.entertech.affectiveclouddemo.utils.reportfileutils.MeditationReportDataAnalyzed
 import kotlinx.android.synthetic.main.activity_report_detail_hr.*
 import kotlinx.android.synthetic.main.activity_report_detail_hr.ll_bg
@@ -56,10 +57,18 @@ class ReportDetailHRActivity : BaseActivity() {
 
     fun initLineChart() {
         var hrLine = meditationReportDataAnalyzed?.hrRec
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrAvg != null){
-            chart_hr.setAverage("${meditationReportDataAnalyzed!!.hrAvg.toInt()}")
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrAvg != null) {
+            chart_hr.setAverage("${meditationReportDataAnalyzed?.hrAvg!!.toInt()}")
         }
-        chart_hr.setData(hrLine)
+        chart_hr.isShowLegend(true)
+        chart_hr.isShowDetail = true
+        chart_hr.setCohTime(
+            TimeUtils.second2FormatString(
+                this!!,
+                meditationReportDataAnalyzed?.coherenceDuration?.toInt() ?: 0
+            )
+        )
+        chart_hr.setData(hrLine, meditationReportDataAnalyzed?.coherenceFlag, true)
     }
 
 //    fun initLastAverageChart() {

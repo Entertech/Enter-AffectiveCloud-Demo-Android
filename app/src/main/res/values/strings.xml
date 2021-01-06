@@ -58,4 +58,6 @@
     <string name="checking">检测中...</string>
     <string name="well_done">干得好!</string>
     <string name="emotion">情绪面板</string>
+    <string name="min">分</string>
+    <string name="second">秒</string>
 </resources>

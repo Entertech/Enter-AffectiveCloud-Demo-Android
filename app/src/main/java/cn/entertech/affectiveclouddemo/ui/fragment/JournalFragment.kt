@@ -9,17 +9,21 @@ import android.view.ViewGroup
 import cn.entertech.affectiveclouddemo.R
 import cn.entertech.affectiveclouddemo.app.Constant
 import cn.entertech.affectiveclouddemo.app.Constant.Companion.RECORD_ID
+import cn.entertech.affectiveclouddemo.app.SettingManager
 import cn.entertech.affectiveclouddemo.database.MeditationDao
 import cn.entertech.affectiveclouddemo.database.UserLessonRecordDao
 import cn.entertech.affectiveclouddemo.model.UserLessonEntity
 import cn.entertech.affectiveclouddemo.ui.activity.*
 import cn.entertech.affectiveclouddemo.utils.LogManager
+import cn.entertech.affectiveclouddemo.utils.TimeUtils
 import cn.entertech.affectiveclouddemo.utils.reportfileutils.FileHelper
 import cn.entertech.affectiveclouddemo.utils.reportfileutils.MeditationReportDataAnalyzed
 import kotlinx.android.synthetic.main.fragment_journal.*
+import java.text.DecimalFormat
 
 
 class JournalFragment : Fragment() {
+    private var brainCurves: java.util.ArrayList<java.util.ArrayList<Double>>? = null
     private var userLessonRecordDao: UserLessonRecordDao? = null
     private var recordId: Long? = -1L
     private var meditationReportDataAnalyzed: MeditationReportDataAnalyzed? = null
@@ -52,59 +56,45 @@ class JournalFragment : Fragment() {
     }
 
     fun initView() {
-        card_brainwave.setOnClickListener {
-            LogManager.getInstance().logPost("Button $currentActivity to brainwave report")
-            activity?.startActivity(
-                Intent(
-                    activity,
-                    ReportDetailBrainwaveSpectrumActivity::class.java
-                ).putExtra(RECORD_ID, recordId)
+        card_brainwave_new.setOnClickListener {
+            var intent = Intent(
+                activity,
+                ReportDetailBrainwaveSpectrumActivity::class.java
             )
+            intent.putExtra(RECORD_ID, recordId)
+            activity?.startActivity(intent)
+        }
+        card_chart_hr.setOnClickListener {
+            var intent = Intent(
+                activity,
+                ReportDetailHRActivity::class.java
+            )
+            intent.putExtra(RECORD_ID, recordId)
+            activity?.startActivity(intent)
         }
         card_hrv.setOnClickListener {
-            LogManager.getInstance().logPost("Button $currentActivity to hrv report")
-            activity?.startActivity(
-                Intent(activity, ReportDetailHRVActivity::class.java).putExtra(
-                    RECORD_ID,
-                    recordId
-                )
+            var intent = Intent(
+                activity,
+                ReportDetailHRVActivity::class.java
             )
-        }
-        card_hr.setOnClickListener {
-            LogManager.getInstance().logPost("Button $currentActivity to hr report")
-            activity?.startActivity(
-                Intent(activity, ReportDetailHRActivity::class.java).putExtra(
-                    RECORD_ID,
-                    recordId
-                )
-            )
+            intent.putExtra(RECORD_ID, recordId)
+            activity?.startActivity(intent)
         }
         card_relaxation.setOnClickListener {
-            LogManager.getInstance().logPost("Button $currentActivity to relaxation report")
-            activity?.startActivity(
-                Intent(
-                    activity,
-                    ReportDetailRelaxationAndAttentionActivity::class.java
-                ).putExtra(RECORD_ID, recordId)
+            var intent = Intent(
+                activity,
+                ReportDetailRelaxationAndAttentionActivity::class.java
             )
+            intent.putExtra(RECORD_ID, recordId)
+            activity?.startActivity(intent)
         }
         card_pressure.setOnClickListener {
-            LogManager.getInstance().logPost("Button $currentActivity to pressure report")
-            activity?.startActivity(
-                Intent(
-                    activity,
-                    ReportDetailPressureActivity::class.java
-                ).putExtra(RECORD_ID, recordId)
+            var intent = Intent(
+                activity,
+                ReportDetailPressureActivity::class.java
             )
-        }
-        card_coherence.setOnClickListener {
-            LogManager.getInstance().logPost("Button $currentActivity to coherence report")
-            activity?.startActivity(
-                Intent(
-                    activity,
-                    ReportDetailCoherenceActivity::class.java
-                ).putExtra(RECORD_ID, recordId)
-            )
+            intent.putExtra(RECORD_ID, recordId)
+            activity?.startActivity(intent)
         }
 
     }
@@ -142,48 +132,91 @@ class JournalFragment : Fragment() {
         if (meditationReportDataAnalyzed == null) {
             return
         }
+        setHrChart()
         setBrainwave()
-
+        setReportCardData()
     }
 
     private fun initSampleTipView() {
-        if (recordId == -2L) {
-            card_sample_tip.visibility = View.VISIBLE
-        } else {
-            card_sample_tip.visibility = View.GONE
-        }
     }
 
     fun setBrainwave() {
-        var alphaAverage = meditationReportDataAnalyzed!!.alphaCurve.average().toFloat()
-        var betaAverage = meditationReportDataAnalyzed!!.betaCurve.average().toFloat()
-        var deltaAverage = meditationReportDataAnalyzed!!.deltaCurve.average().toFloat()
-        var gammaAverage = meditationReportDataAnalyzed!!.gammaCurve.average().toFloat()
-        var thetaAverage = meditationReportDataAnalyzed!!.thetaCurve.average().toFloat()
+        brainCurves = ArrayList<ArrayList<Double>>()
+        brainCurves?.add(meditationReportDataAnalyzed!!.gammaCurve as ArrayList<Double>)
+        brainCurves?.add(meditationReportDataAnalyzed!!.betaCurve as ArrayList<Double>)
+        brainCurves?.add(meditationReportDataAnalyzed!!.alphaCurve as ArrayList<Double>)
+        brainCurves?.add(meditationReportDataAnalyzed!!.thetaCurve as ArrayList<Double>)
+        brainCurves?.add(meditationReportDataAnalyzed!!.deltaCurve as ArrayList<Double>)
+        report_brainwave_new.isChartEnable(false)
+        report_brainwave_new.setLegendShowList(getChartShowList())
+        report_brainwave_new.setData(brainCurves)
+    }
+
+    fun saveChartShowList(){
+        var lists = report_brainwave_new.legendIsCheckList.map { if (it){"1"}else{"0"} }
+        var listString = ""
+        for (i  in lists.indices){
+            if (i == lists.size-1){
+                listString += "${lists[i]}"
+            }else{
+                listString += "${lists[i]},"
+            }
+        }
+        SettingManager.getInstance().brainChartLegendShowList = listString
+    }
+
+    override fun onPause() {
+        saveChartShowList()
+        super.onPause()
+    }
+    override fun onResume() {
+        super.onResume()
+        report_brainwave_new.setLegendShowList(getChartShowList())
+        report_brainwave_new.setData(brainCurves)
+    }
+    fun getChartShowList():List<Boolean>{
+        var lists = ArrayList<Boolean>()
+        var listString = SettingManager.getInstance().brainChartLegendShowList.split(",")
+        for (item in listString){
+            if (item == "1"){
+                lists.add(true)
+            }else{
+                lists.add(false)
+            }
+        }
+        return lists
+    }
+    fun setReportCardData(){
         var hrAvg = meditationReportDataAnalyzed!!.hrAvg
         var hrvAvg = meditationReportDataAnalyzed!!.hrvAvg
         var pressureAvg = meditationReportDataAnalyzed!!.pressureAvg
         var relaxationAvg = meditationReportDataAnalyzed!!.relaxationAvg
         var attentionAvg = meditationReportDataAnalyzed!!.attentionAvg
-        var coherenceAvg = meditationReportDataAnalyzed!!.coherenceAvg
-        if (alphaAverage + betaAverage + deltaAverage + gammaAverage + thetaAverage != 0f) {
-            report_brainwave.setData(
-                listOf(
-                    gammaAverage,
-                    betaAverage,
-                    alphaAverage,
-                    thetaAverage,
-                    deltaAverage
-                )
-            )
-        }
         report_hr.setValue(hrAvg.toInt())
-        report_coherence.setValue(coherenceAvg.toInt())
-        report_hrv.setValue(hrvAvg)
+        var decimalFormat = DecimalFormat(".0")
+        var average = decimalFormat.format(hrvAvg)
+        report_hrv.setIsShortCard(true)
+        report_hrv.setValue(java.lang.Float.parseFloat(average))
         report_pressure.setValue(pressureAvg.toInt())
         report_relaxation.setValue(relaxationAvg.toInt(), attentionAvg.toInt())
     }
 
+    fun setHrChart() {
+        chart_hr.isChartEnable(false)
+        chart_hr.isShowLegend(false)
+        chart_hr.isShowYAxisLabels(false)
+        chart_hr.setCohTime(
+            TimeUtils.second2FormatString(
+                activity!!,
+                meditationReportDataAnalyzed?.coherenceDuration?.toInt() ?: 0
+            )
+        )
+        chart_hr.setData(
+            meditationReportDataAnalyzed?.hrRec,
+            meditationReportDataAnalyzed?.coherenceFlag,
+            false
+        )
+    }
     open fun getShareView(): View {
         return scroll_view
     }

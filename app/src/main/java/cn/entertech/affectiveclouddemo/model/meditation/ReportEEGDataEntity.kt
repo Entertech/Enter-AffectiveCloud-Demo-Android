@@ -1,4 +1,4 @@
-package cn.entertech.flowtime.mvp.model.meditation
+package cn.entertech.affectiveclouddemo.model.meditation;
 
 class ReportEEGDataEntity{
     var alphaCurve:ArrayList<Double>? = null

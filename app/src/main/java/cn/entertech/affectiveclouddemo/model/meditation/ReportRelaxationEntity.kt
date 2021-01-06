@@ -1,6 +1,6 @@
-package cn.entertech.flowtime.mvp.model.meditation
+package cn.entertech.affectiveclouddemo.model.meditation;
 
-class ReportRelaxationEnitty{
+class ReportRelaxationEntity{
     var relaxationAvg:Double? = null
     var relaxationRec:ArrayList<Double>? = null
     override fun toString(): String {

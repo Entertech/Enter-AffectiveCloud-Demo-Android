@@ -61,4 +61,7 @@
     <string name="checking">Checking...</string>
     <string name="well_done">Well done!</string>
     <string name="emotion">Emotion</string>
+
+    <string name="min">min</string>
+    <string name="second">s</string>
 </resources>

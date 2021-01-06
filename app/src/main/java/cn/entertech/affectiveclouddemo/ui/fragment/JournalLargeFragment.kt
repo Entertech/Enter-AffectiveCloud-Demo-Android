@@ -50,14 +50,13 @@ class JournalLargeFragment : Fragment() {
     }
 
     fun initView() {
-        card_brainwave.setOnClickListener {
-            LogManager.getInstance().logPost("Button $currentActivity to brainwave report")
-            activity?.startActivity(
-                Intent(
-                    activity,
-                    ReportDetailBrainwaveSpectrumActivity::class.java
-                ).putExtra(RECORD_ID, recordId)
+        card_brainwave_new.setOnClickListener {
+            var intent = Intent(
+                activity,
+                ReportDetailBrainwaveSpectrumActivity::class.java
             )
+            intent.putExtra(RECORD_ID, recordId)
+            activity?.startActivity(intent)
         }
         card_hrv.setOnClickListener {
             LogManager.getInstance().logPost("Button $currentActivity to hrv report")
@@ -136,11 +135,11 @@ class JournalLargeFragment : Fragment() {
     }
 
     private fun initSampleTipView() {
-        if (recordId == -2L) {
-            card_sample_tip.visibility = View.VISIBLE
-        } else {
-            card_sample_tip.visibility = View.GONE
-        }
+//        if (recordId == -2L) {
+//            card_sample_tip.visibility = View.VISIBLE
+//        } else {
+//            card_sample_tip.visibility = View.GONE
+//        }
     }
 
     fun setBrainwave() {
@@ -155,15 +154,15 @@ class JournalLargeFragment : Fragment() {
         var relaxationAvg = meditationReportDataAnalyzed!!.relaxationAvg
         var attentionAvg = meditationReportDataAnalyzed!!.attentionAvg
         if (alphaAverage + betaAverage + deltaAverage + gammaAverage + thetaAverage != 0f) {
-            report_brainwave.setData(
-                listOf(
-                    gammaAverage,
-                    betaAverage,
-                    alphaAverage,
-                    thetaAverage,
-                    deltaAverage
-                )
-            )
+//            report_brainwave.setData(
+//                listOf(
+//                    gammaAverage,
+//                    betaAverage,
+//                    alphaAverage,
+//                    thetaAverage,
+//                    deltaAverage
+//                )
+//            )
         }
         report_hr.setValue(hrAvg.toInt())
         report_hrv.setValue(hrvAvg)
@@ -174,7 +173,7 @@ class JournalLargeFragment : Fragment() {
     }
 
     fun initBrainwaveChart() {
-        if (meditationReportDataAnalyzed == null){
+        if (meditationReportDataAnalyzed == null) {
             return
         }
         var alphaAverage = meditationReportDataAnalyzed!!.alphaCurve
@@ -182,7 +181,7 @@ class JournalLargeFragment : Fragment() {
         var deltaAverage = meditationReportDataAnalyzed!!.deltaCurve
         var gammaAverage = meditationReportDataAnalyzed!!.gammaCurve
         var thetaAverage = meditationReportDataAnalyzed!!.thetaCurve
-        if (alphaAverage.average() == 0.0 && betaAverage.average() == 0.0 && deltaAverage.average() == 0.0){
+        if (alphaAverage.average() == 0.0 && betaAverage.average() == 0.0 && deltaAverage.average() == 0.0) {
             return
         }
         var brainwaveList = ArrayList<ArrayList<Double>>()
@@ -196,29 +195,29 @@ class JournalLargeFragment : Fragment() {
 
     fun initLineChart() {
         var hrLine = meditationReportDataAnalyzed?.hrRec
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrAvg != null){
-            chart_hr.setAverage("${meditationReportDataAnalyzed!!.hrAvg.toInt()}")
-        }
-        chart_hr.setData(hrLine)
+//        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrAvg != null) {
+//            chart_hr.setAverage("${meditationReportDataAnalyzed!!.hrAvg.toInt()}")
+//        }
+//        chart_hr.setData(hrLine)
 
         var hrvLine = meditationReportDataAnalyzed?.hrvRec
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrvAvg != null){
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrvAvg != null) {
             chart_hrv.setAverage("${meditationReportDataAnalyzed!!.hrvAvg.toInt()}")
         }
         chart_hrv.setData(hrvLine)
 
         var pressureLine = meditationReportDataAnalyzed?.pressureRec
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.pressureAvg != null){
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.pressureAvg != null) {
             chart_pressure.setAverage("${meditationReportDataAnalyzed!!.pressureAvg.toInt()}")
         }
         chart_pressure.setData(pressureLine)
 
         var relaxationRec = meditationReportDataAnalyzed?.relaxationRec
         var attentionRec = meditationReportDataAnalyzed?.attentionRec
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.attentionAvg != null){
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.attentionAvg != null) {
             chart_relaxation_and_attention.setAttentionAverage(meditationReportDataAnalyzed!!.attentionAvg.toInt())
         }
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.relaxationAvg != null){
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.relaxationAvg != null) {
             chart_relaxation_and_attention.setRelaxationAverage(meditationReportDataAnalyzed!!.relaxationAvg.toInt())
         }
         chart_relaxation_and_attention.setData(relaxationRec, attentionRec)

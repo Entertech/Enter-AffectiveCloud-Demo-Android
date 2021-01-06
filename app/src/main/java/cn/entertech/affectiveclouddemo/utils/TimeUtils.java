@@ -1,6 +1,7 @@
 package cn.entertech.affectiveclouddemo.utils;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.util.Log;
@@ -10,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import cn.entertech.affectiveclouddemo.R;
 
 public class TimeUtils {
     public static String getLocalDate(String GMTTime) {
@@ -44,7 +47,19 @@ public class TimeUtils {
         }
         return date.getTime();
     }
+    public static String second2FormatString(Context context, int totalSecond, boolean isShowSecondWhenZero) {
+        int mins = totalSecond / 60;
+        int seconds = totalSecond - mins * 60;
+        if (seconds == 0 && !isShowSecondWhenZero){
+            return mins + context.getString(R.string.min);
+        }else{
+            return mins + context.getString(R.string.min) + " " + seconds + context.getString(R.string.second);
+        }
+    }
 
+    public static String second2FormatString(Context context, int totalSecond) {
+        return second2FormatString(context, totalSecond,true);
+    }
     public static String timeStampToMin(long time) {
         return time / 1000 / 60 + "";
     }

@@ -13,23 +13,20 @@ import cn.entertech.affectiveclouddemo.database.MeditationDao
 import cn.entertech.affectiveclouddemo.database.UserLessonRecordDao
 import cn.entertech.affectiveclouddemo.model.MeditationEntity
 import cn.entertech.affectiveclouddemo.model.UserLessonEntity
+import cn.entertech.affectiveclouddemo.model.meditation.*
 import cn.entertech.affectiveclouddemo.ui.fragment.MeditationBaseFragment
 import cn.entertech.affectiveclouddemo.ui.fragment.MeditationFragment
 import cn.entertech.affectiveclouddemo.ui.fragment.MeditationLargeFragment
 import cn.entertech.affectiveclouddemo.utils.MeditationStatusPlayer
 import cn.entertech.affectiveclouddemo.utils.getCurrentTimeFormat
-import cn.entertech.affectivecloudsdk.AffectiveSubscribeParams
-import cn.entertech.affectivecloudsdk.BiodataSubscribeParams
-import cn.entertech.affectivecloudsdk.EnterAffectiveCloudConfig
-import cn.entertech.affectivecloudsdk.EnterAffectiveCloudManager
+import cn.entertech.affectiveclouddemo.utils.reportfileutils.FragmentBuffer
+import cn.entertech.affectivecloudsdk.*
 import cn.entertech.affectivecloudsdk.entity.Error
 import cn.entertech.affectivecloudsdk.entity.Service
 import cn.entertech.affectivecloudsdk.interfaces.Callback
 import cn.entertech.affectivecloudsdk.interfaces.Callback2
 import cn.entertech.ble.multiple.MultipleBiomoduleBleManager
 import cn.entertech.bleuisdk.ui.DeviceUIConfig
-import cn.entertech.flowtime.mvp.model.meditation.*
-import cn.entertech.flowtime.utils.reportfileutils.FragmentBuffer
 import cn.entertech.flowtime.utils.reportfileutils.MeditaionInterruptManager
 import com.orhanobut.logger.Logger
 import java.util.ArrayList
@@ -204,6 +201,13 @@ class MeditationActivity : BaseActivity() {
             .requestEEG()
             .build()
 
+        var algorithmParamsEEG =
+            AlgorithmParamsEEG.Builder()
+                .filterMode(AlgorithmParamsEEG.FilterMode.HARD)
+                .powerMode(AlgorithmParamsEEG.PowerMode.DB)
+                .tolerance(AlgorithmParamsEEG.Tolerance.LEVEL_2)
+                .build()
+        var algorithmParams = AlgorithmParams.Builder().eeg(algorithmParamsEEG).build()
         var affectiveSubscribeParams = AffectiveSubscribeParams.Builder()
             .requestAttention()
             .requestRelaxation()
@@ -220,6 +224,8 @@ class MeditationActivity : BaseActivity() {
                 .availableAffectiveServices(availableAffectiveServices)
                 .biodataSubscribeParams(biodataSubscribeParams!!)
                 .affectiveSubscribeParams(affectiveSubscribeParams!!)
+                .uploadCycle(1)
+                .algorithmParams(algorithmParams)
                 .build()
         enterAffectiveCloudManager = EnterAffectiveCloudManager(enterAffectiveCloudConfig)
 
@@ -240,7 +246,7 @@ class MeditationActivity : BaseActivity() {
             }
         }
         enterAffectiveCloudManager!!.addAffectiveDataRealtimeListener {
-                        Logger.d("affective realtime data is " + it.toString())
+//                        Logger.d("affective realtime data is " + it.toString())
             runOnUiThread {
                 fragment?.showAttention(it?.realtimeAttentionData?.attention?.toFloat())
                 fragment?.showRelaxation(it?.realtimeRelaxationData?.relaxation?.toFloat())
@@ -345,20 +351,20 @@ class MeditationActivity : BaseActivity() {
         meditaiton!!.id = meditationId
         meditaiton!!.startTime = fragmentBuffer.fileName
         meditaiton!!.finishTime = meditationEndTime
-        meditaiton!!.attentionAvg = report.reportAttentionEnitty?.attentionAvg!!.toFloat()
+        meditaiton!!.attentionAvg = report.reportAttentionEntity?.attentionAvg!!.toFloat()
         meditaiton!!.attentionMax =
-            java.util.Collections.max(report.reportAttentionEnitty?.attentionRec).toFloat()
+            java.util.Collections.max(report.reportAttentionEntity?.attentionRec).toFloat()
         meditaiton!!.attentionMin =
-            java.util.Collections.min(report.reportAttentionEnitty?.attentionRec).toFloat()
+            java.util.Collections.min(report.reportAttentionEntity?.attentionRec).toFloat()
         meditaiton!!.heartRateAvg = report.reportHRDataEntity?.hrAvg!!.toFloat()
         meditaiton!!.heartRateMax = report.reportHRDataEntity?.hrMax!!.toFloat()
         meditaiton!!.heartRateMin = report.reportHRDataEntity?.hrMin!!.toFloat()
         meditaiton!!.heartRateVariabilityAvg = report.reportHRDataEntity?.hrvAvg!!.toFloat()
-        meditaiton!!.relaxationAvg = report.reportRelaxationEnitty?.relaxationAvg!!.toFloat()
+        meditaiton!!.relaxationAvg = report.reportRelaxationEntity?.relaxationAvg!!.toFloat()
         meditaiton!!.relaxationMax =
-            java.util.Collections.max(report.reportRelaxationEnitty?.relaxationRec).toFloat()
+            java.util.Collections.max(report.reportRelaxationEntity?.relaxationRec).toFloat()
         meditaiton!!.relaxationMin =
-            java.util.Collections.min(report.reportRelaxationEnitty?.relaxationRec).toFloat()
+            java.util.Collections.min(report.reportRelaxationEntity?.relaxationRec).toFloat()
         meditaiton!!.user = 0
 //        var reportFileUri =
 //            "${SettingManager.getInstance().userId}/${courseId}/${lessonId}/${fragmentBuffer.fileName}"
@@ -492,63 +498,70 @@ class MeditationActivity : BaseActivity() {
                         if (t == null) {
                             return
                         }
-                        var reportAttentionEnitty = ReportAttentionEnitty()
+                        var reportAttentionEntity = ReportAttentionEntity()
                         var attentionMap = t["attention"] as Map<Any, Any?>
                         if (attentionMap!!.containsKey("attention_avg")) {
                             Logger.d("attention avg is " + attentionMap["attention_avg"] as Double)
-                            reportAttentionEnitty.attentionAvg =
+                            reportAttentionEntity.attentionAvg =
                                 attentionMap["attention_avg"] as Double
                         }
                         if (attentionMap!!.containsKey("attention_rec")) {
-                            reportAttentionEnitty.attentionRec =
+                            reportAttentionEntity.attentionRec =
                                 attentionMap["attention_rec"] as ArrayList<Double>
                         }
-                        reportMeditationData.reportAttentionEnitty = reportAttentionEnitty
-                        var reportRelxationEntity = ReportRelaxationEnitty()
+                        reportMeditationData.reportAttentionEntity = reportAttentionEntity
+                        var reportRelaxationEntity = ReportRelaxationEntity()
                         var relaxationMap = t["relaxation"] as Map<Any, Any?>
                         if (relaxationMap!!.containsKey("relaxation_avg")) {
-                            reportRelxationEntity.relaxationAvg =
+                            reportRelaxationEntity.relaxationAvg =
                                 relaxationMap["relaxation_avg"] as Double
                         }
                         if (relaxationMap!!.containsKey("relaxation_rec")) {
-                            reportRelxationEntity.relaxationRec =
+                            reportRelaxationEntity.relaxationRec =
                                 relaxationMap["relaxation_rec"] as ArrayList<Double>
                         }
-                        reportMeditationData.reportRelaxationEnitty = reportRelxationEntity
+                        reportMeditationData.reportRelaxationEntity = reportRelaxationEntity
 
-                        var reportPressureEnitty = ReportPressureEnitty()
+                        var reportPressureEntity = ReportPressureEntity()
 
                         var pressureMap = t["pressure"] as Map<Any, Any?>
                         if (pressureMap!!.containsKey("pressure_avg")) {
-                            reportPressureEnitty.pressureAvg = pressureMap["pressure_avg"] as Double
+                            reportPressureEntity.pressureAvg = pressureMap["pressure_avg"] as Double
                         }
                         if (pressureMap!!.containsKey("pressure_rec")) {
-                            reportPressureEnitty.pressureRec =
+                            reportPressureEntity.pressureRec =
                                 pressureMap["pressure_rec"] as ArrayList<Double>
                         }
-                        reportMeditationData.reportPressureEnitty = reportPressureEnitty
+                        reportMeditationData.reportPressureEntity = reportPressureEntity
 
-                        var reportPleasureEnitty = ReportPleasureEnitty()
+                        var reportPleasureEntity = ReportPleasureEntity()
                         var pleasureMap = t["pleasure"] as Map<Any, Any?>
                         if (pleasureMap!!.containsKey("pleasure_avg")) {
-                            reportPleasureEnitty.pleasureAvg = pleasureMap["pleasure_avg"] as Double
+                            reportPleasureEntity.pleasureAvg = pleasureMap["pleasure_avg"] as Double
                         }
                         if (pleasureMap!!.containsKey("pleasure_rec")) {
-                            reportPleasureEnitty.pleasureRec =
+                            reportPleasureEntity.pleasureRec =
                                 pleasureMap["pleasure_rec"] as ArrayList<Double>
                         }
-                        reportMeditationData.reportPleasureEnitty = reportPleasureEnitty
+                        reportMeditationData.reportPleasureEntity = reportPleasureEntity
 
-                        var reportCoherenceEnitty = ReportCoherenceEnitty()
+                        var reportCoherenceEnitty = ReportCoherenceEntity()
                         var coherenceMap = t["coherence"] as Map<Any, Any?>
                         if (coherenceMap!!.containsKey("coherence_avg")) {
                             reportCoherenceEnitty.coherenceAvg = coherenceMap["coherence_avg"] as Double
+                        }
+                        if (coherenceMap!!.containsKey("coherence_duration")) {
+                            reportCoherenceEnitty.coherenceDuration = coherenceMap["coherence_duration"] as Double
                         }
                         if (coherenceMap!!.containsKey("coherence_rec")) {
                             reportCoherenceEnitty.coherenceRec =
                                 coherenceMap["coherence_rec"] as ArrayList<Double>
                         }
-                        reportMeditationData.reportCoherenceEnitty = reportCoherenceEnitty
+                        if (coherenceMap!!.containsKey("coherence_flag")) {
+                            reportCoherenceEnitty.coherenceFlag =
+                                coherenceMap["coherence_flag"] as ArrayList<Double>
+                        }
+                        reportMeditationData.reportCoherenceEntity = reportCoherenceEnitty
                         exitWithMeditation(reportMeditationData)
                     }
 
