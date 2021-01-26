@@ -16,6 +16,6 @@ As mentioned above, the application integrates the following four modules:
 - [BLE SDK](https://github.com/Entertech/Enter-Biomodule-BLE-Android-SDK/blob/master/ble/README_EN.md)
 - [BLE Device Management SDK](https://github.com/Entertech/Enter-Biomodule-BLE-Android-SDK/blob/master/bleuisdk/README_EN.md)
 - [Affective Cloud SDK](https://github.com/Entertech/Enter-AffectiveCloud-Android-SDK/blob/master/README_EN.md)
-- [Custom UI SDK](https://github.com/Entertech/Enter-UIComponent-Android-SDK)
+- [Custom UI SDK](https://github.com/Entertech/Enter-UIComponent-Android-SDK/blob/master/README_EN.md)
 
 
