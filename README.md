@@ -1,3 +1,4 @@
+[English Readme](/README_EN.md)
 # Enter Affective Cloud Demo 
 
 ## 简介
