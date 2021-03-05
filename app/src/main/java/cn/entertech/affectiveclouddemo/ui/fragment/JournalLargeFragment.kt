@@ -194,30 +194,30 @@ class JournalLargeFragment : Fragment() {
     }
 
     fun initLineChart() {
-        var hrLine = meditationReportDataAnalyzed?.hrRec
+//        var hrLine = meditationReportDataAnalyzed?.hrRec
 //        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrAvg != null) {
 //            chart_hr.setAverage("${meditationReportDataAnalyzed!!.hrAvg.toInt()}")
 //        }
 //        chart_hr.setData(hrLine)
 
         var hrvLine = meditationReportDataAnalyzed?.hrvRec
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrvAvg != null) {
+        if (meditationReportDataAnalyzed != null) {
             chart_hrv.setAverage("${meditationReportDataAnalyzed!!.hrvAvg.toInt()}")
         }
         chart_hrv.setData(hrvLine)
 
         var pressureLine = meditationReportDataAnalyzed?.pressureRec
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.pressureAvg != null) {
+        if (meditationReportDataAnalyzed != null) {
             chart_pressure.setAverage("${meditationReportDataAnalyzed!!.pressureAvg.toInt()}")
         }
         chart_pressure.setData(pressureLine)
 
         var relaxationRec = meditationReportDataAnalyzed?.relaxationRec
         var attentionRec = meditationReportDataAnalyzed?.attentionRec
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.attentionAvg != null) {
+        if (meditationReportDataAnalyzed != null) {
             chart_relaxation_and_attention.setAttentionAverage(meditationReportDataAnalyzed!!.attentionAvg.toInt())
         }
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.relaxationAvg != null) {
+        if (meditationReportDataAnalyzed != null) {
             chart_relaxation_and_attention.setRelaxationAverage(meditationReportDataAnalyzed!!.relaxationAvg.toInt())
         }
         chart_relaxation_and_attention.setData(relaxationRec, attentionRec)

@@ -75,9 +75,9 @@ class StatisticsFragment : Fragment() {
             var fragment = JournalFragment()
             var bundle = Bundle()
             bundle.putLong(RECORD_ID, mRecordId)
-            fragment!!.arguments = bundle
+            fragment.arguments = bundle
             activity!!.supportFragmentManager.beginTransaction()
-                .replace(R.id.report_container, fragment!!).commitAllowingStateLoss()
+                .replace(R.id.report_container, fragment).commitAllowingStateLoss()
         }
     }
 

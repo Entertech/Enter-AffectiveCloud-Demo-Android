@@ -1,7 +1,10 @@
 package cn.entertech.affectiveclouddemo.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 
 
 fun getAppVersionName(context: Context): String {
@@ -24,7 +27,7 @@ fun getAppVersionName(context: Context): String {
 fun isNewVersion(localVersion: String, cloudVersion: String): Boolean {
     var cloudVersions = cloudVersion.split(".")
     var localVersions = localVersion.split(".")
-    if (cloudVersions != null && cloudVersions.size == 3 && localVersions != null && localVersions.size == 3) {
+    if (cloudVersions.size == 3 && localVersions.size == 3) {
         var cloudVersionMajor = cloudVersions[0]
         var cloudVersionMinor = cloudVersions[1]
         var cloudVersionPatch = cloudVersions[2]
@@ -46,13 +49,15 @@ fun isNewVersion(localVersion: String, cloudVersion: String): Boolean {
     return false
 }
 
+@SuppressLint("NewApi")
 fun getAppVersionCode(context: Context): Int {
     var versioncode = 0
     try {
         // ---get the package info---
-        var pm = context.getPackageManager();
-        var pi = pm.getPackageInfo(context.getPackageName(), 0);
-        versioncode = pi.versionCode
+        var pm = context.packageManager;
+        var pi = pm.getPackageInfo(context.packageName, 0);
+        versioncode = pi.longVersionCode.toInt()
+
     } catch (e: Exception) {
         Log.e("VersionInfo", "Exception", e)
     }

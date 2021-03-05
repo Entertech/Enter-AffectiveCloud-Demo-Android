@@ -43,12 +43,12 @@ class ReportDetailBrainwaveSpectrumActivity : BaseActivity() {
 
 
     fun initData() {
-        if (mRecordId == null || mRecordId == 0L || mRecordId == -1L) {
+        if (mRecordId == 0L || mRecordId == -1L) {
             return
         }
         var userLessonRecordDao = UserLessonRecordDao(this)
         var userLessonRecord =
-            userLessonRecordDao.findRecordById(0, mRecordId!!)
+            userLessonRecordDao.findRecordById(0, mRecordId)
         var meditationDao = MeditationDao(this)
 
         if (userLessonRecord.meditation == 0L) {
@@ -145,11 +145,11 @@ class ReportDetailBrainwaveSpectrumActivity : BaseActivity() {
         saveChartShowList()
         super.onPause()
     }
-    open fun getShareView(): View {
+    fun getShareView(): View {
         return scroll_view
     }
 
-    open fun getShareViewBg(): View {
+    fun getShareViewBg(): View {
         return ll_bg
     }
 }

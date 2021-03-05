@@ -34,7 +34,7 @@ class DeviceContactTipView @JvmOverloads constructor(
 
     fun initView(){
         initTitle()
-        self.findViewById<ImageView>(R.id.iv_image).setBackgroundDrawable(mDrawable)
+        self.findViewById<ImageView>(R.id.iv_image).background = mDrawable
         self.findViewById<TextView>(R.id.tv_text).text = mTip
     }
 

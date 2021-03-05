@@ -6,15 +6,13 @@ import cn.entertech.affectiveclouddemo.model.meditation.ReportMeditationDataEnti
 import cn.entertech.flowtime.utils.reportfileutils.MeditaionInterruptManager
 
 class FragmentBuffer {
-    private val handlerThread: HandlerThread
+    private val handlerThread: HandlerThread = HandlerThread("file_fragment_buffer")
     private val handler: Handler
-    private val brainWaveFileUtil: BrainWaveFileUtil
+    private val brainWaveFileUtil: BrainWaveFileUtil = BrainWaveFileUtil()
     var fileName: String? = null
 
 
     init {
-        brainWaveFileUtil = BrainWaveFileUtil()
-        handlerThread = HandlerThread("file_fragment_buffer")
         handlerThread.start()
         handler = Handler(handlerThread.looper)
     }
@@ -34,7 +32,7 @@ class FragmentBuffer {
             meditationReportFileFragment = FileFragment(state, FileFragmentContent())
         }
 
-        reportMeditationDataEntity?.let {
+        reportMeditationDataEntity.let {
             meditationReportFileFragment?.content?.append(
                 MeditationReportDataAnalyzed(
                     reportMeditationDataEntity,

@@ -44,12 +44,12 @@ class ReportDetailHRActivity : BaseActivity() {
     }
 
     fun initData() {
-        if (mRecordId == null || mRecordId == 0L || mRecordId == -1L) {
+        if (mRecordId == 0L || mRecordId == -1L) {
             return
         }
         userLessonRecordDao = UserLessonRecordDao(this)
         var userLessonRecord =
-            userLessonRecordDao?.findRecordById(0, mRecordId!!)
+            userLessonRecordDao?.findRecordById(0, mRecordId)
         if (userLessonRecord != null) {
             meditationReportDataAnalyzed = userLessonRecordDao?.getReportDataFromFile(userLessonRecord)
         }
@@ -57,14 +57,14 @@ class ReportDetailHRActivity : BaseActivity() {
 
     fun initLineChart() {
         var hrLine = meditationReportDataAnalyzed?.hrRec
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrAvg != null) {
+        if (meditationReportDataAnalyzed != null) {
             chart_hr.setAverage("${meditationReportDataAnalyzed?.hrAvg!!.toInt()}")
         }
         chart_hr.isShowLegend(true)
         chart_hr.isShowDetail = true
         chart_hr.setCohTime(
             TimeUtils.second2FormatString(
-                this!!,
+                this,
                 meditationReportDataAnalyzed?.coherenceDuration?.toInt() ?: 0
             )
         )
@@ -91,11 +91,11 @@ class ReportDetailHRActivity : BaseActivity() {
 //            }
 //        }
 //    }
-    open fun getShareView(): View {
+    fun getShareView(): View {
         return scroll_view
     }
 
-    open fun getShareViewBg(): View {
+    fun getShareViewBg(): View {
         return ll_bg
     }
 }

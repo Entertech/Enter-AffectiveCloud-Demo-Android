@@ -46,12 +46,12 @@ class ReportDetailRelaxationAndAttentionActivity : BaseActivity() {
     }
 
     fun initData() {
-        if (mRecordId == null || mRecordId == 0L || mRecordId == -1L) {
+        if (mRecordId == 0L || mRecordId == -1L) {
             return
         }
         userLessonRecordDao = UserLessonRecordDao(this)
         var userLessonRecord =
-            userLessonRecordDao?.findRecordById(0, mRecordId!!)
+            userLessonRecordDao?.findRecordById(0, mRecordId)
         if (userLessonRecord != null) {
             meditationReportDataAnalyzed =
                 userLessonRecordDao?.getReportDataFromFile(userLessonRecord)
@@ -62,10 +62,10 @@ class ReportDetailRelaxationAndAttentionActivity : BaseActivity() {
     fun initLineChart() {
         var relaxationRec = meditationReportDataAnalyzed?.relaxationRec
         var attentionRec = meditationReportDataAnalyzed?.attentionRec
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.attentionAvg != null){
+        if (meditationReportDataAnalyzed != null){
             chart_relaxation_and_attention.setAttentionAverage(meditationReportDataAnalyzed!!.attentionAvg.toInt())
         }
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.relaxationAvg != null){
+        if (meditationReportDataAnalyzed != null){
             chart_relaxation_and_attention.setRelaxationAverage(meditationReportDataAnalyzed!!.relaxationAvg.toInt())
         }
         chart_relaxation_and_attention.setData(relaxationRec, attentionRec)

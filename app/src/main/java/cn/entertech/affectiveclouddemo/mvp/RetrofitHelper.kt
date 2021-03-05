@@ -48,8 +48,8 @@ class RetrofitHelper(context: Context) {
             .build()
         mRetrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(mOkHttpClient)
-            .addConverterFactory(mGsonConverterFactory)
+            .client(mOkHttpClient!!)
+            .addConverterFactory(mGsonConverterFactory!!)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
     }
@@ -61,10 +61,10 @@ class RetrofitHelper(context: Context) {
     fun getLogServer(): LogService {
         var mRetrofit = Retrofit.Builder()
             .baseUrl("https://log.entertech.cn")
-            .client(mOkHttpClient)
-            .addConverterFactory(mGsonConverterFactory)
+            .client(mOkHttpClient!!)
+            .addConverterFactory(mGsonConverterFactory!!)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
-        return mRetrofit!!.create(LogService::class.java)
+        return mRetrofit.create(LogService::class.java)
     }
 }

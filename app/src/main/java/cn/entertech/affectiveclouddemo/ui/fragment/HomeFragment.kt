@@ -50,12 +50,12 @@ class HomeFragment : Fragment() {
             }
         }
     }
-    var connectListener = fun(str: String) {
+    var connectListener = fun(_: String) {
         activity?.runOnUiThread {
             iv_device.setImageResource(R.mipmap.ic_battery)
         }
     }
-    var disconnectListener = fun(str: String) {
+    var disconnectListener = fun(_: String) {
         activity?.runOnUiThread {
             iv_device.setImageResource(R.mipmap.ic_device_disconnect_color)
         }

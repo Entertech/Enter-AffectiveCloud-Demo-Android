@@ -11,14 +11,6 @@ import java.util.*
  */
 class BrainWaveFileUtil ()  {
 
-    constructor(type: Type) : this() {
-        brainFileHelper = if (type == Type.V2) {
-            DeviceHelperV2()
-        } else {
-            DeviceHelperV3()
-        }
-    }
-
     private val VERSION = "0200"
     private val HEADER_LEN = "20"
     private val DATA_VERSION = "0.0.0.1"
@@ -36,7 +28,7 @@ class BrainWaveFileUtil ()  {
 
     private fun writeFile(fileName: String, byteArray: ByteArray, header: ByteArray) {
         val file = File(fileName)
-        var fos: FileOutputStream? = null
+        var fos: FileOutputStream?
         try {
             fos = FileOutputStream(file, true)
             if (0L == file.length()) {

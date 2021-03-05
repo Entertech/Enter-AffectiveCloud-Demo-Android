@@ -59,7 +59,7 @@ class MeditationLargeFragment : MeditationBaseFragment() {
             (activity as MeditationActivity).showDialog()
         }
 
-        if ((activity as MeditationActivity).bleManager!!.isConnected()) {
+        if ((activity as MeditationActivity).bleManager.isConnected()) {
             handleDeviceConnect()
         } else {
             handleDeviceDisconnect()
@@ -122,14 +122,14 @@ class MeditationLargeFragment : MeditationBaseFragment() {
                 ?.setGammaWavePercent(realtimeEEGDataEntity?.gammaPower?.toFloat())
             selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")
                 ?.setThetaWavePercent(realtimeEEGDataEntity?.thetaPower?.toFloat())
-            if (realtimeEEGDataEntity?.leftwave == null || realtimeEEGDataEntity?.leftwave!!.size == 0
-                || realtimeEEGDataEntity?.rightwave == null || realtimeEEGDataEntity?.rightwave!!.size == 0
+            if (realtimeEEGDataEntity?.leftwave == null || realtimeEEGDataEntity.leftwave!!.size == 0
+                || realtimeEEGDataEntity.rightwave == null || realtimeEEGDataEntity.rightwave!!.size == 0
             ) {
                 return@runOnUiThread
             }
             isBrainViewLoading =
-                Collections.max(realtimeEEGDataEntity?.leftwave) == 0.0 && Collections.max(
-                    realtimeEEGDataEntity?.rightwave
+                Collections.max(realtimeEEGDataEntity.leftwave) == 0.0 && Collections.max(
+                    realtimeEEGDataEntity.rightwave
                 ) == 0.0
             if (!isMeditationInterrupt) {
                 if (isBrainViewLoading) {

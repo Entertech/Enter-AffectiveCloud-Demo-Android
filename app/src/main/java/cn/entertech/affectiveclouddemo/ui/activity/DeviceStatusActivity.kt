@@ -32,13 +32,13 @@ class DeviceStatusActivity : BaseActivity() {
         setContentView(R.layout.activity_device_status)
         initFullScreenDisplay()
         setStatusBarLight()
-        bleDeviceManager =  DeviceUIConfig.getInstance(this!!).managers[0]
+        bleDeviceManager =  DeviceUIConfig.getInstance(this).managers[0]
         initViews()
     }
 
 
     fun addConnectListener() {
-        bleConnectedListener = fun(result: String) {
+        bleConnectedListener = fun(_: String) {
             Logger.d("device connect success")
             runOnUiThread {
                 toConnect()
@@ -54,7 +54,7 @@ class DeviceStatusActivity : BaseActivity() {
 
 
     fun addDisConnectListener() {
-        bleDisConnectedListener = fun(result: String) {
+        bleDisConnectedListener = fun(_: String) {
             Logger.d("connect failure")
             runOnUiThread {
                 toDisConnect()
@@ -150,13 +150,13 @@ class DeviceStatusActivity : BaseActivity() {
         findViewById<View>(R.id.device_battery).visibility = View.GONE
         findViewById<View>(R.id.device_disconnect_layout).visibility = View.GONE
         findViewById<View>(R.id.device_connecting_layout).visibility = View.VISIBLE
-        findViewById<View>(R.id.rl_device_connect_bg).setBackgroundColor(resources.getColor(R.color.deviceConnecting))
+        findViewById<View>(R.id.rl_device_connect_bg).setBackgroundColor(resources.getColor(R.color.deviceConnecting,null))
         findViewById<View>(R.id.rl_title_bg).setBackgroundColor(
             android.graphics.Color.TRANSPARENT
         )
         bleDeviceManager.scanNearDeviceAndConnect(fun() {
             Logger.d("scan succ")
-        }, fun(e: Exception) {
+        }, fun(_: Exception) {
             runOnUiThread {
                 toDisConnect()
             }
@@ -177,7 +177,7 @@ class DeviceStatusActivity : BaseActivity() {
                 messageEvent.messageCode = MessageEvent.MESSAGE_CODE_DEVICE_CONNECT
                 EventBus.getDefault().post(messageEvent)
             }
-        }, fun(error: String) {
+        }, fun(_: String) {
             Logger.d("connect failure")
             runOnUiThread {
                 toDisConnect()
@@ -190,22 +190,22 @@ class DeviceStatusActivity : BaseActivity() {
         findViewById<View>(R.id.device_battery).visibility = View.VISIBLE
         findViewById<View>(R.id.device_disconnect_layout).visibility = View.GONE
         findViewById<View>(R.id.device_connecting_layout).visibility = View.GONE
-        findViewById<View>(R.id.rl_device_connect_bg).setBackgroundColor(resources.getColor(R.color.deviceConnected))
+        findViewById<View>(R.id.rl_device_connect_bg).setBackgroundColor(resources.getColor(R.color.deviceConnected,null))
         findViewById<View>(R.id.rl_title_bg).setBackgroundColor(
             android.graphics.Color.TRANSPARENT
         )
 
     }
 
-    fun onReConnect(view: View) {
+    fun onReConnect(@Suppress("UNUSED_PARAMETER")view: View) {
         toConnecting()
     }
 
-    fun toContactCheck(view: View) {
+    fun toContactCheck(@Suppress("UNUSED_PARAMETER")view: View) {
         startActivity(Intent(this, SensorContactCheckActivity::class.java).putExtra(IS_SHOW_SKIP,false))
     }
 
-    fun toDeviceDetail(view: View) {
+    fun toDeviceDetail(@Suppress("UNUSED_PARAMETER")view: View) {
         if (bleDeviceManager.isConnected()) {
             startActivity(Intent(this, DeviceManagerActivity::class.java))
         }

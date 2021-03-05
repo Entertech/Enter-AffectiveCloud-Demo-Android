@@ -40,12 +40,12 @@ class ReportDetailCoherenceActivity : BaseActivity() {
     }
 
     fun initData() {
-        if (mRecordId == null || mRecordId == 0L || mRecordId == -1L) {
+        if (mRecordId == 0L || mRecordId == -1L) {
             return
         }
         userLessonRecordDao = UserLessonRecordDao(this)
         var userLessonRecord =
-            userLessonRecordDao?.findRecordById(0, mRecordId!!)
+            userLessonRecordDao?.findRecordById(0, mRecordId)
         if (userLessonRecord != null) {
             meditationReportDataAnalyzed = userLessonRecordDao?.getReportDataFromFile(userLessonRecord)
         }
@@ -53,7 +53,7 @@ class ReportDetailCoherenceActivity : BaseActivity() {
 
     fun initLineChart() {
         var coherenceLine = meditationReportDataAnalyzed?.coherenceRec
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.coherenceAvg != null){
+        if (meditationReportDataAnalyzed != null){
             chart_coherence.setAverage("${meditationReportDataAnalyzed!!.coherenceAvg.toInt()}")
         }
         chart_coherence.setData(coherenceLine)
@@ -79,11 +79,11 @@ class ReportDetailCoherenceActivity : BaseActivity() {
 //            }
 //        }
 //    }
-    open fun getShareView(): View {
+    fun getShareView(): View {
         return scroll_view
     }
 
-    open fun getShareViewBg(): View {
+    fun getShareViewBg(): View {
         return ll_bg
     }
 }

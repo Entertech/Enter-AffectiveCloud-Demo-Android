@@ -1,11 +1,13 @@
 package cn.entertech.affectiveclouddemo
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.bluetooth.BluetoothClass
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
@@ -75,7 +77,7 @@ class MainActivity : BaseActivity() {
                 Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             )
-            .request { allGranted, grantedList, deniedList ->
+            .request { allGranted, _, _ ->
                 if (allGranted) {
                     initMta()
                     downloadFirmware()
@@ -182,24 +184,26 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    @SuppressLint("NewApi")
     fun showDialog() {
-        var dialog = AlertDialog.Builder(this)
-            .setTitle(Html.fromHtml("<font color='${R.color.colorDialogTitle}'>App升级提示</font>"))
-            .setMessage(Html.fromHtml("<font color='${R.color.colorDialogContent}'>有新的APP版本是否更新？</font>"))
-            .setPositiveButton(
-                Html.fromHtml("<font color='${R.color.colorDialogExit}'>确定</font>")
-            ) { dialog, which ->
-                dialog.dismiss()
-                val uri = Uri.parse("market://details?id=$packageName")
-                val intent = Intent(Intent.ACTION_VIEW, uri)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-            }
-            .setNegativeButton(
-                Html.fromHtml("<font color='${R.color.colorDialogCancel}'>取消</font>")
-            ) { dialog, which ->
-                dialog.dismiss()
-            }.create()
+        var dialog =
+            AlertDialog.Builder(this)
+                .setTitle(Html.fromHtml("<font color='${R.color.colorDialogTitle}'>App升级提示</font>",Html.FROM_HTML_MODE_LEGACY))
+                .setMessage(Html.fromHtml("<font color='${R.color.colorDialogContent}'>有新的APP版本是否更新？</font>",Html.FROM_HTML_MODE_LEGACY))
+                .setPositiveButton(
+                    Html.fromHtml("<font color='${R.color.colorDialogExit}'>确定</font>",Html.FROM_HTML_MODE_LEGACY)
+                ) { dialog, _ ->
+                    dialog.dismiss()
+                    val uri = Uri.parse("market://details?id=$packageName")
+                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                }
+                .setNegativeButton(
+                    Html.fromHtml("<font color='${R.color.colorDialogCancel}'>取消</font>",Html.FROM_HTML_MODE_LEGACY)
+                ) { dialog, _ ->
+                    dialog.dismiss()
+                }.create()
         dialog.show()
     }
 

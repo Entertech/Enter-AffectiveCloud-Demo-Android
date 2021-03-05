@@ -41,12 +41,12 @@ class ReportDetailPressureActivity : BaseActivity() {
     }
 
     fun initData() {
-        if (mRecordId == null || mRecordId == 0L || mRecordId == -1L) {
+        if (mRecordId == 0L || mRecordId == -1L) {
             return
         }
         userLessonRecordDao = UserLessonRecordDao(this)
         var userLessonRecord =
-            userLessonRecordDao?.findRecordById(0, mRecordId!!)
+            userLessonRecordDao?.findRecordById(0, mRecordId)
         if (userLessonRecord != null) {
             meditationReportDataAnalyzed =
                 userLessonRecordDao?.getReportDataFromFile(userLessonRecord)
@@ -55,7 +55,7 @@ class ReportDetailPressureActivity : BaseActivity() {
 
     fun initLineChart() {
         var pressureLine = meditationReportDataAnalyzed?.pressureRec
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.pressureAvg != null){
+        if (meditationReportDataAnalyzed != null){
             chart_pressure.setAverage("${meditationReportDataAnalyzed!!.pressureAvg.toInt()}")
         }
         chart_pressure.setData(pressureLine)
@@ -83,11 +83,11 @@ class ReportDetailPressureActivity : BaseActivity() {
 //        }
 //    }
 
-    open fun getShareView(): View {
+    fun getShareView(): View {
         return scroll_view
     }
 
-    open fun getShareViewBg(): View {
+    fun getShareViewBg(): View {
         return ll_bg
     }
 }

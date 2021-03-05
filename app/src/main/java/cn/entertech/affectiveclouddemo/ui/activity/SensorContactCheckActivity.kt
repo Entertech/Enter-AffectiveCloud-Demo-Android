@@ -25,7 +25,7 @@ class SensorContactCheckActivity : BaseActivity() {
         setStatusBarLight()
         meditationType = intent.getStringExtra(MEDITATION_TYPE)
         isShowSkip = intent.getBooleanExtra(IS_SHOW_SKIP, true)
-        bleManager = DeviceUIConfig.getInstance(this!!).managers[0]
+        bleManager = DeviceUIConfig.getInstance(this).managers[0]
         if (bleManager!!.isConnected()) {
             bleManager!!.startHeartAndBrainCollection()
         } else {

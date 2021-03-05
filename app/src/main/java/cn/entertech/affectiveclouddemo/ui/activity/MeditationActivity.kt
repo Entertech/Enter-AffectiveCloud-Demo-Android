@@ -1,5 +1,6 @@
 package cn.entertech.affectiveclouddemo.ui.activity
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.res.Configuration
@@ -40,7 +41,7 @@ class MeditationActivity : BaseActivity() {
     private lateinit var rawListener: (ByteArray) -> Unit
     private lateinit var heartRateListener: (Int) -> Unit
     var enterAffectiveCloudManager: EnterAffectiveCloudManager? = null
-    var bleManager: MultipleBiomoduleBleManager = DeviceUIConfig.getInstance(this!!).managers[0]
+    var bleManager: MultipleBiomoduleBleManager = DeviceUIConfig.getInstance(this).managers[0]
     var meditationStartTime: Long? = null
     var websocketAddress = "wss://server.affectivecloud.cn/ws/algorithm/v2/"
 
@@ -94,7 +95,7 @@ class MeditationActivity : BaseActivity() {
     }
 
 
-    var onDeviceConnectListener = fun(str: String) {
+    var onDeviceConnectListener = fun(_: String) {
         if (enterAffectiveCloudManager!!.isWebSocketOpen()) {
             meditationStatusPlayer?.playConnectAudio()
         }
@@ -109,8 +110,8 @@ class MeditationActivity : BaseActivity() {
                     }
 
                     override fun onSuccess() {
-                        bleManager?.startHeartAndBrainCollection()
-                        bleManager?.startContact()
+                        bleManager.startHeartAndBrainCollection()
+                        bleManager.startContact()
                     }
                 })
             } else {
@@ -120,8 +121,8 @@ class MeditationActivity : BaseActivity() {
                     }
 
                     override fun onSuccess() {
-                        bleManager?.startHeartAndBrainCollection()
-                        bleManager?.startContact()
+                        bleManager.startHeartAndBrainCollection()
+                        bleManager.startContact()
                     }
 
                 })
@@ -130,7 +131,7 @@ class MeditationActivity : BaseActivity() {
         }
     }
 
-    var onDeviceDisconnectListener = fun(str: String) {
+    var onDeviceDisconnectListener = fun(_: String) {
         if (enterAffectiveCloudManager!!.isWebSocketOpen()) {
             meditationStatusPlayer?.playDisconnectAudio()
         }
@@ -152,17 +153,17 @@ class MeditationActivity : BaseActivity() {
                 enterAffectiveCloudManager?.appendHeartRateData(heartRate)
             }
         }
-        bleManager?.addRawDataListener(rawListener)
-        bleManager?.addHeartRateListener(heartRateListener)
+        bleManager.addRawDataListener(rawListener)
+        bleManager.addHeartRateListener(heartRateListener)
 
-        bleManager?.addConnectListener(onDeviceConnectListener)
-        bleManager?.addDisConnectListener(onDeviceDisconnectListener)
+        bleManager.addConnectListener(onDeviceConnectListener)
+        bleManager.addDisConnectListener(onDeviceDisconnectListener)
     }
 
     var isFirstIn = true
     var webSocketConnectListener = fun() {
         runOnUiThread {
-            if (bleManager!!.isConnected() && !isFirstIn) {
+            if (bleManager.isConnected() && !isFirstIn) {
                 meditationStatusPlayer?.playConnectAudio()
             }
             isFirstIn = false
@@ -171,15 +172,15 @@ class MeditationActivity : BaseActivity() {
             fragment?.handleWebSocketConnect()
         }
     }
-    var websocketDisconnectListener = fun(error:String) {
+    var websocketDisconnectListener = fun(_:String) {
         runOnUiThread {
-            if (bleManager!!.isConnected()) {
+            if (bleManager.isConnected()) {
                 meditationStatusPlayer?.playDisconnectAudio()
             }
 
             MeditaionInterruptManager.getInstance()
                 .pushInterrupt(MeditaionInterruptManager.INTERRUPT_TYPE_NET)
-            bleManager?.stopHeartAndBrainCollection()
+            bleManager.stopHeartAndBrainCollection()
             fragment?.handleWebSocketDisconnect()
         }
     }
@@ -222,8 +223,8 @@ class MeditationActivity : BaseActivity() {
                 .timeout(10000)
                 .availableBiodataServices(availableBioServices)
                 .availableAffectiveServices(availableAffectiveServices)
-                .biodataSubscribeParams(biodataSubscribeParams!!)
-                .affectiveSubscribeParams(affectiveSubscribeParams!!)
+                .biodataSubscribeParams(biodataSubscribeParams)
+                .affectiveSubscribeParams(affectiveSubscribeParams)
                 .uploadCycle(1)
                 .algorithmParams(algorithmParams)
                 .build()
@@ -232,7 +233,7 @@ class MeditationActivity : BaseActivity() {
         enterAffectiveCloudManager!!.addBiodataRealtimeListener {
             runOnUiThread {
                 //            Logger.d("bio realtime data is " + it.toString())
-                if (it != null && it!!.realtimeEEGData != null) {
+                if (it?.realtimeEEGData != null) {
                     if (isFirstReceiveData) {
                         meditationStartTime = System.currentTimeMillis()
                         fragmentBuffer.fileName = getCurrentTimeFormat(meditationStartTime!!)
@@ -256,7 +257,7 @@ class MeditationActivity : BaseActivity() {
                 fragment?.showCoherence(it?.realtimeCoherenceData?.coherence?.toFloat())
             }
         }
-        if (bleManager!!.isConnected()) {
+        if (bleManager.isConnected()) {
             enterAffectiveCloudManager?.init(object : Callback {
                 override fun onError(error: cn.entertech.affectivecloudsdk.entity.Error?) {
 //                    Logger.d("affectivecloudmanager init failed:" + error.toString())
@@ -264,7 +265,7 @@ class MeditationActivity : BaseActivity() {
 
                 override fun onSuccess() {
 //                    Logger.d("affectivecloudmanager init success:")
-                    bleManager?.startHeartAndBrainCollection()
+                    bleManager.startHeartAndBrainCollection()
                 }
             })
         }
@@ -278,19 +279,20 @@ class MeditationActivity : BaseActivity() {
     }
 
 
+    @SuppressLint("NewApi")
     fun showDialog() {
         var dialog = AlertDialog.Builder(this)
-            .setTitle(Html.fromHtml("<font color='${R.color.colorDialogTitle}'>结束体验</font>"))
-            .setMessage(Html.fromHtml("<font color='${R.color.colorDialogContent}'>结束体验并获取分析报告</font>"))
+            .setTitle(Html.fromHtml("<font color='${R.color.colorDialogTitle}'>结束体验</font>",Html.FROM_HTML_MODE_LEGACY))
+            .setMessage(Html.fromHtml("<font color='${R.color.colorDialogContent}'>结束体验并获取分析报告</font>",Html.FROM_HTML_MODE_LEGACY))
             .setPositiveButton(
-                Html.fromHtml("<font color='${R.color.colorDialogExit}'>确定</font>")
-            ) { dialog, which ->
+                Html.fromHtml("<font color='${R.color.colorDialogExit}'>确定</font>",Html.FROM_HTML_MODE_LEGACY)
+            ) { dialog, _ ->
                 dialog.dismiss()
                 finishMeditation()
             }
             .setNegativeButton(
-                Html.fromHtml("<font color='${R.color.colorDialogCancel}'>取消</font>")
-            ) { dialog, which ->
+                Html.fromHtml("<font color='${R.color.colorDialogCancel}'>取消</font>",Html.FROM_HTML_MODE_LEGACY)
+            ) { dialog, _ ->
                 dialog.dismiss()
             }.create()
         dialog.show()
@@ -308,7 +310,7 @@ class MeditationActivity : BaseActivity() {
         startFinishTimer()
         reportMeditationData = ReportMeditationDataEntity()
         meditationEndTime = getCurrentTimeFormat()
-        bleManager?.stopHeartAndBrainCollection()
+        bleManager.stopHeartAndBrainCollection()
         if (meditationTimeError() || !enterAffectiveCloudManager!!.isWebSocketOpen()) {
             exitWithoutMeditation()
         } else {
@@ -448,41 +450,50 @@ class MeditationActivity : BaseActivity() {
                     return
                 }
                 var reportHRDataEntity = ReportHRDataEntity()
-                var hrMap = t!!["hr"] as Map<Any, Any?>
-                if (hrMap!!.containsKey("hr_avg")) {
+                @Suppress("UNCHECKED_CAST")
+                var hrMap = t["hr"] as Map<Any, Any?>
+                if (hrMap.containsKey("hr_avg")) {
                     reportHRDataEntity.hrAvg = hrMap["hr_avg"] as Double
                 }
-                if (hrMap!!.containsKey("hr_max")) {
+                if (hrMap.containsKey("hr_max")) {
                     reportHRDataEntity.hrMax = hrMap["hr_max"] as Double
                 }
-                if (hrMap!!.containsKey("hr_min")) {
+                if (hrMap.containsKey("hr_min")) {
                     reportHRDataEntity.hrMin = hrMap["hr_min"] as Double
                 }
-                if (hrMap!!.containsKey("hr_rec")) {
+                if (hrMap.containsKey("hr_rec")) {
+                    @Suppress("UNCHECKED_CAST")
                     reportHRDataEntity.hrRec = hrMap["hr_rec"] as ArrayList<Double>
                 }
-                if (hrMap!!.containsKey("hrv_rec")) {
+                if (hrMap.containsKey("hrv_rec")) {
+                    @Suppress("UNCHECKED_CAST")
                     reportHRDataEntity.hrvRec = hrMap["hrv_rec"] as ArrayList<Double>
                 }
-                if (hrMap!!.containsKey("hrv_avg")) {
+                if (hrMap.containsKey("hrv_avg")) {
                     reportHRDataEntity.hrvAvg = hrMap["hrv_avg"] as Double
                 }
                 reportMeditationData.reportHRDataEntity = reportHRDataEntity
                 var reportEEGDataEntity = ReportEEGDataEntity()
-                var eegMap = t!!["eeg"] as Map<Any, Any?>
-                if (eegMap!!.containsKey("eeg_alpha_curve")) {
+                @Suppress("UNCHECKED_CAST")
+                var eegMap = t["eeg"] as Map<Any, Any?>
+                if (eegMap.containsKey("eeg_alpha_curve")) {
+                    @Suppress("UNCHECKED_CAST")
                     reportEEGDataEntity.alphaCurve = eegMap["eeg_alpha_curve"] as ArrayList<Double>
                 }
-                if (eegMap!!.containsKey("eeg_beta_curve")) {
+                if (eegMap.containsKey("eeg_beta_curve")) {
+                    @Suppress("UNCHECKED_CAST")
                     reportEEGDataEntity.betaCurve = eegMap["eeg_beta_curve"] as ArrayList<Double>
                 }
-                if (eegMap!!.containsKey("eeg_theta_curve")) {
+                if (eegMap.containsKey("eeg_theta_curve")) {
+                    @Suppress("UNCHECKED_CAST")
                     reportEEGDataEntity.thetaCurve = eegMap["eeg_theta_curve"] as ArrayList<Double>
                 }
-                if (eegMap!!.containsKey("eeg_delta_curve")) {
+                if (eegMap.containsKey("eeg_delta_curve")) {
+                    @Suppress("UNCHECKED_CAST")
                     reportEEGDataEntity.deltaCurve = eegMap["eeg_delta_curve"] as ArrayList<Double>
                 }
-                if (eegMap!!.containsKey("eeg_gamma_curve")) {
+                if (eegMap.containsKey("eeg_gamma_curve")) {
+                    @Suppress("UNCHECKED_CAST")
                     reportEEGDataEntity.gammaCurve = eegMap["eeg_gamma_curve"] as ArrayList<Double>
                 }
                 reportMeditationData.reportEEGDataEntity = reportEEGDataEntity
@@ -499,24 +510,28 @@ class MeditationActivity : BaseActivity() {
                             return
                         }
                         var reportAttentionEntity = ReportAttentionEntity()
+                        @Suppress("UNCHECKED_CAST")
                         var attentionMap = t["attention"] as Map<Any, Any?>
-                        if (attentionMap!!.containsKey("attention_avg")) {
+                        if (attentionMap.containsKey("attention_avg")) {
                             Logger.d("attention avg is " + attentionMap["attention_avg"] as Double)
                             reportAttentionEntity.attentionAvg =
                                 attentionMap["attention_avg"] as Double
                         }
-                        if (attentionMap!!.containsKey("attention_rec")) {
+                        if (attentionMap.containsKey("attention_rec")) {
+                            @Suppress("UNCHECKED_CAST")
                             reportAttentionEntity.attentionRec =
                                 attentionMap["attention_rec"] as ArrayList<Double>
                         }
                         reportMeditationData.reportAttentionEntity = reportAttentionEntity
                         var reportRelaxationEntity = ReportRelaxationEntity()
+                        @Suppress("UNCHECKED_CAST")
                         var relaxationMap = t["relaxation"] as Map<Any, Any?>
-                        if (relaxationMap!!.containsKey("relaxation_avg")) {
+                        if (relaxationMap.containsKey("relaxation_avg")) {
                             reportRelaxationEntity.relaxationAvg =
                                 relaxationMap["relaxation_avg"] as Double
                         }
-                        if (relaxationMap!!.containsKey("relaxation_rec")) {
+                        if (relaxationMap.containsKey("relaxation_rec")) {
+                            @Suppress("UNCHECKED_CAST")
                             reportRelaxationEntity.relaxationRec =
                                 relaxationMap["relaxation_rec"] as ArrayList<Double>
                         }
@@ -524,44 +539,51 @@ class MeditationActivity : BaseActivity() {
 
                         var reportPressureEntity = ReportPressureEntity()
 
+                        @Suppress("UNCHECKED_CAST")
                         var pressureMap = t["pressure"] as Map<Any, Any?>
-                        if (pressureMap!!.containsKey("pressure_avg")) {
+                        if (pressureMap.containsKey("pressure_avg")) {
                             reportPressureEntity.pressureAvg = pressureMap["pressure_avg"] as Double
                         }
-                        if (pressureMap!!.containsKey("pressure_rec")) {
+                        if (pressureMap.containsKey("pressure_rec")) {
+                            @Suppress("UNCHECKED_CAST")
                             reportPressureEntity.pressureRec =
                                 pressureMap["pressure_rec"] as ArrayList<Double>
                         }
                         reportMeditationData.reportPressureEntity = reportPressureEntity
 
                         var reportPleasureEntity = ReportPleasureEntity()
+                        @Suppress("UNCHECKED_CAST")
                         var pleasureMap = t["pleasure"] as Map<Any, Any?>
-                        if (pleasureMap!!.containsKey("pleasure_avg")) {
+                        if (pleasureMap.containsKey("pleasure_avg")) {
                             reportPleasureEntity.pleasureAvg = pleasureMap["pleasure_avg"] as Double
                         }
-                        if (pleasureMap!!.containsKey("pleasure_rec")) {
+                        if (pleasureMap.containsKey("pleasure_rec")) {
+                            @Suppress("UNCHECKED_CAST")
                             reportPleasureEntity.pleasureRec =
                                 pleasureMap["pleasure_rec"] as ArrayList<Double>
                         }
                         reportMeditationData.reportPleasureEntity = reportPleasureEntity
 
-                        var reportCoherenceEnitty = ReportCoherenceEntity()
+                        var reportCoherenceEntity = ReportCoherenceEntity()
+                        @Suppress("UNCHECKED_CAST")
                         var coherenceMap = t["coherence"] as Map<Any, Any?>
-                        if (coherenceMap!!.containsKey("coherence_avg")) {
-                            reportCoherenceEnitty.coherenceAvg = coherenceMap["coherence_avg"] as Double
+                        if (coherenceMap.containsKey("coherence_avg")) {
+                            reportCoherenceEntity.coherenceAvg = coherenceMap["coherence_avg"] as Double
                         }
-                        if (coherenceMap!!.containsKey("coherence_duration")) {
-                            reportCoherenceEnitty.coherenceDuration = coherenceMap["coherence_duration"] as Double
+                        if (coherenceMap.containsKey("coherence_duration")) {
+                            reportCoherenceEntity.coherenceDuration = coherenceMap["coherence_duration"] as Double
                         }
-                        if (coherenceMap!!.containsKey("coherence_rec")) {
-                            reportCoherenceEnitty.coherenceRec =
+                        if (coherenceMap.containsKey("coherence_rec")) {
+                            @Suppress("UNCHECKED_CAST")
+                            reportCoherenceEntity.coherenceRec =
                                 coherenceMap["coherence_rec"] as ArrayList<Double>
                         }
-                        if (coherenceMap!!.containsKey("coherence_flag")) {
-                            reportCoherenceEnitty.coherenceFlag =
+                        if (coherenceMap.containsKey("coherence_flag")) {
+                            @Suppress("UNCHECKED_CAST")
+                            reportCoherenceEntity.coherenceFlag =
                                 coherenceMap["coherence_flag"] as ArrayList<Double>
                         }
-                        reportMeditationData.reportCoherenceEntity = reportCoherenceEnitty
+                        reportMeditationData.reportCoherenceEntity = reportCoherenceEntity
                         exitWithMeditation(reportMeditationData)
                     }
 
@@ -579,7 +601,7 @@ class MeditationActivity : BaseActivity() {
                 }
 
                 override fun onSuccess() {
-                    bleManager?.startHeartAndBrainCollection()
+                    bleManager.startHeartAndBrainCollection()
                 }
 
             })
@@ -590,7 +612,7 @@ class MeditationActivity : BaseActivity() {
                 }
 
                 override fun onSuccess() {
-                    bleManager?.startHeartAndBrainCollection()
+                    bleManager.startHeartAndBrainCollection()
                 }
 
             })
@@ -599,8 +621,8 @@ class MeditationActivity : BaseActivity() {
 
 
     override fun onDestroy() {
-        bleManager?.removeConnectListener(onDeviceConnectListener)
-        bleManager?.removeDisConnectListener(onDeviceDisconnectListener)
+        bleManager.removeConnectListener(onDeviceConnectListener)
+        bleManager.removeDisConnectListener(onDeviceDisconnectListener)
         enterAffectiveCloudManager?.removeWebSocketConnectListener(
             webSocketConnectListener
         )

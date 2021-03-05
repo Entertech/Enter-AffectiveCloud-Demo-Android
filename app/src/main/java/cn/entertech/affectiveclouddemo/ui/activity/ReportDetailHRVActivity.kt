@@ -47,12 +47,12 @@ class ReportDetailHRVActivity : BaseActivity() {
     }
 
     fun initData() {
-        if (mRecordId == null || mRecordId == 0L || mRecordId == -1L) {
+        if (mRecordId == 0L || mRecordId == -1L) {
             return
         }
         userLessonRecordDao = UserLessonRecordDao(this)
         var userLessonRecord =
-            userLessonRecordDao?.findRecordById(0, mRecordId!!)
+            userLessonRecordDao?.findRecordById(0, mRecordId)
         if (userLessonRecord != null) {
             meditationReportDataAnalyzed =
                 userLessonRecordDao?.getReportDataFromFile(userLessonRecord)
@@ -61,7 +61,7 @@ class ReportDetailHRVActivity : BaseActivity() {
 
     fun initLineChart() {
         var hrvLine = meditationReportDataAnalyzed?.hrvRec
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrvAvg != null){
+        if (meditationReportDataAnalyzed != null){
             chart_hrv.setAverage("${meditationReportDataAnalyzed!!.hrvAvg.toInt()}")
         }
         chart_hrv.setData(hrvLine)
@@ -90,11 +90,11 @@ class ReportDetailHRVActivity : BaseActivity() {
 //
 //    }
 
-    open fun getShareView(): View {
+    fun getShareView(): View {
         return scroll_view
     }
 
-    open fun getShareViewBg(): View {
+    fun getShareViewBg(): View {
         return ll_bg
     }
 }

@@ -217,11 +217,11 @@ class JournalFragment : Fragment() {
             false
         )
     }
-    open fun getShareView(): View {
+    fun getShareView(): View {
         return scroll_view
     }
 
-    open fun getShareViewBg(): View {
+    fun getShareViewBg(): View {
         return ll_bg
     }
 
