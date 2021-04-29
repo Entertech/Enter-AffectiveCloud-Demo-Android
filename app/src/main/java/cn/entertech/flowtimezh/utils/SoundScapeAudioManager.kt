@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import java.io.File
+import java.lang.Exception
 
 
 class SoundScapeAudioManager private constructor(var context: Context) {
@@ -119,8 +120,12 @@ class SoundScapeAudioManager private constructor(var context: Context) {
     }
 
     fun pause() {
-        pauseMediaPlayerA()
-        pauseMediaPlayerB()
+        try {
+            pauseMediaPlayerA()
+            pauseMediaPlayerB()
+        }catch (e:Exception){
+
+        }
     }
 
     fun resume() {
@@ -167,11 +172,15 @@ class SoundScapeAudioManager private constructor(var context: Context) {
     }
 
     fun stopMediaPlayer() {
-        if (mediaPlayerA != null && mediaPlayerA!!.isPlaying) {
-            mediaPlayerA?.stop()
-        }
-        if (mediaPlayerB != null && mediaPlayerB!!.isPlaying) {
-            mediaPlayerB?.stop()
+        try {
+            if (mediaPlayerA != null && mediaPlayerA!!.isPlaying) {
+                mediaPlayerA?.stop()
+            }
+            if (mediaPlayerB != null && mediaPlayerB!!.isPlaying) {
+                mediaPlayerB?.stop()
+            }
+        }catch (e:Exception){
+
         }
     }
 
