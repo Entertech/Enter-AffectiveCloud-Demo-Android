@@ -30,8 +30,11 @@ import cn.entertech.flowtimezh.database.model.ExperimentTagModel
 import cn.entertech.flowtimezh.database.model.MeditationLabelsModel
 import cn.entertech.flowtimezh.ui.adapter.LabelsAdapter
 import cn.entertech.flowtimezh.ui.adapter.MeditationLabelsAdapter
+import cn.entertech.flowtimezh.ui.adapter.MeditationTagSelectListAdapter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.entity.MultiItemEntity
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
 import kotlinx.android.synthetic.main.activity_experiment_label.*
 import kotlinx.android.synthetic.main.activity_meditation_labels_record.*
 import kotlinx.android.synthetic.main.layout_common_title.*
@@ -43,7 +46,7 @@ class MeditationLabelsRecordActivity : BaseActivity() {
     private var labelEndTime: Long = -1
     private var labelStartTime: Long = -1
     var mData = ArrayList<MultiItemEntity>()
-    private var adapter: MeditationLabelsAdapter? = null
+    private var adapter: MeditationTagSelectListAdapter? = null
     private var experimentTags: MutableList<ExperimentTagModel>? = null
     private var experimentTagDao: ExperimentTagDao? = null
     private var experimentDimDao: ExperimentDimDao? = null
@@ -68,7 +71,7 @@ class MeditationLabelsRecordActivity : BaseActivity() {
         var dimIds = ""
         var isAllTagSelected = false
         adapter =
-            MeditationLabelsAdapter(mData!!, MeditationLabelsAdapter.OnDimClickListener {
+            MeditationTagSelectListAdapter(experimentTags!!,fun(){
                 isAllTagSelected = true
                 dimIds = ""
                 for (tag in experimentTags!!) {
@@ -89,20 +92,9 @@ class MeditationLabelsRecordActivity : BaseActivity() {
                 }
             })
         label_list.adapter = adapter
-        val manager = GridLayoutManager(this, 3)
-        manager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return if (adapter!!.getItemViewType(position) == LabelsAdapter.TYPE_LEVEL_1) 1 else manager.spanCount
-            }
-        })
-        label_list.layoutManager = manager
-        adapter!!.expandAll()
-
-//        adapter!!.onItemChildClickListener =
-//            BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
-//
-//            }
-
+        var linearLayoutManager = LinearLayoutManager(this)
+        linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+        label_list.layoutManager = linearLayoutManager
         btn_commit_label.setOnClickListener {
             if (isAllTagSelected) {
                 var meditationLabelsDao = MeditationLabelsDao(this)
@@ -169,14 +161,6 @@ class MeditationLabelsRecordActivity : BaseActivity() {
         experimentTagDao = ExperimentTagDao(Application.getInstance())
         experimentDimDao = ExperimentDimDao(Application.getInstance())
         experimentTags = experimentTagDao?.findTagByExperimentId(selectedExperiment.id)
-        for (tag in experimentTags!!) {
-            var dims = experimentDimDao!!.findDimByTagId(tag.id)
-            for (dim in dims) {
-                dim.isSelected = false
-            }
-            tag.subItems = dims
-            mData.add(tag)
-        }
     }
 
     fun clearSelectInDB() {
