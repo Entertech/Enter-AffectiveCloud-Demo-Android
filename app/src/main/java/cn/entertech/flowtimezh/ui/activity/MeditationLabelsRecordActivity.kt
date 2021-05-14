@@ -139,7 +139,7 @@ class MeditationLabelsRecordActivity : BaseActivity() {
             ) { dialog, which ->
                 dialog.dismiss()
                 clearSelectInDB()
-                startActivity(Intent(this, MeditationTimeRecordActivity::class.java))
+                startActivity(Intent(this, MeditationActivity::class.java))
                 finish()
             }
             .setNegativeButton(
