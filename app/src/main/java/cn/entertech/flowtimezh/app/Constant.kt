@@ -111,6 +111,7 @@ class Constant {
         const val SP_CURRENT_SERVER = "sp_current_server"
         const val SP_APP_SECRET= "sp_app_secret"
         const val SP_TOKEN= "sp_token"
+        const val SP_TIME_COUNT_EEG= "sp_time_count_eeg"
 
         const val INTENT_APP_KEY = "appKey"
         const val INTENT_APP_SECRET = "appSecret"

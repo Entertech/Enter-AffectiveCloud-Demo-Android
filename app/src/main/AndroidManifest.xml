@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <dist:module dist:instant="true" />
 
     <application
@@ -24,8 +25,9 @@
         android:roundIcon="@mipmap/ic_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.SensorContactCheckActivity"/>
-        <activity android:name=".ui.activity.MeditationDimListActivity"></activity>
+        <activity android:name=".ui.activity.MeditationTimeCountSelectActivity"></activity>
+        <activity android:name=".ui.activity.SensorContactCheckActivity" />
+        <activity android:name=".ui.activity.MeditationDimListActivity" />
         <activity android:name=".ui.activity.MeditationLabelsCommitActivity" />
         <activity android:name=".ui.activity.MeditationLabelsRecordActivity" />
         <activity
@@ -35,13 +37,13 @@
         <activity android:name=".ui.activity.ExperimentLabelActivity" />
         <activity android:name=".ui.activity.ExperimentDetailsActivity" />
         <activity android:name=".ui.activity.ExperimentChooseActivity" />
-        <activity android:name=".ui.activity.AuthActivity"
-            android:launchMode="singleTask"/>
+        <activity
+            android:name=".ui.activity.AuthActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".ui.activity.DataActivity" />
-        <activity android:name=".ui.activity.MeditationActivity"
-            android:launchMode="singleTask">
-
-        </activity>
+        <activity
+            android:name=".ui.activity.MeditationActivity"
+            android:launchMode="singleTask"></activity>
         <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".ui.activity.LaunchActivity">
             <intent-filter>
@@ -51,7 +53,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".ui.service.AffectiveCloudService"></service>
+        <service android:name=".ui.service.AffectiveCloudService" />
     </application>
 
 </manifest>

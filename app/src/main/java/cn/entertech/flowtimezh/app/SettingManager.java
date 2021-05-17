@@ -10,6 +10,7 @@ import static cn.entertech.flowtimezh.app.Constant.SP_APP_KEY;
 import static cn.entertech.flowtimezh.app.Constant.SP_APP_SECRET;
 import static cn.entertech.flowtimezh.app.Constant.SP_CURRENT_SERVER;
 import static cn.entertech.flowtimezh.app.Constant.SP_SETTING;
+import static cn.entertech.flowtimezh.app.Constant.SP_TIME_COUNT_EEG;
 import static cn.entertech.flowtimezh.app.Constant.SP_TOKEN;
 
 
@@ -98,6 +99,14 @@ public class SettingManager {
 
     public synchronized String getMeditationViewOrder() {
         return getSharedPreferences().getString(MEDITATION_VIEW_ORDER, "0,1,2");
+    }
+
+    public synchronized void setTimeCountIsEEG(boolean isEEG) {
+        getEditor().putBoolean(SP_TIME_COUNT_EEG, isEEG).apply();
+    }
+
+    public synchronized boolean timeCountIsEEG() {
+        return getSharedPreferences().getBoolean(SP_TIME_COUNT_EEG, true);
     }
 
 }

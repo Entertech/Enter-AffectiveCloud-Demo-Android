@@ -109,6 +109,51 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_time_count"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="@dimen/activity_margin"
+        android:background="#fff">
+
+        <ImageView
+            android:id="@+id/iv_icon_2"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:src="@mipmap/ic_tab_bar_lib_selected" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/iv_icon_2"
+            android:text="计时方式"
+            android:textColor="#000" />
+
+        <TextView
+            android:id="@+id/tv_time_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/activity_margin_half"
+            android:layout_toLeftOf="@+id/iv_arrow_2"
+            android:text="未选择"
+            android:textColor="#7B7B81"
+            android:textSize="17sp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_arrow_2"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:src="@mipmap/ic_arrow_gray_right" />
+    </RelativeLayout>
+    <RelativeLayout
         android:id="@+id/rl_login_out"
         android:layout_width="match_parent"
         android:layout_height="56dp"

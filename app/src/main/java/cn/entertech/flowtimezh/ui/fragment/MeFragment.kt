@@ -16,6 +16,7 @@ import android.net.Uri
 import android.os.Build
 import cn.entertech.flowtimezh.app.SettingManager
 import cn.entertech.flowtimezh.ui.activity.AuthActivity
+import cn.entertech.flowtimezh.ui.activity.MeditationTimeCountSelectActivity
 import cn.entertech.flowtimezh.utils.getAppVersionCode
 import cn.entertech.flowtimezh.utils.getAppVersionName
 
@@ -42,6 +43,9 @@ class MeFragment : Fragment() {
             SettingManager.getInstance().token = ""
             activity!!.startActivity(Intent(activity,AuthActivity::class.java))
             activity!!.finish()
+        }
+        rl_time_count.setOnClickListener {
+            activity!!.startActivity(Intent(activity,MeditationTimeCountSelectActivity::class.java))
         }
 
         tv_version.text = "${getAppVersionName(activity!!)}(${getAppVersionCode(activity!!)})"

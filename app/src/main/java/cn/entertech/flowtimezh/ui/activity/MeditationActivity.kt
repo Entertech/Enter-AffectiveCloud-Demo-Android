@@ -105,6 +105,7 @@ class MeditationActivity : BaseActivity() {
 
     var isFixingFirmware = false
     var isFirstReceiveData = true
+    var isFirstReceiveHRData = true
 
     private var endTime: Long? = null
     private var startTime: Long? = null
@@ -122,6 +123,7 @@ class MeditationActivity : BaseActivity() {
     private var airSoundMediaPlayer: MediaPlayer? = null
 
     var isMeditationPause = true
+
     //    var canExit = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -358,7 +360,9 @@ class MeditationActivity : BaseActivity() {
                 if (it != null && it!!.realtimeEEGData != null) {
                     Log.d("####", "eeg data:" + it!!.realtimeEEGData?.alphaPower)
                     if (isFirstReceiveData) {
-                        MeditationTimeManager.getInstance().timeReset()
+                        if (SettingManager.getInstance().timeCountIsEEG()) {
+                            MeditationTimeManager.getInstance().timeReset()
+                        }
                         meditationStartTime = System.currentTimeMillis()
                         meditationId = -System.currentTimeMillis()
                         Log.d("####", "meditation id is " + meditationId)
@@ -368,8 +372,21 @@ class MeditationActivity : BaseActivity() {
                             getCurrentTimeFormat(meditationStartTime!!)
                         )
                         isFirstReceiveData = false
+                    } else {
+                        if (SettingManager.getInstance().timeCountIsEEG()) {
+                            MeditationTimeManager.getInstance().timeIncrease()
+                        }
                     }
-                    MeditationTimeManager.getInstance().timeIncrease()
+                }
+                if (it != null && it!!.realtimeHrData != null && !SettingManager.getInstance()
+                        .timeCountIsEEG()
+                ) {
+                    if (isFirstReceiveHRData) {
+                        MeditationTimeManager.getInstance().timeReset()
+                        isFirstReceiveHRData = false
+                    } else {
+                        MeditationTimeManager.getInstance().timeIncrease()
+                    }
                 }
                 meditationFragment?.showHeart(
                     it?.realtimeHrData?.hr?.toInt(),
@@ -393,15 +410,16 @@ class MeditationActivity : BaseActivity() {
     }
 
     var isSleep = false
-    fun isSleep(sleepState:Int?){
-        if(sleepState == null){
+    fun isSleep(sleepState: Int?) {
+        if (sleepState == null) {
             return
         }
-        if(!isSleep && sleepState == 1){
+        if (!isSleep && sleepState == 1) {
             isSleep = true
             SoundScapeAudioManager.getInstance(this).pause()
         }
     }
+
     fun initPowerManager() {
         var pm = getSystemService(Context.POWER_SERVICE) as PowerManager
         wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My:sdf")
@@ -480,10 +498,10 @@ class MeditationActivity : BaseActivity() {
         tv_experiment_name.text = experimentName
     }
 
-    fun playSleepNoise(){
+    fun playSleepNoise() {
         var experimentDao = ExperimentDao(this)
         var experimentName = experimentDao.findExperimentBySelected().nameCn
-        if (experimentName == "午休实验"){
+        if (experimentName == "午休实验") {
             SoundScapeAudioManager.getInstance(this).setFile(R.raw.sleep_lightrain)
             SoundScapeAudioManager.getInstance(this).start()
         }
@@ -571,7 +589,10 @@ class MeditationActivity : BaseActivity() {
         exitWithoutMeditation()
     }
 
-    fun saveReportFile(reportMeditationData: ReportMeditationDataEntity, fileWriteComplete: ((String) -> Unit)?) {
+    fun saveReportFile(
+        reportMeditationData: ReportMeditationDataEntity,
+        fileWriteComplete: ((String) -> Unit)?
+    ) {
         fragmentBuffer.addFileWriteCompleteCallback(fileWriteComplete)
         fragmentBuffer.appendMeditationReport(
             reportMeditationData,
@@ -926,7 +947,7 @@ class MeditationActivity : BaseActivity() {
 
     fun exitWithMeditation(reportMeditationData: ReportMeditationDataEntity) {
         handler.removeCallbacks(finishRunnable)
-        saveReportFile(reportMeditationData,fun(filePath){
+        saveReportFile(reportMeditationData, fun(filePath) {
             saveMeditationInDB(reportMeditationData)
             saveUserLessonInDB()
             toDataActivity()
