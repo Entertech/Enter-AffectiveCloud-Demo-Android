@@ -367,10 +367,10 @@ class MeditationActivity : BaseActivity() {
                         meditationId = -System.currentTimeMillis()
                         Log.d("####", "meditation id is " + meditationId)
                         fragmentBuffer.fileName = getCurrentTimeFormat(meditationStartTime!!)
-                        FileStoreHelper.getInstance().setPath(
-                            MEDITATION_LABEL_RECORD_PATH,
-                            getCurrentTimeFormat(meditationStartTime!!)
-                        )
+//                        FileStoreHelper.getInstance().setPath(
+//                            MEDITATION_LABEL_RECORD_PATH,
+//                            getCurrentTimeFormat(meditationStartTime!!)
+//                        )
                         isFirstReceiveData = false
                     } else {
                         if (SettingManager.getInstance().timeCountIsEEG()) {
@@ -941,7 +941,7 @@ class MeditationActivity : BaseActivity() {
         recDataRecord.recDatas = recDatas
         recDataRecord.session_id = affectiveCloudService?.getSessionId()
         var json = Gson().toJson(recDataRecord)
-        FileStoreHelper.getInstance().writeData(json)
+//        FileStoreHelper.getInstance().writeData(json)
     }
 
 

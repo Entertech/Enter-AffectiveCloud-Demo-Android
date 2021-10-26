@@ -37,7 +37,7 @@ class MeditationHeartView @JvmOverloads constructor(
     }
 
     fun setHRV(hrv:Double?){
-        realtime_hrv.appendHrv(hrv)
+//        realtime_hrv.appendHrv(hrv)
     }
 
     fun showHRLoadingCover() {
@@ -54,7 +54,7 @@ class MeditationHeartView @JvmOverloads constructor(
 
     fun showErrorMessage(error:String){
         heart_rate.showErrorMessage(error)
-        realtime_hrv.showErrorMessage(error)
+//        realtime_hrv.showErrorMessage(error)
     }
 
     fun hideHRSampleData() {
@@ -62,18 +62,18 @@ class MeditationHeartView @JvmOverloads constructor(
     }
 
     fun showHRVLoadingCover() {
-        realtime_hrv.showLoadingCover()
+//        realtime_hrv.showLoadingCover()
     }
 
     fun hideHRVLoadingCover() {
-        realtime_hrv.hindLoadingCover()
+//        realtime_hrv.hindLoadingCover()
     }
 
     fun showHRVSampleData() {
-        realtime_hrv.showSampleData()
+//        realtime_hrv.showSampleData()
     }
 
     fun hideHRVSampleData() {
-        realtime_hrv.hideSampleData()
+//        realtime_hrv.hideSampleData()
     }
 }

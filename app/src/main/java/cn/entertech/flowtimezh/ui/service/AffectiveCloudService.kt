@@ -125,12 +125,12 @@ internal class AffectiveCloudService : Service() {
             )
         var availableBioServices = listOf(cn.entertech.affectivecloudsdk.entity.Service.EEG, cn.entertech.affectivecloudsdk.entity.Service.HR)
         var biodataSubscribeParams = BiodataSubscribeParams.Builder()
-            .requestAllEEGData()
-            .requestAllHrData()
+            .requestEEG()
+            .requestHR()
             .build()
 
         var affectiveSubscribeParams = AffectiveSubscribeParams.Builder()
-            .requestAllSleepData()
+            .requestSleep()
             .requestAttention()
             .requestRelaxation()
             .requestPressure()
@@ -138,7 +138,7 @@ internal class AffectiveCloudService : Service() {
             .requestArousal()
             .requestCoherence()
             .build()
-        var url = "wss://${SettingManager.getInstance().affectiveCloudServer}/ws/algorithm/v1/"
+        var url = "wss://${SettingManager.getInstance().affectiveCloudServer}/ws/algorithm/v2/"
         var enterAffectiveCloudConfig = EnterAffectiveCloudConfig.Builder(
             SettingManager.getInstance().appKey,
             SettingManager.getInstance().appSecret,
@@ -152,6 +152,7 @@ internal class AffectiveCloudService : Service() {
             .affectiveSubscribeParams(affectiveSubscribeParams!!)
             .storageSettings(storageSettings)
             .biodataTolerance(biodataTolerance)
+            .uploadCycle(1)
             .build()
         enterAffectiveCloudManager = EnterAffectiveCloudManager(enterAffectiveCloudConfig)
         enterAffectiveCloudManager!!.addBiodataRealtimeListener {
@@ -208,7 +209,7 @@ internal class AffectiveCloudService : Service() {
                     return
                 }
                 var reportHRDataEntity = ReportHRDataEntity()
-                var hrMap = t!!["hr"] as Map<Any, Any?>
+                var hrMap = t!!["hr-v2"] as Map<Any, Any?>
                 if (hrMap!!.containsKey("hr_avg")) {
                     reportHRDataEntity.hrAvg = hrMap["hr_avg"] as Double
                 }
