@@ -15,12 +15,16 @@ class MeditationLabelsListAdapter(data: List<MeditationLabelsModel>) :
     override fun convert(helper: BaseViewHolder, item: MeditationLabelsModel) {
         var dimDao = ExperimentDimDao(mContext)
         var dimNameList =
-            item.dimIds.split(",").map { dimDao.findByDimId(Integer.parseInt(it)).nameCn }
+            item.dimIds?.split(",")?.map { dimDao.findByDimId(Integer.parseInt(it)).nameCn }
         var dims = ""
-        for (dimName in dimNameList) {
-            dims = "$dims,$dimName"
+        if (dimNameList != null) {
+            for (dimName in dimNameList) {
+                dims = "$dims,$dimName"
+            }
+        }else{
+            dims = ""
         }
-        helper.setText(R.id.tv_dims, dims.substring(1, dims.length))
+        helper.setText(R.id.tv_dims, if (dims != ""){dims.substring(1, dims.length)}else{""})
         var duration = if (item.startTime > item.meditationStartTime) {
             "${getFormatTime(item.startTime - item.meditationStartTime, "mm:ss")}" +
                     "-${getFormatTime(item.endTime - item.meditationStartTime, "mm:ss")}"

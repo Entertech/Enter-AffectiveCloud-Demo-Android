@@ -21,6 +21,8 @@ public class MeditationLabelsModel {
     private long meditationStartTime;
     @DatabaseField(columnName = "note")
     private String note = "";
+    @DatabaseField(columnName = "is_deleted")
+    private boolean isDeleted;
 
     public int getmId() {
         return mId;
@@ -84,5 +86,13 @@ public class MeditationLabelsModel {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 }

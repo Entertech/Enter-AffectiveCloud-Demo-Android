@@ -104,6 +104,7 @@ class Constant {
         var EXTRA_MEDITATION_START_TIME = "meditationStartTime"
         var EXTRA_LABEL_START_TIME = "labelStartTime"
         var EXTRA_LABEL_END_TIME = "labelEndTime"
+        var EXTRA_LABEL_ID = "labelId"
         const val SP_SETTING = "setting"
         const val SP_APP_KEY = "sp_app_key"
         const val SP_AFFECTIVE_CLOUD_SERVER = "sp_affective_cloud_server"

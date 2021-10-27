@@ -13,6 +13,7 @@ import android.media.MediaPlayer
 import android.os.*
 import android.text.Html
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
@@ -42,6 +43,7 @@ import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_ID
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_START_TIME
 import cn.entertech.flowtimezh.app.SettingManager
 import cn.entertech.flowtimezh.database.*
+import cn.entertech.flowtimezh.database.model.MeditationLabelsModel
 import cn.entertech.flowtimezh.entity.MeditationEntity
 import cn.entertech.flowtimezh.entity.MessageEvent
 import cn.entertech.flowtimezh.entity.RecDataRecord
@@ -61,6 +63,7 @@ import kotlinx.android.synthetic.main.activity_meditation.*
 import kotlinx.android.synthetic.main.activity_meditation.chronometer
 import kotlinx.android.synthetic.main.activity_meditation.tv_experiment_name
 import kotlinx.android.synthetic.main.activity_meditation.tv_record_btn
+import kotlinx.android.synthetic.main.activity_meditation_labels_record.*
 import kotlinx.android.synthetic.main.activity_meditation_time_record.*
 import kotlinx.android.synthetic.main.layout_common_title.*
 import org.greenrobot.eventbus.EventBus
@@ -123,6 +126,7 @@ class MeditationActivity : BaseActivity() {
     private var airSoundMediaPlayer: MediaPlayer? = null
 
     var isMeditationPause = true
+    var isStartRecord = false
 
     //    var canExit = true
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -171,149 +175,7 @@ class MeditationActivity : BaseActivity() {
         bindService(serviceIntent, connection!!, Context.BIND_AUTO_CREATE)
     }
 
-    fun initSensorCheckDialog() {
-        initAnimate()
-        iv_skip.setOnClickListener {
-            isCheckContact = false
-            card_2.visibility = View.GONE
-            card_3.visibility = View.VISIBLE
-            sensor_check_animate_layout.toSecondPage()
-        }
-        btn_begin.setOnClickListener {
-            isCheckContact = false
-            hideSensorCheckDialog()
-        }
-        btn_skip_cancel.setOnClickListener {
-            isCheckContact = true
-            sensor_check_animate_layout.toFirstPage()
-        }
-        tv_skip_ok.setOnClickListener {
-            isCheckContact = false
-            hideSensorCheckDialog()
-        }
-        rl_get_good_signal.setOnClickListener {
-            startActivity(
-                Intent(
-                    this@MeditationActivity,
-                    SensorContactCheckActivity::class.java
-                )
-            )
-            if (!isMeditationPause) {
-                pauseMeditation()
-            }
-        }
-    }
 
-    fun initAnimate() {
-        var currentDialogY = sensor_check_animate_layout.translationY
-        var dialogAnimator = ObjectAnimator.ofFloat(
-            sensor_check_animate_layout,
-            "translationY",
-            currentDialogY,
-            currentDialogY + 434f.dp()
-        )
-        dialogAnimator.duration = 1
-        dialogAnimator.interpolator = AccelerateInterpolator()
-        dialogAnimator.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationRepeat(animation: Animator?) {
-
-            }
-
-            override fun onAnimationEnd(animation: Animator?) {
-                if (biomoduleBleManager.isConnected()) {
-                    if (!isSensorCheckShow) {
-                        showSensorCheckDialog()
-                    }
-                }
-            }
-
-            override fun onAnimationCancel(animation: Animator?) {
-            }
-
-            override fun onAnimationStart(animation: Animator?) {
-            }
-
-        })
-        dialogAnimator.start()
-    }
-
-    fun showSensorCheckDialog() {
-        if (biomoduleBleManager.isConnected()) {
-            biomoduleBleManager.startHeartAndBrainCollection()
-        }
-        rl_cover_sensor.visibility = View.VISIBLE
-        rl_cover_sensor.setOnClickListener {
-        }
-        var currentY = sl_statistics_container.translationY
-        var objectAnimation = ObjectAnimator.ofFloat(
-            sl_statistics_container,
-            "translationY",
-            currentY,
-            currentY + sl_statistics_container.screenHeight - sl_statistics_container.top
-        )
-        objectAnimation.duration = 300
-        objectAnimation.interpolator = AccelerateDecelerateInterpolator()
-        var currentDialogY = sensor_check_animate_layout.translationY
-        var dialogAnimator = ObjectAnimator.ofFloat(
-            sensor_check_animate_layout,
-            "translationY",
-            currentDialogY,
-            currentDialogY - 434f.dp()
-        )
-        dialogAnimator.duration = 300
-        dialogAnimator.interpolator = AccelerateDecelerateInterpolator()
-        dialogAnimator.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationRepeat(animation: Animator?) {
-
-            }
-
-            override fun onAnimationEnd(animation: Animator?) {
-                isCheckContact = true
-                isSensorCheckShow = true
-            }
-
-            override fun onAnimationCancel(animation: Animator?) {
-            }
-
-            override fun onAnimationStart(animation: Animator?) {
-            }
-
-        })
-        animatorSet = AnimatorSet()
-        animatorSet?.play(objectAnimation)?.before(dialogAnimator)
-        animatorSet?.start()
-    }
-
-
-    fun hideSensorCheckDialog() {
-        rl_cover_sensor.visibility = View.GONE
-        var currentY = sl_statistics_container.translationY
-        var objectAnimation = ObjectAnimator.ofFloat(
-            sl_statistics_container,
-            "translationY",
-            currentY,
-            0f
-        )
-        objectAnimation.duration = 300
-        objectAnimation.interpolator = AccelerateDecelerateInterpolator()
-        var currentDialogY = sensor_check_animate_layout.translationY
-        var dialogAnimator = ObjectAnimator.ofFloat(
-            sensor_check_animate_layout,
-            "translationY",
-            currentDialogY,
-            currentDialogY + 434f.dp()
-        )
-        dialogAnimator.duration = 300
-        dialogAnimator.interpolator = AccelerateDecelerateInterpolator()
-        animatorSet = AnimatorSet()
-        animatorSet?.play(dialogAnimator)?.before(objectAnimation)
-        animatorSet?.start()
-        isSensorCheckShow = false
-        needToCheckSensor = false
-        if (affectiveCloudService != null && !affectiveCloudService!!.isInited() && !affectiveCloudService!!.isConnected()) {
-            connectWebSocket()
-        }
-    }
 
     fun resumeMeditation() {
         isMeditationPause = false
@@ -327,18 +189,6 @@ class MeditationActivity : BaseActivity() {
 
     var mMainHanlder = Handler()
     var isToConnectDevice: Boolean = false
-    override fun onResume() {
-        super.onResume()
-        if (isToConnectDevice && biomoduleBleManager.isConnected()) {
-            mMainHanlder.postDelayed(Runnable {
-                showSensorCheckDialog()
-                isToConnectDevice = false
-            }, 1000)
-        }
-        if (!needToCheckSensor && isMeditationPause) {
-            resumeMeditation()
-        }
-    }
 
     fun connectWebSocket() {
         if (biomoduleBleManager.isConnected()) {
@@ -407,6 +257,7 @@ class MeditationActivity : BaseActivity() {
                 isSleep(it?.realtimeSleepData?.sleepState?.toInt())
             }
         })
+        connectWebSocket()
     }
 
     var isSleep = false
@@ -434,11 +285,12 @@ class MeditationActivity : BaseActivity() {
             ll_time_record_layout.visibility = View.GONE
         }
         btn_start_record.setOnClickListener {
-            isRecordTime = true
-            ll_back.visibility = View.VISIBLE
-            ll_home_layout.visibility = View.GONE
-            ll_time_record_layout.visibility = View.VISIBLE
-            initTimeRecordView()
+            if (meditationId == -1L || meditationStartTime == -1L) {
+                Toast.makeText(this, "正在初始化采集...", Toast.LENGTH_LONG).show()
+            }else{
+                initTimeRecordView()
+                isRecordTime = true
+            }
         }
         btn_end_record.setOnClickListener {
             var meditationLabelsDao = MeditationLabelsDao(this@MeditationActivity)
@@ -452,50 +304,40 @@ class MeditationActivity : BaseActivity() {
             }
         }
         initTilte()
-        initDataFragment()
-        initScrollLayout()
-        initSensorCheckDialog()
     }
 
     fun initTimeRecordView() {
-        var meditationId = meditationId
-        var meditationStartTime = meditationStartTime
-        if (meditationId == -1L || meditationStartTime == -1L) {
-            finish()
-            Toast.makeText(this, "请先开始有效的体验", Toast.LENGTH_LONG).show()
-        }
-        tv_record_btn.setOnClickListener {
-            if (tv_record_btn.text == "开始记录") {
-                ll_back.visibility = View.GONE
-                chronometer.visibility = View.VISIBLE
-                chronometer.base = SystemClock.elapsedRealtime()
-                chronometer.start()
-                startTime = MeditationTimeManager.getInstance().currentTimeMs()
-                tv_record_btn.setBackgroundResource(R.drawable.shape_time_record_end_bg)
-                tv_record_btn.text = "结束记录"
-            } else {
-                ll_back.visibility = View.VISIBLE
-                endTime = MeditationTimeManager.getInstance().currentTimeMs()
-                chronometer.stop()
-                var intent = Intent(this, MeditationLabelsRecordActivity::class.java)
-                intent.putExtra(Constant.EXTRA_LABEL_START_TIME, startTime)
-                intent.putExtra(Constant.EXTRA_LABEL_END_TIME, endTime!!)
-                intent.putExtra(
-                    EXTRA_MEDITATION_ID,
-                    meditationId
-                )
-                intent.putExtra(
-                    EXTRA_MEDITATION_START_TIME,
-                    meditationStartTime
-                )
-
-                startActivity(intent)
-            }
-        }
-
+        ll_back.visibility = View.VISIBLE
+        ll_home_layout.visibility = View.GONE
+        ll_time_record_layout.visibility = View.VISIBLE
         var experimentDao = ExperimentDao(this)
         var experimentName = experimentDao.findExperimentBySelected().nameCn
         tv_experiment_name.text = experimentName
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        when (keyCode) {
+            KeyEvent.KEYCODE_VOLUME_UP, KeyEvent.KEYCODE_VOLUME_DOWN -> {
+                if (!isStartRecord){
+                    isStartRecord = true
+                    ll_back.visibility = View.GONE
+                    startTime = MeditationTimeManager.getInstance().currentTimeMs()
+                }else{
+                    ll_back.visibility = View.VISIBLE
+                    isStartRecord = false
+                    endTime = MeditationTimeManager.getInstance().currentTimeMs()
+                    var meditationLabelsDao = MeditationLabelsDao(this)
+                    var meditationLabelsModel = MeditationLabelsModel()
+                    meditationLabelsModel.id = System.currentTimeMillis()
+                    meditationLabelsModel.endTime = endTime!!
+                    meditationLabelsModel.startTime = startTime!!
+                    meditationLabelsModel.meditationId = meditationId
+                    meditationLabelsModel.meditationStartTime = meditationStartTime!!
+                    meditationLabelsDao.create(meditationLabelsModel)
+                }
+            }
+        }
+        return true
     }
 
     fun playSleepNoise() {
@@ -552,32 +394,10 @@ class MeditationActivity : BaseActivity() {
         bleDisconnectListener = fun(error: String) {
             needToCheckSensor = true
         }
-        contactListener = fun(state: Int) {
-//            Log.d("######", "contact is $state")
-            runOnUiThread {
-                if (isCheckContact) {
-                    if (state == 0) {
-                        if (!isContactWell) {
-                            contactWellCount++
-//                            Log.d("######", "contact is well")
-                            if (contactWellCount == 5) {
-                                isContactWell = true
-                                card_2.visibility = View.VISIBLE
-                                card_3.visibility = View.GONE
-                                sensor_check_animate_layout.toSecondPage()
-                            }
-                        }
-                    } else {
-                        isContactWell = false
-                        contactWellCount = 0
-                    }
-                }
-            }
-        }
+
         biomoduleBleManager.addRawDataListener(rawListener)
         biomoduleBleManager.addHeartRateListener(heartRateListener)
         biomoduleBleManager.addConnectListener(bleConnectListener)
-        biomoduleBleManager.addContactListener(contactListener)
         biomoduleBleManager.addDisConnectListener(bleDisconnectListener)
         biomoduleBleManager.startHeartAndBrainCollection()
 
@@ -658,89 +478,6 @@ class MeditationActivity : BaseActivity() {
         finish()
     }
 
-    fun initDataFragment() {
-        meditationFragment = MeditationFragment()
-//        meditationEditFragment = MeditationEditFragment()
-        meditationFragment?.setScrollTopListener(object : MeditationFragment.IScrollTopListener {
-            override fun isScrollTop(flag: Boolean) {
-                scrollLayout.setIsChildListTop(flag)
-            }
-        })
-        var fragmentManager = supportFragmentManager
-        var fragmentTransaction = fragmentManager.beginTransaction()
-        if (meditationFragment != null) {
-            fragmentTransaction?.add(R.id.container, meditationFragment!!).commit()
-//            fragmentTransaction?.add(R.id.container, meditationEditFragment!!)?.show(meditationFragment!!)
-//                ?.hide(meditationEditFragment!!)
-//                ?.commit()
-        }
-    }
-
-    private fun initScrollLayout() {
-        scrollLayout = findViewById(R.id.sl_statistics_container)
-        scrollLayout.setIsChildListTop(true)
-        var coverView = findViewById<RelativeLayout>(R.id.rl_cover)
-        scrollLayout.setCoverView(coverView)
-        scrollLayout.setMinOffset(0)
-        scrollLayout.setMaxOffset((ScreenUtil.getScreenHeight(this) * 0.5).toInt())
-        scrollLayout.setIsSupportExit(true)
-//        Log.d("###", "navigation height is " + ScreenUtil.getNavigationBarHeight(Application.getInstance()))
-        scrollLayout.setExitOffset(
-            ScreenUtil.dip2px(
-                this,
-                38f
-            ) + ScreenUtil.getNavigationBarHeight(Application.getInstance())
-        )
-        scrollLayout.setTouchOffset(ScreenUtil.dip2px(this, 38f))
-        scrollLayout.isAllowHorizontalScroll = true
-        scrollLayout.setToOpen()
-        scrollLayout.isDraggable = true
-        scrollLayout.visibility = View.VISIBLE
-        scrollLayout.setOnScrollChangedListener(object : ScrollLayout.OnScrollChangedListener {
-            override fun onScrollProgressChanged(currentProgress: Float) {}
-
-            override fun onScrollFinished(currentStatus: ScrollLayout.Status) {
-                if (currentStatus.equals(ScrollLayout.Status.EXIT)) {
-                    val myRotateAnimation_down = RotateAnimation(
-                        180.0f,
-                        +0.0f,
-                        Animation.RELATIVE_TO_SELF,
-                        0.5f,
-                        Animation.RELATIVE_TO_SELF,
-                        0.5f
-                    )
-                    myRotateAnimation_down.duration = 300
-                    myRotateAnimation_down.fillAfter = true
-                    meditationFragment?.showMiniBar()
-                } else if (currentStatus === ScrollLayout.Status.CLOSED) {
-                    val myRotateAnimation_up = RotateAnimation(
-                        0.0f,
-                        +180.0f,
-                        Animation.RELATIVE_TO_SELF,
-                        0.5f,
-                        Animation.RELATIVE_TO_SELF,
-                        0.5f
-                    )
-                    myRotateAnimation_up.duration = 300
-                    myRotateAnimation_up.fillAfter = true
-                    meditationFragment?.hideMiniBar()
-                } else {
-                    meditationFragment?.hideMiniBar()
-                }
-
-            }
-
-            override fun onChildScroll(top: Int) {}
-        })
-        scrollLayout.setCoverView(findViewById<RelativeLayout>(R.id.rl_cover))
-        if (biomoduleBleManager.isConnected()) {
-            scrollLayout.scrollToOpen()
-        } else {
-            scrollLayout.scrollToExit()
-        }
-    }
-
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: MessageEvent) {
 //        var fragmentManager = supportFragmentManager
@@ -786,26 +523,32 @@ class MeditationActivity : BaseActivity() {
         var dialog = AlertDialog.Builder(this)
             .setTitle(
                 Html.fromHtml(
-                    "<font color='${ContextCompat.getColor(
-                        this,
-                        R.color.colorDialogTitle
-                    )}'>${getString(R.string.dialogExitTitle)}</font>"
+                    "<font color='${
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorDialogTitle
+                        )
+                    }'>${getString(R.string.dialogExitTitle)}</font>"
                 )
             )
             .setMessage(
                 Html.fromHtml(
-                    "<font color='${ContextCompat.getColor(
-                        this,
-                        R.color.colorDialogContent
-                    )}'>${getString(R.string.dialogExitContent)}</font>"
+                    "<font color='${
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorDialogContent
+                        )
+                    }'>${getString(R.string.dialogExitContent)}</font>"
                 )
             )
             .setPositiveButton(
                 Html.fromHtml(
-                    "<font color='${ContextCompat.getColor(
-                        this,
-                        R.color.colorDialogExit
-                    )}'>${getString(R.string.dialogExit)}</font>"
+                    "<font color='${
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorDialogExit
+                        )
+                    }'>${getString(R.string.dialogExit)}</font>"
                 )
             ) { dialog, which ->
                 dialog.dismiss()
@@ -813,10 +556,12 @@ class MeditationActivity : BaseActivity() {
             }
             .setNegativeButton(
                 Html.fromHtml(
-                    "<font color='${ContextCompat.getColor(
-                        this,
-                        R.color.colorDialogCancel
-                    )}'>${getString(R.string.dialogCancel)}</font>"
+                    "<font color='${
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorDialogCancel
+                        )
+                    }'>${getString(R.string.dialogCancel)}</font>"
                 )
             ) { dialog, which ->
                 dialog.dismiss()
@@ -1020,7 +765,6 @@ class MeditationActivity : BaseActivity() {
         biomoduleBleManager.stopBrainCollection()
         biomoduleBleManager.removeRawDataListener(rawListener)
         biomoduleBleManager.removeHeartRateListener(heartRateListener)
-        biomoduleBleManager.removeContactListener(contactListener)
         biomoduleBleManager.removeDisConnectListener(bleDisconnectListener)
         if (affectiveCloudService!!.isInited()) {
             affectiveCloudService?.release()

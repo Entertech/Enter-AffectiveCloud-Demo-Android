@@ -18,6 +18,7 @@ import cn.entertech.flowtimezh.R
 import cn.entertech.flowtimezh.app.Application
 import cn.entertech.flowtimezh.app.Constant
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_LABEL_END_TIME
+import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_LABEL_ID
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_LABEL_START_TIME
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_ID
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_START_TIME
@@ -41,6 +42,7 @@ import kotlinx.android.synthetic.main.layout_common_title.*
 
 class MeditationLabelsRecordActivity : BaseActivity() {
 
+    private var mLabelId: Long = -1
     private var meditationId: Long = -1
     private var meditationStartTime: Long = -1
     private var labelEndTime: Long = -1
@@ -60,7 +62,7 @@ class MeditationLabelsRecordActivity : BaseActivity() {
     }
 
     fun initView() {
-        labelStartTime = intent.getLongExtra(EXTRA_LABEL_START_TIME, -1L)
+        mLabelId = intent.getLongExtra(EXTRA_LABEL_ID, -1L)
         labelEndTime = intent.getLongExtra(EXTRA_LABEL_END_TIME, -1L)
         meditationStartTime = intent.getLongExtra(EXTRA_MEDITATION_START_TIME, -1L)
         meditationId = intent.getLongExtra(EXTRA_MEDITATION_ID, -1L)
@@ -71,7 +73,7 @@ class MeditationLabelsRecordActivity : BaseActivity() {
         var dimIds = ""
         var isAllTagSelected = false
         adapter =
-            MeditationTagSelectListAdapter(experimentTags!!,fun(){
+            MeditationTagSelectListAdapter(experimentTags!!, fun() {
                 isAllTagSelected = true
                 dimIds = ""
                 for (tag in experimentTags!!) {
@@ -98,18 +100,12 @@ class MeditationLabelsRecordActivity : BaseActivity() {
         btn_commit_label.setOnClickListener {
             if (isAllTagSelected) {
                 var meditationLabelsDao = MeditationLabelsDao(this)
-                var meditationLabelsModel = MeditationLabelsModel()
-                meditationLabelsModel.id = System.currentTimeMillis()
+                var meditationLabelsModel = meditationLabelsDao.findMeditationLabelById(mLabelId)
                 meditationLabelsModel.dimIds = dimIds.substring(1, dimIds.length)
-                meditationLabelsModel.endTime = labelEndTime
-                meditationLabelsModel.startTime = labelStartTime
-                meditationLabelsModel.meditationId = meditationId
-                meditationLabelsModel.meditationStartTime = meditationStartTime
                 meditationLabelsModel.note = et_note?.text?.toString()
                 meditationLabelsDao.create(meditationLabelsModel)
                 Toast.makeText(this, "提交成功", Toast.LENGTH_SHORT).show()
                 clearSelectInDB()
-                startActivity(Intent(this, MeditationActivity::class.java))
                 finish()
             }
         }
@@ -123,31 +119,37 @@ class MeditationLabelsRecordActivity : BaseActivity() {
         var dialog = AlertDialog.Builder(this)
             .setMessage(
                 Html.fromHtml(
-                    "<font color='${ContextCompat.getColor(
-                        this,
-                        R.color.colorDialogContent
-                    )}'>删除记录</font>"
+                    "<font color='${
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorDialogContent
+                        )
+                    }'>是否删除本条记录</font>"
                 )
             )
             .setPositiveButton(
                 Html.fromHtml(
-                    "<font color='${ContextCompat.getColor(
-                        this,
-                        R.color.colorDialogExit
-                    )}'>确定</font>"
+                    "<font color='${
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorDialogExit
+                        )
+                    }'>确定</font>"
                 )
             ) { dialog, which ->
                 dialog.dismiss()
                 clearSelectInDB()
-                startActivity(Intent(this, MeditationActivity::class.java))
+                deleteCurrentLabel()
                 finish()
             }
             .setNegativeButton(
                 Html.fromHtml(
-                    "<font color='${ContextCompat.getColor(
-                        this,
-                        R.color.colorDialogCancel
-                    )}'>取消</font>"
+                    "<font color='${
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorDialogCancel
+                        )
+                    }'>取消</font>"
                 )
             ) { dialog, which ->
                 dialog.dismiss()
@@ -171,6 +173,12 @@ class MeditationLabelsRecordActivity : BaseActivity() {
                 experimentDimDao!!.create(dim)
             }
         }
+    }
+    fun deleteCurrentLabel(){
+        var meditationLabelsDao = MeditationLabelsDao(this)
+        var meditationLabelsModel = meditationLabelsDao.findMeditationLabelById(mLabelId)
+        meditationLabelsModel.isDeleted = true
+        meditationLabelsDao.create(meditationLabelsModel)
     }
 
     override fun onBackPressed() {

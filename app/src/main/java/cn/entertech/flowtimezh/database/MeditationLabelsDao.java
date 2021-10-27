@@ -31,7 +31,7 @@ public class MeditationLabelsDao {
 
     public void create(MeditationLabelsModel meditationLabelsModel) {
         try {
-            List<MeditationLabelsModel> list = mRecordDaoOp.queryBuilder().where().eq("label_id", meditationLabelsModel.getId()).query();
+            List<MeditationLabelsModel> list = mRecordDaoOp.queryBuilder().where().eq("is_deleted",false).and().eq("label_id", meditationLabelsModel.getId()).query();
             if (list == null || list.size() == 0) {
                 mRecordDaoOp.create(meditationLabelsModel);
             } else {
@@ -61,7 +61,7 @@ public class MeditationLabelsDao {
             if (!mRecordDaoOp.isTableExists()) {
                 return null;
             }
-            List<MeditationLabelsModel> experiments = mRecordDaoOp.queryBuilder().where().eq("label_id", id).query();
+            List<MeditationLabelsModel> experiments = mRecordDaoOp.queryBuilder().where().eq("is_deleted",false).and().eq("label_id", id).query();
             if (!experiments.isEmpty()) {
                 return experiments.get(0);
             }
@@ -74,7 +74,7 @@ public class MeditationLabelsDao {
 
     public List<MeditationLabelsModel> findByMeditationId(long meditationId) {
         try {
-            List<MeditationLabelsModel> list = mRecordDaoOp.queryBuilder().where().eq("meditation_id", meditationId).query();
+            List<MeditationLabelsModel> list = mRecordDaoOp.queryBuilder().where().eq("is_deleted",false).and().eq("meditation_id", meditationId).query();
             if (list != null && list.size() != 0) {
                 return list;
             }

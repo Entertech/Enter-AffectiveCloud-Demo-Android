@@ -131,6 +131,16 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
         sleep_chart.setSourceData(fileProtocol)
         setViewData()
         initLabelsView()
+        hideChartView()
+    }
+
+    fun hideChartView(){
+        chart_brainwave.visibility = View.GONE
+        chart_hr.visibility = View.GONE
+        chart_hrv.visibility = View.GONE
+        chart_pressure.visibility = View.GONE
+        chart_relaxation_and_attention.visibility = View.GONE
+        sleep_chart.visibility = View.GONE
     }
 
     fun initLabelsView() {
