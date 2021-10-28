@@ -14,10 +14,10 @@
     <string name="minutes">分钟</string>
 
 
-    <string name="dialogExitTitle">Exit Now?</string>
-    <string name="dialogExitContent">Meditation complete, exit and generate report.</string>
-    <string name="dialogCancel">Cancel</string>
-    <string name="dialogExit">Exit</string>
+    <string name="dialogExitTitle">是否退出?</string>
+    <string name="dialogExitContent">退出获取报表</string>
+    <string name="dialogCancel">取消</string>
+    <string name="dialogExit">确定</string>
     <string name="realtime_attention_url">https://docs.myflowtime.cn/%E2%98%81%EF%B8%8F%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/%F0%9F%8E%AF%E6%B3%A8%E6%84%8F%E5%8A%9B.html</string>
     <string name="realtime_relaxation">https://docs.myflowtime.cn/%E2%98%81%EF%B8%8F%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/%F0%9F%8D%80%E6%94%BE%E6%9D%BE%E5%BA%A6.html</string>
     <string name="realtime_pressure_url">https://docs.myflowtime.cn/%E2%98%81%EF%B8%8F%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/%F0%9F%98%A7%E5%8E%8B%E5%8A%9B%E6%B0%B4%E5%B9%B3.html</string>

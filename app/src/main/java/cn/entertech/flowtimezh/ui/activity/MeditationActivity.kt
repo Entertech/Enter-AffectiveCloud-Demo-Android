@@ -15,9 +15,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import cn.entertech.affectivecloudsdk.*
-import cn.entertech.affectivecloudsdk.entity.Error
 import cn.entertech.affectivecloudsdk.entity.RecData
-import cn.entertech.affectivecloudsdk.interfaces.Callback
 import cn.entertech.ble.cushion.CushionBleManager
 import cn.entertech.flowtime.utils.reportfileutils.*
 import cn.entertech.flowtimezh.R
@@ -49,6 +47,9 @@ import kotlin.collections.HashMap
 
 
 class MeditationActivity : BaseActivity() {
+    private var labelFileHelper: FileStoreHelper? = null
+    private var bcgFileHelper: FileStoreHelper? = null
+    private var gyroFileHelper: FileStoreHelper? = null
     private var cushionBleManager: CushionBleManager? = null
     private var meditationStatusPlayer: MeditationStatusPlayer? = null
     private var mContentObserver: SettingsContentObserver? = null
@@ -79,8 +80,7 @@ class MeditationActivity : BaseActivity() {
     private var meditationId: Long = -1
     private var mRecordId: Long = -1
 
-    private var MEDITATION_LABEL_RECORD_PATH =
-        Environment.getExternalStorageDirectory().path + File.separator + "心流实验/标签数据"
+    private lateinit var labelRecordPath :String
 
     var isFirstReceiveData = true
     var isFirstReceiveHRData = true
@@ -127,6 +127,14 @@ class MeditationActivity : BaseActivity() {
             mContentObserver
         )
         meditationStatusPlayer = MeditationStatusPlayer(this)
+        labelRecordPath =
+            getExternalFilesDir("label").path + File.separator + "${userLessonStartTime}"
+        labelFileHelper = FileStoreHelper()
+        bcgFileHelper = FileStoreHelper()
+        gyroFileHelper = FileStoreHelper()
+        labelFileHelper?.setPath(labelRecordPath,"labels")
+        bcgFileHelper?.setPath(labelRecordPath,"bcg")
+        gyroFileHelper?.setPath(labelRecordPath,"gyro")
     }
 
     fun onVoiceChange() {
@@ -285,14 +293,16 @@ class MeditationActivity : BaseActivity() {
     fun initBleManager() {
         cushionBleManager = CushionBleManager.getInstance(this)
         bcgDataListener = fun(data: ByteArray) {
+            var dataString = data.contentToString().replace("[","").replace("]","").replace(" ","")+","
+            bcgFileHelper?.writeData(dataString)
             MeditationTimeManager.getInstance().timeIncrease()
             isBcgDataUpload = true
-            Log.d("#########","bcg data is ${data}")
         }
 
         gyroDataListener = fun(data: ByteArray) {
+            var dataString = data.contentToString().replace("[","").replace("]","").replace(" ","")+","
+            gyroFileHelper?.writeData(dataString)
             isGyroDataUpload = true
-            Log.d("########","gyro data is ${data}")
         }
         cushionBleManager?.addGyroDataListener(gyroDataListener)
         cushionBleManager?.addBCGDataListener(bcgDataListener)
@@ -463,12 +473,62 @@ class MeditationActivity : BaseActivity() {
             }.create()
         dialog.show()
     }
+    fun showErrorDialog() {
+        var dialog = AlertDialog.Builder(this)
+            .setTitle(
+                Html.fromHtml(
+                    "<font color='${
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorDialogTitle
+                        )
+                    }'>${getString(R.string.dialogExitTitle)}</font>"
+                )
+            )
+            .setMessage(
+                Html.fromHtml(
+                    "<font color='${
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorDialogContent
+                        )
+                    }'>体验时间过短，是否继续退出？</font>"
+                )
+            )
+            .setPositiveButton(
+                Html.fromHtml(
+                    "<font color='${
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorDialogExit
+                        )
+                    }'>${getString(R.string.dialogExit)}</font>"
+                )
+            ) { dialog, which ->
+                dialog.dismiss()
+                finish()
+            }
+            .setNegativeButton(
+                Html.fromHtml(
+                    "<font color='${
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorDialogCancel
+                        )
+                    }'>${getString(R.string.dialogCancel)}</font>"
+                )
+            ) { dialog, which ->
+                dialog.dismiss()
+            }.create()
+        dialog.show()
+    }
 
     override fun onBackPressed() {
-        if (scrollLayout.currentStatus == ScrollLayout.Status.OPENED || scrollLayout.currentStatus == ScrollLayout.Status.CLOSED) {
-            scrollLayout.scrollToExit()
-        } else {
-//            showDialog()
+        if (!isRecordTime){
+            meditationEndTime = getCurrentTimeFormat()
+            if (!meditationTimeError()){
+                showDialog()
+            }
         }
     }
 
@@ -515,7 +575,9 @@ class MeditationActivity : BaseActivity() {
         var experimentDimDao = ExperimentDimDao(this)
         var experimentTagDao = ExperimentTagDao(this)
         var recDatas = ArrayList<RecData>()
+        Log.d("####","save label...")
         if (meditationLabels != null && meditationLabels.isNotEmpty()) {
+            Log.d("####","save label1111")
             for (meditationLabel in meditationLabels) {
                 var recData = RecData()
                 recData.note = listOf(meditationLabel.note)
@@ -535,15 +597,17 @@ class MeditationActivity : BaseActivity() {
                 }
                 recData.tag = tagMap
                 recDatas.add(recData)
+                Log.d("####","save label2222")
             }
+            Log.d("####","save label3333")
             saveLabelInLocal(recDatas)
         }
+        Log.d("####","save label4444")
 //        saveMeditationInDB(reportMeditationData)
         saveUserLessonInDB()
         toDataActivity()
 //        startFinishTimer()
 //        reportMeditationData = ReportMeditationDataEntity()
-//        meditationEndTime = getCurrentTimeFormat()
 //        if (meditationTimeError() || !affectiveCloudService!!.isConnected()) {
 //            exitWithoutMeditation()
 //        } else {
@@ -581,9 +645,8 @@ class MeditationActivity : BaseActivity() {
     fun saveLabelInLocal(recDatas: List<RecData>) {
         var recDataRecord = RecDataRecord()
         recDataRecord.recDatas = recDatas
-        recDataRecord.session_id = affectiveCloudService?.getSessionId()
         var json = Gson().toJson(recDataRecord)
-//        FileStoreHelper.getInstance().writeData(json)
+        labelFileHelper?.writeData(json)
     }
 
 
@@ -607,7 +670,7 @@ class MeditationActivity : BaseActivity() {
             var meditationEndTime = System.currentTimeMillis()
             var duration = (meditationEndTime - meditationStartTime!!) / 1000 / 60
             if (duration < 1) {
-                Toast.makeText(this, "体验时间过短", Toast.LENGTH_SHORT).show()
+                showErrorDialog()
                 return true
             }
         }

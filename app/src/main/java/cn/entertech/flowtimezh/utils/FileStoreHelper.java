@@ -15,22 +15,22 @@ public class FileStoreHelper {
     private Handler mHandler;
     private HandlerThread handlerThread;
 
-    private FileStoreHelper() {
+    public FileStoreHelper() {
         handlerThread = new HandlerThread("store_file_thread");
         handlerThread.start();
         mHandler = new Handler(handlerThread.getLooper());
     }
 
-    public static FileStoreHelper getInstance() {
-        if (mInstance == null) {
-            synchronized (FileStoreHelper.class) {
-                if (mInstance == null) {
-                    mInstance = new FileStoreHelper();
-                }
-            }
-        }
-        return mInstance;
-    }
+//    public static FileStoreHelper getInstance() {
+//        if (mInstance == null) {
+//            synchronized (FileStoreHelper.class) {
+//                if (mInstance == null) {
+//                    mInstance = new FileStoreHelper();
+//                }
+//            }
+//        }
+//        return mInstance;
+//    }
 
     private PrintWriter pw;
     private boolean isFirstWrite = true;
