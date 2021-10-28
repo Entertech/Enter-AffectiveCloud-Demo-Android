@@ -74,62 +74,63 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
         }
         var userLessonRecordDao = UserLessonRecordDao(activity)
         var userLessonRecord = userLessonRecordDao.findRecordById(0, recordId)
-        var meditationDao = MeditationDao(activity)
-        var lessonName = userLessonRecord.lessonName
-        var courseName = userLessonRecord.courseName
-
-        tv_lesson_name.text = lessonName
-        tv_course_name.text = courseName
-        var formatStartTIme = userLessonRecord.startTime.replace("T", " ").replace("Z", "")
-        tv_start_time.text =
-            getFormatTime(
-                getStringToDate(formatStartTIme, "yyyy-MM-dd HH:mm:ss"),
-                "hh:mmaa"
-            ).toLowerCase()
-        tv_duration.text =
-            timeStampToMin(
-                getStringToDate(
-                    userLessonRecord.finishTime,
-                    "yyyy-MM-dd HH:mm:ss"
-                ) - getStringToDate(
-                    userLessonRecord.startTime,
-                    "yyyy-MM-dd HH:mm:ss"
-                )
-            )
-
-        if (userLessonRecord.meditation == 0L) {
-            return
-        }
-        var meditation = meditationDao.findMeditationById(userLessonRecord.meditation)
-        if (meditation == null || meditation.meditationFile == null) {
-            return
-        }
-
-        startTime = meditation.startTime
-        fileName = meditation.meditationFile!!
-//        Logger.d("file name is " + fileName)
-
-        if (fileName == null) {
-            return
-        }
-        var fileProtocol = FileHelper.getMeditationReport(activity!!, fileName)
-
-//        Logger.d("fileProtocol size is " + fileProtocol.list.size)
-        if (fileProtocol.list.size <= 0) {
-            return
-        }
-        meditationReportDataAnalyzed = fileProtocol.list[0] as MeditationReportDataAnalyzed?
-        if (meditationReportDataAnalyzed == null) {
-            return
-        }
-
         meditaitonId = userLessonRecord.meditation
-//        report_hr_view.isDataNull(false)
-//        report_hrv_view.isDataNull(false)
-//        report_pressure_view.isDataNull(false)
-//        Logger.d("user record is " + userLessonRecord.toString() + "meditation record is " + meditation.toString())
-        sleep_chart.setSourceData(fileProtocol)
-        setViewData()
+//        var meditationDao = MeditationDao(activity)
+//        var lessonName = userLessonRecord.lessonName
+//        var courseName = userLessonRecord.courseName
+//
+//        tv_lesson_name.text = lessonName
+//        tv_course_name.text = courseName
+//        var formatStartTIme = userLessonRecord.startTime.replace("T", " ").replace("Z", "")
+//        tv_start_time.text =
+//            getFormatTime(
+//                getStringToDate(formatStartTIme, "yyyy-MM-dd HH:mm:ss"),
+//                "hh:mmaa"
+//            ).toLowerCase()
+//        tv_duration.text =
+//            timeStampToMin(
+//                getStringToDate(
+//                    userLessonRecord.finishTime,
+//                    "yyyy-MM-dd HH:mm:ss"
+//                ) - getStringToDate(
+//                    userLessonRecord.startTime,
+//                    "yyyy-MM-dd HH:mm:ss"
+//                )
+//            )
+//
+//        if (userLessonRecord.meditation == 0L) {
+//            return
+//        }
+//        var meditation = meditationDao.findMeditationById(userLessonRecord.meditation)
+//        if (meditation == null || meditation.meditationFile == null) {
+//            return
+//        }
+//
+//        startTime = meditation.startTime
+//        fileName = meditation.meditationFile!!
+////        Logger.d("file name is " + fileName)
+//
+//        if (fileName == null) {
+//            return
+//        }
+//        var fileProtocol = FileHelper.getMeditationReport(activity!!, fileName)
+//
+////        Logger.d("fileProtocol size is " + fileProtocol.list.size)
+//        if (fileProtocol.list.size <= 0) {
+//            return
+//        }
+//        meditationReportDataAnalyzed = fileProtocol.list[0] as MeditationReportDataAnalyzed?
+//        if (meditationReportDataAnalyzed == null) {
+//            return
+//        }
+//
+//        meditaitonId = userLessonRecord.meditation
+////        report_hr_view.isDataNull(false)
+////        report_hrv_view.isDataNull(false)
+////        report_pressure_view.isDataNull(false)
+////        Logger.d("user record is " + userLessonRecord.toString() + "meditation record is " + meditation.toString())
+//        sleep_chart.setSourceData(fileProtocol)
+//        setViewData()
         initLabelsView()
         hideChartView()
     }

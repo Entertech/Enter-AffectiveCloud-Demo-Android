@@ -110,7 +110,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         selfView?.findViewById<MeditationInterruptView>(R.id.miv_interrupt_device)
             ?.addErrorMessageListener { errorMsg,errorType->
                 if (errorType != MeditationInterruptView.ERROR_TYPE_SIGNAL) {
-                    (activity as MeditationActivity).pauseMeditation()
+//                    (activity as MeditationActivity).pauseMeditation()
                 }
                 (activity as MeditationActivity).scrollLayout.scrollToOpen()
                 isMeditationInterrupt = true
@@ -637,7 +637,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
 
     fun hideInterruptTip() {
         if (!(activity as MeditationActivity).needToCheckSensor) {
-            (activity as MeditationActivity).resumeMeditation()
+//            (activity as MeditationActivity).resumeMeditation()
         }
         isTimerScheduling = false
         playConnectAudio()
