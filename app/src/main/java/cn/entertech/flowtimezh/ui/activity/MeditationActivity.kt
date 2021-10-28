@@ -1,38 +1,27 @@
 package cn.entertech.flowtimezh.ui.activity
 
-import android.animation.Animator
 import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.database.ContentObserver
 import android.media.AudioManager
+import android.media.AudioManager.STREAM_MUSIC
 import android.media.MediaPlayer
 import android.os.*
+import android.provider.Settings
 import android.text.Html
 import android.util.Log
-import android.view.KeyEvent
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.Animation
-import android.view.animation.RotateAnimation
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import cn.entertech.affectivecloudsdk.*
 import cn.entertech.affectivecloudsdk.entity.Error
 import cn.entertech.affectivecloudsdk.entity.RecData
-import cn.entertech.affectivecloudsdk.entity.Service
 import cn.entertech.affectivecloudsdk.interfaces.Callback
-import cn.entertech.affectivecloudsdk.interfaces.Callback2
-import cn.entertech.affectivecloudsdk.utils.ConvertUtil
 import cn.entertech.ble.multiple.MultipleBiomoduleBleManager
-import cn.entertech.ble.single.BiomoduleBleManager
 import cn.entertech.bleuisdk.ui.DeviceUIConfig
 import cn.entertech.bleuisdk.ui.activity.DeviceManagerActivity
 import cn.entertech.flowtime.utils.reportfileutils.*
@@ -40,7 +29,6 @@ import cn.entertech.flowtimezh.R
 import cn.entertech.flowtimezh.app.Application
 import cn.entertech.flowtimezh.app.Constant
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_ID
-import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_START_TIME
 import cn.entertech.flowtimezh.app.SettingManager
 import cn.entertech.flowtimezh.database.*
 import cn.entertech.flowtimezh.database.model.MeditationLabelsModel
@@ -49,16 +37,12 @@ import cn.entertech.flowtimezh.entity.MessageEvent
 import cn.entertech.flowtimezh.entity.RecDataRecord
 import cn.entertech.flowtimezh.entity.UserLessonEntity
 import cn.entertech.flowtimezh.entity.meditation.*
-import cn.entertech.flowtimezh.ui.activity.BaseActivity
-import cn.entertech.flowtimezh.ui.activity.DataActivity
 import cn.entertech.flowtimezh.ui.fragment.MeditationFragment
 import cn.entertech.flowtimezh.ui.service.AffectiveCloudService
 import cn.entertech.flowtimezh.ui.view.LoadingDialog
 import cn.entertech.flowtimezh.ui.view.scrolllayout.ScrollLayout
 import cn.entertech.flowtimezh.utils.*
-import cn.entertech.uicomponentsdk.utils.dp
 import com.google.gson.Gson
-import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.activity_meditation.*
 import kotlinx.android.synthetic.main.activity_meditation.chronometer
 import kotlinx.android.synthetic.main.activity_meditation.tv_experiment_name
@@ -73,7 +57,10 @@ import java.io.File
 import java.util.*
 import kotlin.collections.HashMap
 
+
 class MeditationActivity : BaseActivity() {
+    private var meditationStatusPlayer: MeditationStatusPlayer? = null
+    private var mContentObserver: SettingsContentObserver? = null
     private var connection: ServiceConnection? = null
     internal var affectiveCloudService: AffectiveCloudService? = null
     private var isRecordTime: Boolean = false
@@ -106,19 +93,13 @@ class MeditationActivity : BaseActivity() {
     private var MEDITATION_LABEL_RECORD_PATH =
         Environment.getExternalStorageDirectory().path + File.separator + "心流实验/标签数据"
 
-    var isFixingFirmware = false
     var isFirstReceiveData = true
     var isFirstReceiveHRData = true
 
     private var endTime: Long? = null
     private var startTime: Long? = null
 
-    var isCheckContact = false
-    var isSensorCheckShow = false
-    var contactWellCount = 0
-    var isContactWell = false
     var needToCheckSensor = false
-    var isTimeEnd = false
 
     var lastReceiveDataTimeMs: Long? = null
 
@@ -143,6 +124,60 @@ class MeditationActivity : BaseActivity() {
         playAirSound()
         initPowerManager()
         playSleepNoise()
+        mContentObserver = SettingsContentObserver(
+            this, Handler(
+                Looper.getMainLooper()
+            ), ::onVoiceChange
+        )
+        contentResolver.registerContentObserver(
+            android.provider.Settings.System.CONTENT_URI,
+            true,
+            mContentObserver
+        )
+        meditationStatusPlayer = MeditationStatusPlayer(this)
+    }
+
+    fun onVoiceChange() {
+        if (!isStartRecord) {
+            meditationStatusPlayer?.playRecordStartAudio()
+            isStartRecord = true
+            ll_back.visibility = View.GONE
+            startTime = MeditationTimeManager.getInstance().currentTimeMs()
+        } else {
+            meditationStatusPlayer?.playRecordEndAudio()
+            ll_back.visibility = View.VISIBLE
+            isStartRecord = false
+            endTime = MeditationTimeManager.getInstance().currentTimeMs()
+            var meditationLabelsDao = MeditationLabelsDao(this)
+            var meditationLabelsModel = MeditationLabelsModel()
+            meditationLabelsModel.id = System.currentTimeMillis()
+            meditationLabelsModel.endTime = endTime!!
+            meditationLabelsModel.startTime = startTime!!
+            meditationLabelsModel.meditationId = meditationId
+            meditationLabelsModel.meditationStartTime = meditationStartTime!!
+            meditationLabelsDao.create(meditationLabelsModel)
+        }
+    }
+
+    class SettingsContentObserver(context: Context, handler: Handler?, var callback: (() -> Unit)) :
+        ContentObserver(handler) {
+        private val audioManager: AudioManager
+        override fun deliverSelfNotifications(): Boolean {
+            return false
+        }
+
+        var lastVolume: Int? = null
+        override fun onChange(selfChange: Boolean) {
+            val currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+            if (lastVolume == null || currentVolume != lastVolume) {
+                callback.invoke()
+            }
+            lastVolume = currentVolume
+        }
+
+        init {
+            audioManager = context.getSystemService(AUDIO_SERVICE) as AudioManager
+        }
     }
 
     fun bindAffectiveService() {
@@ -174,7 +209,6 @@ class MeditationActivity : BaseActivity() {
         }
         bindService(serviceIntent, connection!!, Context.BIND_AUTO_CREATE)
     }
-
 
 
     fun resumeMeditation() {
@@ -287,7 +321,7 @@ class MeditationActivity : BaseActivity() {
         btn_start_record.setOnClickListener {
             if (meditationId == -1L || meditationStartTime == -1L) {
                 Toast.makeText(this, "正在初始化采集...", Toast.LENGTH_LONG).show()
-            }else{
+            } else {
                 initTimeRecordView()
                 isRecordTime = true
             }
@@ -313,31 +347,6 @@ class MeditationActivity : BaseActivity() {
         var experimentDao = ExperimentDao(this)
         var experimentName = experimentDao.findExperimentBySelected().nameCn
         tv_experiment_name.text = experimentName
-    }
-
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        when (keyCode) {
-            KeyEvent.KEYCODE_VOLUME_UP, KeyEvent.KEYCODE_VOLUME_DOWN -> {
-                if (!isStartRecord){
-                    isStartRecord = true
-                    ll_back.visibility = View.GONE
-                    startTime = MeditationTimeManager.getInstance().currentTimeMs()
-                }else{
-                    ll_back.visibility = View.VISIBLE
-                    isStartRecord = false
-                    endTime = MeditationTimeManager.getInstance().currentTimeMs()
-                    var meditationLabelsDao = MeditationLabelsDao(this)
-                    var meditationLabelsModel = MeditationLabelsModel()
-                    meditationLabelsModel.id = System.currentTimeMillis()
-                    meditationLabelsModel.endTime = endTime!!
-                    meditationLabelsModel.startTime = startTime!!
-                    meditationLabelsModel.meditationId = meditationId
-                    meditationLabelsModel.meditationStartTime = meditationStartTime!!
-                    meditationLabelsDao.create(meditationLabelsModel)
-                }
-            }
-        }
-        return true
     }
 
     fun playSleepNoise() {
@@ -754,6 +763,8 @@ class MeditationActivity : BaseActivity() {
     }
 
     override fun onDestroy() {
+        meditationStatusPlayer?.release()
+        contentResolver.unregisterContentObserver(mContentObserver)
         SoundScapeAudioManager.getInstance(this).release()
         affectiveCloudService?.stopForeground()
         unBindAffectiveService()

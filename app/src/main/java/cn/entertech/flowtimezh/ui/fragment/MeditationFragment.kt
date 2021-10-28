@@ -622,7 +622,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
                 ?.visibility ==
             View.VISIBLE
         ) {
-            meditationStatusPlayer?.playConnectAudio()
+            meditationStatusPlayer?.playRecordStartAudio()
         }
     }
 
@@ -631,7 +631,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
                 ?.visibility ==
             View.GONE
         ) {
-            meditationStatusPlayer?.playDisconnectAudio()
+            meditationStatusPlayer?.playRecordEndAudio()
         }
     }
 

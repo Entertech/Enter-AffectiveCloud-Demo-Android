@@ -1,7 +1,9 @@
 package cn.entertech.flowtimezh.utils
 
 import android.content.Context
+import android.media.AudioAttributes
 import android.media.MediaPlayer
+import android.net.rtp.AudioStream
 import cn.entertech.flowtimezh.R
 
 class MeditationStatusPlayer(context: Context) {
@@ -10,19 +12,30 @@ class MeditationStatusPlayer(context: Context) {
 
     init {
         mContext = context
-        mediaPlayer = MediaPlayer.create(mContext, R.raw.meditation_reconnect)
+        mediaPlayer = MediaPlayer.create(mContext, R.raw.label_reocrd_start,AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .setUsage(AudioAttributes.USAGE_ALARM).build(),0)
+        mediaPlayer?.setAudioAttributes(
+            AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .setUsage(AudioAttributes.USAGE_ALARM).build()
+        )
     }
 
-    fun playConnectAudio() {
+    fun playRecordStartAudio() {
         mediaPlayer?.reset()
-        mediaPlayer = MediaPlayer.create(mContext, R.raw.meditation_reconnect)
+        mediaPlayer = MediaPlayer.create(mContext, R.raw.label_reocrd_start,AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .setUsage(AudioAttributes.USAGE_ALARM).build(),0)
+        mediaPlayer?.setAudioAttributes(
+            AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .setUsage(AudioAttributes.USAGE_ALARM).build()
+        )
         mediaPlayer?.setVolume(1f, 1f)
         mediaPlayer?.start()
     }
 
-    fun playDisconnectAudio() {
+    fun playRecordEndAudio() {
         mediaPlayer?.reset()
-        mediaPlayer = MediaPlayer.create(mContext, R.raw.meditation_disconnect_1)
+        mediaPlayer = MediaPlayer.create(mContext, R.raw.label_record_end,AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .setUsage(AudioAttributes.USAGE_ALARM).build(),0)
         mediaPlayer?.setVolume(1f, 1f)
         mediaPlayer?.start()
     }

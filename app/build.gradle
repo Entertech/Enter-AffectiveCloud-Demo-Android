@@ -20,7 +20,7 @@ android {
     def appVersionCode = "1.2.6"
     compileSdkVersion 28
     defaultConfig {
-        applicationId "cn.entertech.flowtimecollector"
+        applicationId "cn.entertech.cushioncollector"
         minSdkVersion 21
         targetSdkVersion 27
         versionCode buildCode
