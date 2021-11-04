@@ -43,7 +43,7 @@ android {
     productFlavors {
         flowtimezh {
             flavorDimensions "default"
-            applicationId "cn.entertech.flowtimecollector"
+            applicationId "cn.entertech.cushioncollector"
         }
 
     }

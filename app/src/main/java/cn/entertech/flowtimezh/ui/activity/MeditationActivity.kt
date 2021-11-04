@@ -134,7 +134,7 @@ class MeditationActivity : BaseActivity() {
         gyroFileHelper = FileStoreHelper()
         labelFileHelper?.setPath(labelRecordPath,"labels")
         bcgFileHelper?.setPath(labelRecordPath,"bcg")
-        gyroFileHelper?.setPath(labelRecordPath,"gyro")
+//        gyroFileHelper?.setPath(labelRecordPath,"gyro")
     }
 
     fun onVoiceChange() {
@@ -238,7 +238,7 @@ class MeditationActivity : BaseActivity() {
             ll_time_record_layout.visibility = View.GONE
         }
         btn_start_record.setOnClickListener {
-            if (isBcgDataUpload && isGyroDataUpload){
+            if (isBcgDataUpload){
                 initTimeRecordView()
                 isRecordTime = true
             }else{
@@ -304,7 +304,7 @@ class MeditationActivity : BaseActivity() {
             gyroFileHelper?.writeData(dataString)
             isGyroDataUpload = true
         }
-        cushionBleManager?.addGyroDataListener(gyroDataListener)
+//        cushionBleManager?.addGyroDataListener(gyroDataListener)
         cushionBleManager?.addBCGDataListener(bcgDataListener)
     }
 
