@@ -33,6 +33,10 @@ class HomeFragment : Fragment() {
         initDeviceIcon()
         initProgressLoading()
         iv_device.setOnClickListener {
+            if (bleManager?.isConnected() == true){
+                Toast.makeText(activity!!,"设备已连接",Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             progressDialog?.show()
             bleManager?.scanNearDeviceAndConnect(fun() {
             }, fun(e) {
