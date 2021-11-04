@@ -17,7 +17,7 @@ android {
     def BUILD_NAME = "build.number"
 
     def buildCode = getVersionCodeWithPropertyName(PROPERTY_FILE_NAME, BUILD_NAME)
-    def appVersionCode = "1.1.0"
+    def appVersionCode = "1.1.1"
     compileSdkVersion 28
     defaultConfig {
         applicationId "cn.entertech.cushioncollector"
