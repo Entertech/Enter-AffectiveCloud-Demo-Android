@@ -249,7 +249,7 @@ class MeditationActivity : BaseActivity() {
             var meditationLabelsDao = MeditationLabelsDao(this@MeditationActivity)
             var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)
             if (meditationId == -1L || meditationLabels == null || meditationLabels.isEmpty()) {
-                finishMeditation()
+                showExitDialog()
             } else {
                 var intent = Intent(this, MeditationLabelsCommitActivity::class.java)
                 intent.putExtra(EXTRA_MEDITATION_ID, meditationId)
@@ -524,6 +524,10 @@ class MeditationActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
+        showExitDialog()
+    }
+
+    fun showExitDialog(){
         if (!isRecordTime){
             meditationEndTime = getCurrentTimeFormat()
             if (!meditationTimeError()){
@@ -570,14 +574,13 @@ class MeditationActivity : BaseActivity() {
     }
 
     fun finishMeditation() {
+        meditationEndTime = getCurrentTimeFormat()
         var meditationLabelsDao = MeditationLabelsDao(this)
         var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)
         var experimentDimDao = ExperimentDimDao(this)
         var experimentTagDao = ExperimentTagDao(this)
         var recDatas = ArrayList<RecData>()
-        Log.d("####","save label...")
         if (meditationLabels != null && meditationLabels.isNotEmpty()) {
-            Log.d("####","save label1111")
             for (meditationLabel in meditationLabels) {
                 var recData = RecData()
                 recData.note = listOf(meditationLabel.note)
