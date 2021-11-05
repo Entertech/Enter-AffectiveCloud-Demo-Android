@@ -28,7 +28,7 @@ class MeditationStatusPlayer(context: Context) {
             AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                 .setUsage(AudioAttributes.USAGE_ALARM).build()
         )
-        mediaPlayer?.setVolume(1f, 1f)
+        mediaPlayer?.setVolume(0.1f, 0.1f)
         mediaPlayer?.start()
     }
 
@@ -36,7 +36,7 @@ class MeditationStatusPlayer(context: Context) {
         mediaPlayer?.reset()
         mediaPlayer = MediaPlayer.create(mContext, R.raw.label_record_end,AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
             .setUsage(AudioAttributes.USAGE_ALARM).build(),0)
-        mediaPlayer?.setVolume(1f, 1f)
+        mediaPlayer?.setVolume(0.1f, 0.1f)
         mediaPlayer?.start()
     }
 
