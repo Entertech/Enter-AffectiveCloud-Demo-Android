@@ -31,8 +31,8 @@ internal class AffectiveCloudService : Service() {
     override fun onBind(intent: Intent): IBinder? {
         val builder: NotificationCompat.Builder = NotificationCompat.Builder(this, "CHANNEL_ID")
             .setSmallIcon(R.mipmap.ic_notification_logo)
-            .setContentTitle("Flowtime is working")
-            .setContentText("Flowtime is analyzing your meditation in the background.")
+            .setContentTitle("心流实验")
+            .setContentText("心流实验正在后台运行")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
         createNotificationChannel()
         val notificationManager = NotificationManagerCompat.from(this)
@@ -43,7 +43,7 @@ internal class AffectiveCloudService : Service() {
         notificationManager.notify(1, builder.build())
         startForeground(1, builder.build())
 
-        initAffectiveCloudManager(intent)
+//        initAffectiveCloudManager(intent)
         return MyBinder()
     }
 

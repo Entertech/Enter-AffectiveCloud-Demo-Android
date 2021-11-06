@@ -2,6 +2,9 @@ package cn.entertech.flowtimezh.ui.activity
 
 import android.animation.AnimatorSet
 import android.app.AlertDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
@@ -13,6 +16,8 @@ import android.text.Html
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import cn.entertech.affectivecloudsdk.*
 import cn.entertech.affectivecloudsdk.entity.RecData
@@ -47,6 +52,7 @@ import kotlin.collections.HashMap
 
 
 class MeditationActivity : BaseActivity() {
+    private var serviceConnection: ServiceConnection? = null
     private var labelFileHelper: FileStoreHelper? = null
     private var bcgFileHelper: FileStoreHelper? = null
     private var gyroFileHelper: FileStoreHelper? = null
@@ -80,7 +86,7 @@ class MeditationActivity : BaseActivity() {
     private var meditationId: Long = -1
     private var mRecordId: Long = -1
 
-    private lateinit var labelRecordPath :String
+    private lateinit var labelRecordPath: String
 
     var isFirstReceiveData = true
     var isFirstReceiveHRData = true
@@ -110,7 +116,7 @@ class MeditationActivity : BaseActivity() {
         userLessonStartTime = getCurrentTimeFormat(meditationStartTime!!)
         meditationId = System.currentTimeMillis()
         loadingDialog = LoadingDialog(this)
-//        bindAffectiveService()
+        bindAffectiveService()
         initView()
         initBleManager()
         playAirSound()
@@ -132,9 +138,27 @@ class MeditationActivity : BaseActivity() {
         labelFileHelper = FileStoreHelper()
         bcgFileHelper = FileStoreHelper()
         gyroFileHelper = FileStoreHelper()
-        labelFileHelper?.setPath(labelRecordPath,"labels")
-        bcgFileHelper?.setPath(labelRecordPath,"bcg")
+        labelFileHelper?.setPath(labelRecordPath, "labels")
+        bcgFileHelper?.setPath(labelRecordPath, "bcg")
 //        gyroFileHelper?.setPath(labelRecordPath,"gyro")
+    }
+
+    fun bindAffectiveService() {
+        serviceConnection = object : ServiceConnection {
+            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+
+            }
+
+            override fun onServiceDisconnected(name: ComponentName?) {
+            }
+
+        }
+        var intent = Intent(this, AffectiveCloudService::class.java)
+        applicationContext.bindService(intent, serviceConnection!!, Context.BIND_AUTO_CREATE)
+    }
+
+    fun unBindAffectiveService() {
+        applicationContext.unbindService(serviceConnection!!)
     }
 
     fun onVoiceChange() {
@@ -238,10 +262,10 @@ class MeditationActivity : BaseActivity() {
             ll_time_record_layout.visibility = View.GONE
         }
         btn_start_record.setOnClickListener {
-            if (isBcgDataUpload){
+            if (isBcgDataUpload) {
                 initTimeRecordView()
                 isRecordTime = true
-            }else{
+            } else {
                 Toast.makeText(this, "正在初始化采集...", Toast.LENGTH_LONG).show()
             }
         }
@@ -293,14 +317,16 @@ class MeditationActivity : BaseActivity() {
     fun initBleManager() {
         cushionBleManager = CushionBleManager.getInstance(this)
         bcgDataListener = fun(data: ByteArray) {
-            var dataString = data.contentToString().replace("[","").replace("]","").replace(" ","")+","
+            var dataString =
+                data.contentToString().replace("[", "").replace("]", "").replace(" ", "") + ","
             bcgFileHelper?.writeData(dataString)
             MeditationTimeManager.getInstance().timeIncrease()
             isBcgDataUpload = true
         }
 
         gyroDataListener = fun(data: ByteArray) {
-            var dataString = data.contentToString().replace("[","").replace("]","").replace(" ","")+","
+            var dataString =
+                data.contentToString().replace("[", "").replace("]", "").replace(" ", "") + ","
             gyroFileHelper?.writeData(dataString)
             isGyroDataUpload = true
         }
@@ -473,6 +499,7 @@ class MeditationActivity : BaseActivity() {
             }.create()
         dialog.show()
     }
+
     fun showErrorDialog() {
         var dialog = AlertDialog.Builder(this)
             .setTitle(
@@ -527,10 +554,10 @@ class MeditationActivity : BaseActivity() {
         showExitDialog()
     }
 
-    fun showExitDialog(){
-        if (!isRecordTime){
+    fun showExitDialog() {
+        if (!isRecordTime) {
             meditationEndTime = getCurrentTimeFormat()
-            if (!meditationTimeError()){
+            if (!meditationTimeError()) {
                 showDialog()
             }
         }
@@ -600,12 +627,12 @@ class MeditationActivity : BaseActivity() {
                 }
                 recData.tag = tagMap
                 recDatas.add(recData)
-                Log.d("####","save label2222")
+                Log.d("####", "save label2222")
             }
-            Log.d("####","save label3333")
+            Log.d("####", "save label3333")
             saveLabelInLocal(recDatas)
         }
-        Log.d("####","save label4444")
+        Log.d("####", "save label4444")
 //        saveMeditationInDB(reportMeditationData)
         saveUserLessonInDB()
         toDataActivity()
@@ -712,6 +739,7 @@ class MeditationActivity : BaseActivity() {
     }
 
     override fun onDestroy() {
+        unBindAffectiveService()
         cushionBleManager?.removeGyroDataListener(gyroDataListener)
         cushionBleManager?.removeBCGDataListener(bcgDataListener)
         meditationStatusPlayer?.release()
