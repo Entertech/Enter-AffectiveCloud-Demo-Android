@@ -33,8 +33,8 @@ class HomeFragment : Fragment() {
         initDeviceIcon()
         initProgressLoading()
         iv_device.setOnClickListener {
-            if (bleManager?.isConnected() == true){
-                Toast.makeText(activity!!,"设备已连接",Toast.LENGTH_SHORT).show()
+            if (bleManager?.isConnected() == true) {
+                Toast.makeText(activity!!, "设备已连接", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             progressDialog?.show()
@@ -42,27 +42,31 @@ class HomeFragment : Fragment() {
             }, fun(e) {
                 activity!!.runOnUiThread {
                     progressDialog?.dismiss()
-                    Toast.makeText(activity!!,"设备扫描失败：$e",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity!!, "设备扫描失败：$e", Toast.LENGTH_SHORT).show()
                 }
             }, fun(mac) {
                 activity!!.runOnUiThread {
                     progressDialog?.dismiss()
-                    Toast.makeText(activity!!,"设备连接成功",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity!!, "设备连接成功", Toast.LENGTH_SHORT).show()
                 }
             }, fun(error) {
                 activity!!.runOnUiThread {
                     progressDialog?.dismiss()
-                    Toast.makeText(activity!!,"设备连接失败：$error",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity!!, "设备连接失败：$error", Toast.LENGTH_SHORT).show()
                 }
             })
         }
         btn_start_meditation.setOnClickListener {
-            var experimentDao = ExperimentDao(activity)
-            var experiment = experimentDao.findExperimentBySelected()
-            if (experiment == null) {
-                Toast.makeText(activity, "请先在设置中选择要进行的实验!", Toast.LENGTH_LONG).show()
-            } else {
-                startActivity(Intent(activity, PersonInfoActivity::class.java))
+            if (bleManager?.isConnected() == true) {
+                var experimentDao = ExperimentDao(activity)
+                var experiment = experimentDao.findExperimentBySelected()
+                if (experiment == null) {
+                    Toast.makeText(activity, "请先在设置中选择要进行的实验!", Toast.LENGTH_LONG).show()
+                } else {
+                    startActivity(Intent(activity, PersonInfoActivity::class.java))
+                }
+            }else{
+                Toast.makeText(activity!!, "请先连接设备！", Toast.LENGTH_SHORT).show()
             }
         }
     }
