@@ -21,6 +21,9 @@ import android.util.Log;
 import java.util.Arrays;
 
 public class HexDump {
+    public static int converUnchart(byte data) {
+        return (data & 0xff);
+    }
     private final static char[] HEX_DIGITS = {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
     };

@@ -37,6 +37,7 @@ import cn.entertech.flowtimezh.ui.service.AffectiveCloudService
 import cn.entertech.flowtimezh.ui.view.LoadingDialog
 import cn.entertech.flowtimezh.ui.view.scrolllayout.ScrollLayout
 import cn.entertech.flowtimezh.utils.*
+import cn.entertech.flowtimezh.utils.reportfileutils.HexDump
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_meditation.*
 import kotlinx.android.synthetic.main.activity_meditation.chronometer
@@ -317,8 +318,9 @@ class MeditationActivity : BaseActivity() {
     fun initBleManager() {
         cushionBleManager = CushionBleManager.getInstance(this)
         bcgDataListener = fun(data: ByteArray) {
-            var dataString =
-                data.contentToString().replace("[", "").replace("]", "").replace(" ", "") + ","
+            var intArray = data.map { HexDump.converUnchart(it) }
+            var dataString = intArray
+                .toString().replace("[", "").replace("]", "").replace(" ", "") + ","
             bcgFileHelper?.writeData(dataString)
             MeditationTimeManager.getInstance().timeIncrease()
             isBcgDataUpload = true
