@@ -96,7 +96,7 @@ dependencies {
     implementation 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
     implementation 'com.google.android:flexbox:2.0.1'
-    implementation 'cn.entertech.android:cushionble:1.0.0-alpha02'
+    implementation 'cn.entertech.android:cushionble:1.0.0-alpha03'
 }
 
 // build 版本 +1

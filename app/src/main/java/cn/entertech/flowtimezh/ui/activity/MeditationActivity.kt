@@ -2,8 +2,6 @@ package cn.entertech.flowtimezh.ui.activity
 
 import android.animation.AnimatorSet
 import android.app.AlertDialog
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -16,8 +14,6 @@ import android.text.Html
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import cn.entertech.affectivecloudsdk.*
 import cn.entertech.affectivecloudsdk.entity.RecData
@@ -46,7 +42,6 @@ import kotlinx.android.synthetic.main.activity_meditation.tv_record_btn
 import kotlinx.android.synthetic.main.activity_meditation_labels_record.*
 import kotlinx.android.synthetic.main.activity_meditation_time_record.*
 import kotlinx.android.synthetic.main.layout_common_title.*
-import org.greenrobot.eventbus.EventBus
 import java.io.File
 import java.util.*
 import kotlin.collections.HashMap
@@ -311,29 +306,29 @@ class MeditationActivity : BaseActivity() {
         tv_record_btn.text = "开始记录"
     }
 
-    private lateinit var bcgDataListener: (ByteArray) -> Unit
-    private lateinit var gyroDataListener: (ByteArray) -> Unit
+    private lateinit var rawDataListener: (ByteArray) -> Unit
 
     //    var brainDataList = ArrayList<Int>()
     fun initBleManager() {
         cushionBleManager = CushionBleManager.getInstance(this)
-        bcgDataListener = fun(data: ByteArray) {
-            var intArray = data.map { HexDump.converUnchart(it) }
-            var dataString = intArray
-                .toString().replace("[", "").replace("]", "").replace(" ", "") + ","
-            bcgFileHelper?.writeData(dataString)
+        rawDataListener = fun(data: ByteArray) {
+            Log.d("raw data is",Arrays.toString(data))
+//            var intArray = data.map { HexDump.converUnchart(it) }
+//            var dataString = intArray
+//                .toString().replace("[", "").replace("]", "").replace(" ", "") + ","
+//            bcgFileHelper?.writeData(dataString)
             MeditationTimeManager.getInstance().timeIncrease()
             isBcgDataUpload = true
         }
 
-        gyroDataListener = fun(data: ByteArray) {
-            var dataString =
-                data.contentToString().replace("[", "").replace("]", "").replace(" ", "") + ","
-            gyroFileHelper?.writeData(dataString)
-            isGyroDataUpload = true
-        }
+//        gyroDataListener = fun(data: ByteArray) {
+//            var dataString =
+//                data.contentToString().replace("[", "").replace("]", "").replace(" ", "") + ","
+//            gyroFileHelper?.writeData(dataString)
+//            isGyroDataUpload = true
+//        }
 //        cushionBleManager?.addGyroDataListener(gyroDataListener)
-        cushionBleManager?.addBCGDataListener(bcgDataListener)
+        cushionBleManager?.addRawDataListener(rawDataListener)
     }
 
     lateinit var reportMeditationData: ReportMeditationDataEntity
@@ -742,8 +737,7 @@ class MeditationActivity : BaseActivity() {
 
     override fun onDestroy() {
         unBindAffectiveService()
-        cushionBleManager?.removeGyroDataListener(gyroDataListener)
-        cushionBleManager?.removeBCGDataListener(bcgDataListener)
+        cushionBleManager?.removeRawDataListener(rawDataListener)
         meditationStatusPlayer?.release()
         contentResolver.unregisterContentObserver(mContentObserver)
         SoundScapeAudioManager.getInstance(this).release()
