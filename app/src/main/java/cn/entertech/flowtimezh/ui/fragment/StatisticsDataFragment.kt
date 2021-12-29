@@ -75,69 +75,69 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
         var userLessonRecordDao = UserLessonRecordDao(activity)
         var userLessonRecord = userLessonRecordDao.findRecordById(0, recordId)
         meditaitonId = userLessonRecord.meditation
-//        var meditationDao = MeditationDao(activity)
-//        var lessonName = userLessonRecord.lessonName
-//        var courseName = userLessonRecord.courseName
-//
-//        tv_lesson_name.text = lessonName
-//        tv_course_name.text = courseName
-//        var formatStartTIme = userLessonRecord.startTime.replace("T", " ").replace("Z", "")
-//        tv_start_time.text =
-//            getFormatTime(
-//                getStringToDate(formatStartTIme, "yyyy-MM-dd HH:mm:ss"),
-//                "hh:mmaa"
-//            ).toLowerCase()
-//        tv_duration.text =
-//            timeStampToMin(
-//                getStringToDate(
-//                    userLessonRecord.finishTime,
-//                    "yyyy-MM-dd HH:mm:ss"
-//                ) - getStringToDate(
-//                    userLessonRecord.startTime,
-//                    "yyyy-MM-dd HH:mm:ss"
-//                )
-//            )
-//
-//        if (userLessonRecord.meditation == 0L) {
-//            return
-//        }
-//        var meditation = meditationDao.findMeditationById(userLessonRecord.meditation)
-//        if (meditation == null || meditation.meditationFile == null) {
-//            return
-//        }
-//
-//        startTime = meditation.startTime
-//        fileName = meditation.meditationFile!!
-////        Logger.d("file name is " + fileName)
-//
-//        if (fileName == null) {
-//            return
-//        }
-//        var fileProtocol = FileHelper.getMeditationReport(activity!!, fileName)
-//
-////        Logger.d("fileProtocol size is " + fileProtocol.list.size)
-//        if (fileProtocol.list.size <= 0) {
-//            return
-//        }
-//        meditationReportDataAnalyzed = fileProtocol.list[0] as MeditationReportDataAnalyzed?
-//        if (meditationReportDataAnalyzed == null) {
-//            return
-//        }
-//
-//        meditaitonId = userLessonRecord.meditation
-////        report_hr_view.isDataNull(false)
-////        report_hrv_view.isDataNull(false)
-////        report_pressure_view.isDataNull(false)
-////        Logger.d("user record is " + userLessonRecord.toString() + "meditation record is " + meditation.toString())
-//        sleep_chart.setSourceData(fileProtocol)
-//        setViewData()
+        var meditationDao = MeditationDao(activity)
+        var lessonName = userLessonRecord.lessonName
+        var courseName = userLessonRecord.courseName
+
+        tv_lesson_name.text = lessonName
+        tv_course_name.text = courseName
+        var formatStartTIme = userLessonRecord.startTime.replace("T", " ").replace("Z", "")
+        tv_start_time.text =
+            getFormatTime(
+                getStringToDate(formatStartTIme, "yyyy-MM-dd HH:mm:ss"),
+                "hh:mmaa"
+            ).toLowerCase()
+        tv_duration.text =
+            timeStampToMin(
+                getStringToDate(
+                    userLessonRecord.finishTime,
+                    "yyyy-MM-dd HH:mm:ss"
+                ) - getStringToDate(
+                    userLessonRecord.startTime,
+                    "yyyy-MM-dd HH:mm:ss"
+                )
+            )
+
+        if (userLessonRecord.meditation == 0L) {
+            return
+        }
+        var meditation = meditationDao.findMeditationById(userLessonRecord.meditation)
+        if (meditation == null || meditation.meditationFile == null) {
+            return
+        }
+
+        startTime = meditation.startTime
+        fileName = meditation.meditationFile!!
+//        Logger.d("file name is " + fileName)
+
+        if (fileName == null) {
+            return
+        }
+        var fileProtocol = FileHelper.getMeditationReport(activity!!, fileName)
+
+//        Logger.d("fileProtocol size is " + fileProtocol.list.size)
+        if (fileProtocol.list.size <= 0) {
+            return
+        }
+        meditationReportDataAnalyzed = fileProtocol.list[0] as MeditationReportDataAnalyzed?
+        if (meditationReportDataAnalyzed == null) {
+            return
+        }
+
+        meditaitonId = userLessonRecord.meditation
+//        report_hr_view.isDataNull(false)
+//        report_hrv_view.isDataNull(false)
+//        report_pressure_view.isDataNull(false)
+//        Logger.d("user record is " + userLessonRecord.toString() + "meditation record is " + meditation.toString())
+        sleep_chart.setSourceData(fileProtocol)
+        setViewData()
         initLabelsView()
         hideChartView()
     }
 
-    fun hideChartView(){
+    fun hideChartView() {
         chart_brainwave.visibility = View.GONE
-        chart_hr.visibility = View.GONE
+        chart_hr.visibility = View.VISIBLE
         chart_hrv.visibility = View.GONE
         chart_pressure.visibility = View.GONE
         chart_relaxation_and_attention.visibility = View.GONE
@@ -172,23 +172,31 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
             BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
                 var duration =
                     if (meditationLabels[position].startTime > meditationLabels[position].meditationStartTime) {
-                        "${TimeUtils.getFormatTime(
-                            meditationLabels[position].startTime - meditationLabels[position].meditationStartTime,
-                            "mm:ss"
-                        )}" +
-                                "-${TimeUtils.getFormatTime(
-                                    meditationLabels[position].endTime - meditationLabels[position].meditationStartTime,
-                                    "mm:ss"
-                                )}"
+                        "${
+                            TimeUtils.getFormatTime(
+                                meditationLabels[position].startTime - meditationLabels[position].meditationStartTime,
+                                "mm:ss"
+                            )
+                        }" +
+                                "-${
+                                    TimeUtils.getFormatTime(
+                                        meditationLabels[position].endTime - meditationLabels[position].meditationStartTime,
+                                        "mm:ss"
+                                    )
+                                }"
                     } else {
-                        "${TimeUtils.getFormatTime(
-                            meditationLabels[position].startTime,
-                            "mm:ss"
-                        )}" +
-                                "-${TimeUtils.getFormatTime(
-                                    meditationLabels[position].endTime,
-                                    "mm:ss"
-                                )}"
+                        "${
+                            TimeUtils.getFormatTime(
+                                meditationLabels[position].startTime,
+                                "mm:ss"
+                            )
+                        }" +
+                                "-${
+                                    TimeUtils.getFormatTime(
+                                        meditationLabels[position].endTime,
+                                        "mm:ss"
+                                    )
+                                }"
                     }
                 var intent = Intent(
                     activity!!,
@@ -204,54 +212,57 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
     }
 
     fun setViewData() {
-        Log.d("########","meditationReportDataAnalyzed is ${meditationReportDataAnalyzed.toString()}")
-        var alphaAverage = meditationReportDataAnalyzed!!.alphaCurve
-        var betaAverage = meditationReportDataAnalyzed!!.betaCurve
-        var deltaAverage = meditationReportDataAnalyzed!!.deltaCurve
-        var gammaAverage = meditationReportDataAnalyzed!!.gammaCurve
-        var thetaAverage = meditationReportDataAnalyzed!!.thetaCurve
-        if (alphaAverage.average() == 0.0 && betaAverage.average() == 0.0 && deltaAverage.average() == 0.0){
-            return
-        }
-        var brainwaveList = ArrayList<ArrayList<Double>>()
-        brainwaveList.add(gammaAverage as ArrayList<Double>)
-        brainwaveList.add(betaAverage as ArrayList<Double>)
-        brainwaveList.add(alphaAverage as ArrayList<Double>)
-        brainwaveList.add(thetaAverage as ArrayList<Double>)
-        brainwaveList.add(deltaAverage as ArrayList<Double>)
-        chart_brainwave.setData(brainwaveList)
+        Log.d(
+            "########",
+            "meditationReportDataAnalyzed is ${meditationReportDataAnalyzed.toString()}"
+        )
+//        var alphaAverage = meditationReportDataAnalyzed!!.alphaCurve
+//        var betaAverage = meditationReportDataAnalyzed!!.betaCurve
+//        var deltaAverage = meditationReportDataAnalyzed!!.deltaCurve
+//        var gammaAverage = meditationReportDataAnalyzed!!.gammaCurve
+//        var thetaAverage = meditationReportDataAnalyzed!!.thetaCurve
+//        if (alphaAverage.average() == 0.0 && betaAverage.average() == 0.0 && deltaAverage.average() == 0.0) {
+//            return
+//        }
+//        var brainwaveList = ArrayList<ArrayList<Double>>()
+//        brainwaveList.add(gammaAverage as ArrayList<Double>)
+//        brainwaveList.add(betaAverage as ArrayList<Double>)
+//        brainwaveList.add(alphaAverage as ArrayList<Double>)
+//        brainwaveList.add(thetaAverage as ArrayList<Double>)
+//        brainwaveList.add(deltaAverage as ArrayList<Double>)
+//        chart_brainwave.setData(brainwaveList)
 
         var hrLine = meditationReportDataAnalyzed?.hrRec
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrAvg != null){
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrAvg != null) {
             chart_hr.setAverage("${meditationReportDataAnalyzed!!.hrAvg.toInt()}")
         }
         chart_hr.setAverageLineColor(R.color.common_line_hard_color_light)
         chart_hr.setData(hrLine)
-        var hrvLine = meditationReportDataAnalyzed?.hrvRec
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrvAvg != null) {
-            chart_hrv.setAverage("${meditationReportDataAnalyzed!!.hrvAvg.toInt()}")
-        }
-        chart_hrv.setAverageLineColor(R.color.common_line_hard_color_light)
-        chart_hrv.setData(hrvLine)
+//        var hrvLine = meditationReportDataAnalyzed?.hrvRec
+//        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrvAvg != null) {
+//            chart_hrv.setAverage("${meditationReportDataAnalyzed!!.hrvAvg.toInt()}")
+//        }
+//        chart_hrv.setAverageLineColor(R.color.common_line_hard_color_light)
+//        chart_hrv.setData(hrvLine)
 
-
-        var relaxationRec = meditationReportDataAnalyzed?.relaxationRec
-        var attentionRec = meditationReportDataAnalyzed?.attentionRec
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.attentionAvg != null) {
-            chart_relaxation_and_attention.setAttentionAverage(meditationReportDataAnalyzed!!.attentionAvg.toInt())
-        }
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.relaxationAvg != null) {
-            chart_relaxation_and_attention.setRelaxationAverage(meditationReportDataAnalyzed!!.relaxationAvg.toInt())
-        }
-        chart_relaxation_and_attention.setAverageLineColor(R.color.common_line_hard_color_light)
-        chart_relaxation_and_attention.setData(attentionRec,relaxationRec)
-
-        var pressureLine = meditationReportDataAnalyzed?.pressureRec
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.pressureAvg != null){
-            chart_pressure.setAverage("${meditationReportDataAnalyzed!!.pressureAvg.toInt()}")
-        }
-        chart_pressure.setAverageLineColor(R.color.common_line_hard_color_light)
-        chart_pressure.setData(pressureLine)
+//
+//        var relaxationRec = meditationReportDataAnalyzed?.relaxationRec
+//        var attentionRec = meditationReportDataAnalyzed?.attentionRec
+//        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.attentionAvg != null) {
+//            chart_relaxation_and_attention.setAttentionAverage(meditationReportDataAnalyzed!!.attentionAvg.toInt())
+//        }
+//        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.relaxationAvg != null) {
+//            chart_relaxation_and_attention.setRelaxationAverage(meditationReportDataAnalyzed!!.relaxationAvg.toInt())
+//        }
+//        chart_relaxation_and_attention.setAverageLineColor(R.color.common_line_hard_color_light)
+//        chart_relaxation_and_attention.setData(attentionRec, relaxationRec)
+//
+//        var pressureLine = meditationReportDataAnalyzed?.pressureRec
+//        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.pressureAvg != null) {
+//            chart_pressure.setAverage("${meditationReportDataAnalyzed!!.pressureAvg.toInt()}")
+//        }
+//        chart_pressure.setAverageLineColor(R.color.common_line_hard_color_light)
+//        chart_pressure.setData(pressureLine)
     }
 
     private var llContainer: LinearLayout? = null
