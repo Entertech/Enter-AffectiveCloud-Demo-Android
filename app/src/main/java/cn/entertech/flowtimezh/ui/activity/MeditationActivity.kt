@@ -13,18 +13,27 @@ import android.os.*
 import android.text.Html
 import android.util.Log
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.RotateAnimation
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import cn.entertech.affectivecloudsdk.*
 import cn.entertech.affectivecloudsdk.entity.RecData
+import cn.entertech.affectivecloudsdk.interfaces.Callback
 import cn.entertech.ble.cushion.CushionBleManager
+import cn.entertech.ble.single.BiomoduleBleManager
+import cn.entertech.bleuisdk.ui.activity.DeviceManagerActivity
 import cn.entertech.flowtime.utils.reportfileutils.*
 import cn.entertech.flowtimezh.R
+import cn.entertech.flowtimezh.app.Application
 import cn.entertech.flowtimezh.app.Constant
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_ID
+import cn.entertech.flowtimezh.app.SettingManager
 import cn.entertech.flowtimezh.database.*
 import cn.entertech.flowtimezh.database.model.MeditationLabelsModel
 import cn.entertech.flowtimezh.entity.MeditationEntity
+import cn.entertech.flowtimezh.entity.MessageEvent
 import cn.entertech.flowtimezh.entity.RecDataRecord
 import cn.entertech.flowtimezh.entity.UserLessonEntity
 import cn.entertech.flowtimezh.entity.meditation.*
@@ -35,6 +44,7 @@ import cn.entertech.flowtimezh.ui.view.scrolllayout.ScrollLayout
 import cn.entertech.flowtimezh.utils.*
 import cn.entertech.flowtimezh.utils.reportfileutils.HexDump
 import com.google.gson.Gson
+import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.activity_meditation.*
 import kotlinx.android.synthetic.main.activity_meditation.chronometer
 import kotlinx.android.synthetic.main.activity_meditation.tv_experiment_name
@@ -42,6 +52,9 @@ import kotlinx.android.synthetic.main.activity_meditation.tv_record_btn
 import kotlinx.android.synthetic.main.activity_meditation_labels_record.*
 import kotlinx.android.synthetic.main.activity_meditation_time_record.*
 import kotlinx.android.synthetic.main.layout_common_title.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import java.io.File
 import java.util.*
 import kotlin.collections.HashMap
@@ -53,6 +66,7 @@ class MeditationActivity : BaseActivity() {
     private var bcgFileHelper: FileStoreHelper? = null
     private var gyroFileHelper: FileStoreHelper? = null
     private var cushionBleManager: CushionBleManager? = null
+    private var flowtimeBleManager: BiomoduleBleManager? = null
     private var meditationStatusPlayer: MeditationStatusPlayer? = null
     private var mContentObserver: SettingsContentObserver? = null
     private var connection: ServiceConnection? = null
@@ -136,25 +150,116 @@ class MeditationActivity : BaseActivity() {
         gyroFileHelper = FileStoreHelper()
         labelFileHelper?.setPath(labelRecordPath, "labels")
         bcgFileHelper?.setPath(labelRecordPath, "bcg")
+        EventBus.getDefault().register(this)
 //        gyroFileHelper?.setPath(labelRecordPath,"gyro")
     }
 
+    fun initAffectiveCloudManager() {
+        affectiveCloudService?.addListener({
+            runOnUiThread {
+                if (it != null && it!!.realtimeHrData != null) {
+                    Log.d("####", "eeg data:" + it!!.realtimeEEGData?.alphaPower)
+                    if (isFirstReceiveData) {
+                        if (SettingManager.getInstance().timeCountIsEEG()) {
+                            MeditationTimeManager.getInstance().timeReset()
+                        }
+                        meditationStartTime = System.currentTimeMillis()
+                        meditationId = -System.currentTimeMillis()
+                        Log.d("####", "meditation id is " + meditationId)
+                        fragmentBuffer.fileName = getCurrentTimeFormat(meditationStartTime!!)
+//                        FileStoreHelper.getInstance().setPath(
+//                            MEDITATION_LABEL_RECORD_PATH,
+//                            getCurrentTimeFormat(meditationStartTime!!)
+//                        )
+                        isFirstReceiveData = false
+                    } else {
+                        if (SettingManager.getInstance().timeCountIsEEG()) {
+                            MeditationTimeManager.getInstance().timeIncrease()
+                        }
+                    }
+                }
+                if (it != null && it!!.realtimeHrData != null && !SettingManager.getInstance()
+                        .timeCountIsEEG()
+                ) {
+                    if (isFirstReceiveHRData) {
+                        MeditationTimeManager.getInstance().timeReset()
+                        isFirstReceiveHRData = false
+                    } else {
+                        MeditationTimeManager.getInstance().timeIncrease()
+                    }
+                }
+                meditationFragment?.showHeart(
+                    it?.realtimeHrData?.hr?.toInt(),
+                    it?.realtimeHrData?.hrv
+                )
+                meditationFragment?.showBrain(it?.realtimeEEGData)
+            }
+        }, {
+            runOnUiThread {
+                meditationFragment?.showAttention(it?.realtimeAttentionData?.attention?.toFloat())
+                meditationFragment?.showRelaxation(it?.realtimeRelaxationData?.relaxation?.toFloat())
+                meditationFragment?.showPressure(it?.realtimePressureData?.pressure?.toFloat())
+                meditationFragment?.showMood(it?.realtimePleasureData?.pleasure?.toFloat())
+                meditationFragment?.showArousal(it?.realtimeArousalData?.arousal?.toFloat())
+                meditationFragment?.showCoherence(it?.realtimeCoherenceData?.coherence?.toFloat())
+                meditationFragment?.showPleasure(it?.realtimePleasureData?.pleasure?.toFloat())
+                meditationFragment?.showSleep(it?.realtimeSleepData?.sleepDegree?.toFloat())
+                isSleep(it?.realtimeSleepData?.sleepState?.toInt())
+            }
+        })
+    }
+
+    fun initDataFragment() {
+        meditationFragment = MeditationFragment()
+//        meditationEditFragment = MeditationEditFragment()
+        meditationFragment?.setScrollTopListener(object : MeditationFragment.IScrollTopListener {
+            override fun isScrollTop(flag: Boolean) {
+                scrollLayout.setIsChildListTop(flag)
+            }
+        })
+        var fragmentManager = supportFragmentManager
+        var fragmentTransaction = fragmentManager.beginTransaction()
+        if (meditationFragment != null) {
+            fragmentTransaction?.add(R.id.container, meditationFragment!!).commit()
+//            fragmentTransaction?.add(R.id.container, meditationEditFragment!!)?.show(meditationFragment!!)
+//                ?.hide(meditationEditFragment!!)
+//                ?.commit()
+        }
+    }
+
     fun bindAffectiveService() {
+        var serviceIntent = Intent(this, AffectiveCloudService::class.java)
+        var userId = intent.getStringExtra("userId")
+        var sex = intent.getStringExtra("sex")
+        var age = intent.getStringExtra("age")
+        var experimentDao = ExperimentDao(this)
+        var modeDao = ExperimentModeDao(this)
+        var experiment = experimentDao.findExperimentBySelected()
+        var case = listOf(experiment.id).toIntArray()
+        var mode = modeDao.findModeByExperimentId(experiment.id).map { it.id }.toIntArray()
+        serviceIntent.putExtra("userId", userId)
+        serviceIntent.putExtra("sex", sex)
+        serviceIntent.putExtra("age", age)
+        serviceIntent.putExtra("case", case)
+        serviceIntent.putExtra("mode", mode)
         serviceConnection = object : ServiceConnection {
-            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            override fun onServiceDisconnected(name: ComponentName?) {
 
             }
 
-            override fun onServiceDisconnected(name: ComponentName?) {
+            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                affectiveCloudService = (service as AffectiveCloudService.MyBinder).service
+                initAffectiveCloudManager()
+                meditationFragment?.initNetListener()
+                connectWebSocket()
             }
 
         }
-        var intent = Intent(this, AffectiveCloudService::class.java)
-        applicationContext.bindService(intent, serviceConnection!!, Context.BIND_AUTO_CREATE)
+        bindService(serviceIntent, serviceConnection!!, Context.BIND_AUTO_CREATE)
     }
 
     fun unBindAffectiveService() {
-        applicationContext.unbindService(serviceConnection!!)
+        unbindService(serviceConnection!!)
     }
 
     fun onVoiceChange() {
@@ -200,37 +305,6 @@ class MeditationActivity : BaseActivity() {
         }
     }
 
-//    fun bindAffectiveService() {
-//        var serviceIntent = Intent(this, AffectiveCloudService::class.java)
-//        var userId = intent.getStringExtra("userId")
-//        var sex = intent.getStringExtra("sex")
-//        var age = intent.getStringExtra("age")
-//        var experimentDao = ExperimentDao(this)
-//        var modeDao = ExperimentModeDao(this)
-//        var experiment = experimentDao.findExperimentBySelected()
-//        var case = listOf(experiment.id).toIntArray()
-//        var mode = modeDao.findModeByExperimentId(experiment.id).map { it.id }.toIntArray()
-//        serviceIntent.putExtra("userId", userId)
-//        serviceIntent.putExtra("sex", sex)
-//        serviceIntent.putExtra("age", age)
-//        serviceIntent.putExtra("case", case)
-//        serviceIntent.putExtra("mode", mode)
-//        connection = object : ServiceConnection {
-//            override fun onServiceDisconnected(name: ComponentName?) {
-//
-//            }
-//
-//            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-//                affectiveCloudService = (service as AffectiveCloudService.MyBinder).service
-//                initAffectiveCloudManager()
-//                meditationFragment?.initNetListener()
-//            }
-//
-//        }
-//        bindService(serviceIntent, connection!!, Context.BIND_AUTO_CREATE)
-//    }
-
-    var mMainHanlder = Handler()
     var isToConnectDevice: Boolean = false
 
     var isSleep = false
@@ -277,6 +351,85 @@ class MeditationActivity : BaseActivity() {
             }
         }
         initTilte()
+        initDataFragment()
+        initScrollLayout()
+    }
+
+    private fun initScrollLayout() {
+        scrollLayout = findViewById(R.id.sl_statistics_container)
+        scrollLayout.setIsChildListTop(true)
+        var coverView = findViewById<RelativeLayout>(R.id.rl_cover)
+        scrollLayout.setCoverView(coverView)
+        scrollLayout.setMinOffset(0)
+        scrollLayout.setMaxOffset((ScreenUtil.getScreenHeight(this) * 0.5).toInt())
+        scrollLayout.setIsSupportExit(true)
+//        Log.d("###", "navigation height is " + ScreenUtil.getNavigationBarHeight(Application.getInstance()))
+        scrollLayout.setExitOffset(
+            ScreenUtil.dip2px(
+                this,
+                38f
+            ) + ScreenUtil.getNavigationBarHeight(Application.getInstance())
+        )
+        scrollLayout.setTouchOffset(ScreenUtil.dip2px(this, 38f))
+        scrollLayout.isAllowHorizontalScroll = true
+        scrollLayout.setToOpen()
+        scrollLayout.isDraggable = true
+        scrollLayout.visibility = View.VISIBLE
+        scrollLayout.setOnScrollChangedListener(object : ScrollLayout.OnScrollChangedListener {
+            override fun onScrollProgressChanged(currentProgress: Float) {}
+
+            override fun onScrollFinished(currentStatus: ScrollLayout.Status) {
+                if (currentStatus.equals(ScrollLayout.Status.EXIT)) {
+                    val myRotateAnimation_down = RotateAnimation(
+                        180.0f,
+                        +0.0f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f
+                    )
+                    myRotateAnimation_down.duration = 300
+                    myRotateAnimation_down.fillAfter = true
+                    meditationFragment?.showMiniBar()
+                } else if (currentStatus === ScrollLayout.Status.CLOSED) {
+                    val myRotateAnimation_up = RotateAnimation(
+                        0.0f,
+                        +180.0f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f,
+                        Animation.RELATIVE_TO_SELF,
+                        0.5f
+                    )
+                    myRotateAnimation_up.duration = 300
+                    myRotateAnimation_up.fillAfter = true
+                    meditationFragment?.hideMiniBar()
+                } else {
+                    meditationFragment?.hideMiniBar()
+                }
+
+            }
+
+            override fun onChildScroll(top: Int) {}
+        })
+        scrollLayout.setCoverView(findViewById<RelativeLayout>(R.id.rl_cover))
+        if (cushionBleManager?.isConnected() == true) {
+            scrollLayout.scrollToOpen()
+        } else {
+            scrollLayout.scrollToExit()
+        }
+    }
+
+    fun connectWebSocket() {
+        affectiveCloudService?.connectCloud(object : Callback {
+            override fun onError(error: cn.entertech.affectivecloudsdk.entity.Error?) {
+            }
+
+
+            override fun onSuccess() {
+                    Logger.d("affectivecloudmanager init success:")
+                    flowtimeBleManager?.startHeartAndBrainCollection()
+            }
+        })
     }
 
     fun initTimeRecordView() {
@@ -307,12 +460,27 @@ class MeditationActivity : BaseActivity() {
     }
 
     private lateinit var rawDataListener: (ByteArray) -> Unit
+    private lateinit var hrDataListener: (Int) -> Unit
 
     //    var brainDataList = ArrayList<Int>()
     fun initBleManager() {
         cushionBleManager = CushionBleManager.getInstance(this)
+        flowtimeBleManager = BiomoduleBleManager.getInstance(this)
+        hrDataListener = fun(hr: Int) {
+            isBcgDataUpload = true
+            var currentTimeMs = System.currentTimeMillis()
+            if (affectiveCloudService?.isInited() == true) {
+                affectiveCloudService?.appendHeartRateData(hr)
+            }
+            if (lastReceiveDataTimeMs != null) {
+                if ((currentTimeMs - lastReceiveDataTimeMs!!) >= 15000L) {
+                    lastReceiveDataTimeMs = null
+                    affectiveCloudService?.closeWebSocket()
+                }
+            }
+        }
         rawDataListener = fun(data: ByteArray) {
-            Log.d("raw data is",Arrays.toString(data))
+            Log.d("raw data is", Arrays.toString(data))
 //            var intArray = data.map { HexDump.converUnchart(it) }
 //            var dataString = intArray
 //                .toString().replace("[", "").replace("]", "").replace(" ", "") + ","
@@ -329,6 +497,7 @@ class MeditationActivity : BaseActivity() {
 //        }
 //        cushionBleManager?.addGyroDataListener(gyroDataListener)
         cushionBleManager?.addRawDataListener(rawDataListener)
+        flowtimeBleManager?.addHeartRateListener(hrDataListener)
     }
 
     lateinit var reportMeditationData: ReportMeditationDataEntity
@@ -355,20 +524,10 @@ class MeditationActivity : BaseActivity() {
         meditaiton!!.id = meditationId
         meditaiton!!.startTime = fragmentBuffer.fileName
         meditaiton!!.finishTime = meditationEndTime
-        meditaiton!!.attentionAvg = report.reportAttentionEnitty!!.attentionAvg!!.toFloat()
-        meditaiton!!.attentionMax =
-            java.util.Collections.max(report.reportAttentionEnitty?.attentionRec).toFloat()
-        meditaiton!!.attentionMin =
-            java.util.Collections.min(report.reportAttentionEnitty?.attentionRec).toFloat()
         meditaiton!!.heartRateAvg = report.reportHRDataEntity!!.hrAvg!!.toFloat()
         meditaiton!!.heartRateMax = report.reportHRDataEntity!!.hrMax!!.toFloat()
         meditaiton!!.heartRateMin = report.reportHRDataEntity!!.hrMin!!.toFloat()
         meditaiton!!.heartRateVariabilityAvg = report.reportHRDataEntity!!.hrvAvg!!.toFloat()
-        meditaiton!!.relaxationAvg = report.reportRelaxationEnitty!!.relaxationAvg!!.toFloat()
-        meditaiton!!.relaxationMax =
-            java.util.Collections.max(report.reportRelaxationEnitty?.relaxationRec).toFloat()
-        meditaiton!!.relaxationMin =
-            java.util.Collections.min(report.reportRelaxationEnitty?.relaxationRec).toFloat()
         meditaiton!!.user = 0
 //        var reportFileUri =
 //            "${SettingManager.getInstance().userId}/${courseId}/${lessonId}/${fragmentBuffer.fileName}"
@@ -405,46 +564,49 @@ class MeditationActivity : BaseActivity() {
         startActivity(intent)
         finish()
     }
+    fun pauseMeditation() {
+        isMeditationPause = true
+        flowtimeBleManager?.stopHeartAndBrainCollection()
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: MessageEvent) {
+//        var fragmentManager = supportFragmentManager
+//        var fragmentTransaction = fragmentManager.beginTransaction()
+        when (event.messageCode) {
+            MessageEvent.MESSAGE_CODE_TO_DEVICE_CONNECT -> {
+                if (flowtimeBleManager?.isConnected() == false) {
+                    isToConnectDevice = true
+                }
+                if (!isMeditationPause) {
+                    pauseMeditation()
+                }
+                scrollLayout.scrollToOpen()
+                startActivity(Intent(this, DeviceManagerActivity::class.java))
+            }
+            MessageEvent.MESSAGE_CODE_TO_NET_RESTORE -> {
+                if (affectiveCloudService!!.getSessionId() != null) {
+                    affectiveCloudService?.restoreCloud(object : Callback {
+                        override fun onError(error: cn.entertech.affectivecloudsdk.entity.Error?) {
+                        }
 
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    fun onMessageEvent(event: MessageEvent) {
-////        var fragmentManager = supportFragmentManager
-////        var fragmentTransaction = fragmentManager.beginTransaction()
-//        when (event.messageCode) {
-//            MessageEvent.MESSAGE_CODE_TO_DEVICE_CONNECT -> {
-//                if (!biomoduleBleManager.isConnected()) {
-//                    isToConnectDevice = true
-//                }
-//                if (!isMeditationPause) {
-//                    pauseMeditation()
-//                }
-//                scrollLayout.scrollToOpen()
-//                startActivity(Intent(this, DeviceManagerActivity::class.java))
-//            }
-//            MessageEvent.MESSAGE_CODE_TO_NET_RESTORE -> {
-//                if (affectiveCloudService!!.getSessionId() != null) {
-//                    affectiveCloudService?.restoreCloud(object : Callback {
-//                        override fun onError(error: Error?) {
-//                        }
-//
-//                        override fun onSuccess() {
-//                        }
-//
-//                    })
-//                } else {
-//                    affectiveCloudService?.connectCloud(object : Callback {
-//                        override fun onError(error: Error?) {
-//                        }
-//
-//                        override fun onSuccess() {
-//                            biomoduleBleManager.startHeartAndBrainCollection()
-//                        }
-//
-//                    })
-//                }
-//            }
-//        }
-//    }
+                        override fun onSuccess() {
+                        }
+
+                    })
+                } else {
+                    affectiveCloudService?.connectCloud(object : Callback {
+                        override fun onError(error: cn.entertech.affectivecloudsdk.entity.Error?) {
+                        }
+
+                        override fun onSuccess() {
+//                            flowtimeBleManager.startHeartAndBrainCollection()
+                        }
+
+                    })
+                }
+            }
+        }
+    }
 
 
     fun showDialog() {
@@ -631,47 +793,48 @@ class MeditationActivity : BaseActivity() {
         }
         Log.d("####", "save label4444")
 //        saveMeditationInDB(reportMeditationData)
-        saveUserLessonInDB()
-        toDataActivity()
-//        startFinishTimer()
-//        reportMeditationData = ReportMeditationDataEntity()
-//        if (meditationTimeError() || !affectiveCloudService!!.isConnected()) {
-//            exitWithoutMeditation()
-//        } else {
-//            if (meditationLabels == null || meditationLabels.isEmpty()) {
-//                getReportAndExit()
-//            } else {
-//                loadingDialog?.loading("正在提交数标签...")
-//                affectiveCloudService?.submit(recDatas, object : Callback {
-//                    override fun onSuccess() {
-//                        runOnUiThread {
-//                            loadingDialog?.dismiss()
-//                            Toast.makeText(this@MeditationActivity, "标签提交成功！", Toast.LENGTH_SHORT)
-//                                .show()
-//                            getReportAndExit()
-//                        }
-//                    }
-//
-//                    override fun onError(error: Error?) {
-//                        runOnUiThread {
-//                            loadingDialog?.dismiss()
-//                            Toast.makeText(
-//                                this@MeditationActivity,
-//                                "标签提交失败！${error.toString()}",
-//                                Toast.LENGTH_SHORT
-//                            ).show()
-//                            getReportAndExit()
-//                        }
-//                    }
-//                })
-//            }
-//
-//        }
+//        saveUserLessonInDB()
+//        toDataActivity()
+        startFinishTimer()
+        reportMeditationData = ReportMeditationDataEntity()
+        if (meditationTimeError() || !affectiveCloudService!!.isConnected()) {
+            exitWithoutMeditation()
+        } else {
+            if (meditationLabels == null || meditationLabels.isEmpty()) {
+                getReportAndExit()
+            } else {
+                loadingDialog?.loading("正在提交数标签...")
+                affectiveCloudService?.submit(recDatas, object : Callback {
+                    override fun onSuccess() {
+                        runOnUiThread {
+                            loadingDialog?.dismiss()
+                            Toast.makeText(this@MeditationActivity, "标签提交成功！", Toast.LENGTH_SHORT)
+                                .show()
+                            getReportAndExit()
+                        }
+                    }
+
+                    override fun onError(error: cn.entertech.affectivecloudsdk.entity.Error?) {
+                        runOnUiThread {
+                            loadingDialog?.dismiss()
+                            Toast.makeText(
+                                this@MeditationActivity,
+                                "标签提交失败！${error.toString()}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            getReportAndExit()
+                        }
+                    }
+                })
+            }
+
+        }
     }
 
     fun saveLabelInLocal(recDatas: List<RecData>) {
         var recDataRecord = RecDataRecord()
         recDataRecord.recDatas = recDatas
+        recDataRecord.session_id = affectiveCloudService?.getSessionId()
         var json = Gson().toJson(recDataRecord)
         labelFileHelper?.writeData(json)
     }
@@ -738,6 +901,7 @@ class MeditationActivity : BaseActivity() {
     override fun onDestroy() {
         unBindAffectiveService()
         cushionBleManager?.removeRawDataListener(rawDataListener)
+        flowtimeBleManager?.removeHeartRateListener(hrDataListener)
         meditationStatusPlayer?.release()
         contentResolver.unregisterContentObserver(mContentObserver)
         SoundScapeAudioManager.getInstance(this).release()
@@ -745,6 +909,10 @@ class MeditationActivity : BaseActivity() {
         wl?.release()
         handler?.removeCallbacks(finishRunnable)
         sessionId = null
+        if (affectiveCloudService!!.isInited()) {
+            affectiveCloudService?.release()
+        }
+        EventBus.getDefault().unregister(this)
         super.onDestroy()
     }
 }

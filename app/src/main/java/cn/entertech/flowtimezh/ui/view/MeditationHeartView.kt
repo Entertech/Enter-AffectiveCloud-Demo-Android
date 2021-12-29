@@ -33,32 +33,40 @@ class MeditationHeartView @JvmOverloads constructor(
     }
 
     fun setHeartValue(heartRate: Int?) {
-        heart_rate.setHeartValue(heartRate)
+        if (heartRate != null) {
+            heart_rate.setHeartValue(heartRate)
+            heart_rate_line.appendHrv(listOf(heartRate!!.toDouble()))
+        }
     }
 
-    fun setHRV(hrv:Double?){
+    fun setHRV(hrv: Double?) {
 //        realtime_hrv.appendHrv(hrv)
     }
 
     fun showHRLoadingCover() {
         heart_rate.showLoading()
+        heart_rate_line.showLoadingCover()
     }
 
     fun hideHRLoadingCover() {
         heart_rate.hideLoading()
+        heart_rate_line.hindLoadingCover()
     }
 
     fun showHRSampleData() {
         heart_rate.showDisconnectTip()
+        heart_rate_line.showSampleData()
     }
 
-    fun showErrorMessage(error:String){
+    fun showErrorMessage(error: String) {
         heart_rate.showErrorMessage(error)
+        heart_rate_line.showErrorMessage(error)
 //        realtime_hrv.showErrorMessage(error)
     }
 
     fun hideHRSampleData() {
         heart_rate.hideDisconnectTip()
+        heart_rate_line.hideSampleData()
     }
 
     fun showHRVLoadingCover() {

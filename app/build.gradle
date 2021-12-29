@@ -97,6 +97,7 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
     implementation 'com.google.android:flexbox:2.0.1'
     implementation 'cn.entertech.android:cushionble:1.0.0-alpha03'
+    implementation 'cn.entertech.android:biomoduleble:1.4.0'
 }
 
 // build 版本 +1

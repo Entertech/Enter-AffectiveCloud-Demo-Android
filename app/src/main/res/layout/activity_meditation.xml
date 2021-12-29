@@ -147,6 +147,52 @@
             </RelativeLayout>
 
         </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/rl_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#80000000"
+            android:visibility="gone">
+
+        </RelativeLayout>
+
+        <cn.entertech.flowtimezh.ui.view.scrolllayout.ScrollLayout
+            android:id="@+id/sl_statistics_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="32dp"
+            android:background="#00ffffff"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:translationZ="10dp"
+            android:visibility="gone"
+            app:isChildListView="false"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_scroll_layout_bg">
+
+                <TextView
+                    android:id="@+id/tv_drag_bar"
+                    android:layout_width="56dp"
+                    android:layout_height="6dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:background="@drawable/shape_drag_bar_bg" />
+
+                <FrameLayout
+                    android:id="@+id/container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/tv_drag_bar"
+                    android:layout_marginTop="@dimen/activity_margin">
+
+                </FrameLayout>
+            </RelativeLayout>
+
+        </cn.entertech.flowtimezh.ui.view.scrolllayout.ScrollLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

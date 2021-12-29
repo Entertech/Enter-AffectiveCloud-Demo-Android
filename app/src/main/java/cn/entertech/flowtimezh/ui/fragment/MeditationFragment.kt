@@ -43,7 +43,7 @@ import java.util.*
 class MeditationFragment : androidx.fragment.app.Fragment() {
     private var isMeditationInterrupt: Boolean = false
     private var lastQuality: Double = 0.0
-    private var biomoduleBleManager: MultipleBiomoduleBleManager? = null
+    private var biomoduleBleManager: BiomoduleBleManager? = null
     var selfView: View? = null
     var smartScrollView: SmartScrollView? = null
     var llContainer: LinearLayout? = null
@@ -797,7 +797,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun initDeviceConnectListener() {
-        biomoduleBleManager = DeviceUIConfig.getInstance(Application.getInstance()).managers[0]
+        biomoduleBleManager = BiomoduleBleManager.getInstance(activity!!)
         if (biomoduleBleManager!!.isConnected()) {
             isBleConnected = true
             selfView?.findViewById<MeditationInterruptView>(R.id.miv_interrupt_device)?.visibility =

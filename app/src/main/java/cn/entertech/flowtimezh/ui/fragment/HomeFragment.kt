@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import cn.entertech.ble.cushion.CushionBleManager
+import cn.entertech.ble.single.BiomoduleBleManager
 
 import cn.entertech.flowtimezh.R
 import cn.entertech.flowtimezh.database.ExperimentDao
@@ -19,6 +20,7 @@ class HomeFragment : Fragment() {
 
     private var progressDialog: ProgressDialog? = null
     private var bleManager: CushionBleManager? = null
+    private var flowtimeBle: BiomoduleBleManager? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +40,24 @@ class HomeFragment : Fragment() {
                 return@setOnClickListener
             }
             progressDialog?.show()
-            bleManager?.scanNearDeviceAndConnect(fun() {
+//            bleManager?.scanNearDeviceAndConnect(fun() {
+//            }, fun(e) {
+//                activity!!.runOnUiThread {
+//                    progressDialog?.dismiss()
+//                    Toast.makeText(activity!!, "设备扫描失败：$e", Toast.LENGTH_SHORT).show()
+//                }
+//            }, fun(mac) {
+//                activity!!.runOnUiThread {
+//                    progressDialog?.dismiss()
+//                    Toast.makeText(activity!!, "设备连接成功", Toast.LENGTH_SHORT).show()
+//                }
+//            }, fun(error) {
+//                activity!!.runOnUiThread {
+//                    progressDialog?.dismiss()
+//                    Toast.makeText(activity!!, "设备连接失败：$error", Toast.LENGTH_SHORT).show()
+//                }
+//            })
+            flowtimeBle?.scanNearDeviceAndConnect(fun() {
             }, fun(e) {
                 activity!!.runOnUiThread {
                     progressDialog?.dismiss()
@@ -57,7 +76,7 @@ class HomeFragment : Fragment() {
             })
         }
         btn_start_meditation.setOnClickListener {
-            if (bleManager?.isConnected() == true) {
+            if (flowtimeBle?.isConnected() == true) {
                 var experimentDao = ExperimentDao(activity)
                 var experiment = experimentDao.findExperimentBySelected()
                 if (experiment == null) {
@@ -65,7 +84,7 @@ class HomeFragment : Fragment() {
                 } else {
                     startActivity(Intent(activity, PersonInfoActivity::class.java))
                 }
-            }else{
+            } else {
                 Toast.makeText(activity!!, "请先连接设备！", Toast.LENGTH_SHORT).show()
             }
         }
@@ -97,6 +116,8 @@ class HomeFragment : Fragment() {
         } else {
             iv_device.setImageResource(R.mipmap.ic_device_disconnect_color)
         }
+
+        flowtimeBle = BiomoduleBleManager.getInstance(activity!!)
     }
 
     override fun onDestroy() {

@@ -43,7 +43,7 @@ internal class AffectiveCloudService : Service() {
         notificationManager.notify(1, builder.build())
         startForeground(1, builder.build())
 
-//        initAffectiveCloudManager(intent)
+        initAffectiveCloudManager(intent)
         return MyBinder()
     }
 
