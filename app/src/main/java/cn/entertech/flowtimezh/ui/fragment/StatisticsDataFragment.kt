@@ -18,22 +18,18 @@ import cn.entertech.flowtimezh.database.MeditationDao
 import cn.entertech.flowtimezh.database.MeditationLabelsDao
 import cn.entertech.flowtimezh.database.UserLessonRecordDao
 import cn.entertech.flowtimezh.database.model.MeditationLabelsModel
-import cn.entertech.flowtimezh.ui.activity.MeditationActivity
 import cn.entertech.flowtimezh.ui.activity.MeditationDimListActivity
 import cn.entertech.flowtimezh.ui.activity.MeditationLabelsCommitActivity
-import cn.entertech.flowtimezh.ui.activity.MeditationTimeRecordActivity
 import cn.entertech.flowtimezh.ui.adapter.MeditationLabelsListAdapter
 import cn.entertech.flowtimezh.utils.TimeUtils
 import cn.entertech.flowtimezh.utils.TimeUtils.*
 import cn.entertech.flowtimezh.utils.reportfileutils.FileHelper
 import cn.entertech.flowtimezh.utils.reportfileutils.MeditationReportDataAnalyzed
-import cn.entertech.uicomponentsdk.report.StackedAreaChart
-import cn.entertech.uicomponentsdk.utils.removeZeroData
+import cn.entertech.uicomponentsdk.utils.TimeUtils.second2FormatString
 import com.chad.library.adapter.base.BaseQuickAdapter
 import kotlinx.android.synthetic.main.activity_meditation_labels_commit.*
 
 import kotlinx.android.synthetic.main.fragment_statistics_data.*
-import kotlin.collections.ArrayList
 
 class StatisticsDataFragment : androidx.fragment.app.Fragment() {
     private var meditaitonId: Long? = null
@@ -134,11 +130,21 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
         initLabelsView()
         hideChartView()
     }
-
+    fun setHrChart() {
+        chart_hr_coherence.isShowLegend(true)
+        chart_hr_coherence.isShowYAxisLabels(true)
+        chart_hr_coherence.setCohTime("6min 45s"
+        )
+        chart_hr_coherence.setData(
+            meditationReportDataAnalyzed?.hrRec,
+            meditationReportDataAnalyzed?.hrRec?.map {  0.0 },
+            true
+        )
+    }
     fun hideChartView() {
         chart_brainwave.visibility = View.GONE
-        chart_hr.visibility = View.VISIBLE
-        chart_hrv.visibility = View.GONE
+        chart_hr.visibility = View.GONE
+        chart_hrv.visibility = View.VISIBLE
         chart_pressure.visibility = View.GONE
         chart_relaxation_and_attention.visibility = View.GONE
         sleep_chart.visibility = View.GONE
@@ -231,19 +237,19 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
 //        brainwaveList.add(thetaAverage as ArrayList<Double>)
 //        brainwaveList.add(deltaAverage as ArrayList<Double>)
 //        chart_brainwave.setData(brainwaveList)
-
-        var hrLine = meditationReportDataAnalyzed?.hrRec
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrAvg != null) {
-            chart_hr.setAverage("${meditationReportDataAnalyzed!!.hrAvg.toInt()}")
-        }
-        chart_hr.setAverageLineColor(R.color.common_line_hard_color_light)
-        chart_hr.setData(hrLine)
-//        var hrvLine = meditationReportDataAnalyzed?.hrvRec
-//        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrvAvg != null) {
-//            chart_hrv.setAverage("${meditationReportDataAnalyzed!!.hrvAvg.toInt()}")
+        setHrChart()
+//        var hrLine = meditationReportDataAnalyzed?.hrRec
+//        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrAvg != null) {
+//            chart_hr.setAverage("${meditationReportDataAnalyzed!!.hrAvg.toInt()}")
 //        }
-//        chart_hrv.setAverageLineColor(R.color.common_line_hard_color_light)
-//        chart_hrv.setData(hrvLine)
+//        chart_hr.setAverageLineColor(R.color.common_line_hard_color_light)
+//        chart_hr.setData(hrLine)
+        var hrvLine = meditationReportDataAnalyzed?.hrvRec
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrvAvg != null) {
+            chart_hrv.setAverage("${meditationReportDataAnalyzed!!.hrvAvg.toInt()}")
+        }
+        chart_hrv.setAverageLineColor(R.color.common_line_hard_color_light)
+        chart_hrv.setData(hrvLine)
 
 //
 //        var relaxationRec = meditationReportDataAnalyzed?.relaxationRec
