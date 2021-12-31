@@ -49,7 +49,7 @@ class MeditationBcgView @JvmOverloads constructor(
         rw_wave.hindLoadingCover()
     }
 
-    fun showHRSampleData() {
+    fun showSampleData() {
         bcg_wave.showSampleData()
         rw_wave.showSampleData()
     }
@@ -59,7 +59,7 @@ class MeditationBcgView @JvmOverloads constructor(
         rw_wave.showErrorMessage(error)
     }
 
-    fun hideHRSampleData() {
+    fun hideSampleData() {
         bcg_wave.hideSampleData()
         rw_wave.hideSampleData()
     }

@@ -90,10 +90,10 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
 
     fun initView() {
         selfView?.findViewById<TextView>(R.id.tv_edit)?.setOnClickListener {
-            var messageEvent = MessageEvent()
-            messageEvent.messageCode = MessageEvent.MESSAGE_CODE_DATA_EDIT
-            messageEvent.message = "edit"
-            EventBus.getDefault().post(messageEvent)
+//            var messageEvent = MessageEvent()
+//            messageEvent.messageCode = MessageEvent.MESSAGE_CODE_DATA_EDIT
+//            messageEvent.message = "edit"
+//            EventBus.getDefault().post(messageEvent)
         }
         smartScrollView = selfView?.findViewById<SmartScrollView>(R.id.ssv_scroll_view)
         smartScrollView?.setSmartScrollChangedListener(object :
@@ -627,7 +627,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         selfView?.findViewById<RelativeLayout>(R.id.rl_minibar_connect)?.visibility = View.GONE
         if (!BiomoduleBleManager.getInstance(Application.getInstance()).isConnected()) {
             selfView?.findViewById<TextView>(R.id.tv_minibar_text)?.text =
-                "Connect the headhand to show data"
+                "连接设备以获取实时数据"
             selfView?.findViewById<TextView>(R.id.tv_minibar_text)?.setOnClickListener {
                 (activity as MeditationActivity).scrollLayout.scrollToOpen()
             }
@@ -855,14 +855,14 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showSampleData()
         selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRSampleData()
         selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRVSampleData()
-        selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")?.showSampleData()
+        selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.showSampleData()
     }
 
     fun hideSampleData() {
         selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.hideSampleData()
         selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hideHRSampleData()
         selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hideHRVSampleData()
-        selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")?.hideSampleData()
+        selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.hideSampleData()
         showLoadingCover()
     }
 
@@ -872,7 +872,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showPressureLoading()
         selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRLoadingCover()
         selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRVLoadingCover()
-        selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")?.showLoadingCover()
+        selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.showLoadingCover()
     }
 
     fun resetLoading() {
@@ -882,6 +882,8 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         isAttentionLoading = true
         isRelaxationLoading = true
         isPressureLoading = true
+        isBcgViewLoading = true
+        isRwViewLoading = true
     }
 
     override fun onDestroy() {
