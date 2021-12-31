@@ -66,6 +66,9 @@ public class FileParser {
                 case "1E":
                     meditationReportDataAnalyzed.setDeepDuration(floatValue);
                     break;
+                case "1F":
+                    meditationReportDataAnalyzed.setCoherenceDuration(floatValue);
+                    break;
                 default:
                     break;
             }
@@ -88,7 +91,8 @@ public class FileParser {
         List<Double> hrRec = new ArrayList<>();
         List<Double> hrvRec = new ArrayList<>();
         List<Double> sleepCurve = new ArrayList<>();
-
+        List<Double> coherenceRec = new ArrayList<>();
+        List<Double> coherenceFlag = new ArrayList<>();
         int recKeyStartIndex = keyStartIndex;
         int dataEndIndex = recKeyStartIndex;
         while (dataEndIndex < source.length()) {
@@ -198,6 +202,22 @@ public class FileParser {
                                 dataStartIndex + j * 8, dataStartIndex + 8 + j * 8)));
                         sleepCurve.add((double) cruveValue);
                         meditationReportDataAnalyzed.setSleepCurve(sleepCurve);
+                    }
+                    break;
+                case "FD":
+                    for (int j = 0; j < length; j++) {
+                        float cruveValue = getFloat(HexDump.hexSringToBytes(StringUtil.substring(source,
+                                dataStartIndex + j * 8, dataStartIndex + 8 + j * 8)));
+                        coherenceRec.add((double) cruveValue);
+                        meditationReportDataAnalyzed.setCoherenceRec(coherenceRec);
+                    }
+                    break;
+                case "FF":
+                    for (int j = 0; j < length; j++) {
+                        float cruveValue = getFloat(HexDump.hexSringToBytes(StringUtil.substring(source,
+                                dataStartIndex + j * 8, dataStartIndex + 8 + j * 8)));
+                        coherenceFlag.add((double) cruveValue);
+                        meditationReportDataAnalyzed.setCoherenceFlag(coherenceFlag);
                     }
                     break;
                 default:

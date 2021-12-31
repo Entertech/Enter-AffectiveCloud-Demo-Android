@@ -66,7 +66,6 @@ class MeditationActivity : BaseActivity() {
     private var bcgFileHelper: FileStoreHelper? = null
     private var gyroFileHelper: FileStoreHelper? = null
     private var cushionBleManager: CushionBleManager? = null
-    private var flowtimeBleManager: BiomoduleBleManager? = null
     private var meditationStatusPlayer: MeditationStatusPlayer? = null
     private var mContentObserver: SettingsContentObserver? = null
     private var connection: ServiceConnection? = null
@@ -157,8 +156,7 @@ class MeditationActivity : BaseActivity() {
     fun initAffectiveCloudManager() {
         affectiveCloudService?.addListener({
             runOnUiThread {
-                if (it != null && it!!.realtimeHrData != null) {
-                    Log.d("####", "eeg data:" + it!!.realtimeEEGData?.alphaPower)
+                if (it != null && it!!.realtimePEPRData != null) {
                     if (isFirstReceiveData) {
                         if (SettingManager.getInstance().timeCountIsEEG()) {
                             MeditationTimeManager.getInstance().timeReset()
@@ -177,34 +175,17 @@ class MeditationActivity : BaseActivity() {
                             MeditationTimeManager.getInstance().timeIncrease()
                         }
                     }
+                    meditationFragment?.showHeart(
+                        it?.realtimePEPRData?.hr?.toInt(),
+                        it?.realtimePEPRData?.hrv
+                    )
                 }
-                if (it != null && it!!.realtimeHrData != null && !SettingManager.getInstance()
-                        .timeCountIsEEG()
-                ) {
-                    if (isFirstReceiveHRData) {
-                        MeditationTimeManager.getInstance().timeReset()
-                        isFirstReceiveHRData = false
-                    } else {
-                        MeditationTimeManager.getInstance().timeIncrease()
-                    }
-                }
-                meditationFragment?.showHeart(
-                    it?.realtimeHrData?.hr?.toInt(),
-                    it?.realtimeHrData?.hrv
-                )
-                meditationFragment?.showBrain(it?.realtimeEEGData)
+
             }
         }, {
             runOnUiThread {
-                meditationFragment?.showAttention(it?.realtimeAttentionData?.attention?.toFloat())
-                meditationFragment?.showRelaxation(it?.realtimeRelaxationData?.relaxation?.toFloat())
                 meditationFragment?.showPressure(it?.realtimePressureData?.pressure?.toFloat())
-                meditationFragment?.showMood(it?.realtimePleasureData?.pleasure?.toFloat())
-                meditationFragment?.showArousal(it?.realtimeArousalData?.arousal?.toFloat())
                 meditationFragment?.showCoherence(it?.realtimeCoherenceData?.coherence?.toFloat())
-                meditationFragment?.showPleasure(it?.realtimePleasureData?.pleasure?.toFloat())
-                meditationFragment?.showSleep(it?.realtimeSleepData?.sleepDegree?.toFloat())
-                isSleep(it?.realtimeSleepData?.sleepState?.toInt())
             }
         })
     }
@@ -426,8 +407,8 @@ class MeditationActivity : BaseActivity() {
 
 
             override fun onSuccess() {
-                    Logger.d("affectivecloudmanager init success:")
-                    flowtimeBleManager?.startHeartAndBrainCollection()
+                Logger.d("affectivecloudmanager init success:")
+//                    flowtimeBleManager?.startHeartAndBrainCollection()
             }
         })
     }
@@ -465,12 +446,17 @@ class MeditationActivity : BaseActivity() {
     //    var brainDataList = ArrayList<Int>()
     fun initBleManager() {
         cushionBleManager = CushionBleManager.getInstance(this)
-        flowtimeBleManager = BiomoduleBleManager.getInstance(this)
-        hrDataListener = fun(hr: Int) {
+        rawDataListener = fun(data: ByteArray) {
+            Log.d("raw data is", Arrays.toString(data))
+//            var intArray = data.map { HexDump.converUnchart(it) }
+//            var dataString = intArray
+//                .toString().replace("[", "").replace("]", "").replace(" ", "") + ","
+//            bcgFileHelper?.writeData(dataString)
+//            MeditationTimeManager.getInstance().timeIncrease()
             isBcgDataUpload = true
             var currentTimeMs = System.currentTimeMillis()
             if (affectiveCloudService?.isInited() == true) {
-                affectiveCloudService?.appendHeartRateData(hr)
+                affectiveCloudService?.appendPEPRData(data)
             }
             if (lastReceiveDataTimeMs != null) {
                 if ((currentTimeMs - lastReceiveDataTimeMs!!) >= 15000L) {
@@ -479,25 +465,8 @@ class MeditationActivity : BaseActivity() {
                 }
             }
         }
-        rawDataListener = fun(data: ByteArray) {
-            Log.d("raw data is", Arrays.toString(data))
-//            var intArray = data.map { HexDump.converUnchart(it) }
-//            var dataString = intArray
-//                .toString().replace("[", "").replace("]", "").replace(" ", "") + ","
-//            bcgFileHelper?.writeData(dataString)
-            MeditationTimeManager.getInstance().timeIncrease()
-            isBcgDataUpload = true
-        }
 
-//        gyroDataListener = fun(data: ByteArray) {
-//            var dataString =
-//                data.contentToString().replace("[", "").replace("]", "").replace(" ", "") + ","
-//            gyroFileHelper?.writeData(dataString)
-//            isGyroDataUpload = true
-//        }
-//        cushionBleManager?.addGyroDataListener(gyroDataListener)
         cushionBleManager?.addRawDataListener(rawDataListener)
-        flowtimeBleManager?.addHeartRateListener(hrDataListener)
     }
 
     lateinit var reportMeditationData: ReportMeditationDataEntity
@@ -564,17 +533,18 @@ class MeditationActivity : BaseActivity() {
         startActivity(intent)
         finish()
     }
+
     fun pauseMeditation() {
         isMeditationPause = true
-        flowtimeBleManager?.stopHeartAndBrainCollection()
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: MessageEvent) {
 //        var fragmentManager = supportFragmentManager
 //        var fragmentTransaction = fragmentManager.beginTransaction()
         when (event.messageCode) {
             MessageEvent.MESSAGE_CODE_TO_DEVICE_CONNECT -> {
-                if (flowtimeBleManager?.isConnected() == false) {
+                if (cushionBleManager?.isConnected() == false) {
                     isToConnectDevice = true
                 }
                 if (!isMeditationPause) {
@@ -901,7 +871,6 @@ class MeditationActivity : BaseActivity() {
     override fun onDestroy() {
         unBindAffectiveService()
         cushionBleManager?.removeRawDataListener(rawDataListener)
-        flowtimeBleManager?.removeHeartRateListener(hrDataListener)
         meditationStatusPlayer?.release()
         contentResolver.unregisterContentObserver(mContentObserver)
         SoundScapeAudioManager.getInstance(this).release()

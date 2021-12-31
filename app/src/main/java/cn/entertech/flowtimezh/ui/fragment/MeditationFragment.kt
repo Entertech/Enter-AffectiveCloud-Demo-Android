@@ -17,6 +17,7 @@ import android.widget.RelativeLayout
 import cn.entertech.affectivecloudsdk.entity.Error
 import cn.entertech.affectivecloudsdk.entity.RealtimeEEGData
 import cn.entertech.affectivecloudsdk.interfaces.Callback
+import cn.entertech.ble.cushion.CushionBleManager
 import cn.entertech.ble.multiple.MultipleBiomoduleBleManager
 import cn.entertech.ble.single.BiomoduleBleManager
 import cn.entertech.bleuisdk.ui.DeviceUIConfig
@@ -43,7 +44,7 @@ import java.util.*
 class MeditationFragment : androidx.fragment.app.Fragment() {
     private var isMeditationInterrupt: Boolean = false
     private var lastQuality: Double = 0.0
-    private var biomoduleBleManager: BiomoduleBleManager? = null
+    private var biomoduleBleManager: CushionBleManager? = null
     var selfView: View? = null
     var smartScrollView: SmartScrollView? = null
     var llContainer: LinearLayout? = null
@@ -726,8 +727,8 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
                     }
 
                     override fun onSuccess() {
-                        biomoduleBleManager?.startHeartAndBrainCollection()
-                        biomoduleBleManager?.startContact()
+//                        biomoduleBleManager?.startHeartAndBrainCollection()
+//                        biomoduleBleManager?.startContact()
                     }
 
                 })
@@ -738,8 +739,8 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
                     }
 
                     override fun onSuccess() {
-                        biomoduleBleManager?.startHeartAndBrainCollection()
-                        biomoduleBleManager?.startContact()
+//                        biomoduleBleManager?.startHeartAndBrainCollection()
+//                        biomoduleBleManager?.startContact()
                     }
 
                 })
@@ -797,7 +798,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun initDeviceConnectListener() {
-        biomoduleBleManager = BiomoduleBleManager.getInstance(activity!!)
+        biomoduleBleManager = CushionBleManager.getInstance(activity!!)
         if (biomoduleBleManager!!.isConnected()) {
             isBleConnected = true
             selfView?.findViewById<MeditationInterruptView>(R.id.miv_interrupt_device)?.visibility =
@@ -821,7 +822,6 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         }
         biomoduleBleManager?.addConnectListener(onDeviceConnectListener)
         biomoduleBleManager?.addDisConnectListener(onDeviceDisconnectListener)
-        biomoduleBleManager?.addContactListener(::onBleContactListener)
     }
 
     fun showSampleData() {
@@ -863,7 +863,6 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         mDeviceHandler.removeCallbacks(reconnectDeviceRunnable)
         biomoduleBleManager?.removeConnectListener(onDeviceConnectListener)
         biomoduleBleManager?.removeDisConnectListener(onDeviceDisconnectListener)
-        biomoduleBleManager?.removeContactListener(::onBleContactListener)
         (activity as MeditationActivity).affectiveCloudService?.removeWebSocketConnectListener(
             websocketConnectListener
         )

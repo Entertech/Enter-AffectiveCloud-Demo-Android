@@ -1,6 +1,7 @@
 package cn.entertech.flowtimezh.utils;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.util.Log;
@@ -10,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import cn.entertech.flowtimezh.R;
 
 public class TimeUtils {
     public static String getLocalDate(String GMTTime) {
@@ -33,6 +36,19 @@ public class TimeUtils {
         return dateFormat.format(time);
     }
 
+    public static String second2FormatString(Context context, int totalSecond) {
+        return second2FormatString(context, totalSecond, true);
+    }
+
+    public static String second2FormatString(Context context, int totalSecond, boolean isShowSecondWhenZero) {
+        int mins = totalSecond / 60;
+        int seconds = totalSecond - mins * 60;
+        if (seconds == 0 && !isShowSecondWhenZero) {
+            return mins + "分";
+        } else {
+            return mins + "分" + seconds + "秒";
+        }
+    }
     public static long getStringToDate(String dateString, String pattern) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
         Date date = new Date();

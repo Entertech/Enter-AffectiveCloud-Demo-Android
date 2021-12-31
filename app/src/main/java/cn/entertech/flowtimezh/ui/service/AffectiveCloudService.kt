@@ -10,10 +10,7 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import cn.entertech.affectivecloudsdk.*
-import cn.entertech.affectivecloudsdk.entity.Error
-import cn.entertech.affectivecloudsdk.entity.RealtimeAffectiveData
-import cn.entertech.affectivecloudsdk.entity.RealtimeBioData
-import cn.entertech.affectivecloudsdk.entity.RecData
+import cn.entertech.affectivecloudsdk.entity.*
 import cn.entertech.affectivecloudsdk.interfaces.Callback
 import cn.entertech.affectivecloudsdk.interfaces.Callback2
 import cn.entertech.flowtimezh.R
@@ -109,33 +106,18 @@ internal class AffectiveCloudService : Service() {
             .mode(mode.toList())
             .build()
 
-
-        var biodataTolerance = BiodataTolerance.Builder()
-            .eeg(2)
-            .build()
         var availableAffectiveServices =
             listOf(
-                cn.entertech.affectivecloudsdk.entity.Service.ATTENTION,
                 cn.entertech.affectivecloudsdk.entity.Service.PRESSURE,
-                cn.entertech.affectivecloudsdk.entity.Service.RELAXATION,
-                cn.entertech.affectivecloudsdk.entity.Service.PLEASURE,
-                cn.entertech.affectivecloudsdk.entity.Service.AROUSAL,
-                cn.entertech.affectivecloudsdk.entity.Service.COHERENCE,
-                cn.entertech.affectivecloudsdk.entity.Service.SLEEP
+                cn.entertech.affectivecloudsdk.entity.Service.COHERENCE
             )
-        var availableBioServices = listOf(cn.entertech.affectivecloudsdk.entity.Service.EEG, cn.entertech.affectivecloudsdk.entity.Service.HR)
+        var availableBioServices = listOf(cn.entertech.affectivecloudsdk.entity.Service.PEPR)
         var biodataSubscribeParams = BiodataSubscribeParams.Builder()
-            .requestEEG()
-            .requestHR()
+            .requestPEPR()
             .build()
 
         var affectiveSubscribeParams = AffectiveSubscribeParams.Builder()
-            .requestSleep()
-            .requestAttention()
-            .requestRelaxation()
             .requestPressure()
-            .requestPleasure()
-            .requestArousal()
             .requestCoherence()
             .build()
         var url = "wss://${SettingManager.getInstance().affectiveCloudServer}/ws/algorithm/v2/"
@@ -151,7 +133,6 @@ internal class AffectiveCloudService : Service() {
             .biodataSubscribeParams(biodataSubscribeParams!!)
             .affectiveSubscribeParams(affectiveSubscribeParams!!)
             .storageSettings(storageSettings)
-            .biodataTolerance(biodataTolerance)
             .uploadCycle(1)
             .build()
         enterAffectiveCloudManager = EnterAffectiveCloudManager(enterAffectiveCloudConfig)
@@ -197,6 +178,10 @@ internal class AffectiveCloudService : Service() {
         enterAffectiveCloudManager?.appendEEGData(brainData)
     }
 
+    fun appendPEPRData(peprData:ByteArray){
+        enterAffectiveCloudManager?.appendPEPRData(peprData)
+    }
+
     fun getBiodataReport(listener: (ReportMeditationDataEntity) -> Unit) {
         var reportMeditationData = ReportMeditationDataEntity()
         enterAffectiveCloudManager?.getBiodataReport(object : Callback2<HashMap<Any, Any?>> {
@@ -204,12 +189,12 @@ internal class AffectiveCloudService : Service() {
             }
 
             override fun onSuccess(t: HashMap<Any, Any?>?) {
-//                Logger.d("report bio is " + t.toString())
+                Logger.d("report bio is " + t.toString())
                 if (t == null) {
                     return
                 }
                 var reportHRDataEntity = ReportHRDataEntity()
-                var hrMap = t!!["hr-v2"] as Map<Any, Any?>
+                var hrMap = t!!["pepr"] as Map<Any, Any?>
                 if (hrMap!!.containsKey("hr_avg")) {
                     reportHRDataEntity.hrAvg = hrMap["hr_avg"] as Double
                 }
@@ -229,29 +214,6 @@ internal class AffectiveCloudService : Service() {
                     reportHRDataEntity.hrvAvg = hrMap["hrv_avg"] as Double
                 }
                 reportMeditationData.reportHRDataEntity = reportHRDataEntity
-                var reportEEGDataEntity = ReportEEGDataEntity()
-                var eegMap = t!!["eeg"] as Map<Any, Any?>
-                if (eegMap!!.containsKey("eeg_alpha_curve")) {
-                    reportEEGDataEntity.alphaCurve =
-                        eegMap["eeg_alpha_curve"] as ArrayList<Double>
-                }
-                if (eegMap!!.containsKey("eeg_beta_curve")) {
-                    reportEEGDataEntity.betaCurve =
-                        eegMap["eeg_beta_curve"] as ArrayList<Double>
-                }
-                if (eegMap!!.containsKey("eeg_theta_curve")) {
-                    reportEEGDataEntity.thetaCurve =
-                        eegMap["eeg_theta_curve"] as ArrayList<Double>
-                }
-                if (eegMap!!.containsKey("eeg_delta_curve")) {
-                    reportEEGDataEntity.deltaCurve =
-                        eegMap["eeg_delta_curve"] as ArrayList<Double>
-                }
-                if (eegMap!!.containsKey("eeg_gamma_curve")) {
-                    reportEEGDataEntity.gammaCurve =
-                        eegMap["eeg_gamma_curve"] as ArrayList<Double>
-                }
-                reportMeditationData.reportEEGDataEntity = reportEEGDataEntity
 
                 enterAffectiveCloudManager?.getAffectiveDataReport(object :
                     Callback2<HashMap<Any, Any?>> {
@@ -259,39 +221,10 @@ internal class AffectiveCloudService : Service() {
                     }
 
                     override fun onSuccess(t: HashMap<Any, Any?>?) {
-//                        Logger.d("report affectve is " + t.toString())
+                        Logger.d("report affectve is " + t.toString())
                         if (t == null) {
                             return
                         }
-                        var reportAttentionEnitty = ReportAttentionEnitty()
-                        var attentionMap = t["attention"]
-                        if (attentionMap != null) {
-                            attentionMap = attentionMap as Map<Any, Any?>
-                            if (attentionMap.containsKey("attention_avg")) {
-                                Logger.d("attention avg is " + attentionMap["attention_avg"] as Double)
-                                reportAttentionEnitty.attentionAvg =
-                                    attentionMap["attention_avg"] as Double
-                            }
-                            if (attentionMap.containsKey("attention_rec")) {
-                                reportAttentionEnitty.attentionRec =
-                                    attentionMap["attention_rec"] as ArrayList<Double>
-                            }
-                        }
-                        reportMeditationData.reportAttentionEnitty = reportAttentionEnitty
-                        var reportRelxationEntity = ReportRelaxationEnitty()
-                        var relaxationMap = t["relaxation"]
-                        if (relaxationMap != null) {
-                            relaxationMap = relaxationMap as Map<Any, Any?>
-                            if (relaxationMap.containsKey("relaxation_avg")) {
-                                reportRelxationEntity.relaxationAvg =
-                                    relaxationMap["relaxation_avg"] as Double
-                            }
-                            if (relaxationMap.containsKey("relaxation_rec")) {
-                                reportRelxationEntity.relaxationRec =
-                                    relaxationMap["relaxation_rec"] as ArrayList<Double>
-                            }
-                        }
-                        reportMeditationData.reportRelaxationEnitty = reportRelxationEntity
 
                         var reportPressureEnitty = ReportPressureEnitty()
                         var pressureMap = t["pressure"]
@@ -308,52 +241,28 @@ internal class AffectiveCloudService : Service() {
                         }
                         reportMeditationData.reportPressureEnitty = reportPressureEnitty
 
-                        var reportPleasureEnitty = ReportPleasureEnitty()
-                        var pleasureMap = t["pleasure"]
-                        if (pleasureMap != null) {
-                            pleasureMap = pleasureMap as Map<Any, Any?>
-                            if (pleasureMap.containsKey("pleasure_avg")) {
-                                reportPleasureEnitty.pleasureAvg =
-                                    pleasureMap["pleasure_avg"] as Double
+                        var  reportCoherenceEntity = ReportCoherenceEntity()
+                        var coherenceMap = t["coherence"]
+                        if (coherenceMap != null) {
+                            coherenceMap = coherenceMap as Map<Any, Any?>
+                            if (coherenceMap.containsKey("coherence_avg")) {
+                                reportCoherenceEntity.coherenceAvg =
+                                    coherenceMap["coherence_avg"] as Double
                             }
-                            if (pleasureMap.containsKey("pleasure_rec")) {
-                                reportPleasureEnitty.pleasureRec =
-                                    pleasureMap["pleasure_rec"] as ArrayList<Double>
+                            if (coherenceMap.containsKey("coherence_rec")) {
+                                reportCoherenceEntity.coherenceRec =
+                                    coherenceMap["coherence_rec"] as ArrayList<Double>
                             }
-                        }
-                        reportMeditationData.reportPleasureEnitty = reportPleasureEnitty
-
-                        var reportSleepEntity = ReportSleepEnitty()
-                        var sleepMap = t["sleep"]
-                        if (sleepMap != null) {
-                            sleepMap = sleepMap as Map<Any, Any?>
-                            if (sleepMap.containsKey("sleep_point")) {
-                                reportSleepEntity.sleepPoint =
-                                    sleepMap["sleep_point"] as Double
+                            if (coherenceMap.containsKey("coherence_flag")) {
+                                reportCoherenceEntity.coherenceFlag =
+                                    coherenceMap["coherence_flag"] as ArrayList<Double>
                             }
-                            if (sleepMap.containsKey("sleep_latency")) {
-                                reportSleepEntity.sleepLatency =
-                                    sleepMap["sleep_latency"] as Double
-                            }
-                            if (sleepMap.containsKey("awake_duration")) {
-                                reportSleepEntity.soberDuration =
-                                    sleepMap["awake_duration"] as Double
-                            }
-                            if (sleepMap.containsKey("light_duration")) {
-                                reportSleepEntity.lightDuration =
-                                    sleepMap["light_duration"] as Double
-                            }
-                            if (sleepMap.containsKey("deep_duration")) {
-                                reportSleepEntity.deepDuration =
-                                    sleepMap["deep_duration"] as Double
-                            }
-                            if (sleepMap.containsKey("sleep_curve")) {
-                                reportSleepEntity.sleepCurve =
-                                    sleepMap["sleep_curve"] as ArrayList<Double>
+                            if (coherenceMap.containsKey("coherence_duration")) {
+                                reportCoherenceEntity.coherenceDuration =
+                                    coherenceMap["coherence_duration"] as Double
                             }
                         }
-                        reportMeditationData.reportSleepEntity = reportSleepEntity
-
+                        reportMeditationData.reportCoherenceEntity = reportCoherenceEntity
                         listener.invoke(reportMeditationData)
                     }
 

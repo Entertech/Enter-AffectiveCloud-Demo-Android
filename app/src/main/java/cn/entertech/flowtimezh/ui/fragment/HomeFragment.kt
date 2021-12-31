@@ -20,7 +20,6 @@ class HomeFragment : Fragment() {
 
     private var progressDialog: ProgressDialog? = null
     private var bleManager: CushionBleManager? = null
-    private var flowtimeBle: BiomoduleBleManager? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +56,7 @@ class HomeFragment : Fragment() {
 //                    Toast.makeText(activity!!, "设备连接失败：$error", Toast.LENGTH_SHORT).show()
 //                }
 //            })
-            flowtimeBle?.scanNearDeviceAndConnect(fun() {
+            bleManager?.scanNearDeviceAndConnect(fun() {
             }, fun(e) {
                 activity!!.runOnUiThread {
                     progressDialog?.dismiss()
@@ -76,7 +75,7 @@ class HomeFragment : Fragment() {
             })
         }
         btn_start_meditation.setOnClickListener {
-            if (flowtimeBle?.isConnected() == true) {
+            if (bleManager?.isConnected() == true) {
                 var experimentDao = ExperimentDao(activity)
                 var experiment = experimentDao.findExperimentBySelected()
                 if (experiment == null) {
@@ -116,8 +115,6 @@ class HomeFragment : Fragment() {
         } else {
             iv_device.setImageResource(R.mipmap.ic_device_disconnect_color)
         }
-
-        flowtimeBle = BiomoduleBleManager.getInstance(activity!!)
     }
 
     override fun onDestroy() {

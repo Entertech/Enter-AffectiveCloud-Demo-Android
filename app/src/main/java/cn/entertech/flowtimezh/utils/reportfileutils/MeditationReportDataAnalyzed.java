@@ -51,6 +51,10 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
     private List<Double> hrRec;
     private List<Double> hrvRec;
 
+    private float coherenceAvg;
+    private float coherenceDuration;
+    private List<Double> coherenceRec;
+    private List<Double> coherenceFlag;
     @NotNull
     @Override
     public byte[] toFileBytes() {
@@ -62,7 +66,7 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
                 , getListByteArray("f2", betaCurve)
                 , getListByteArray("f3", thetaCurve), getListByteArray("f4", deltaCurve)
                 , getListByteArray("f5", gammaCurve)
-                , getListByteArray("fe", sleepCurve)
+                , getListByteArray("fe", sleepCurve),getListByteArray("ff", coherenceFlag), getListByteArray("fd", coherenceRec)
         );
     }
 
@@ -72,32 +76,20 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
     public MeditationReportDataAnalyzed(ReportMeditationDataEntity reportMeditationDataEntity, long startTime, ArrayList<MeditaionInterruptManager.MeditationInterrupt> interruptTimeStamp) {
         this.startTime = startTime;
         this.interruptTimeStamps = interruptTimeStamp;
-        this.attentionAvg = reportMeditationDataEntity.getReportAttentionEnitty().getAttentionAvg().floatValue();
-        this.relaxationAvg = reportMeditationDataEntity.getReportRelaxationEnitty().getRelaxationAvg().floatValue();
         this.pressureAvg = reportMeditationDataEntity.getReportPressureEnitty().getPressureAvg().floatValue();
-        this.pleasureAvg = reportMeditationDataEntity.getReportPleasureEnitty().getPleasureAvg().floatValue();
         this.hrAvg = reportMeditationDataEntity.getReportHRDataEntity().getHrAvg().floatValue();
         this.hrMax = reportMeditationDataEntity.getReportHRDataEntity().getHrMax().floatValue();
         this.hrMin = reportMeditationDataEntity.getReportHRDataEntity().getHrMin().floatValue();
         this.hrvAvg = reportMeditationDataEntity.getReportHRDataEntity().getHrvAvg().floatValue();
-        this.sleepPoint = reportMeditationDataEntity.getReportSleepEntity().getSleepPoint().floatValue();
-        this.sleepLatency = reportMeditationDataEntity.getReportSleepEntity().getSleepLatency().floatValue();
-        this.soberDuration = reportMeditationDataEntity.getReportSleepEntity().getSoberDuration().floatValue();
-        this.lightDuration = reportMeditationDataEntity.getReportSleepEntity().getLightDuration().floatValue();
-        this.deepDuration = reportMeditationDataEntity.getReportSleepEntity().getDeepDuration().floatValue();
-
-        this.attentionRec = addInterruptData(reportMeditationDataEntity.getReportAttentionEnitty().getAttentionRec(), INTERRUPT_TIME);
-        this.relaxationRec = addInterruptData(reportMeditationDataEntity.getReportRelaxationEnitty().getRelaxationRec(), INTERRUPT_TIME);
+;
         this.pressureRec = addInterruptData(reportMeditationDataEntity.getReportPressureEnitty().getPressureRec(), INTERRUPT_TIME);
-        this.pleasureRec = addInterruptData(reportMeditationDataEntity.getReportPleasureEnitty().getPleasureRec(), INTERRUPT_TIME);
         this.hrRec = addInterruptData(reportMeditationDataEntity.getReportHRDataEntity().getHrRec(), INTERRUPT_TIME);
         this.hrvRec = addInterruptData(reportMeditationDataEntity.getReportHRDataEntity().getHrvRec(), INTERRUPT_TIME);
-        this.alphaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getAlphaCurve(), INTERRUPT_TIME);
-        this.betaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getBetaCurve(), INTERRUPT_TIME);
-        this.thetaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getThetaCurve(), INTERRUPT_TIME);
-        this.deltaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getDeltaCurve(), INTERRUPT_TIME);
-        this.gammaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getGammaCurve(), INTERRUPT_TIME);
-        this.sleepCurve = addInterruptData(reportMeditationDataEntity.getReportSleepEntity().getSleepCurve(), INTERRUPT_TIME);
+        this.coherenceAvg = reportMeditationDataEntity.getReportCoherenceEntity().getCoherenceAvg().floatValue();
+        this.coherenceDuration = reportMeditationDataEntity.getReportCoherenceEntity().getCoherenceDuration().floatValue();
+        this.coherenceRec = addInterruptData(reportMeditationDataEntity.getReportCoherenceEntity().getCoherenceRec(), INTERRUPT_TIME);
+        this.coherenceFlag = addInterruptData(reportMeditationDataEntity.getReportCoherenceEntity().getCoherenceFlag(), INTERRUPT_TIME);
+
     }
 
     /**
@@ -141,7 +133,8 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
                 HexDump.hexSringToBytes("1b"), HexDump.float2byte(sleepLatency),
                 HexDump.hexSringToBytes("1c"), HexDump.float2byte(soberDuration),
                 HexDump.hexSringToBytes("1d"), HexDump.float2byte(lightDuration),
-                HexDump.hexSringToBytes("1e"), HexDump.float2byte(deepDuration)
+                HexDump.hexSringToBytes("1e"), HexDump.float2byte(deepDuration),
+                HexDump.hexSringToBytes("1f"), HexDump.float2byte(coherenceDuration)
         );
 
     }
@@ -405,4 +398,37 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
     public void setSleepCurve(List<Double> sleepCurve) {
         this.sleepCurve = sleepCurve;
     }
+
+    public float getCoherenceAvg() {
+        return coherenceAvg;
+    }
+
+    public void setCoherenceAvg(float coherenceAvg) {
+        this.coherenceAvg = coherenceAvg;
+    }
+
+    public float getCoherenceDuration() {
+        return coherenceDuration;
+    }
+
+    public void setCoherenceDuration(float coherenceDuration) {
+        this.coherenceDuration = coherenceDuration;
+    }
+
+    public List<Double> getCoherenceRec() {
+        return coherenceRec;
+    }
+
+    public void setCoherenceRec(List<Double> coherenceRec) {
+        this.coherenceRec = coherenceRec;
+    }
+
+    public List<Double> getCoherenceFlag() {
+        return coherenceFlag;
+    }
+
+    public void setCoherenceFlag(List<Double> coherenceFlag) {
+        this.coherenceFlag = coherenceFlag;
+    }
+
 }

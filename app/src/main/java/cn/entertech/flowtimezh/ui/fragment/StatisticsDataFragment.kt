@@ -130,14 +130,19 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
         initLabelsView()
         hideChartView()
     }
+
     fun setHrChart() {
         chart_hr_coherence.isShowLegend(true)
         chart_hr_coherence.isShowYAxisLabels(true)
-        chart_hr_coherence.setCohTime("6min 45s"
+        chart_hr_coherence.setCohTime(
+            TimeUtils.second2FormatString(
+                activity!!,
+                meditationReportDataAnalyzed?.coherenceDuration?.toInt() ?: 0
+            )
         )
         chart_hr_coherence.setData(
             meditationReportDataAnalyzed?.hrRec,
-            meditationReportDataAnalyzed?.hrRec?.map {  0.0 },
+            meditationReportDataAnalyzed?.hrRec?.map { 0.0 },
             true
         )
     }
