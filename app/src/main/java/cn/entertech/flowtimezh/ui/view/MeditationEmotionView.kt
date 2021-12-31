@@ -76,10 +76,6 @@ class MeditationEmotionView @JvmOverloads constructor(
         realtime_pressure_view.setValue(value)
     }
 
-    fun setArousal(value: Float?) {
-        realtime_arousal_view.setValue(value)
-    }
-
     fun setPleasure(value: Float?) {
         realtime_pleasure_view.setValue(value)
     }
@@ -96,7 +92,6 @@ class MeditationEmotionView @JvmOverloads constructor(
         realtime_pressure_view.showDisconnectTip()
         realtime_relaxation_view.showDisconnectTip()
         realtime_attention_view.showDisconnectTip()
-        realtime_arousal_view.showDisconnectTip()
         realtime_pleasure_view.showDisconnectTip()
         realtime_coherence_view.showDisconnectTip()
         realtime_sleep_view.showDisconnectTip()
@@ -110,7 +105,6 @@ class MeditationEmotionView @JvmOverloads constructor(
         realtime_attention_view.showLoading()
         realtime_relaxation_view.showLoading()
         realtime_pressure_view.showLoading()
-        realtime_arousal_view.showLoading()
     }
 
     fun showAttentionLoading() {
@@ -126,7 +120,6 @@ class MeditationEmotionView @JvmOverloads constructor(
     }
 
     fun showArousalLoading() {
-        realtime_arousal_view.showLoading()
     }
 
     fun showPleasureLoading() {
@@ -142,7 +135,6 @@ class MeditationEmotionView @JvmOverloads constructor(
     }
 
     fun hideLoading() {
-        realtime_arousal_view.hideLoading()
         realtime_attention_view.hideLoading()
         realtime_relaxation_view.hideLoading()
         realtime_pressure_view.hideLoading()
@@ -161,7 +153,6 @@ class MeditationEmotionView @JvmOverloads constructor(
     }
 
     fun hideArousalLoaidng() {
-        realtime_arousal_view.hideLoading()
     }
 
     fun hidePleasureLoaidng() {
@@ -180,7 +171,6 @@ class MeditationEmotionView @JvmOverloads constructor(
         realtime_attention_view.showErrorMessage(error)
         realtime_relaxation_view.showErrorMessage(error)
         realtime_pressure_view.showErrorMessage(error)
-        realtime_arousal_view.showErrorMessage(error)
         realtime_pleasure_view.showErrorMessage(error)
         realtime_coherence_view.showErrorMessage(error)
         realtime_sleep_view.showErrorMessage(error)

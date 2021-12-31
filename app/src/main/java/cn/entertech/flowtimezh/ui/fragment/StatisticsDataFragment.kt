@@ -142,7 +142,7 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
         )
         chart_hr_coherence.setData(
             meditationReportDataAnalyzed?.hrRec,
-            meditationReportDataAnalyzed?.hrRec?.map { 0.0 },
+            meditationReportDataAnalyzed?.coherenceFlag,
             true
         )
     }

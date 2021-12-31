@@ -43,6 +43,7 @@
 
 
         <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
+            android:visibility="gone"
             android:id="@+id/realtime_attention_view"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -54,6 +55,7 @@
 
         <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
             android:id="@+id/realtime_relaxation_view"
+            android:visibility="gone"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -79,16 +81,16 @@
             app:rav_background="@drawable/shape_realtime_pressure_bg"
             app:rav_mainColor="#ff6682" />
 
-        <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
-            android:id="@+id/realtime_arousal_view"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:visibility="visible"
-            app:rav_affectiveType="Arousal"
-            app:rav_background="@drawable/shape_realtime_arousal_bg"
-            app:rav_mainColor="#CC9E59" />
 
+        <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
+            android:id="@+id/realtime_coherence_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            app:rav_affectiveType="Coherence"
+            app:rav_background="@drawable/shape_realtime_relaxation_bg"
+            app:rav_mainColor="#4b5dcc" />
     </LinearLayout>
 
     <LinearLayout
@@ -99,8 +101,8 @@
 
 
         <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
-            android:id="@+id/realtime_coherence_view"
             android:layout_width="0dp"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:layout_weight="1"
@@ -113,13 +115,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:visibility="visible"
+            android:visibility="gone"
             app:rav_affectiveType="Pleasure"
             app:rav_background="@drawable/shape_realtime_coherence_bg"
             app:rav_mainColor="#52A27C" />
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_margin_half"
@@ -129,6 +132,7 @@
         <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
             android:id="@+id/realtime_sleep_view"
             android:layout_width="0dp"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:layout_weight="1"

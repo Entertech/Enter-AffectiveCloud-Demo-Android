@@ -179,6 +179,8 @@ class MeditationActivity : BaseActivity() {
                         it?.realtimePEPRData?.hr?.toInt(),
                         it?.realtimePEPRData?.hrv
                     )
+                    meditationFragment?.showBcg(it.realtimePEPRData?.bcgWave)
+                    meditationFragment?.showRw(it.realtimePEPRData?.rwWave)
                 }
 
             }

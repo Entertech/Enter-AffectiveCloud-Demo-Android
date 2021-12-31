@@ -18,7 +18,6 @@ import cn.entertech.affectivecloudsdk.entity.Error
 import cn.entertech.affectivecloudsdk.entity.RealtimeEEGData
 import cn.entertech.affectivecloudsdk.interfaces.Callback
 import cn.entertech.ble.cushion.CushionBleManager
-import cn.entertech.ble.multiple.MultipleBiomoduleBleManager
 import cn.entertech.ble.single.BiomoduleBleManager
 import cn.entertech.bleuisdk.ui.DeviceUIConfig
 import cn.entertech.flowtime.utils.*
@@ -39,6 +38,7 @@ import cn.entertech.flowtimezh.utils.formatNum
 import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.fragment_data.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MeditationFragment : androidx.fragment.app.Fragment() {
@@ -50,6 +50,8 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
     var llContainer: LinearLayout? = null
     var isHeartViewLoading = true
     var isHRVViewLoading = true
+    var isBcgViewLoading = true
+    var isRwViewLoading = true
     var isBrainViewLoading = true
     var isAttentionLoading = true
     var isRelaxationLoading = true
@@ -109,7 +111,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         })
 
         selfView?.findViewById<MeditationInterruptView>(R.id.miv_interrupt_device)
-            ?.addErrorMessageListener { errorMsg,errorType->
+            ?.addErrorMessageListener { errorMsg, errorType ->
                 if (errorType != MeditationInterruptView.ERROR_TYPE_SIGNAL) {
 //                    (activity as MeditationActivity).pauseMeditation()
                 }
@@ -119,7 +121,8 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
                 selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")
                     ?.showErrorMessage(errorMsg)
                 selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showErrorMessage(errorMsg)
-                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showErrorMessage(errorMsg)
+                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
+                    ?.showErrorMessage(errorMsg)
             }
         refreshMeditationView()
     }
@@ -147,10 +150,10 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
                     llContainer?.addView(meditationHeartView)
                 }
                 "0" -> {
-                    var meditationBrainwaveView = MeditationBrainwaveView(activity!!)
-                    meditationBrainwaveView.tag = "Brainwave"
-                    meditationBrainwaveView.layoutParams = lp
-                    llContainer?.addView(meditationBrainwaveView)
+                    var meditationBcgView = MeditationBcgView(activity!!)
+                    meditationBcgView.tag = "Bcg"
+                    meditationBcgView.layoutParams = lp
+                    llContainer?.addView(meditationBcgView)
                 }
             }
         }
@@ -209,6 +212,13 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRVLoadingCover()
     }
 
+    var showBcgLoadingRunnable = Runnable {
+        selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.showLoadingCover()
+    }
+    var showRwLoadingRunnable = Runnable {
+        selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.showLoadingCover()
+    }
+
     var showAttentionLoadingRunnable = Runnable {
         selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
             ?.showAttentionLoading()
@@ -240,6 +250,42 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
     var showSleepLoadingRunnable = Runnable {
         selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
             ?.showSleepLoading()
+    }
+
+    fun showBcg(bcg: ArrayList<Double>?) {
+        if (bcg == null){
+            return
+        }
+        activity?.runOnUiThread {
+            selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.setBcg(bcg)
+            isBcgViewLoading = bcg.isEmpty() || bcg.max() == 0.0
+            if (!isMeditationInterrupt) {
+                if (isBcgViewLoading) {
+                    mMainHandler.postDelayed(showBcgLoadingRunnable, SHOW_LOADING_TIME_DELAY)
+                } else {
+                    mMainHandler.removeCallbacks(showBcgLoadingRunnable)
+                    selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.hideLoadingCover()
+                }
+            }
+        }
+    }
+
+    fun showRw(rw: ArrayList<Double>?) {
+        if (rw == null){
+            return
+        }
+        activity?.runOnUiThread {
+            selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.setRw(rw)
+            isRwViewLoading = rw.isEmpty() || rw.max() == 0.0
+            if (!isMeditationInterrupt) {
+                if (isRwViewLoading) {
+                    mMainHandler.postDelayed(showRwLoadingRunnable, SHOW_LOADING_TIME_DELAY)
+                } else {
+                    mMainHandler.removeCallbacks(showRwLoadingRunnable)
+                    selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.hideLoadingCover()
+                }
+            }
+        }
     }
 
     fun showHeart(heartRate: Int?, hrv: Double?) {
@@ -336,26 +382,6 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         activity?.runOnUiThread {
             selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
                 ?.setPleasure(formatNum(mood / 25f - 2))
-        }
-    }
-
-    fun showArousal(arousal: Float?) {
-        if (arousal == null) {
-            return
-        }
-        activity?.runOnUiThread {
-            selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.setArousal(arousal)
-            isArousalLoading = arousal == 0f
-
-            if (!isMeditationInterrupt) {
-                if (isArousalLoading) {
-                    mMainHandler.postDelayed(showArousalLoadingRunnable, SHOW_LOADING_TIME_DELAY)
-                } else {
-                    mMainHandler.removeCallbacks(showArousalLoadingRunnable)
-                    selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
-                        ?.hideArousalLoaidng()
-                }
-            }
         }
     }
 
@@ -606,7 +632,8 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
                 (activity as MeditationActivity).scrollLayout.scrollToOpen()
             }
         } else {
-            selfView?.findViewById<TextView>(R.id.tv_minibar_text)?.text = getString(R.string.meditation_tap_to_show_data)
+            selfView?.findViewById<TextView>(R.id.tv_minibar_text)?.text =
+                getString(R.string.meditation_tap_to_show_data)
             selfView?.findViewById<TextView>(R.id.tv_minibar_text)?.setOnClickListener {
                 (activity as MeditationActivity).scrollLayout.scrollToOpen()
             }
