@@ -50,6 +50,8 @@
         android:layout_height="150dp"
         android:id="@+id/heart_rate_line"
         app:rhrvv_titleText="心率"
+        app:rhrvv_refreshTime="600"
+        app:rhrvv_buffer="2"
         android:layout_marginTop="@dimen/activity_margin_half"/>
 
     <!--    <RelativeLayout-->

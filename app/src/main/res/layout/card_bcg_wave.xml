@@ -44,13 +44,19 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:id="@+id/bcg_wave"
+        app:rhrvv_buffer="125"
+        app:rhrvv_refreshTime="8"
+        app:rhrvv_screenDataSize="1000"
         app:rhrvv_titleText="脉搏波"
         android:layout_marginTop="@dimen/activity_margin_half"/>
     <cn.entertech.uicomponentsdk.realtime.RealtimeBreathCoherenceView
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:id="@+id/rw_wave"
-        app:rhrvv_titleText="呼吸博"
+        app:rhrvv_buffer="25"
+        app:rhrvv_screenDataSize="500"
+        app:rhrvv_refreshTime="40"
+        app:rhrvv_titleText="呼吸波"
         android:layout_marginTop="@dimen/activity_margin_half"/>
 
     <!--    <RelativeLayout-->
