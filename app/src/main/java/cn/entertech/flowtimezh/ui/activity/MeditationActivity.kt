@@ -118,8 +118,8 @@ class MeditationActivity : BaseActivity() {
     //    var canExit = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_meditation)
         initFullScreenDisplay()
+        setContentView(R.layout.activity_meditation)
         setStatusBarLight()
         meditationStartTime = System.currentTimeMillis()
         userLessonStartTime = getCurrentTimeFormat(meditationStartTime!!)

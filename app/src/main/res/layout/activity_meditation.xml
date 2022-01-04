@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
 
@@ -28,7 +27,10 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <include layout="@layout/layout_common_title" />
+            <include layout="@layout/layout_common_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"/>
 
             <RelativeLayout
 
@@ -41,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="64dp"
+                    android:layout_marginTop="8dp"
                     android:orientation="vertical">
 
                     <ImageView
@@ -54,7 +56,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="8dp"
                         android:text="收集数据标签"
                         android:textColor="#000"
                         android:textSize="17sp" />
@@ -63,7 +65,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/activity_margin"
+                        android:layout_marginTop="@dimen/activity_margin_half"
                         android:text="根据提示进行数据的标签收集工作"
                         android:textColor="#000"
                         android:textSize="17sp" />
@@ -72,7 +74,7 @@
                         android:id="@+id/btn_start_record"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/activity_margin"
+                        android:layout_marginTop="@dimen/activity_margin_half"
                         android:background="@drawable/shape_record_start_bg"
                         android:text="开始实验"
                         android:textColor="@color/white" />
@@ -81,7 +83,7 @@
                         android:id="@+id/btn_end_record"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/activity_margin"
+                        android:layout_marginTop="@dimen/activity_margin_half"
                         android:background="@drawable/shape_record_end_bg"
                         android:text="结束实验"
                         android:textColor="@color/white" />
