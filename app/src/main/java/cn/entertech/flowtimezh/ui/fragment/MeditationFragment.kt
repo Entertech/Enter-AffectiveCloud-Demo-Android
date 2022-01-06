@@ -264,7 +264,6 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
             return
         }
         activity?.runOnUiThread {
-            Log.d("########", "bcg is ${bcg}")
             selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.setBcg(bcg)
             isBcgViewLoading = bcg.isEmpty() || bcg.max() == 0.0
             if (!isMeditationInterrupt) {
