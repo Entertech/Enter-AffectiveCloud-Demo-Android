@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -253,17 +254,15 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
     }
 
     fun showBcg(bcg: ArrayList<Double>?) {
-        if (bcg == null){
+        if (bcg == null) {
             return
         }
         activity?.runOnUiThread {
+            Log.d("########","bcg is ${bcg}")
             selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.setBcg(bcg)
             isBcgViewLoading = bcg.isEmpty() || bcg.max() == 0.0
             if (!isMeditationInterrupt) {
-                if (isBcgViewLoading) {
-                    mMainHandler.postDelayed(showBcgLoadingRunnable, SHOW_LOADING_TIME_DELAY)
-                } else {
-                    mMainHandler.removeCallbacks(showBcgLoadingRunnable)
+                if (!isBcgViewLoading) {
                     selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.hideLoadingCover()
                 }
             }
@@ -271,17 +270,14 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
     }
 
     fun showRw(rw: ArrayList<Double>?) {
-        if (rw == null){
+        if (rw == null) {
             return
         }
         activity?.runOnUiThread {
             selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.setRw(rw)
             isRwViewLoading = rw.isEmpty() || rw.max() == 0.0
             if (!isMeditationInterrupt) {
-                if (isRwViewLoading) {
-                    mMainHandler.postDelayed(showRwLoadingRunnable, SHOW_LOADING_TIME_DELAY)
-                } else {
-                    mMainHandler.removeCallbacks(showRwLoadingRunnable)
+                if (!isRwViewLoading) {
                     selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.hideLoadingCover()
                 }
             }
@@ -298,18 +294,24 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
             isHeartViewLoading = heartRate == 0
             isHRVViewLoading = hrv == 0.0
             if (!isMeditationInterrupt) {
-                if (isHeartViewLoading) {
-                    mMainHandler.postDelayed(showHRLoadingRunnable, SHOW_LOADING_TIME_DELAY)
-                } else {
-                    mMainHandler.removeCallbacks(showHRLoadingRunnable)
+                if (!isHeartViewLoading) {
                     selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hideHRLoadingCover()
                 }
-                if (isHRVViewLoading) {
-                    mMainHandler.postDelayed(showHRVLoadingRunnable, SHOW_LOADING_TIME_DELAY)
-                } else {
-                    mMainHandler.removeCallbacks(showHRVLoadingRunnable)
+                if (!isHRVViewLoading) {
                     selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hideHRVLoadingCover()
                 }
+//                if (isHeartViewLoading) {
+//                    mMainHandler.postDelayed(showHRLoadingRunnable, SHOW_LOADING_TIME_DELAY)
+//                } else {
+//                    mMainHandler.removeCallbacks(showHRLoadingRunnable)
+//                    selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hideHRLoadingCover()
+//                }
+//                if (isHRVViewLoading) {
+//                    mMainHandler.postDelayed(showHRVLoadingRunnable, SHOW_LOADING_TIME_DELAY)
+//                } else {
+//                    mMainHandler.removeCallbacks(showHRVLoadingRunnable)
+//                    selfView?.findViewWithTag<MeditationHeartView>("Heart")?.hideHRVLoadingCover()
+//                }
 
             }
         }
@@ -364,13 +366,17 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
                 ?.setStress(pressure)
             isPressureLoading = pressure == 0f
             if (!isMeditationInterrupt) {
-                if (isPressureLoading) {
-                    mMainHandler.postDelayed(showPressureLoadingRunnable, SHOW_LOADING_TIME_DELAY)
-                } else {
-                    mMainHandler.removeCallbacks(showPressureLoadingRunnable)
+                if (!isPressureLoading) {
                     selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
                         ?.hidePressureLoaidng()
                 }
+//                if (isPressureLoading) {
+//                    mMainHandler.postDelayed(showPressureLoadingRunnable, SHOW_LOADING_TIME_DELAY)
+//                } else {
+//                    mMainHandler.removeCallbacks(showPressureLoadingRunnable)
+//                    selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
+//                        ?.hidePressureLoaidng()
+//                }
             }
         }
     }
@@ -393,13 +399,17 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
             selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.setCoherence(coherence)
             isCoherenceLoading = coherence == 0f
             if (!isMeditationInterrupt) {
-                if (isCoherenceLoading) {
-                    mMainHandler.postDelayed(showCoherenceLoadingRunnable, SHOW_LOADING_TIME_DELAY)
-                } else {
-                    mMainHandler.removeCallbacks(showCoherenceLoadingRunnable)
+                if (!isCoherenceLoading) {
                     selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
                         ?.hideCoherenceLoaidng()
                 }
+//                if (isCoherenceLoading) {
+//                    mMainHandler.postDelayed(showCoherenceLoadingRunnable, SHOW_LOADING_TIME_DELAY)
+//                } else {
+//                    mMainHandler.removeCallbacks(showCoherenceLoadingRunnable)
+//                    selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
+//                        ?.hideCoherenceLoaidng()
+//                }
             }
         }
     }
@@ -867,7 +877,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
     }
 
     fun showLoadingCover() {
-        selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showAttentionLoading()
+        selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showCoherenceLoading()
         selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showRelaxationLoading()
         selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showPressureLoading()
         selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showHRLoadingCover()
