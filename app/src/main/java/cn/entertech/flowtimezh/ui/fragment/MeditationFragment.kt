@@ -1,5 +1,8 @@
 package cn.entertech.flowtimezh.ui.fragment
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -11,10 +14,10 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
-import android.widget.TextView
-
-import org.greenrobot.eventbus.EventBus
 import android.widget.RelativeLayout
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import cn.entertech.affectivecloudsdk.entity.Error
 import cn.entertech.affectivecloudsdk.entity.RealtimeEEGData
 import cn.entertech.affectivecloudsdk.interfaces.Callback
@@ -38,8 +41,8 @@ import cn.entertech.flowtimezh.utils.TimeUtils
 import cn.entertech.flowtimezh.utils.formatNum
 import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.fragment_data.*
+import org.greenrobot.eventbus.EventBus
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class MeditationFragment : androidx.fragment.app.Fragment() {
@@ -91,10 +94,13 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
 
     fun initView() {
         selfView?.findViewById<TextView>(R.id.tv_edit)?.setOnClickListener {
-//            var messageEvent = MessageEvent()
-//            messageEvent.messageCode = MessageEvent.MESSAGE_CODE_DATA_EDIT
-//            messageEvent.message = "edit"
-//            EventBus.getDefault().post(messageEvent)
+            //获取剪贴板管理器：
+            //获取剪贴板管理器：
+            val cm: ClipboardManager? =
+                activity!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
+            val mClipData = ClipData.newPlainText("Label", "https://live.myflowtime.cn/?sessionId=${(activity!! as MeditationActivity).affectiveCloudService?.getSessionId()}")
+            cm?.primaryClip = mClipData
+            Toast.makeText(activity,"链接已复制",Toast.LENGTH_SHORT).show()
         }
         smartScrollView = selfView?.findViewById<SmartScrollView>(R.id.ssv_scroll_view)
         smartScrollView?.setSmartScrollChangedListener(object :
@@ -258,7 +264,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
             return
         }
         activity?.runOnUiThread {
-            Log.d("########","bcg is ${bcg}")
+            Log.d("########", "bcg is ${bcg}")
             selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.setBcg(bcg)
             isBcgViewLoading = bcg.isEmpty() || bcg.max() == 0.0
             if (!isMeditationInterrupt) {
