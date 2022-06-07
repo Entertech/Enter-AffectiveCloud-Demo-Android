@@ -204,9 +204,9 @@ class MeditationActivity : BaseActivity() {
 
         var algorithmParamsEEG =
             AlgorithmParamsEEG.Builder()
-                .filterMode(AlgorithmParamsEEG.FilterMode.HARD)
-                .powerMode(AlgorithmParamsEEG.PowerMode.DB)
-                .tolerance(AlgorithmParamsEEG.Tolerance.LEVEL_2)
+                .filterMode(AlgorithmParams.FilterMode.HARD)
+                .powerMode(AlgorithmParams.PowerMode.DB)
+                .tolerance(AlgorithmParams.Tolerance.LEVEL_2)
                 .build()
         var algorithmParams = AlgorithmParams.Builder().eeg(algorithmParamsEEG).build()
         var affectiveSubscribeParams = AffectiveSubscribeParams.Builder()
@@ -451,7 +451,7 @@ class MeditationActivity : BaseActivity() {
                 }
                 var reportHRDataEntity = ReportHRDataEntity()
                 @Suppress("UNCHECKED_CAST")
-                var hrMap = t["hr"] as Map<Any, Any?>
+                var hrMap = t["hr-v2"] as Map<Any, Any?>
                 if (hrMap.containsKey("hr_avg")) {
                     reportHRDataEntity.hrAvg = hrMap["hr_avg"] as Double
                 }

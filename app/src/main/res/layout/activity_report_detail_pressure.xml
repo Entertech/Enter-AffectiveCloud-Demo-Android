@@ -34,7 +34,7 @@
                 app:rlcc_lineColor="#FF6682"
                 app:rlcc_lineWidth="0.75dp"
                 app:rlcc_pointCount="100"
-                app:rlcc_timeUnit="800"
+                app:rlcc_timeUnit="600"
                 app:rlcc_markViewTitle="@string/sdk_pressure"
                 app:rlcc_averageLabelBgColor="?attr/common_bg1_color"
                 app:rlcc_markViewBgColor="?attr/common_bg_z2_color"

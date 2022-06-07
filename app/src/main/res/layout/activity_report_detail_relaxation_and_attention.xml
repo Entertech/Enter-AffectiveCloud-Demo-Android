@@ -34,7 +34,7 @@
                 app:ralcc_isTitleMenuIconShow="true"
                 app:ralcc_pointCount="100"
                 app:ralcc_relaxationLineColor="#4B5DCC"
-                app:ralcc_timeUnit="800"
+                app:ralcc_timeUnit="600"
                 app:ralcc_markViewTitle1="@string/sdk_attention"
                 app:ralcc_markViewTitle2="@string/sdk_relaxation"
                 app:ralcc_markViewBgColor="?attr/common_bg_z2_color"
