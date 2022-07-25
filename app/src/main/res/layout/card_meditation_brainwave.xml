@@ -46,6 +46,7 @@
         android:id="@+id/brainwave_spectrum"
         android:layout_width="match_parent"
         android:layout_height="270dp"
+        app:rbsv_titleIcon="@drawable/vector_drawable_brain"
         android:layout_marginTop="@dimen/activity_margin" />
 
 </LinearLayout>

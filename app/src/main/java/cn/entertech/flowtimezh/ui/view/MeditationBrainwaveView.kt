@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
+import cn.entertech.affectivecloudsdk.AlgorithmParamsEEG
 import cn.entertech.flowtimezh.R
+import cn.entertech.uicomponentsdk.realtime.PercentProgressBar.Companion.POWER_MODE_RATE
 import cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveSpectrumView
 import cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveView
 
@@ -27,6 +29,7 @@ class MeditationBrainwaveView @JvmOverloads constructor(
     }
 
     fun initView() {
+        mSelfView.findViewById<RealtimeBrainwaveSpectrumView>(R.id.brainwave_spectrum).setPowerMode(POWER_MODE_RATE)
 //        brainwave.setIsShowInfoIcon(
 //            true,
 //            url = SettingManager.getInstance().remoteConfigEEGRealtimeInfo
