@@ -138,6 +138,16 @@ internal class AffectiveCloudService : Service() {
             .requestArousal()
             .requestCoherence()
             .build()
+        var algorithmParamsEEG =
+            AlgorithmParamsEEG.Builder()
+                .tolerance(AlgorithmParamsEEG.Tolerance.LEVEL_2)
+                .filterMode(AlgorithmParamsEEG.FilterMode.SMART)
+                .powerMode(AlgorithmParamsEEG.PowerMode.DB)
+                .channelPowerVerbose(false)
+                .build()
+        var algorithmParams = AlgorithmParams.Builder()
+            .eeg(algorithmParamsEEG)
+            .build()
         var url = "wss://${SettingManager.getInstance().affectiveCloudServer}/ws/algorithm/v2/"
         var enterAffectiveCloudConfig = EnterAffectiveCloudConfig.Builder(
             SettingManager.getInstance().appKey,
@@ -152,6 +162,7 @@ internal class AffectiveCloudService : Service() {
             .affectiveSubscribeParams(affectiveSubscribeParams!!)
             .storageSettings(storageSettings)
             .biodataTolerance(biodataTolerance)
+            .algorithmParams(algorithmParams)
             .uploadCycle(1)
             .build()
         enterAffectiveCloudManager = EnterAffectiveCloudManager(enterAffectiveCloudConfig)

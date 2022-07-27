@@ -9,6 +9,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import cn.entertech.affectivecloudsdk.AlgorithmParamsEEG
 import cn.entertech.flowtimezh.R
+import cn.entertech.uicomponentsdk.realtime.PercentProgressBar.Companion.POWER_MODE_DB
 import cn.entertech.uicomponentsdk.realtime.PercentProgressBar.Companion.POWER_MODE_RATE
 import cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveSpectrumView
 import cn.entertech.uicomponentsdk.realtime.RealtimeBrainwaveView
@@ -29,7 +30,7 @@ class MeditationBrainwaveView @JvmOverloads constructor(
     }
 
     fun initView() {
-        mSelfView.findViewById<RealtimeBrainwaveSpectrumView>(R.id.brainwave_spectrum).setPowerMode(POWER_MODE_RATE)
+        mSelfView.findViewById<RealtimeBrainwaveSpectrumView>(R.id.brainwave_spectrum).setPowerMode(POWER_MODE_DB)
 //        brainwave.setIsShowInfoIcon(
 //            true,
 //            url = SettingManager.getInstance().remoteConfigEEGRealtimeInfo
@@ -50,27 +51,27 @@ class MeditationBrainwaveView @JvmOverloads constructor(
 
     fun setGammaWavePercent(percent: Float?) {
         mSelfView.findViewById<RealtimeBrainwaveSpectrumView>(R.id.brainwave_spectrum)
-            .setGammaWavePercent(percent)
+            .setGammaWaveDBValue(percent)
     }
 
     fun setBetaWavePercent(percent: Float?) {
         mSelfView.findViewById<RealtimeBrainwaveSpectrumView>(R.id.brainwave_spectrum)
-            .setBetaWavePercent(percent)
+            .setBetaWaveDBValue(percent)
     }
 
     fun setAlphaWavePercent(percent: Float?) {
         mSelfView.findViewById<RealtimeBrainwaveSpectrumView>(R.id.brainwave_spectrum)
-            .setAlphaWavePercent(percent)
+            .setAlphaWaveDBValue(percent)
     }
 
     fun setThetaWavePercent(percent: Float?) {
         mSelfView.findViewById<RealtimeBrainwaveSpectrumView>(R.id.brainwave_spectrum)
-            .setThetaWavePercent(percent)
+            .setThetaWaveDBValue(percent)
     }
 
     fun setDeltaWavePercent(percent: Float?) {
         mSelfView.findViewById<RealtimeBrainwaveSpectrumView>(R.id.brainwave_spectrum)
-            .setDeltaWavePercent(percent)
+            .setDeltaWaveDBValue(percent)
     }
 
     fun showLoadingCover() {
