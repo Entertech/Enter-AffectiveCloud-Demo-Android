@@ -123,7 +123,21 @@ class MeditationActivity : BaseActivity() {
     private var airSoundMediaPlayer: MediaPlayer? = null
 
     var isMeditationPause = true
-
+    var saveRootPath: String = ""
+    var saveRawDataPath: String = ""
+    var saveRealtimeDataPath: String = ""
+    var saveReportDataPath: String = ""
+    var fileName: String = ""
+    var rawEEGFileHelper = FileHelper()
+    var rawHRFileHelper = FileHelper()
+    var realtimeEEGLeftFileHelper = FileHelper()
+    var realtimeEEGRightFileHelper = FileHelper()
+    var realtimeGammaFileHelper = FileHelper()
+    var realtimeBetaFileHelper = FileHelper()
+    var realtimeAlphaFileHelper = FileHelper()
+    var realtimeThetaFileHelper = FileHelper()
+    var realtimeDeltaFileHelper = FileHelper()
+    var reportFileHelper = FileHelper()
     //    var canExit = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -139,6 +153,7 @@ class MeditationActivity : BaseActivity() {
         playAirSound()
         initPowerManager()
         playSleepNoise()
+        initFileWritter()
     }
 
     fun bindAffectiveService() {
@@ -347,17 +362,67 @@ class MeditationActivity : BaseActivity() {
                 }
 
                 override fun onSuccess() {
-//                    Logger.d("affectivecloudmanager init success:")
+                    Logger.d("affectivecloudmanager init success:")
+
 //                    biomoduleBleManager.startHeartAndBrainCollection()
                 }
             })
         }
     }
 
+    fun initFileWritter(){
+        fileName = "${getCurrentTimeFormat()}"
+        initSaveFiledir()
+        rawEEGFileHelper.setFilePath(saveRawDataPath + "eeg.txt")
+        rawHRFileHelper.setFilePath(saveRawDataPath + "hr.txt")
+        realtimeEEGLeftFileHelper.setFilePath(saveRealtimeDataPath + "brainwave_left.txt")
+        realtimeEEGRightFileHelper.setFilePath(saveRealtimeDataPath + "brainwave_right.txt")
+        realtimeAlphaFileHelper.setFilePath(saveRealtimeDataPath + "rhythms_alpha.txt")
+        realtimeBetaFileHelper.setFilePath(saveRealtimeDataPath + "rhythms_beta.txt")
+        realtimeGammaFileHelper.setFilePath(saveRealtimeDataPath + "rhythms_gamma.txt")
+        realtimeThetaFileHelper.setFilePath(saveRealtimeDataPath + "rhythms_theta.txt")
+        realtimeDeltaFileHelper.setFilePath(saveRealtimeDataPath + "rhythms_delta.txt")
+        reportFileHelper.setFilePath(saveReportDataPath+"report.txt")
+    }
+
+    fun initSaveFiledir() {
+        saveRootPath = getExternalFilesDir(fileName).absolutePath
+        saveRealtimeDataPath = saveRootPath + File.separator + "realtime" + File.separator
+        saveReportDataPath = saveRootPath + File.separator + "report" + File.separator
+        saveRawDataPath = saveRootPath + File.separator + "raw" + File.separator
+        var file = File(saveRootPath)
+        var rawDir = File(saveRawDataPath)
+        var realtimeDir = File(saveRealtimeDataPath)
+        var reportDir = File(saveReportDataPath)
+        if (!file.exists()) {
+            file.mkdirs()
+        }
+        if (!rawDir.exists()) {
+            rawDir.mkdirs()
+        }
+        if (!realtimeDir.exists()) {
+            realtimeDir.mkdirs()
+        }
+        if (!reportDir.exists()) {
+            reportDir.mkdirs()
+        }
+    }
+
+    fun list2String(data:ArrayList<out Number>):String{
+        return "${Arrays.toString(data.toArray())}".replace("[", "").replace("]", "")
+    }
+
     fun initAffectiveCloudManager() {
         affectiveCloudService?.addListener({
             runOnUiThread {
                 if (it != null && it!!.realtimeEEGData != null) {
+                    realtimeEEGLeftFileHelper.writeData(list2String(it.realtimeEEGData!!.leftwave!!)+",")
+                    realtimeEEGRightFileHelper.writeData(list2String(it.realtimeEEGData!!.rightwave!!)+",")
+                    realtimeAlphaFileHelper.writeData("${it.realtimeEEGData!!.alphaPower!!},")
+                    realtimeBetaFileHelper.writeData("${it.realtimeEEGData!!.betaPower!!},")
+                    realtimeGammaFileHelper.writeData("${it.realtimeEEGData!!.gammaPower!!},")
+                    realtimeThetaFileHelper.writeData("${it.realtimeEEGData!!.thetaPower!!},")
+                    realtimeDeltaFileHelper.writeData("${it.realtimeEEGData!!.deltaPower!!},")
                     Log.d("####", "eeg data:" + it!!.realtimeEEGData?.alphaPower)
                     if (isFirstReceiveData) {
                         if (SettingManager.getInstance().timeCountIsEEG()) {
@@ -522,6 +587,7 @@ class MeditationActivity : BaseActivity() {
     private lateinit var contactListener: (Int) -> Unit
     private lateinit var bleDisconnectListener: (String) -> Unit
 
+    var writeFileDataBuffer = ArrayList<Int>()
     //    var brainDataList = ArrayList<Int>()
     fun initFlowtimeManager() {
 
@@ -531,6 +597,14 @@ class MeditationActivity : BaseActivity() {
         rawListener = fun(bytes: ByteArray) {
             var currentTimeMs = System.currentTimeMillis()
             if (affectiveCloudService?.isInited() == true) {
+                for (byte in bytes){
+                    var brainData = ConvertUtil.converUnchart(byte)
+                    writeFileDataBuffer.add((brainData))
+                    if (writeFileDataBuffer.size >= 20) {
+                        rawEEGFileHelper.writeData("${list2String(writeFileDataBuffer)},")
+                        writeFileDataBuffer.clear()
+                    }
+                }
                 affectiveCloudService?.appendEEGData(bytes)
             }
             if (lastReceiveDataTimeMs != null) {
@@ -543,6 +617,7 @@ class MeditationActivity : BaseActivity() {
         }
         heartRateListener = fun(heartRate: Int) {
             if (affectiveCloudService?.isInited() == true) {
+                rawHRFileHelper.writeData("$heartRate,")
                 affectiveCloudService?.appendHeartRateData(heartRate)
             }
         }
@@ -593,6 +668,7 @@ class MeditationActivity : BaseActivity() {
         reportMeditationData: ReportMeditationDataEntity,
         fileWriteComplete: ((String) -> Unit)?
     ) {
+        reportFileHelper.writeData(reportMeditationData.toString())
         fragmentBuffer.addFileWriteCompleteCallback(fileWriteComplete)
         fragmentBuffer.appendMeditationReport(
             reportMeditationData,
