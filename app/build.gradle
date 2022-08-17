@@ -17,7 +17,7 @@ android {
     def BUILD_NAME = "build.number"
 
     def buildCode = getVersionCodeWithPropertyName(PROPERTY_FILE_NAME, BUILD_NAME)
-    def appVersionCode = "1.2.4"
+    def appVersionCode = "1.2.5"
     compileSdkVersion 28
     defaultConfig {
         applicationId "cn.entertech.cushioncollector"
@@ -76,7 +76,7 @@ dependencies {
     implementation 'com.airbnb.android:lottie:3.0.7'
     implementation 'org.greenrobot:eventbus:3.1.1'
 
-    implementation 'cn.entertech.android:affectivecloud:2.4.0-alpha02'
+    implementation 'cn.entertech.android:affectivecloud:2.6.2'
     implementation 'com.orhanobut:logger:2.1.1'
     implementation 'org.slf4j:slf4j-api:1.7.7'
     implementation 'org.slf4j:slf4j-log4j12:1.7.7'
@@ -96,7 +96,7 @@ dependencies {
     implementation 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
     implementation 'com.google.android:flexbox:2.0.1'
-    implementation 'cn.entertech.android:cushionble:1.0.0-alpha03'
+    implementation 'cn.entertech.android:cushionble:1.0.0-alpha09'
 //    implementation 'cn.entertech.android:biomoduleble:1.4.0'
 }
 

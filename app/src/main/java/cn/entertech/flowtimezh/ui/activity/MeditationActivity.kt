@@ -469,6 +469,7 @@ class MeditationActivity : BaseActivity() {
         }
 
         cushionBleManager?.addRawDataListener(rawDataListener)
+        cushionBleManager?.startCollection()
     }
 
     lateinit var reportMeditationData: ReportMeditationDataEntity

@@ -265,7 +265,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         }
         activity?.runOnUiThread {
             selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.setBcg(bcg)
-            isBcgViewLoading = bcg.isEmpty() || bcg.max() == 0.0
+            isBcgViewLoading = bcg.isEmpty() || bcg.maxOrNull() == 0.0
             if (!isMeditationInterrupt) {
                 if (!isBcgViewLoading) {
                     selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.hideLoadingCover()
@@ -280,7 +280,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         }
         activity?.runOnUiThread {
             selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.setRw(rw)
-            isRwViewLoading = rw.isEmpty() || rw.max() == 0.0
+            isRwViewLoading = rw.isEmpty() || rw.maxOrNull() == 0.0
             if (!isMeditationInterrupt) {
                 if (!isRwViewLoading) {
                     selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.hideLoadingCover()
