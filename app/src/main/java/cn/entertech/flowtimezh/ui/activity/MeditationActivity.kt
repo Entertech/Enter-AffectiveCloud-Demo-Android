@@ -405,6 +405,13 @@ class MeditationActivity : BaseActivity() {
     fun connectWebSocket() {
         affectiveCloudService?.connectCloud(object : Callback {
             override fun onError(error: cn.entertech.affectivecloudsdk.entity.Error?) {
+                runOnUiThread {
+                    Toast.makeText(
+                        this@MeditationActivity,
+                        "${error?.code}:${error?.msg}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
 
 
