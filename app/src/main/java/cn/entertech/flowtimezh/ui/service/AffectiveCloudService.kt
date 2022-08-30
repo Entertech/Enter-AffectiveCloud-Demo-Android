@@ -133,7 +133,7 @@ internal class AffectiveCloudService : Service() {
             .biodataSubscribeParams(biodataSubscribeParams!!)
             .affectiveSubscribeParams(affectiveSubscribeParams!!)
             .storageSettings(storageSettings)
-            .uploadCycle(1)
+            .uploadCycle(3)
             .build()
         enterAffectiveCloudManager = EnterAffectiveCloudManager(enterAffectiveCloudConfig)
         enterAffectiveCloudManager!!.addBiodataRealtimeListener {
