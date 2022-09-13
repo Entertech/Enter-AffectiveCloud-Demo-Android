@@ -76,7 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginTop="@dimen/activity_margin_half"
-        app:rhrvv_buffer="25"
+        app:rhrvv_buffer="60"
         app:rhrvv_refreshTime="8"
         app:rhrvv_sample="5"
         app:rhrvv_screenDataSize="200"
@@ -87,9 +87,9 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginTop="@dimen/activity_margin_half"
-        app:rhrvv_buffer="25"
+        app:rhrvv_buffer="50"
         app:rhrvv_refreshTime="40"
-        app:rhrvv_screenDataSize="200"
+        app:rhrvv_screenDataSize="750"
         app:rhrvv_titleText="呼吸波" />
 
     <!--    <RelativeLayout-->
