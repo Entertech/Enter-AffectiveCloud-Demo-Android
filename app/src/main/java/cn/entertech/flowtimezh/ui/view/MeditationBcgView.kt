@@ -31,11 +31,22 @@ class MeditationBcgView @JvmOverloads constructor(
 //        realtime_hrv.setIsShowInfoIcon(true,url= SettingManager.getInstance().remoteConfigHRVRealtimeInfo )
     }
 
-    fun setRw(rw:List<Double>){
+    fun setRR(rr: Double) {
+        tv_rr.text = "呼吸率：${(rr * 10).toInt() / 10}次/分钟"
+    }
+
+    fun setBcgQuality(bcgQuality:Int){
+        tv_bcg_quality.text = "脉搏波信号质量：${bcgQuality}"
+    }
+
+    fun setRWQuality(rwQuality:Int){
+        tv_rw_quality.text = "呼吸波信号质量：${rwQuality}"
+    }
+    fun setRw(rw: List<Double>) {
         rw_wave.appendHrv(rw)
     }
 
-    fun setBcg(bcg:List<Double>) {
+    fun setBcg(bcg: List<Double>) {
         bcg_wave.appendHrv(bcg)
     }
 

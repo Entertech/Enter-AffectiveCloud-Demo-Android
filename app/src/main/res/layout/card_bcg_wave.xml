@@ -3,62 +3,94 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
             android:fontFamily="sans-serif-medium"
-            android:textStyle="normal"
-            android:textColor="#232323"
             android:lineSpacingExtra="6sp"
             android:text="脉搏波和呼吸波"
-            />
+            android:textColor="#232323"
+            android:textSize="18sp"
+            android:textStyle="normal" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/tv_sample"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_margin_half"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="end"
+            android:lineSpacingExtra="4sp"
+            android:text="(Sample)"
+            android:textColor="#666666"
+            android:textSize="12sp"
+            android:textStyle="normal"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/activity_margin_half"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_rr"
+            android:text="呼吸率:--"
+            android:textColor="@color/colorPrimary"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="@dimen/activity_margin_half"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_rw_quality"
+            android:text="呼吸波信号质量：--"
+            android:textColor="@color/colorPrimary"/>
+        <TextView
             android:layout_marginLeft="@dimen/activity_margin_half"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:fontFamily="sans-serif-medium"
-            android:textStyle="normal"
-            android:textColor="#666666"
-            android:lineSpacingExtra="4sp"
-            android:gravity="end"
-            android:text="(Sample)"
-            />
+            android:id="@+id/tv_bcg_quality"
+            android:text="脉搏波信号质量：--"
+            android:textColor="@color/colorPrimary"/>
     </LinearLayout>
 
 
+
+
     <cn.entertech.uicomponentsdk.realtime.RealtimeBreathCoherenceView
+        android:id="@+id/bcg_wave"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:id="@+id/bcg_wave"
+        android:layout_marginTop="@dimen/activity_margin_half"
         app:rhrvv_buffer="25"
         app:rhrvv_refreshTime="8"
         app:rhrvv_sample="5"
         app:rhrvv_screenDataSize="200"
-        app:rhrvv_titleText="脉搏波"
-        android:layout_marginTop="@dimen/activity_margin_half"/>
+        app:rhrvv_titleText="脉搏波" />
+
     <cn.entertech.uicomponentsdk.realtime.RealtimeBreathCoherenceView
+        android:id="@+id/rw_wave"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:id="@+id/rw_wave"
+        android:layout_marginTop="@dimen/activity_margin_half"
         app:rhrvv_buffer="25"
-        app:rhrvv_screenDataSize="200"
         app:rhrvv_refreshTime="40"
-        app:rhrvv_titleText="呼吸波"
-        android:layout_marginTop="@dimen/activity_margin_half"/>
+        app:rhrvv_screenDataSize="200"
+        app:rhrvv_titleText="呼吸波" />
 
     <!--    <RelativeLayout-->
     <!--            android:layout_marginTop="@dimen/activity_margin_half"-->

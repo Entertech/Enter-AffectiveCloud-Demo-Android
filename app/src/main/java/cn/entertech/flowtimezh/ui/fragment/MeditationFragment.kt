@@ -274,6 +274,28 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         }
     }
 
+    fun showRR(rr:Double?){
+        if (rr == null){
+            return
+        }
+        selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.setRR(rr)
+    }
+
+    fun showBcgQuality(bcgQuality:Int?){
+        if (bcgQuality == null){
+            return
+        }
+        selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.setBcgQuality(bcgQuality)
+    }
+
+
+    fun showRwQuality(rwQuality:Int?){
+        if (rwQuality == null){
+            return
+        }
+        selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.setRWQuality(rwQuality)
+    }
+
     fun showRw(rw: ArrayList<Double>?) {
         if (rw == null) {
             return

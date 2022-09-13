@@ -181,6 +181,9 @@ class MeditationActivity : BaseActivity() {
                     )
                     meditationFragment?.showBcg(it.realtimePEPRData?.bcgWave)
                     meditationFragment?.showRw(it.realtimePEPRData?.rwWave)
+                    meditationFragment?.showRwQuality(it.realtimePEPRData?.rwQuality)
+                    meditationFragment?.showBcgQuality(it.realtimePEPRData?.bcgQuality)
+                    meditationFragment?.showRR(it.realtimePEPRData?.rr)
                 }
 
             }
