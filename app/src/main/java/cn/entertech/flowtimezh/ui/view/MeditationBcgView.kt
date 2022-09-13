@@ -36,11 +36,31 @@ class MeditationBcgView @JvmOverloads constructor(
     }
 
     fun setBcgQuality(bcgQuality:Int){
-        tv_bcg_quality.text = "脉搏波信号质量：${bcgQuality}"
+        when(bcgQuality){
+            0 ->{
+                tv_bcg_quality.text = "脉搏波信号质量：差"
+            }
+            1 ->{
+                tv_bcg_quality.text = "脉搏波信号质量：一般"
+            }
+            2 ->{
+                tv_bcg_quality.text = "脉搏波信号质量：好"
+            }
+        }
     }
 
     fun setRWQuality(rwQuality:Int){
-        tv_rw_quality.text = "呼吸波信号质量：${rwQuality}"
+        when(rwQuality){
+            0 ->{
+                tv_rw_quality.text = "呼吸波信号质量：差"
+            }
+            1 ->{
+                tv_rw_quality.text = "呼吸波信号质量：一般"
+            }
+            2 ->{
+                tv_rw_quality.text = "呼吸波信号质量：好"
+            }
+        }
     }
     fun setRw(rw: List<Double>) {
         rw_wave.appendHrv(rw)
