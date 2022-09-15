@@ -54,6 +54,8 @@ android {
     packagingOptions {
         exclude 'META-INF/ble_release.kotlin_module'
     }
+
+    ndkVersion '21.1.6352462'
 }
 
 dependencies {

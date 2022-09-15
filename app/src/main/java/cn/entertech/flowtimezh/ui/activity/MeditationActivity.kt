@@ -250,11 +250,13 @@ class MeditationActivity : BaseActivity() {
 
     fun onVoiceChange() {
         if (!isStartRecord) {
+            Toast.makeText(this,"标签开始",Toast.LENGTH_SHORT).show()
             meditationStatusPlayer?.playRecordStartAudio()
             isStartRecord = true
             ll_back.visibility = View.GONE
             startTime = MeditationTimeManager.getInstance().currentTimeMs()
         } else {
+            Toast.makeText(this,"标签结束",Toast.LENGTH_SHORT).show()
             meditationStatusPlayer?.playRecordEndAudio()
             ll_back.visibility = View.VISIBLE
             isStartRecord = false
