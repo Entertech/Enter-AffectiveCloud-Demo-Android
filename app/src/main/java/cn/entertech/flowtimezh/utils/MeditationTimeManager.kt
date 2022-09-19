@@ -22,7 +22,7 @@ class MeditationTimeManager {
 
 
     fun timeIncrease() {
-        timeCount += 600
+        timeCount += 1800
     }
 
     fun timeReset() {
