@@ -49,6 +49,10 @@ class MeditationHeartView @JvmOverloads constructor(
         }
     }
 
+    fun setTextColor(color:Int){
+        heart_rate.setTextColor(color)
+    }
+
     fun setRealtimeHr(hr: Double?) {
         if (hr != null){
             heart_rate_line.appendHrv(listOf(hr.toDouble()))

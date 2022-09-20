@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -283,6 +284,12 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
             return
         }
         selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.setBcgQuality(bcgQuality)
+
+        if (bcgQuality == 1){
+            selfView?.findViewWithTag<MeditationHeartView>("Heart")?.setTextColor(Color.BLACK)
+        }else{
+            selfView?.findViewWithTag<MeditationHeartView>("Heart")?.setTextColor(Color.GRAY)
+        }
     }
 
 
