@@ -31,15 +31,28 @@ class MeditationHeartView @JvmOverloads constructor(
 //        heart_rate.setIsShowInfoIcon(true,url = SettingManager.getInstance().remoteConfigHRRealtimeInfo)
 //        realtime_hrv.setIsShowInfoIcon(true,url= SettingManager.getInstance().remoteConfigHRVRealtimeInfo )
     }
-
+    var preSmoothValue = 0f
+    var beta = 0.8f
+    fun smoothValue(newData:Int):Float{
+        val curValue =  (1f-beta) * newData + beta*preSmoothValue
+        return curValue
+    }
     fun setHeartValue(heartRate: Int?) {
         if (heartRate != null) {
-            heart_rate.setHeartValue(heartRate)
-            heart_rate_line.appendHrv(listOf(heartRate!!.toDouble()))
+            if (heartRate != 0 && preSmoothValue != 0F){
+                var smoothValue = smoothValue(heartRate)
+                heart_rate.setHeartValue(smoothValue.toInt())
+            }else{
+                heart_rate.setHeartValue(heartRate)
+            }
+            preSmoothValue = heartRate.toFloat()
         }
     }
 
-    fun setHRV(hrv: Double?) {
+    fun setRealtimeHr(hr: Double?) {
+        if (hr != null){
+            heart_rate_line.appendHrv(listOf(hr.toDouble()))
+        }
 //        realtime_hrv.appendHrv(hrv)
     }
 

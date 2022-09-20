@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,14 +16,12 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import cn.entertech.affectivecloudsdk.entity.Error
 import cn.entertech.affectivecloudsdk.entity.RealtimeEEGData
 import cn.entertech.affectivecloudsdk.interfaces.Callback
 import cn.entertech.ble.cushion.CushionBleManager
 import cn.entertech.ble.single.BiomoduleBleManager
 import cn.entertech.bleuisdk.ui.DeviceUIConfig
-import cn.entertech.flowtime.utils.*
 import cn.entertech.flowtime.utils.reportfileutils.MeditaionInterruptManager
 import cn.entertech.flowtime.utils.reportfileutils.MeditaionInterruptManager.Companion.INTERRUPT_TYPE_DEVICE
 import cn.entertech.flowtime.utils.reportfileutils.MeditaionInterruptManager.Companion.INTERRUPT_TYPE_NET
@@ -317,7 +314,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         }
         activity?.runOnUiThread {
             selfView?.findViewWithTag<MeditationHeartView>("Heart")?.setHeartValue(heartRate)
-            selfView?.findViewWithTag<MeditationHeartView>("Heart")?.setHRV(hrv)
+            selfView?.findViewWithTag<MeditationHeartView>("Heart")?.setRealtimeHr(hrv)
             isHeartViewLoading = heartRate == 0
             isHRVViewLoading = hrv == 0.0
             if (!isMeditationInterrupt) {
