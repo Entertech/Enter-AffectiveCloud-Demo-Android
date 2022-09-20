@@ -285,7 +285,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         }
         selfView?.findViewWithTag<MeditationBcgView>("Bcg")?.setBcgQuality(bcgQuality)
 
-        if (bcgQuality == 1){
+        if (bcgQuality == 2){
             selfView?.findViewWithTag<MeditationHeartView>("Heart")?.setTextColor(Color.BLACK)
         }else{
             selfView?.findViewWithTag<MeditationHeartView>("Heart")?.setTextColor(Color.GRAY)
