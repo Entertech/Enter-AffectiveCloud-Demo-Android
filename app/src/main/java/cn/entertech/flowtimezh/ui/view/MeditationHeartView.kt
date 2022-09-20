@@ -39,13 +39,14 @@ class MeditationHeartView @JvmOverloads constructor(
     }
     fun setHeartValue(heartRate: Int?) {
         if (heartRate != null) {
+            var smoothValue = 0f
             if (heartRate != 0 && preSmoothValue != 0F){
-                var smoothValue = smoothValue(heartRate)
-                heart_rate.setHeartValue(smoothValue.toInt())
+                smoothValue = smoothValue(heartRate)
             }else{
-                heart_rate.setHeartValue(heartRate)
+                smoothValue = heartRate.toFloat()
             }
-            preSmoothValue = heartRate.toFloat()
+            heart_rate.setHeartValue(smoothValue.toInt())
+            preSmoothValue = smoothValue
         }
     }
 
