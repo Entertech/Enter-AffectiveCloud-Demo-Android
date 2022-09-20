@@ -321,7 +321,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         }
         activity?.runOnUiThread {
             selfView?.findViewWithTag<MeditationHeartView>("Heart")?.setHeartValue(heartRate)
-            selfView?.findViewWithTag<MeditationHeartView>("Heart")?.setRealtimeHr(hrv)
+            selfView?.findViewWithTag<MeditationHeartView>("Heart")?.setRealtimeHr(heartRate)
             isHeartViewLoading = heartRate == 0
             isHRVViewLoading = hrv == 0.0
             if (!isMeditationInterrupt) {
