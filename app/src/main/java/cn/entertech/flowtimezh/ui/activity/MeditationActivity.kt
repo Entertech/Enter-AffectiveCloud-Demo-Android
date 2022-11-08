@@ -100,9 +100,6 @@ class MeditationActivity : BaseActivity() {
     private var meditationId: Long = -1
     private var mRecordId: Long = -1
 
-    private var MEDITATION_LABEL_RECORD_PATH =
-        Environment.getExternalStorageDirectory().path + File.separator + "心流实验/标签数据"
-
     var isFixingFirmware = false
     var isFirstReceiveData = true
     var isFirstReceiveHRData = true
@@ -373,6 +370,7 @@ class MeditationActivity : BaseActivity() {
     fun initFileWritter(){
         fileName = "${getCurrentTimeFormat()}"
         initSaveFiledir()
+        FileStoreHelper.getInstance().setPath(saveRootPath + File.separator + "标签" + File.separator,"label.txt")
         rawEEGFileHelper.setFilePath(saveRawDataPath + "eeg.txt")
         rawHRFileHelper.setFilePath(saveRawDataPath + "hr.txt")
         realtimeEEGLeftFileHelper.setFilePath(saveRealtimeDataPath + "brainwave_left.txt")
@@ -1017,7 +1015,7 @@ class MeditationActivity : BaseActivity() {
         recDataRecord.recDatas = recDatas
         recDataRecord.session_id = affectiveCloudService?.getSessionId()
         var json = Gson().toJson(recDataRecord)
-//        FileStoreHelper.getInstance().writeData(json)
+        FileStoreHelper.getInstance().writeData(json)
     }
 
 

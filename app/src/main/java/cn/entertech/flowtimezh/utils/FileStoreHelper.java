@@ -51,7 +51,7 @@ public class FileStoreHelper {
             if (!dir.exists()) {
                 dir.mkdirs();
             }
-            file = new File(filePath + File.separator + fileName+".txt");
+            file = new File(filePath + File.separator + fileName);
             if (!file.exists()) {
                 file.createNewFile();
             }
