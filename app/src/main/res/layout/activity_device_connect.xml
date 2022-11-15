@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".ui.activity.DeviceConnectActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:navigationIcon="@drawable/vector_drawable_back_black" />
+
+    <TextView
+        style="@style/text_bigtitle_semibold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_margin_16"
+        android:layout_marginTop="@dimen/activity_margin_24"
+        android:text="Connect Device"
+        android:textColor="@color/colorBlack" />
+
+    <TextView
+        style="@style/text_title2_semibold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_margin_16"
+        android:layout_marginTop="83dp"
+        android:text="Flowtime headband"
+        android:textColor="@color/colorBlack" />
+
+    <TextView
+        style="@style/text_body_regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_margin_16"
+        android:layout_marginTop="@dimen/activity_margin_16"
+        android:layout_marginEnd="@dimen/activity_margin_16"
+        android:text="Press and hold the button until the indicator lights up."
+        android:textColor="@color/colorBlack" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <cn.entertech.flowtimezh.ui.view.CommonButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_margin_16"
+        android:layout_marginRight="@dimen/activity_margin_16"
+        android:layout_marginBottom="@dimen/dim_margin_64"
+        app:cb_btnFillColor="@color/light_btn_bg"
+        app:cb_btnText="Connect"
+        app:cb_btnTextColor="@color/light_btn_text" />
+</LinearLayout>
