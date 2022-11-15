@@ -27,14 +27,17 @@ class LoadingDialog(context: Context) {
 
     fun loading(text: String = "Loading") {
         dialog.show()
-        val decorView = dialog.getWindow().getDecorView()
+        val decorView = dialog.getWindow()?.getDecorView()
+        if (decorView == null){
+            return
+        }
         val paddingTop = decorView.getPaddingTop()
         val paddingBottom = decorView.getPaddingBottom()
         val paddingLeft = decorView.getPaddingLeft()
         val paddingRight = decorView.getPaddingRight()
         val width = ScreenUtil.dip2px(mContext, 150f) + paddingLeft + paddingRight
         val height = ScreenUtil.dip2px(mContext, 130f) + paddingTop + paddingBottom
-        dialog.getWindow().setLayout(width, height)
+        dialog.getWindow()!!.setLayout(width, height)
         view?.findViewById<ImageView>(R.id.iv_load_failed_icon)?.visibility = View.GONE
         view?.findViewById<TextView>(R.id.tv_text)?.text = text
         view?.findViewById<LottieAnimationView>(R.id.lav_loading_icon)?.visibility = View.VISIBLE

@@ -27,11 +27,11 @@ open class BaseActivity : AppCompatActivity() {
         baseLoading?.dismiss()
     }
 
-    fun showTipSuccess(msg:String,callback:(()->Unit)? = null){
+    fun showTipSuccess(msg:String ="Success",callback:(()->Unit)? = null){
         if (baseLoading == null){
             baseLoading = CommonLoadingDialog(this)
         }
-        baseLoading?.success(msg)
+        baseLoading?.success(msg,callback)
     }
     fun showTipError(error:String){
         if (baseLoading == null){

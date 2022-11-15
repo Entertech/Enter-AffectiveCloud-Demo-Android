@@ -120,7 +120,7 @@ class MeditationActivity : BaseActivity() {
     private var airSoundMediaPlayer: MediaPlayer? = null
 
     var isMeditationPause = true
-    var saveRootPath: String = ""
+    var saveRootPath: String? = ""
     var saveRawDataPath: String = ""
     var saveRealtimeDataPath: String = ""
     var saveReportDataPath: String = ""
@@ -370,6 +370,9 @@ class MeditationActivity : BaseActivity() {
     fun initFileWritter(){
         fileName = "${getCurrentTimeFormat()}"
         initSaveFiledir()
+        if (saveRootPath == null){
+            return
+        }
         FileStoreHelper.getInstance().setPath(saveRootPath + File.separator + "标签" + File.separator,"label.txt")
         rawEEGFileHelper.setFilePath(saveRawDataPath + "eeg.txt")
         rawHRFileHelper.setFilePath(saveRawDataPath + "hr.txt")
@@ -384,7 +387,10 @@ class MeditationActivity : BaseActivity() {
     }
 
     fun initSaveFiledir() {
-        saveRootPath = getExternalFilesDir(fileName).absolutePath
+        saveRootPath = getExternalFilesDir(fileName)?.absolutePath
+        if (saveRootPath == null){
+            return
+        }
         saveRealtimeDataPath = saveRootPath + File.separator + "realtime" + File.separator
         saveReportDataPath = saveRootPath + File.separator + "report" + File.separator
         saveRawDataPath = saveRootPath + File.separator + "raw" + File.separator

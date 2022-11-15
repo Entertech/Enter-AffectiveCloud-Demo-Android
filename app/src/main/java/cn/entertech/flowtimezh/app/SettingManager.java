@@ -3,6 +3,9 @@ package cn.entertech.flowtimezh.app;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import static cn.entertech.flowtimezh.app.Constant.BLE_MAC_CUSHION;
+import static cn.entertech.flowtimezh.app.Constant.BLE_MAC_ENTERTECH_VR;
+import static cn.entertech.flowtimezh.app.Constant.BLE_MAC_HEADBAND;
 import static cn.entertech.flowtimezh.app.Constant.DEVICE_TYPE_HEADBAND;
 import static cn.entertech.flowtimezh.app.Constant.MEDITATION_VIEW_ORDER;
 import static cn.entertech.flowtimezh.app.Constant.SP_AFFECTIVE_CLOUD_SERVER;
@@ -116,6 +119,34 @@ public class SettingManager {
 
     public synchronized boolean timeCountIsEEG() {
         return getSharedPreferences().getBoolean(SP_TIME_COUNT_EEG, true);
+    }
+
+
+    //BLE 相关存储
+    public synchronized void setBleCushionMac(String mac) {
+        getEditor().putString(BLE_MAC_CUSHION, mac).apply();
+    }
+
+    public synchronized String getBleCushionMac() {
+        return getSharedPreferences().getString(BLE_MAC_CUSHION, "");
+    }
+
+    //BLE 相关存储
+    public synchronized void setBleHeadbandMac(String mac) {
+        getEditor().putString(BLE_MAC_HEADBAND, mac).apply();
+    }
+
+    public synchronized String getBleHeadbandMac() {
+        return getSharedPreferences().getString(BLE_MAC_HEADBAND, "");
+    }
+
+    //BLE 相关存储
+    public synchronized void setBleEntertechVRMac(String mac) {
+        getEditor().putString(BLE_MAC_ENTERTECH_VR, mac).apply();
+    }
+
+    public synchronized String getBleEntertechVRMac() {
+        return getSharedPreferences().getString(BLE_MAC_ENTERTECH_VR, "");
     }
 
 }

@@ -105,8 +105,8 @@ internal class AffectiveCloudService : Service() {
                 } else {
                     StorageSettings.Sex.FEMALE
                 }
-            ).case(case.toList())
-            .mode(mode.toList())
+            ).case(case!!.toList())
+            .mode(mode!!.toList())
             .build()
 
 
@@ -152,7 +152,7 @@ internal class AffectiveCloudService : Service() {
         var enterAffectiveCloudConfig = EnterAffectiveCloudConfig.Builder(
             SettingManager.getInstance().appKey,
             SettingManager.getInstance().appSecret,
-            userId
+            userId!!
         )
             .url(url)
             .timeout(10000)

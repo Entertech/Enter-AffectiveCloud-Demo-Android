@@ -47,6 +47,7 @@
         android:layout_weight="1" />
 
     <cn.entertech.flowtimezh.ui.view.CommonButton
+        android:id="@+id/btn_connect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_margin_16"
