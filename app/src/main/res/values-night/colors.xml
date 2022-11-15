@@ -6,7 +6,6 @@
     <color name="colorBlack">#000</color>
     <color name="colorBg">#F2F2F7</color>
     <color name="colorEditStroke">#80000000</color>
-    <color name="colorDivider">#5C3C3C43</color>
 
     <color name="colorRecordBgGreen">#c7ffe4</color>
     <color name="colorRecordBgYellow">#fdf1ea</color>
@@ -108,6 +107,8 @@
     <color name="colorNapProgressSleep">#6665ff</color>
     <color name="colorSleepChartPoint">#595884</color>
     <color name="colorSleepChartGridLine">#ebebeb</color>
+
+
     <color name="common_text_shadow_color">#80000000</color>
     <color name="common_primary_black">#080A0E</color>
     <color name="common_primary_black_lv2">#1C1C20</color>
@@ -126,23 +127,23 @@
     <color name="common_light_lv3">#80FFFFFF</color>
     <color name="common_light_lv4">#33FFFFFF</color>
     <color name="common_icon_color">#6D6E7D</color>
-    <color name="light_bg_lv1">#F2F2F7</color>
-    <color name="light_bg_lv2">#FFFFFF</color>
-    <color name="light_bg_lv3">#E9ECF1</color>
-    <color name="light_bg_press">#EBEDF1</color>
-    <color name="light_text_lv1">#080A0E</color>
-    <color name="light_text_lv2">#B2080A0E</color>
-    <color name="light_text_lv3">#80080A0E</color>
-    <color name="light_outline_lv1">#D3D3D3</color>
-    <color name="light_outline_lv2">#DDE1EB</color>
-    <color name="light_btn_bg">#080A0E</color>
+    <color name="light_bg_lv1">#080A0E</color>
+    <color name="light_bg_lv2">#1C1C20</color>
+    <color name="light_bg_lv3">#333333</color>
+    <color name="light_bg_press">#37373B</color>
+    <color name="light_text_lv1">#FFFFFF</color>
+    <color name="light_text_lv2">#B2FFFFFF</color>
+    <color name="light_text_lv3">#80FFFFFF</color>
+    <color name="light_outline_lv1">#666666</color>
+    <color name="light_outline_lv2">#333333</color>
+    <color name="light_btn_bg">#414245</color>
     <color name="light_btn_text">#FFFFFF</color>
-    <color name="light_btn_press">#2E3032</color>
+    <color name="light_btn_press">#5C5C5C</color>
     <color name="light_btn_text_disable">#80FFFFFF</color>
-    <color name="light_btn_disable_bg">#878894</color>
-    <color name="light_musk_reverse_50">#80000000</color>
-    <color name="light_musk_reverse_30">#4D000000</color>
-    <color name="light_musk_same_50">#4DFFFFFF</color>
+    <color name="light_btn_disable_bg">#7A7A7A</color>
+    <color name="light_musk_reverse_50">#80FFFFFF</color>
+    <color name="light_musk_reverse_30">#4DFFFFFF</color>
+    <color name="light_musk_same_50">#80000000</color>
     <color name="light_musk_same_30">#4DFFFFFF</color>
-    <color name="icon_color">#A6A7AF</color>
+    <color name="icon_color">#929497</color>
 </resources>

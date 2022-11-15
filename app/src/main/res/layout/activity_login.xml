@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activity.LoginActivity"
+    android:background="@color/colorBg">
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_marginLeft="@dimen/activity_margin_16"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/dim_margin_64"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/text_bigtitle_semibold"
+        android:textColor="@color/colorBlack"
+        android:text="@string/login_title"/>
+
+    <TextView
+        android:id="@+id/tv_app_key_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AppKey"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        android:layout_marginStart="@dimen/activity_margin_16"
+        android:layout_marginTop="@dimen/dim_margin_32"
+        style="@style/num_16_regular"
+        android:textColor="@color/colorBlack"
+        />
+
+    <EditText
+        android:background="@drawable/shape_login_edit"
+        android:layout_marginLeft="@dimen/activity_margin_16"
+        android:layout_marginRight="@dimen/activity_margin_16"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_app_key_title"
+        android:id="@+id/et_app_key"
+        android:hint="Enter app key"
+        android:paddingHorizontal="@dimen/activity_margin_half"
+        android:layout_marginTop="@dimen/dim_margin_4"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"/>
+
+    <TextView
+        android:id="@+id/tv_app_secret_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_app_key"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_margin_16"
+        android:layout_marginTop="@dimen/activity_margin_24"
+        android:text="AppSecret"
+        style="@style/num_16_regular"
+        android:textColor="@color/colorBlack"
+        />
+
+    <EditText
+        android:hint="Enter app secret"
+        android:paddingHorizontal="@dimen/activity_margin_half"
+        android:background="@drawable/shape_login_edit"
+        android:layout_marginLeft="@dimen/activity_margin_16"
+        android:layout_marginRight="@dimen/activity_margin_16"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_app_secret_title"
+        android:id="@+id/et_app_secret"
+        android:layout_marginTop="@dimen/dim_margin_4"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"/>
+
+    <cn.entertech.flowtimezh.ui.view.CommonButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/dim_margin_64"
+        android:layout_marginLeft="@dimen/activity_margin_16"
+        android:layout_marginRight="@dimen/activity_margin_16"
+        app:cb_btnText="Login"
+        app:cb_btnFillColor="@color/light_btn_bg"
+        app:cb_btnTextColor="@color/light_btn_text"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

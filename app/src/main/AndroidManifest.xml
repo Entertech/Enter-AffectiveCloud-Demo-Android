@@ -25,7 +25,19 @@
         android:roundIcon="@mipmap/ic_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.MeditationTimeCountSelectActivity"></activity>
+        <activity
+            android:name=".ui.activity.DeviceSelectActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.LoginActivity">
+        </activity>
+        <activity android:name=".ui.activity.MeditationTimeCountSelectActivity" />
         <activity android:name=".ui.activity.SensorContactCheckActivity" />
         <activity android:name=".ui.activity.MeditationDimListActivity" />
         <activity android:name=".ui.activity.MeditationLabelsCommitActivity" />
@@ -43,14 +55,9 @@
         <activity android:name=".ui.activity.DataActivity" />
         <activity
             android:name=".ui.activity.MeditationActivity"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
         <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".ui.activity.LaunchActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <service android:name=".ui.service.AffectiveCloudService" />

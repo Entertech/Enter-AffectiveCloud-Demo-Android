@@ -140,9 +140,4 @@
         <attr name="cb_btnDisableColor" format="color" />
     </declare-styleable>
 
-    <declare-styleable name="DeviceTypeView">
-        <attr name="dtv_name" format="string" />
-        <attr name="dtv_tip" format="string" />
-    </declare-styleable>
-
 </resources>

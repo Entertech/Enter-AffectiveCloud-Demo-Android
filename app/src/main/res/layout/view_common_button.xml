@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="46dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:id="@+id/rl_bg"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:background="@drawable/selector_common_btn">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:visibility="gone"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/iv_icon"
+            android:layout_marginRight="@dimen/dim_margin_4"
+            android:layout_width="@dimen/btn_icon_size"
+            android:layout_height="@dimen/btn_icon_size"
+            app:tint="@color/light_text_lv1"
+            android:src="@drawable/vector_drawable_brain" />
+
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:id="@+id/tv_btn_text"
+            style="@style/num_16_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Text" />
+    </LinearLayout>
+</RelativeLayout>
