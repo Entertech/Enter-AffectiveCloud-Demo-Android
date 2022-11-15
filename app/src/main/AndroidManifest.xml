@@ -26,17 +26,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.activity.DeviceSelectActivity">
-
+            android:name=".ui.activity.LabSelectActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.activity.LoginActivity">
+        <activity android:name=".ui.activity.DeviceSelectActivity">
         </activity>
+        <activity android:name=".ui.activity.LoginActivity"></activity>
         <activity android:name=".ui.activity.MeditationTimeCountSelectActivity" />
         <activity android:name=".ui.activity.SensorContactCheckActivity" />
         <activity android:name=".ui.activity.MeditationDimListActivity" />
@@ -57,8 +56,7 @@
             android:name=".ui.activity.MeditationActivity"
             android:launchMode="singleTask" />
         <activity android:name=".ui.activity.MainActivity" />
-        <activity android:name=".ui.activity.LaunchActivity">
-        </activity>
+        <activity android:name=".ui.activity.LaunchActivity"></activity>
 
         <service android:name=".ui.service.AffectiveCloudService" />
     </application>
