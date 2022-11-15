@@ -9,6 +9,9 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import cn.entertech.flowtimezh.R
+import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_CUSHION
+import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_ENTERTECH_VR
+import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_HEADBAND
 import cn.entertech.flowtimezh.app.SettingManager
 import cn.entertech.flowtimezh.utils.ConnectedDeviceHelper
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -29,6 +32,25 @@ class DeviceConnectActivity : BaseActivity() {
                 requestPermission()
             } else {
                 connectDevice()
+            }
+        }
+        initTip()
+    }
+
+    fun initTip(){
+        val deviceType = SettingManager.getInstance().deviceType
+        when(deviceType){
+            DEVICE_TYPE_CUSHION->{
+                tv_device_name.text = "Flowtime cushion"
+                tv_device_tip.text = "The cushion wakes up when you sit on it. The indicator on the cushion will light up."
+            }
+            DEVICE_TYPE_HEADBAND->{
+                tv_device_name.text = "Flowtime headband"
+                tv_device_tip.text = "Press and hold the button until the indicator lights up."
+            }
+            DEVICE_TYPE_ENTERTECH_VR->{
+                tv_device_name.text = "Entertech VR module"
+                tv_device_tip.text = "Press and hold the button until the indicator lights up."
             }
         }
     }
