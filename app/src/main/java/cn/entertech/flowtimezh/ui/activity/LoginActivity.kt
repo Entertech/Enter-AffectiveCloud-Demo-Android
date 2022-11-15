@@ -31,6 +31,12 @@ class LoginActivity : BaseActivity() {
         btn_login.setOnClickListener {
             auth()
         }
+        var oldAppKey = SettingManager.getInstance().appKey
+        var oldAppSecret = SettingManager.getInstance().appSecret
+        if (oldAppKey != "" && oldAppSecret != "") {
+            et_app_key.setText(oldAppKey)
+            et_app_secret.setText(oldAppSecret)
+        }
     }
 
     fun initPresenter() {
@@ -77,6 +83,8 @@ class LoginActivity : BaseActivity() {
             var gson = Gson().toJson(userNameEntity)
             var userName = gson
             var password = sign
+            SettingManager.getInstance().appKey = appKey
+            SettingManager.getInstance().appSecret = appSecret
             showLoading()
             authPresenter?.auth(userName, password)
         }

@@ -3,12 +3,14 @@ package cn.entertech.flowtimezh.app;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import static cn.entertech.flowtimezh.app.Constant.DEVICE_TYPE_HEADBAND;
 import static cn.entertech.flowtimezh.app.Constant.MEDITATION_VIEW_ORDER;
 import static cn.entertech.flowtimezh.app.Constant.SP_AFFECTIVE_CLOUD_SERVER;
 import static cn.entertech.flowtimezh.app.Constant.SP_API_SERVER;
 import static cn.entertech.flowtimezh.app.Constant.SP_APP_KEY;
 import static cn.entertech.flowtimezh.app.Constant.SP_APP_SECRET;
 import static cn.entertech.flowtimezh.app.Constant.SP_CURRENT_SERVER;
+import static cn.entertech.flowtimezh.app.Constant.SP_DEVICE_TYPE;
 import static cn.entertech.flowtimezh.app.Constant.SP_SETTING;
 import static cn.entertech.flowtimezh.app.Constant.SP_TIME_COUNT_EEG;
 import static cn.entertech.flowtimezh.app.Constant.SP_TOKEN;
@@ -99,6 +101,13 @@ public class SettingManager {
 
     public synchronized String getMeditationViewOrder() {
         return getSharedPreferences().getString(MEDITATION_VIEW_ORDER, "0,1,2");
+    }
+    public synchronized void setDeviceType(String deviceType) {
+        getEditor().putString(SP_DEVICE_TYPE, deviceType).apply();
+    }
+
+    public synchronized String getDeviceType() {
+        return getSharedPreferences().getString(SP_DEVICE_TYPE, DEVICE_TYPE_HEADBAND);
     }
 
     public synchronized void setTimeCountIsEEG(boolean isEEG) {

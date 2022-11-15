@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context=".ui.activity.DeviceSelectActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -31,6 +32,8 @@
         android:orientation="vertical">
 
         <cn.entertech.flowtimezh.ui.view.DeviceTypeView
+            android:id="@+id/device_headband"
+            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:dtv_name="Flowtime Headband"
@@ -44,6 +47,8 @@
             android:background="@color/colorDivider" />
 
         <cn.entertech.flowtimezh.ui.view.DeviceTypeView
+            android:id="@+id/device_vr"
+            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:dtv_name="Entertech VR Module"
@@ -57,6 +62,8 @@
             android:background="@color/colorDivider" />
 
         <cn.entertech.flowtimezh.ui.view.DeviceTypeView
+            android:id="@+id/device_cushion"
+            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:dtv_name="Flowtime Cusion"
@@ -68,6 +75,8 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
     <cn.entertech.flowtimezh.ui.view.CommonButton
+        android:id="@+id/btn_next"
+        app:cb_btnEnable="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cb_btnText="Next"

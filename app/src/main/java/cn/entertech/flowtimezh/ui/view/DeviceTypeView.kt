@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import cn.entertech.flowtimezh.R
@@ -25,6 +26,7 @@ class DeviceTypeView @JvmOverloads constructor(
     var isSelect:Boolean = false
     set(value) {
         field = value
+        initView()
     }
 
     @SuppressLint("InflateParams")
@@ -40,11 +42,17 @@ class DeviceTypeView @JvmOverloads constructor(
         val layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         selfView.layoutParams = layoutParams
         addView(selfView)
+        initView()
     }
 
     fun initView() {
         selfView.findViewById<TextView>(R.id.tv_device_name).text = deviceName
         selfView.findViewById<TextView>(R.id.tv_device_tip).text = deviceTip
+        if (isSelect){
+            selfView.findViewById<ImageView>(R.id.iv_check).visibility = View.VISIBLE
+        }else{
+            selfView.findViewById<ImageView>(R.id.iv_check).visibility = View.GONE
+        }
     }
 
 

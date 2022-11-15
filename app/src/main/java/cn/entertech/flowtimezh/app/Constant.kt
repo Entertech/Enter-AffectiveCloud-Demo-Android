@@ -112,8 +112,13 @@ class Constant {
         const val SP_APP_SECRET= "sp_app_secret"
         const val SP_TOKEN= "sp_token"
         const val SP_TIME_COUNT_EEG= "sp_time_count_eeg"
+        const val SP_DEVICE_TYPE= "sp_device_type"
 
         const val INTENT_APP_KEY = "appKey"
         const val INTENT_APP_SECRET = "appSecret"
+        const val DEVICE_TYPE = "deviceType"
+        const val DEVICE_TYPE_HEADBAND = "Headband"
+        const val DEVICE_TYPE_CUSHION = "Cushion"
+        const val DEVICE_TYPE_FLOWTIME_VR = "Flowtime_VR"
     }
 }
