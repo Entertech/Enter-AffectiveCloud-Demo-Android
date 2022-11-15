@@ -26,21 +26,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".DeviceConnectActivity"
+            android:name=".ui.activity.DeviceConnectActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity android:name=".ui.activity.LabSelectActivity">
+        </activity>
+        <activity android:name=".ui.activity.DeviceSelectActivity"></activity>
+        <activity android:name=".ui.activity.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.DeviceSelectActivity"></activity>
-        <activity android:name=".ui.activity.LoginActivity" />
         <activity android:name=".ui.activity.MeditationTimeCountSelectActivity" />
         <activity android:name=".ui.activity.SensorContactCheckActivity" />
         <activity android:name=".ui.activity.MeditationDimListActivity" />

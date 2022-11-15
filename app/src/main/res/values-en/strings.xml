@@ -73,4 +73,5 @@
     <string name="data_state_tosleep">迷糊</string>
     <string name="data_state_sleep">浅睡</string>
     <string name="data_state_deep_sleep">深睡</string>
+    <string name="loading">loading…</string>
 </resources>
