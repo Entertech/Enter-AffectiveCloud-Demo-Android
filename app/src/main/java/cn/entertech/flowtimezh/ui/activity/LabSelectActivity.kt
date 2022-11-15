@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.activity_lab_select.*
 class LabSelectActivity : BaseActivity() {
     private var experimentDao: ExperimentDao? = null
     private var adapter: ExperimentListAdapter? = null
-    private var experiments = listOf<ExperimentModel>()
+    private var experiments:MutableList<ExperimentModel>? = null
     private var experimentLabelPresenter: ExperimentLabelsPresenter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,7 +104,7 @@ class LabSelectActivity : BaseActivity() {
                 }
             }
             experiments = experimentDao.listAll()
-            adapter?.setNewData(experiments)
+            initList()
         }
 
         override fun onError(error: String) {
@@ -119,20 +119,29 @@ class LabSelectActivity : BaseActivity() {
         experimentLabelPresenter?.attachView(experimentLabelSView)
         experimentLabelPresenter?.getExperimentLabels()
     }
-    fun initView(){
+
+    fun initView() {
         initList()
+        btn_next.setOnClickListener {
+            val intent = Intent(this@LabSelectActivity, DeviceConnectActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     fun initList() {
         experimentDao = ExperimentDao(Application.getInstance())
-        adapter = ExperimentListAdapter(experiments)
+        experiments = experimentDao!!.listAll()
+        if (experiments == null){
+            return
+        }
+        adapter = ExperimentListAdapter(experiments!!)
         rv_list.layoutManager = LinearLayoutManager(this)
         rv_list.adapter = adapter
-        var selctedExperiment = experimentDao!!.findExperimentBySelected()
-        if (selctedExperiment == null && experiments.isNotEmpty()) {
-            for (i in experiments.indices) {
-                experiments[0].isSelected = i == 0
-                experimentDao?.create(experiments[i])
+        if (experiments!!.isNotEmpty()) {
+            btn_next.btnEnable = true
+            for (i in experiments!!.indices) {
+                experiments!![0].isSelected = i == 0
+                experimentDao?.create(experiments!![i])
             }
             adapter!!.notifyDataSetChanged()
         }
@@ -142,13 +151,14 @@ class LabSelectActivity : BaseActivity() {
                 view: View?,
                 position: Int
             ) {
-                for (i in experiments.indices) {
-                    experiments[i].isSelected = false
-                    experimentDao?.create(experiments[i])
+                for (i in experiments!!.indices) {
+                    experiments!![i].isSelected = false
+                    experimentDao?.create(experiments!![i])
                 }
-                experiments[position].isSelected = true
-                experimentDao?.create(experiments[position])
+                experiments!![position].isSelected = true
+                experimentDao?.create(experiments!![position])
                 adapter!!.notifyDataSetChanged()
+                btn_next.btnEnable = true
             }
         })
 

@@ -36,6 +36,8 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
     <cn.entertech.flowtimezh.ui.view.CommonButton
+        android:id="@+id/btn_next"
+        app:cb_btnEnable="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cb_btnText="Next"
