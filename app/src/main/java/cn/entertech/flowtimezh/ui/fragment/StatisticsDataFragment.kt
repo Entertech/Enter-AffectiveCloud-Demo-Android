@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import cn.entertech.flowtimezh.R
 import cn.entertech.flowtimezh.app.Application
 import cn.entertech.flowtimezh.app.Constant
+import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_CUSHION
 import cn.entertech.flowtimezh.app.Constant.Companion.RECORD_ID
 import cn.entertech.flowtimezh.database.MeditationDao
 import cn.entertech.flowtimezh.database.MeditationLabelsDao
@@ -161,23 +162,31 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
             BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
                 var duration =
                     if (meditationLabels[position].startTime > meditationLabels[position].meditationStartTime) {
-                        "${TimeUtils.getFormatTime(
-                            meditationLabels[position].startTime - meditationLabels[position].meditationStartTime,
-                            "mm:ss"
-                        )}" +
-                                "-${TimeUtils.getFormatTime(
-                                    meditationLabels[position].endTime - meditationLabels[position].meditationStartTime,
-                                    "mm:ss"
-                                )}"
+                        "${
+                            TimeUtils.getFormatTime(
+                                meditationLabels[position].startTime - meditationLabels[position].meditationStartTime,
+                                "mm:ss"
+                            )
+                        }" +
+                                "-${
+                                    TimeUtils.getFormatTime(
+                                        meditationLabels[position].endTime - meditationLabels[position].meditationStartTime,
+                                        "mm:ss"
+                                    )
+                                }"
                     } else {
-                        "${TimeUtils.getFormatTime(
-                            meditationLabels[position].startTime,
-                            "mm:ss"
-                        )}" +
-                                "-${TimeUtils.getFormatTime(
-                                    meditationLabels[position].endTime,
-                                    "mm:ss"
-                                )}"
+                        "${
+                            TimeUtils.getFormatTime(
+                                meditationLabels[position].startTime,
+                                "mm:ss"
+                            )
+                        }" +
+                                "-${
+                                    TimeUtils.getFormatTime(
+                                        meditationLabels[position].endTime,
+                                        "mm:ss"
+                                    )
+                                }"
                     }
                 var intent = Intent(
                     activity!!,
@@ -192,14 +201,42 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
         rv_meditation_labels.layoutManager = LinearLayoutManager(activity!!)
     }
 
-    fun setViewData() {
-        Log.d("########","meditationReportDataAnalyzed is ${meditationReportDataAnalyzed.toString()}")
+    fun setCushionViewData() {
+        Log.d(
+            "########",
+            "meditationReportDataAnalyzed is ${meditationReportDataAnalyzed.toString()}"
+        )
+        var hrLine = meditationReportDataAnalyzed?.hrRec
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrAvg != null) {
+            chart_hr.setAverage("${meditationReportDataAnalyzed!!.hrAvg.toInt()}")
+        }
+        chart_hr.setAverageLineColor(R.color.common_line_hard_color_light)
+        chart_hr.setData(hrLine)
+        var hrvLine = meditationReportDataAnalyzed?.hrvRec
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrvAvg != null) {
+            chart_hrv.setAverage("${meditationReportDataAnalyzed!!.hrvAvg.toInt()}")
+        }
+        chart_hrv.setAverageLineColor(R.color.common_line_hard_color_light)
+        chart_hrv.setData(hrvLine)
+        var pressureLine = meditationReportDataAnalyzed?.pressureRec
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.pressureAvg != null) {
+            chart_pressure.setAverage("${meditationReportDataAnalyzed!!.pressureAvg.toInt()}")
+        }
+        chart_pressure.setAverageLineColor(R.color.common_line_hard_color_light)
+        chart_pressure.setData(pressureLine)
+    }
+
+    fun setHeadbandViewData() {
+        Log.d(
+            "########",
+            "meditationReportDataAnalyzed is ${meditationReportDataAnalyzed.toString()}"
+        )
         var alphaAverage = meditationReportDataAnalyzed!!.alphaCurve
         var betaAverage = meditationReportDataAnalyzed!!.betaCurve
         var deltaAverage = meditationReportDataAnalyzed!!.deltaCurve
         var gammaAverage = meditationReportDataAnalyzed!!.gammaCurve
         var thetaAverage = meditationReportDataAnalyzed!!.thetaCurve
-        if (alphaAverage.average() == 0.0 && betaAverage.average() == 0.0 && deltaAverage.average() == 0.0){
+        if (alphaAverage.average() == 0.0 && betaAverage.average() == 0.0 && deltaAverage.average() == 0.0) {
             return
         }
         var brainwaveList = ArrayList<ArrayList<Double>>()
@@ -211,7 +248,7 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
         chart_brainwave.setData(brainwaveList)
 
         var hrLine = meditationReportDataAnalyzed?.hrRec
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrAvg != null){
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrAvg != null) {
             chart_hr.setAverage("${meditationReportDataAnalyzed!!.hrAvg.toInt()}")
         }
         chart_hr.setAverageLineColor(R.color.common_line_hard_color_light)
@@ -233,22 +270,27 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
             chart_relaxation_and_attention.setRelaxationAverage(meditationReportDataAnalyzed!!.relaxationAvg.toInt())
         }
         chart_relaxation_and_attention.setAverageLineColor(R.color.common_line_hard_color_light)
-        chart_relaxation_and_attention.setData(attentionRec,relaxationRec)
+        chart_relaxation_and_attention.setData(attentionRec, relaxationRec)
 
         var pressureLine = meditationReportDataAnalyzed?.pressureRec
-        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.pressureAvg != null){
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.pressureAvg != null) {
             chart_pressure.setAverage("${meditationReportDataAnalyzed!!.pressureAvg.toInt()}")
         }
         chart_pressure.setAverageLineColor(R.color.common_line_hard_color_light)
         chart_pressure.setData(pressureLine)
     }
 
-    private var llContainer: LinearLayout? = null
-
-
-    override fun onDestroy() {
-//        EventBus.getDefault().unregister(this)
-        super.onDestroy()
+    fun setViewData() {
+        if (meditationReportDataAnalyzed == null) {
+            return
+        }
+        when (meditationReportDataAnalyzed!!.deviceType) {
+            DEVICE_TYPE_CUSHION -> {
+                setCushionViewData()
+            }
+            else -> {
+                setHeadbandViewData()
+            }
+        }
     }
-
 }

@@ -66,6 +66,9 @@ public class FileParser {
                 case "1E":
                     meditationReportDataAnalyzed.setDeepDuration(floatValue);
                     break;
+                case "20":
+                    meditationReportDataAnalyzed.setDeviceType(floatValue);
+                    break;
                 default:
                     break;
             }

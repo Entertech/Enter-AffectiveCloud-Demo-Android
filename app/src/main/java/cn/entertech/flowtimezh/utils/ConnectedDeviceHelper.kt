@@ -171,5 +171,82 @@ class ConnectedDeviceHelper {
 
         }
 
+        fun isConnected(deviceType: String?): Boolean {
+            if (deviceType == null){
+                return false
+            }
+            return when (deviceType) {
+                DEVICE_TYPE_CUSHION -> {
+                    CushionBleManager.getInstance(Application.getInstance()).isConnected()
+                }
+                DEVICE_TYPE_HEADBAND, DEVICE_TYPE_ENTERTECH_VR -> {
+                    BiomoduleBleManager.getInstance(Application.getInstance()).isConnected()
+                }
+                else -> {
+                    false
+                }
+            }
+        }
+
+        fun addConnectListener(deviceType: String,listener:(String)->Unit){
+            when(deviceType){
+                DEVICE_TYPE_CUSHION->{
+                    CushionBleManager.getInstance(Application.getInstance()).addConnectListener(listener)
+                }
+                DEVICE_TYPE_HEADBAND, DEVICE_TYPE_ENTERTECH_VR->{
+                    BiomoduleBleManager.getInstance(Application.getInstance()).addConnectListener(listener)
+                }
+            }
+        }
+        fun addDisconnectListener(deviceType: String,listener:(String)->Unit){
+            when(deviceType){
+                DEVICE_TYPE_CUSHION->{
+                    CushionBleManager.getInstance(Application.getInstance()).addDisConnectListener(listener)
+                }
+                DEVICE_TYPE_HEADBAND, DEVICE_TYPE_ENTERTECH_VR->{
+                    BiomoduleBleManager.getInstance(Application.getInstance()).addDisConnectListener(listener)
+                }
+            }
+        }
+        fun addContactListener(deviceType: String,listener:(Int)->Unit){
+            when(deviceType){
+                DEVICE_TYPE_CUSHION->{
+                    CushionBleManager.getInstance(Application.getInstance()).addContactDataListener(listener)
+                }
+                DEVICE_TYPE_HEADBAND, DEVICE_TYPE_ENTERTECH_VR->{
+                    BiomoduleBleManager.getInstance(Application.getInstance()).addContactListener(listener)
+                }
+            }
+        }
+        fun removeConnectListener(deviceType: String,listener:(String)->Unit){
+            when(deviceType){
+                DEVICE_TYPE_CUSHION->{
+                    CushionBleManager.getInstance(Application.getInstance()).removeConnectListener(listener)
+                }
+                DEVICE_TYPE_HEADBAND, DEVICE_TYPE_ENTERTECH_VR->{
+                    BiomoduleBleManager.getInstance(Application.getInstance()).removeConnectListener(listener)
+                }
+            }
+        }
+        fun removeDisconnectListener(deviceType: String,listener:(String)->Unit){
+            when(deviceType){
+                DEVICE_TYPE_CUSHION->{
+                    CushionBleManager.getInstance(Application.getInstance()).removeDisConnectListener(listener)
+                }
+                DEVICE_TYPE_HEADBAND, DEVICE_TYPE_ENTERTECH_VR->{
+                    BiomoduleBleManager.getInstance(Application.getInstance()).removeDisConnectListener(listener)
+                }
+            }
+        }
+        fun removeContactListener(deviceType: String,listener:(Int)->Unit){
+            when(deviceType){
+                DEVICE_TYPE_CUSHION->{
+                    CushionBleManager.getInstance(Application.getInstance()).removeContactDataListener(listener)
+                }
+                DEVICE_TYPE_HEADBAND, DEVICE_TYPE_ENTERTECH_VR->{
+                    BiomoduleBleManager.getInstance(Application.getInstance()).removeContactListener(listener)
+                }
+            }
+        }
     }
 }

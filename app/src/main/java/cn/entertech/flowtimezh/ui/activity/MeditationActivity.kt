@@ -8,7 +8,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.*
 import android.text.Html
@@ -18,26 +17,24 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.RotateAnimation
-import android.widget.ImageView
 import android.widget.RelativeLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import cn.entertech.affectivecloudsdk.*
 import cn.entertech.affectivecloudsdk.entity.Error
 import cn.entertech.affectivecloudsdk.entity.RecData
-import cn.entertech.affectivecloudsdk.entity.Service
 import cn.entertech.affectivecloudsdk.interfaces.Callback
-import cn.entertech.affectivecloudsdk.interfaces.Callback2
 import cn.entertech.affectivecloudsdk.utils.ConvertUtil
-import cn.entertech.ble.multiple.MultipleBiomoduleBleManager
+import cn.entertech.ble.cushion.CushionBleManager
 import cn.entertech.ble.single.BiomoduleBleManager
-import cn.entertech.bleuisdk.ui.DeviceUIConfig
 import cn.entertech.bleuisdk.ui.activity.DeviceManagerActivity
-import cn.entertech.flowtime.utils.reportfileutils.*
+import cn.entertech.flowtime.utils.reportfileutils.FragmentBuffer
+import cn.entertech.flowtime.utils.reportfileutils.MeditaionInterruptManager
 import cn.entertech.flowtimezh.R
 import cn.entertech.flowtimezh.app.Application
 import cn.entertech.flowtimezh.app.Constant
+import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_CUSHION
+import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_ENTERTECH_VR
+import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_HEADBAND
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_ID
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_START_TIME
 import cn.entertech.flowtimezh.app.SettingManager
@@ -46,9 +43,7 @@ import cn.entertech.flowtimezh.entity.MeditationEntity
 import cn.entertech.flowtimezh.entity.MessageEvent
 import cn.entertech.flowtimezh.entity.RecDataRecord
 import cn.entertech.flowtimezh.entity.UserLessonEntity
-import cn.entertech.flowtimezh.entity.meditation.*
-import cn.entertech.flowtimezh.ui.activity.BaseActivity
-import cn.entertech.flowtimezh.ui.activity.DataActivity
+import cn.entertech.flowtimezh.entity.meditation.ReportMeditationDataEntity
 import cn.entertech.flowtimezh.ui.fragment.MeditationFragment
 import cn.entertech.flowtimezh.ui.service.AffectiveCloudService
 import cn.entertech.flowtimezh.ui.view.LoadingDialog
@@ -58,17 +53,12 @@ import cn.entertech.uicomponentsdk.utils.dp
 import com.google.gson.Gson
 import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.activity_meditation.*
-import kotlinx.android.synthetic.main.activity_meditation.chronometer
-import kotlinx.android.synthetic.main.activity_meditation.tv_experiment_name
-import kotlinx.android.synthetic.main.activity_meditation.tv_record_btn
-import kotlinx.android.synthetic.main.activity_meditation_time_record.*
 import kotlinx.android.synthetic.main.layout_common_title.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.io.File
 import java.util.*
-import kotlin.collections.HashMap
 
 class MeditationActivity : BaseActivity() {
     private var connection: ServiceConnection? = null
@@ -77,8 +67,8 @@ class MeditationActivity : BaseActivity() {
     private var userId: String = ""
 
     var animatorSet: AnimatorSet? = null
-    var biomoduleBleManager: MultipleBiomoduleBleManager =
-        DeviceUIConfig.getInstance(Application.getInstance()).managers[0]
+    var biomoduleBleManager = BiomoduleBleManager.getInstance(Application.getInstance())
+    var cushionBleManager = CushionBleManager.getInstance(Application.getInstance())
     private var meditaiton: MeditationEntity? = null
     private var userLessonEntity: UserLessonEntity? = null
     var handler: Handler = Handler()
@@ -135,6 +125,7 @@ class MeditationActivity : BaseActivity() {
     var realtimeThetaFileHelper = FileHelper()
     var realtimeDeltaFileHelper = FileHelper()
     var reportFileHelper = FileHelper()
+    var deviceType:String? = null
     //    var canExit = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -144,13 +135,25 @@ class MeditationActivity : BaseActivity() {
         EventBus.getDefault().register(this)
         userLessonStartTime = getCurrentTimeFormat()
         loadingDialog = LoadingDialog(this)
+        deviceType = SettingManager.getInstance().deviceType
         bindAffectiveService()
         initView()
-        initFlowtimeManager()
+        initBleManager()
         playAirSound()
         initPowerManager()
         playSleepNoise()
         initFileWritter()
+    }
+
+    fun initBleManager(){
+        when(deviceType){
+            DEVICE_TYPE_HEADBAND, DEVICE_TYPE_ENTERTECH_VR->{
+                initFlowtimeManager()
+            }
+            DEVICE_TYPE_CUSHION->{
+                initCushionManager()
+            }
+        }
     }
 
     fun bindAffectiveService() {
@@ -232,7 +235,7 @@ class MeditationActivity : BaseActivity() {
             }
 
             override fun onAnimationEnd(animation: Animator?) {
-                if (biomoduleBleManager.isConnected()) {
+                if (ConnectedDeviceHelper.isConnected(deviceType)) {
                     if (!isSensorCheckShow) {
                         showSensorCheckDialog()
                     }
@@ -250,8 +253,8 @@ class MeditationActivity : BaseActivity() {
     }
 
     fun showSensorCheckDialog() {
-        if (biomoduleBleManager.isConnected()) {
-            biomoduleBleManager.startHeartAndBrainCollection()
+        if (ConnectedDeviceHelper.isConnected(deviceType)) {
+            ConnectedDeviceHelper.startCollection()
         }
         rl_cover_sensor.visibility = View.VISIBLE
         rl_cover_sensor.setOnClickListener {
@@ -329,19 +332,19 @@ class MeditationActivity : BaseActivity() {
 
     fun resumeMeditation() {
         isMeditationPause = false
-        biomoduleBleManager.startHeartAndBrainCollection()
+        ConnectedDeviceHelper.startCollection()
     }
 
     fun pauseMeditation() {
         isMeditationPause = true
-        biomoduleBleManager.stopHeartAndBrainCollection()
+        ConnectedDeviceHelper.stopCollection()
     }
 
     var mMainHanlder = Handler()
     var isToConnectDevice: Boolean = false
     override fun onResume() {
         super.onResume()
-        if (isToConnectDevice && biomoduleBleManager.isConnected()) {
+        if (isToConnectDevice && ConnectedDeviceHelper.isConnected(deviceType)) {
             mMainHanlder.postDelayed(Runnable {
                 showSensorCheckDialog()
                 isToConnectDevice = false
@@ -353,7 +356,7 @@ class MeditationActivity : BaseActivity() {
     }
 
     fun connectWebSocket() {
-        if (biomoduleBleManager.isConnected()) {
+        if (ConnectedDeviceHelper.isConnected(deviceType)) {
             affectiveCloudService?.connectCloud(object : Callback {
                 override fun onError(error: Error?) {
                 }
@@ -419,49 +422,52 @@ class MeditationActivity : BaseActivity() {
     fun initAffectiveCloudManager() {
         affectiveCloudService?.addListener({
             runOnUiThread {
-                if (it != null && it!!.realtimeEEGData != null) {
-                    realtimeEEGLeftFileHelper.writeData(list2String(it.realtimeEEGData!!.leftwave!!)+",")
-                    realtimeEEGRightFileHelper.writeData(list2String(it.realtimeEEGData!!.rightwave!!)+",")
-                    realtimeAlphaFileHelper.writeData("${it.realtimeEEGData!!.alphaPower!!},")
-                    realtimeBetaFileHelper.writeData("${it.realtimeEEGData!!.betaPower!!},")
-                    realtimeGammaFileHelper.writeData("${it.realtimeEEGData!!.gammaPower!!},")
-                    realtimeThetaFileHelper.writeData("${it.realtimeEEGData!!.thetaPower!!},")
-                    realtimeDeltaFileHelper.writeData("${it.realtimeEEGData!!.deltaPower!!},")
-                    Log.d("####", "eeg data:" + it!!.realtimeEEGData?.alphaPower)
-                    if (isFirstReceiveData) {
-                        if (SettingManager.getInstance().timeCountIsEEG()) {
-                            MeditationTimeManager.getInstance().timeReset()
-                        }
-                        meditationStartTime = System.currentTimeMillis()
-                        meditationId = -System.currentTimeMillis()
-                        Log.d("####", "meditation id is " + meditationId)
-                        fragmentBuffer.fileName = getCurrentTimeFormat(meditationStartTime!!)
-//                        FileStoreHelper.getInstance().setPath(
-//                            MEDITATION_LABEL_RECORD_PATH,
-//                            getCurrentTimeFormat(meditationStartTime!!)
-//                        )
-                        isFirstReceiveData = false
-                    } else {
-                        if (SettingManager.getInstance().timeCountIsEEG()) {
+                if (isFirstReceiveData) {
+                    MeditationTimeManager.getInstance().timeReset()
+                    meditationStartTime = System.currentTimeMillis()
+                    meditationId = -System.currentTimeMillis()
+                    Log.d("####", "meditation id is " + meditationId)
+                    fragmentBuffer.fileName = getCurrentTimeFormat(meditationStartTime!!)
+                    isFirstReceiveData = false
+                }
+                if(deviceType == DEVICE_TYPE_CUSHION){
+                    if (it != null && it!!.realtimePEPRData != null) {
+                        if (!isFirstReceiveData){
                             MeditationTimeManager.getInstance().timeIncrease()
                         }
+//                        realtimeEEGLeftFileHelper.writeData(list2String(it.realtimeEEGData!!.leftwave!!)+",")
+//                        realtimeEEGRightFileHelper.writeData(list2String(it.realtimeEEGData!!.rightwave!!)+",")
+//                        realtimeAlphaFileHelper.writeData("${it.realtimeEEGData!!.alphaPower!!},")
+//                        realtimeBetaFileHelper.writeData("${it.realtimeEEGData!!.betaPower!!},")
+//                        realtimeGammaFileHelper.writeData("${it.realtimeEEGData!!.gammaPower!!},")
+//                        realtimeThetaFileHelper.writeData("${it.realtimeEEGData!!.thetaPower!!},")
+//                        realtimeDeltaFileHelper.writeData("${it.realtimeEEGData!!.deltaPower!!},")
+                        meditationFragment?.showHeart(
+                            it?.realtimePEPRData?.hr?.toInt(),
+                            it?.realtimePEPRData?.hrv
+                        )
                     }
-                }
-                if (it != null && it!!.realtimeHrData != null && !SettingManager.getInstance()
-                        .timeCountIsEEG()
-                ) {
-                    if (isFirstReceiveHRData) {
-                        MeditationTimeManager.getInstance().timeReset()
-                        isFirstReceiveHRData = false
-                    } else {
-                        MeditationTimeManager.getInstance().timeIncrease()
+                }else{
+                    if (it != null && it!!.realtimeEEGData != null) {
+                        if (!isFirstReceiveData){
+                            MeditationTimeManager.getInstance().timeIncrease()
+                        }
+                        realtimeEEGLeftFileHelper.writeData(list2String(it.realtimeEEGData!!.leftwave!!)+",")
+                        realtimeEEGRightFileHelper.writeData(list2String(it.realtimeEEGData!!.rightwave!!)+",")
+                        realtimeAlphaFileHelper.writeData("${it.realtimeEEGData!!.alphaPower!!},")
+                        realtimeBetaFileHelper.writeData("${it.realtimeEEGData!!.betaPower!!},")
+                        realtimeGammaFileHelper.writeData("${it.realtimeEEGData!!.gammaPower!!},")
+                        realtimeThetaFileHelper.writeData("${it.realtimeEEGData!!.thetaPower!!},")
+                        realtimeDeltaFileHelper.writeData("${it.realtimeEEGData!!.deltaPower!!},")
+                        Log.d("####", "eeg data:" + it!!.realtimeEEGData?.alphaPower)
                     }
+
+                    meditationFragment?.showHeart(
+                        it?.realtimeHrData?.hr?.toInt(),
+                        it?.realtimeHrData?.hrv
+                    )
+                    meditationFragment?.showBrain(it?.realtimeEEGData)
                 }
-                meditationFragment?.showHeart(
-                    it?.realtimeHrData?.hr?.toInt(),
-                    it?.realtimeHrData?.hrv
-                )
-                meditationFragment?.showBrain(it?.realtimeEEGData)
             }
         }, {
             runOnUiThread {
@@ -530,8 +536,9 @@ class MeditationActivity : BaseActivity() {
         var meditationId = meditationId
         var meditationStartTime = meditationStartTime
         if (meditationId == -1L || meditationStartTime == -1L) {
-            finish()
+//            finish()
             Toast.makeText(this, "请先开始有效的体验", Toast.LENGTH_LONG).show()
+            return
         }
         tv_record_btn.setOnClickListener {
             if (tv_record_btn.text == "开始记录") {
@@ -662,6 +669,66 @@ class MeditationActivity : BaseActivity() {
 
     }
 
+    private var cushionRawListener: ((ByteArray) -> Unit)? = null
+    private var cushionConnectListener: ((String) -> Unit)? = null
+    private var cushionDisconnectListener: ((String) -> Unit)? = null
+    private var cushionContactListener: ((Int) -> Unit)? = null
+    fun initCushionManager() {
+        if (cushionBleManager.isConnected()) {
+//            meditationFragment?.hideBrainwaveAndAttention()
+            needToCheckSensor = true
+        }
+        var packCount = 0
+        cushionRawListener = fun(bytes: ByteArray) {
+            packCount++
+            var currentTimeMs = System.currentTimeMillis()
+            if (affectiveCloudService?.isInited() == true) {
+                affectiveCloudService?.appendPEPR(bytes)
+            }
+            if (lastReceiveDataTimeMs != null) {
+                if ((currentTimeMs - lastReceiveDataTimeMs!!) >= 15000L) {
+                    lastReceiveDataTimeMs = null
+                    affectiveCloudService?.closeWebSocket()
+                }
+            }
+
+        }
+        cushionConnectListener = fun(mac: String) {
+//            meditationFragment?.hideBrainwaveAndAttention()
+            needToCheckSensor = true
+        }
+        cushionDisconnectListener = fun(error: String) {
+            needToCheckSensor = true
+        }
+        cushionContactListener = fun(state: Int) {
+            runOnUiThread {
+                if (isCheckContact) {
+                    if (state == 0) {
+                        if (!isContactWell) {
+                            contactWellCount++
+//                            Log.d("######", "contact is well")
+                            if (contactWellCount == 5) {
+                                isContactWell = true
+                                card_2.visibility = View.VISIBLE
+                                card_3.visibility = View.GONE
+                                sensor_check_animate_layout.toSecondPage()
+                            }
+                        }
+                    } else {
+                        isContactWell = false
+                        contactWellCount = 0
+                    }
+                }
+            }
+        }
+        cushionBleManager.addRawDataListener(cushionRawListener!!)
+        cushionBleManager.addConnectListener(cushionConnectListener!!)
+        cushionBleManager.addDisConnectListener(cushionDisconnectListener!!)
+        cushionBleManager.addContactDataListener(cushionContactListener!!)
+        if (cushionBleManager.isConnected()){
+            cushionBleManager.startCollection()
+        }
+    }
     lateinit var reportMeditationData: ReportMeditationDataEntity
 
     var finishRunnable = {
@@ -681,7 +748,40 @@ class MeditationActivity : BaseActivity() {
         )
     }
 
-    fun saveMeditationInDB(report: ReportMeditationDataEntity) {
+    fun saveCushionMeditationInDB(report:ReportMeditationDataEntity){
+        var meditationDao = MeditationDao(this)
+        meditaiton = MeditationEntity()
+        meditaiton!!.id = meditationId
+        meditaiton!!.startTime = fragmentBuffer.fileName
+        meditaiton!!.finishTime = meditationEndTime
+//        meditaiton!!.attentionAvg = report.reportAttentionEnitty!!.attentionAvg!!.toFloat()
+//        meditaiton!!.attentionMax =
+//            java.util.Collections.max(report.reportAttentionEnitty?.attentionRec).toFloat()
+//        meditaiton!!.attentionMin =
+//            java.util.Collections.min(report.reportAttentionEnitty?.attentionRec).toFloat()
+        meditaiton!!.heartRateAvg = report.reportPEPRDataEntity!!.hrAvg!!.toFloat()
+        meditaiton!!.heartRateMax = report.reportPEPRDataEntity!!.hrMax!!.toFloat()
+        meditaiton!!.heartRateMin = report.reportPEPRDataEntity!!.hrMin!!.toFloat()
+        meditaiton!!.heartRateVariabilityAvg = report.reportPEPRDataEntity!!.hrvAvg!!.toFloat()
+//        meditaiton!!.relaxationAvg = report.reportRelaxationEnitty!!.relaxationAvg!!.toFloat()
+//        meditaiton!!.relaxationMax =
+//            java.util.Collections.max(report.reportRelaxationEnitty?.relaxationRec).toFloat()
+//        meditaiton!!.relaxationMin =
+//            java.util.Collections.min(report.reportRelaxationEnitty?.relaxationRec).toFloat()
+        meditaiton!!.user = 0
+//        var reportFileUri =
+//            "${SettingManager.getInstance().userId}/${courseId}/${lessonId}/${fragmentBuffer.fileName}"
+        meditaiton!!.meditationFile = fragmentBuffer.fileName
+
+        var experimentDao = ExperimentDao(this)
+        var experiment = experimentDao.findExperimentBySelected()
+        if (experiment != null) {
+            meditaiton!!.experimentId = experiment.id
+        }
+        meditaiton!!.experimentUserId = userId
+        meditationDao.create(meditaiton)
+    }
+    fun saveHeadbandMeditationInDB(report: ReportMeditationDataEntity) {
         var meditationDao = MeditationDao(this)
         meditaiton = MeditationEntity()
         meditaiton!!.id = meditationId
@@ -713,6 +813,15 @@ class MeditationActivity : BaseActivity() {
         }
         meditaiton!!.experimentUserId = userId
         meditationDao.create(meditaiton)
+    }
+
+
+    fun saveMeditationInDB(report: ReportMeditationDataEntity) {
+        if (deviceType == DEVICE_TYPE_CUSHION){
+            saveCushionMeditationInDB(report)
+        }else{
+            saveHeadbandMeditationInDB(report)
+        }
     }
 
     fun saveUserLessonInDB() {
@@ -813,7 +922,7 @@ class MeditationActivity : BaseActivity() {
             override fun onChildScroll(top: Int) {}
         })
         scrollLayout.setCoverView(findViewById<RelativeLayout>(R.id.rl_cover))
-        if (biomoduleBleManager.isConnected()) {
+        if (ConnectedDeviceHelper.isConnected(deviceType)) {
             scrollLayout.scrollToOpen()
         } else {
             scrollLayout.scrollToExit()
@@ -827,7 +936,7 @@ class MeditationActivity : BaseActivity() {
 //        var fragmentTransaction = fragmentManager.beginTransaction()
         when (event.messageCode) {
             MessageEvent.MESSAGE_CODE_TO_DEVICE_CONNECT -> {
-                if (!biomoduleBleManager.isConnected()) {
+                if (!ConnectedDeviceHelper.isConnected(deviceType)) {
                     isToConnectDevice = true
                 }
                 if (!isMeditationPause) {
@@ -852,7 +961,7 @@ class MeditationActivity : BaseActivity() {
                         }
 
                         override fun onSuccess() {
-                            biomoduleBleManager.startHeartAndBrainCollection()
+                            ConnectedDeviceHelper.startCollection()
                         }
 
                     })
@@ -978,7 +1087,7 @@ class MeditationActivity : BaseActivity() {
             }
             saveLabelInLocal(recDatas)
         }
-        biomoduleBleManager?.stopHeartAndBrainCollection()
+        ConnectedDeviceHelper?.stopCollection()
         startFinishTimer()
         reportMeditationData = ReportMeditationDataEntity()
         meditationEndTime = getCurrentTimeFormat()
@@ -1096,16 +1205,34 @@ class MeditationActivity : BaseActivity() {
         wl?.release()
         handler?.removeCallbacks(finishRunnable)
         sessionId = null
+        releaseBleManager()
+        if (affectiveCloudService!!.isInited()) {
+            affectiveCloudService?.release()
+        }
+        EventBus.getDefault().unregister(this)
+        super.onDestroy()
+    }
+    fun releaseBleManager(){
+        if (deviceType == DEVICE_TYPE_CUSHION){
+            releaseCushionBleManager()
+        }else{
+            releaseHeadbandBleManager()
+        }
+    }
+    fun releaseHeadbandBleManager(){
         biomoduleBleManager.stopHeartAndBrainCollection()
         biomoduleBleManager.stopBrainCollection()
         biomoduleBleManager.removeRawDataListener(rawListener)
         biomoduleBleManager.removeHeartRateListener(heartRateListener)
         biomoduleBleManager.removeContactListener(contactListener)
         biomoduleBleManager.removeDisConnectListener(bleDisconnectListener)
-        if (affectiveCloudService!!.isInited()) {
-            affectiveCloudService?.release()
-        }
-        EventBus.getDefault().unregister(this)
-        super.onDestroy()
+    }
+
+    fun releaseCushionBleManager(){
+        cushionBleManager.stopCollection()
+        cushionBleManager.removeRawDataListener(cushionRawListener!!)
+        cushionBleManager.removeContactDataListener(cushionContactListener!!)
+        cushionBleManager.removeDisConnectListener(cushionDisconnectListener!!)
+        cushionBleManager.removeConnectListener(cushionConnectListener!!)
     }
 }

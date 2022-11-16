@@ -17,8 +17,6 @@ import android.widget.RelativeLayout
 import cn.entertech.affectivecloudsdk.entity.Error
 import cn.entertech.affectivecloudsdk.entity.RealtimeEEGData
 import cn.entertech.affectivecloudsdk.interfaces.Callback
-import cn.entertech.ble.multiple.MultipleBiomoduleBleManager
-import cn.entertech.ble.single.BiomoduleBleManager
 import cn.entertech.bleuisdk.ui.DeviceUIConfig
 import cn.entertech.flowtime.utils.*
 import cn.entertech.flowtime.utils.reportfileutils.MeditaionInterruptManager
@@ -31,19 +29,16 @@ import cn.entertech.flowtimezh.entity.MessageEvent
 import cn.entertech.flowtimezh.ui.activity.MeditationActivity
 import cn.entertech.flowtimezh.ui.activity.SensorContactCheckActivity
 import cn.entertech.flowtimezh.ui.view.*
-import cn.entertech.flowtimezh.utils.MeditationStatusPlayer
-import cn.entertech.flowtimezh.utils.ScreenUtil
-import cn.entertech.flowtimezh.utils.TimeUtils
-import cn.entertech.flowtimezh.utils.formatNum
+import cn.entertech.flowtimezh.utils.*
 import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.fragment_data.*
 import java.util.*
 
 
 class MeditationFragment : androidx.fragment.app.Fragment() {
+    private var deviceType: String? = null
     private var isMeditationInterrupt: Boolean = false
     private var lastQuality: Double = 0.0
-    private var biomoduleBleManager: MultipleBiomoduleBleManager? = null
     var selfView: View? = null
     var smartScrollView: SmartScrollView? = null
     var llContainer: LinearLayout? = null
@@ -70,6 +65,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         selfView = inflater.inflate(R.layout.fragment_data, container, false)
 
         meditationStatusPlayer = MeditationStatusPlayer(activity!!)
+        deviceType = SettingManager.getInstance().deviceType
         initView()
         initDeviceConnectListener()
         return selfView
@@ -108,7 +104,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         })
 
         selfView?.findViewById<MeditationInterruptView>(R.id.miv_interrupt_device)
-            ?.addErrorMessageListener { errorMsg,errorType->
+            ?.addErrorMessageListener { errorMsg, errorType ->
                 if (errorType != MeditationInterruptView.ERROR_TYPE_SIGNAL) {
                     (activity as MeditationActivity).pauseMeditation()
                 }
@@ -118,7 +114,8 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
                 selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")
                     ?.showErrorMessage(errorMsg)
                 selfView?.findViewWithTag<MeditationHeartView>("Heart")?.showErrorMessage(errorMsg)
-                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showErrorMessage(errorMsg)
+                selfView?.findViewWithTag<MeditationEmotionView>("Emotion")
+                    ?.showErrorMessage(errorMsg)
             }
         refreshMeditationView()
     }
@@ -598,14 +595,15 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         selfView?.findViewById<RelativeLayout>(R.id.rl_minibar_disconnect)?.visibility =
             View.VISIBLE
         selfView?.findViewById<RelativeLayout>(R.id.rl_minibar_connect)?.visibility = View.GONE
-        if (!BiomoduleBleManager.getInstance(Application.getInstance()).isConnected()) {
+        if (!ConnectedDeviceHelper.isConnected(deviceType)) {
             selfView?.findViewById<TextView>(R.id.tv_minibar_text)?.text =
                 "Connect the headhand to show data"
             selfView?.findViewById<TextView>(R.id.tv_minibar_text)?.setOnClickListener {
                 (activity as MeditationActivity).scrollLayout.scrollToOpen()
             }
         } else {
-            selfView?.findViewById<TextView>(R.id.tv_minibar_text)?.text = getString(R.string.meditation_tap_to_show_data)
+            selfView?.findViewById<TextView>(R.id.tv_minibar_text)?.text =
+                getString(R.string.meditation_tap_to_show_data)
             selfView?.findViewById<TextView>(R.id.tv_minibar_text)?.setOnClickListener {
                 (activity as MeditationActivity).scrollLayout.scrollToOpen()
             }
@@ -683,34 +681,34 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
 
     var isNeedDeviceReconnect = true
     var reconnectDeviceDelay = 0L
-    var reconnectDeviceRunnable = object : Runnable {
-        override fun run() {
-            biomoduleBleManager?.scanNearDeviceAndConnect(fun() {
-                activity?.runOnUiThread {
-                    Logger.d("scan succ")
-                }
-            }, fun(e: Exception) {
-                activity?.runOnUiThread {
-                    handleReconnectDevice()
-                }
-            }, fun(mac: String) {
-                activity?.runOnUiThread {
-                    Logger.d("connect succ shake succ" + mac)
-//                    SettingManager.getInstance().mac = mac
-//                    SettingManager.getInstance().isConnectBefore = true
-                    var messageEvent = MessageEvent()
-                    messageEvent.message = "device connect"
-                    messageEvent.messageCode = MessageEvent.MESSAGE_CODE_DEVICE_CONNECT
-                    EventBus.getDefault().post(messageEvent)
-                }
-            }, fun(error: String) {
-                activity?.runOnUiThread {
-//                    handleReconnectDevice()
-                    Logger.d("connect failure")
-                }
-            })
+    var reconnectDeviceRunnable = Runnable {
+        if (deviceType == null){
+            return@Runnable
         }
-
+        ConnectedDeviceHelper.scanNearDeviceAndConnect(deviceType!!,fun(deviceType) {
+            activity?.runOnUiThread {
+                Logger.d("scan succ")
+            }
+        }, fun(e: Exception,deviceType) {
+            activity?.runOnUiThread {
+                handleReconnectDevice()
+            }
+        }, fun(mac: String,deviceType) {
+            activity?.runOnUiThread {
+                Logger.d("connect succ shake succ" + mac)
+                //                    SettingManager.getInstance().mac = mac
+                //                    SettingManager.getInstance().isConnectBefore = true
+                var messageEvent = MessageEvent()
+                messageEvent.message = "device connect"
+                messageEvent.messageCode = MessageEvent.MESSAGE_CODE_DEVICE_CONNECT
+                EventBus.getDefault().post(messageEvent)
+            }
+        }, fun(error: String,deviceType) {
+            activity?.runOnUiThread {
+                //                    handleReconnectDevice()
+                Logger.d("connect failure")
+            }
+        })
     }
     var onDeviceConnectListener = fun(str: String) {
         reconnectDeviceDelay = 0L
@@ -726,8 +724,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
                     }
 
                     override fun onSuccess() {
-                        biomoduleBleManager?.startHeartAndBrainCollection()
-                        biomoduleBleManager?.startContact()
+                        ConnectedDeviceHelper.startCollection()
                     }
 
                 })
@@ -738,8 +735,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
                     }
 
                     override fun onSuccess() {
-                        biomoduleBleManager?.startHeartAndBrainCollection()
-                        biomoduleBleManager?.startContact()
+                        ConnectedDeviceHelper.startCollection()
                     }
 
                 })
@@ -797,8 +793,10 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun initDeviceConnectListener() {
-        biomoduleBleManager = DeviceUIConfig.getInstance(Application.getInstance()).managers[0]
-        if (biomoduleBleManager!!.isConnected()) {
+        if (deviceType.isNullOrEmpty()) {
+            return
+        }
+        if (ConnectedDeviceHelper.isConnected(deviceType!!)) {
             isBleConnected = true
             selfView?.findViewById<MeditationInterruptView>(R.id.miv_interrupt_device)?.visibility =
                 View.GONE
@@ -819,9 +817,9 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
                 View.VISIBLE
             selfView?.findViewById<RelativeLayout>(R.id.rl_minibar_connect)?.visibility = View.GONE
         }
-        biomoduleBleManager?.addConnectListener(onDeviceConnectListener)
-        biomoduleBleManager?.addDisConnectListener(onDeviceDisconnectListener)
-        biomoduleBleManager?.addContactListener(::onBleContactListener)
+        ConnectedDeviceHelper.addConnectListener(deviceType!!, onDeviceConnectListener)
+        ConnectedDeviceHelper.addDisconnectListener(deviceType!!, onDeviceDisconnectListener)
+        ConnectedDeviceHelper.addContactListener(deviceType!!, ::onBleContactListener)
     }
 
     fun showSampleData() {
@@ -857,19 +855,31 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         isPressureLoading = true
     }
 
-    override fun onDestroy() {
-        mMainHandler.removeCallbacks(runnable)
-        mNetHandler.removeCallbacks(reconnectRunnable)
-        mDeviceHandler.removeCallbacks(reconnectDeviceRunnable)
-        biomoduleBleManager?.removeConnectListener(onDeviceConnectListener)
-        biomoduleBleManager?.removeDisConnectListener(onDeviceDisconnectListener)
-        biomoduleBleManager?.removeContactListener(::onBleContactListener)
+    fun releaseBleManager() {
+        if (deviceType != null) {
+            ConnectedDeviceHelper.removeConnectListener(deviceType!!, onDeviceConnectListener)
+            ConnectedDeviceHelper.removeDisconnectListener(deviceType!!, onDeviceDisconnectListener)
+            ConnectedDeviceHelper.removeContactListener(deviceType!!, ::onBleContactListener)
+        }
+    }
+
+    fun releaseAffectiveCloud(){
         (activity as MeditationActivity).affectiveCloudService?.removeWebSocketConnectListener(
             websocketConnectListener
         )
         (activity as MeditationActivity).affectiveCloudService?.removeWebSocketDisconnectListener(
             websocketDisconnectListener
         )
+    }
+    fun releaseHandler(){
+        mMainHandler.removeCallbacks(runnable)
+        mNetHandler.removeCallbacks(reconnectRunnable)
+        mDeviceHandler.removeCallbacks(reconnectDeviceRunnable)
+    }
+    override fun onDestroy() {
+        releaseHandler()
+        releaseBleManager()
+        releaseAffectiveCloud()
         meditationStatusPlayer?.release()
         super.onDestroy()
     }

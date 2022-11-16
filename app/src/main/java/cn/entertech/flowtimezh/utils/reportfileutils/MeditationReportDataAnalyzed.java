@@ -6,10 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.entertech.flowtime.utils.reportfileutils.MeditaionInterruptManager;
+import cn.entertech.flowtimezh.app.SettingManager;
 import cn.entertech.flowtimezh.entity.meditation.ReportMeditationDataEntity;
 
+import static cn.entertech.flowtimezh.app.Constant.DEVICE_TYPE_CUSHION;
+import static cn.entertech.flowtimezh.app.Constant.DEVICE_TYPE_ENTERTECH_VR;
+import static cn.entertech.flowtimezh.app.Constant.DEVICE_TYPE_HEADBAND;
 import static cn.entertech.flowtimezh.utils.reportfileutils.HexDump.floatArrayToByteArray;
 import static cn.entertech.flowtimezh.utils.reportfileutils.HexDump.mergeByteArrays;
+import static cn.entertech.flowtimezh.utils.reportfileutils.HexDump.toByteArray;
 
 public class MeditationReportDataAnalyzed implements BrainDataUnit {
     //数据实时间隔 单位毫秒
@@ -21,6 +26,7 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
     public static final int CONTAINER_OF_SCALAR_DATA = 3;
     //数组长度容量，单位字节
     public static final int CONTAINER_OF_ARRAY_LENGTH = 4;
+    private String deviceType;
     private float deepDuration;
     private float lightDuration;
     private float soberDuration;
@@ -72,32 +78,43 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
     public MeditationReportDataAnalyzed(ReportMeditationDataEntity reportMeditationDataEntity, long startTime, ArrayList<MeditaionInterruptManager.MeditationInterrupt> interruptTimeStamp) {
         this.startTime = startTime;
         this.interruptTimeStamps = interruptTimeStamp;
-        this.attentionAvg = reportMeditationDataEntity.getReportAttentionEnitty().getAttentionAvg().floatValue();
-        this.relaxationAvg = reportMeditationDataEntity.getReportRelaxationEnitty().getRelaxationAvg().floatValue();
-        this.pressureAvg = reportMeditationDataEntity.getReportPressureEnitty().getPressureAvg().floatValue();
-        this.pleasureAvg = reportMeditationDataEntity.getReportPleasureEnitty().getPleasureAvg().floatValue();
-        this.hrAvg = reportMeditationDataEntity.getReportHRDataEntity().getHrAvg().floatValue();
-        this.hrMax = reportMeditationDataEntity.getReportHRDataEntity().getHrMax().floatValue();
-        this.hrMin = reportMeditationDataEntity.getReportHRDataEntity().getHrMin().floatValue();
-        this.hrvAvg = reportMeditationDataEntity.getReportHRDataEntity().getHrvAvg().floatValue();
-        this.sleepPoint = reportMeditationDataEntity.getReportSleepEntity().getSleepPoint().floatValue();
-        this.sleepLatency = reportMeditationDataEntity.getReportSleepEntity().getSleepLatency().floatValue();
-        this.soberDuration = reportMeditationDataEntity.getReportSleepEntity().getSoberDuration().floatValue();
-        this.lightDuration = reportMeditationDataEntity.getReportSleepEntity().getLightDuration().floatValue();
-        this.deepDuration = reportMeditationDataEntity.getReportSleepEntity().getDeepDuration().floatValue();
+        deviceType = SettingManager.getInstance().getDeviceType();
+        if (deviceType.equals(DEVICE_TYPE_CUSHION)){
+            this.hrAvg = reportMeditationDataEntity.getReportPEPRDataEntity().getHrAvg().floatValue();
+            this.hrMax = reportMeditationDataEntity.getReportPEPRDataEntity().getHrMax().floatValue();
+            this.hrMin = reportMeditationDataEntity.getReportPEPRDataEntity().getHrMin().floatValue();
+            this.hrvAvg = reportMeditationDataEntity.getReportPEPRDataEntity().getHrvAvg().floatValue();
+            this.hrRec = addInterruptData(reportMeditationDataEntity.getReportPEPRDataEntity().getHrRec(), INTERRUPT_TIME);
+            this.hrvRec = addInterruptData(reportMeditationDataEntity.getReportPEPRDataEntity().getHrvRec(), INTERRUPT_TIME);
+            this.pressureRec = addInterruptData(reportMeditationDataEntity.getReportPressureEnitty().getPressureRec(), INTERRUPT_TIME);
+        }else{
+            this.hrAvg = reportMeditationDataEntity.getReportHRDataEntity().getHrAvg().floatValue();
+            this.hrMax = reportMeditationDataEntity.getReportHRDataEntity().getHrMax().floatValue();
+            this.hrMin = reportMeditationDataEntity.getReportHRDataEntity().getHrMin().floatValue();
+            this.hrvAvg = reportMeditationDataEntity.getReportHRDataEntity().getHrvAvg().floatValue();
+            this.hrRec = addInterruptData(reportMeditationDataEntity.getReportHRDataEntity().getHrRec(), INTERRUPT_TIME);
+            this.hrvRec = addInterruptData(reportMeditationDataEntity.getReportHRDataEntity().getHrvRec(), INTERRUPT_TIME);
+            this.attentionAvg = reportMeditationDataEntity.getReportAttentionEnitty().getAttentionAvg().floatValue();
+            this.relaxationAvg = reportMeditationDataEntity.getReportRelaxationEnitty().getRelaxationAvg().floatValue();
+            this.pressureAvg = reportMeditationDataEntity.getReportPressureEnitty().getPressureAvg().floatValue();
+            this.pleasureAvg = reportMeditationDataEntity.getReportPleasureEnitty().getPleasureAvg().floatValue();
+            this.sleepPoint = reportMeditationDataEntity.getReportSleepEntity().getSleepPoint().floatValue();
+            this.sleepLatency = reportMeditationDataEntity.getReportSleepEntity().getSleepLatency().floatValue();
+            this.soberDuration = reportMeditationDataEntity.getReportSleepEntity().getSoberDuration().floatValue();
+            this.lightDuration = reportMeditationDataEntity.getReportSleepEntity().getLightDuration().floatValue();
+            this.deepDuration = reportMeditationDataEntity.getReportSleepEntity().getDeepDuration().floatValue();
 
-        this.attentionRec = addInterruptData(reportMeditationDataEntity.getReportAttentionEnitty().getAttentionRec(), INTERRUPT_TIME);
-        this.relaxationRec = addInterruptData(reportMeditationDataEntity.getReportRelaxationEnitty().getRelaxationRec(), INTERRUPT_TIME);
-        this.pressureRec = addInterruptData(reportMeditationDataEntity.getReportPressureEnitty().getPressureRec(), INTERRUPT_TIME);
-        this.pleasureRec = addInterruptData(reportMeditationDataEntity.getReportPleasureEnitty().getPleasureRec(), INTERRUPT_TIME);
-        this.hrRec = addInterruptData(reportMeditationDataEntity.getReportHRDataEntity().getHrRec(), INTERRUPT_TIME);
-        this.hrvRec = addInterruptData(reportMeditationDataEntity.getReportHRDataEntity().getHrvRec(), INTERRUPT_TIME);
-        this.alphaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getAlphaCurve(), INTERRUPT_TIME);
-        this.betaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getBetaCurve(), INTERRUPT_TIME);
-        this.thetaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getThetaCurve(), INTERRUPT_TIME);
-        this.deltaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getDeltaCurve(), INTERRUPT_TIME);
-        this.gammaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getGammaCurve(), INTERRUPT_TIME);
-        this.sleepCurve = addInterruptData(reportMeditationDataEntity.getReportSleepEntity().getSleepCurve(), INTERRUPT_TIME);
+            this.attentionRec = addInterruptData(reportMeditationDataEntity.getReportAttentionEnitty().getAttentionRec(), INTERRUPT_TIME);
+            this.relaxationRec = addInterruptData(reportMeditationDataEntity.getReportRelaxationEnitty().getRelaxationRec(), INTERRUPT_TIME);
+            this.pressureRec = addInterruptData(reportMeditationDataEntity.getReportPressureEnitty().getPressureRec(), INTERRUPT_TIME);
+            this.pleasureRec = addInterruptData(reportMeditationDataEntity.getReportPleasureEnitty().getPleasureRec(), INTERRUPT_TIME);
+            this.alphaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getAlphaCurve(), INTERRUPT_TIME);
+            this.betaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getBetaCurve(), INTERRUPT_TIME);
+            this.thetaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getThetaCurve(), INTERRUPT_TIME);
+            this.deltaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getDeltaCurve(), INTERRUPT_TIME);
+            this.gammaCurve = addInterruptData(reportMeditationDataEntity.getReportEEGDataEntity().getGammaCurve(), INTERRUPT_TIME);
+            this.sleepCurve = addInterruptData(reportMeditationDataEntity.getReportSleepEntity().getSleepCurve(), INTERRUPT_TIME);
+        }
     }
 
     /**
@@ -141,11 +158,22 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
                 HexDump.hexSringToBytes("1b"), HexDump.float2byte(sleepLatency),
                 HexDump.hexSringToBytes("1c"), HexDump.float2byte(soberDuration),
                 HexDump.hexSringToBytes("1d"), HexDump.float2byte(lightDuration),
-                HexDump.hexSringToBytes("1e"), HexDump.float2byte(deepDuration)
-        );
+                HexDump.hexSringToBytes("1e"), HexDump.float2byte(deepDuration),
+                HexDump.hexSringToBytes("20"), HexDump.float2byte(getDeviceTypeInFile()));
 
     }
 
+    public float getDeviceTypeInFile(){
+        if (deviceType.equals(DEVICE_TYPE_CUSHION)){
+            return 2f;
+        }else if (deviceType.equals(DEVICE_TYPE_HEADBAND)){
+            return 1f;
+        }else if (deviceType.equals(DEVICE_TYPE_ENTERTECH_VR)){
+            return 3f;
+        }else{
+            return 0f;
+        }
+    }
     public byte[] getByteArray(List<Double> data) {
         if (data == null || data.size() == 0) {
             return new byte[0];
@@ -404,5 +432,19 @@ public class MeditationReportDataAnalyzed implements BrainDataUnit {
 
     public void setSleepCurve(List<Double> sleepCurve) {
         this.sleepCurve = sleepCurve;
+    }
+
+    public void setDeviceType(float deviceType){
+        if (deviceType == 1f){
+            this.deviceType = DEVICE_TYPE_HEADBAND;
+        }else if (deviceType == 2f){
+            this.deviceType = DEVICE_TYPE_CUSHION;
+        }else if (deviceType == 3f){
+            this.deviceType = DEVICE_TYPE_ENTERTECH_VR;
+        }
+    }
+
+    public String getDeviceType(){
+        return this.deviceType;
     }
 }
