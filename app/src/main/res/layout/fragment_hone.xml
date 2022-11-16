@@ -9,16 +9,28 @@
     tools:context=".ui.fragment.HomeFragment">
 
     <RelativeLayout
+        android:layout_marginTop="@dimen/activity_margin_24"
         android:layout_width="match_parent"
         android:layout_height="56dp">
-
+        <TextView
+            android:layout_alignParentStart="true"
+            android:id="@+id/tv_experiment_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="--"
+            android:layout_marginStart="@dimen/activity_margin_16"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorBlack"
+            style="@style/text_bigtitle_semibold"
+            android:layout_marginEnd="@dimen/activity_margin_8"
+            android:layout_toStartOf="@+id/iv_device"/>
         <cn.entertech.flowtimezh.ui.view.ForyouDeviceConnectView
             android:id="@+id/iv_device"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="16dp" />
+            android:layout_marginEnd="16dp" />
     </RelativeLayout>
 
     <androidx.cardview.widget.CardView

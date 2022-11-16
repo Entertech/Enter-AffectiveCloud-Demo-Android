@@ -58,12 +58,7 @@
         </activity>
         <activity android:name=".ui.activity.DeviceSelectActivity"></activity>
         <activity android:name=".ui.activity.LoginActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false">
         </activity>
         <activity android:name=".ui.activity.MeditationTimeCountSelectActivity" />
         <activity android:name=".ui.activity.SensorContactCheckActivity" />
@@ -85,7 +80,14 @@
             android:name=".ui.activity.MeditationActivity"
             android:launchMode="singleTask" />
         <activity android:name=".ui.activity.MainActivity" />
-        <activity android:name=".ui.activity.LaunchActivity" />
+        <activity android:name=".ui.activity.LaunchActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <service android:name=".ui.service.AffectiveCloudService" />
     </application>

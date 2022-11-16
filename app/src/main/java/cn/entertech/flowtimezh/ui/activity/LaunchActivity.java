@@ -66,7 +66,7 @@ public class LaunchActivity extends BaseActivity {
 
     private void initClientToken() {
         if ("".equals(SettingManager.getInstance().getToken())) {
-            startActivity(new Intent(LaunchActivity.this, AuthActivity.class));
+            startActivity(new Intent(LaunchActivity.this, LoginActivity.class));
             finish();
         } else {
             startActivity(new Intent(LaunchActivity.this, MainActivity.class));

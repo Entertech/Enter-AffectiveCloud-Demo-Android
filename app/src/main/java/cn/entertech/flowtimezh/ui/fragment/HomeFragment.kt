@@ -12,6 +12,7 @@ import cn.entertech.bleuisdk.ui.DeviceUIConfig
 import cn.entertech.bleuisdk.ui.activity.DeviceManagerActivity
 
 import cn.entertech.flowtimezh.R
+import cn.entertech.flowtimezh.app.Application
 import cn.entertech.flowtimezh.app.SettingManager
 import cn.entertech.flowtimezh.database.ExperimentDao
 import cn.entertech.flowtimezh.ui.activity.BaseActivity
@@ -38,6 +39,9 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //        initDeviceIcon()
+        initView()
+    }
+    fun initView(){
         iv_device.setOnClickListener {
             if (ConnectedDeviceHelper.currentConnectedDeviceType() != ConnectedDevice.NONE){
                 ToastUtil.toastShort(requireActivity(),"设备已连接")
@@ -58,6 +62,14 @@ class HomeFragment : Fragment() {
                 startActivity(Intent(activity, PersonInfoActivity::class.java))
             }
         }
+        setExperimentName()
+    }
+
+    fun setExperimentName(){
+        val experimentDao = ExperimentDao(Application.getInstance())
+        val experimentModel = experimentDao.findExperimentBySelected()
+        val experimentName = experimentModel.nameCn
+        tv_experiment_name.text = experimentName
     }
     fun toDisconnected(error:String){
         requireActivity().runOnUiThread {
