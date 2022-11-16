@@ -14,6 +14,8 @@ import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_ENTERTECH_VR
 import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_HEADBAND
 import cn.entertech.flowtimezh.app.SettingManager
 import cn.entertech.flowtimezh.utils.ConnectedDeviceHelper
+import cn.entertech.flowtimezh.utils.isPermissionGranted
+import cn.entertech.flowtimezh.utils.requestPermission
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_device_connect.*
 
@@ -28,8 +30,10 @@ class DeviceConnectActivity : BaseActivity() {
 
     fun initView() {
         btn_connect.setOnClickListener {
-            if (!isPermissionGranted()) {
-                requestPermission()
+            if (!isPermissionGranted(this)) {
+                requestPermission(this){
+                    connectDevice()
+                }
             } else {
                 connectDevice()
             }
@@ -84,67 +88,5 @@ class DeviceConnectActivity : BaseActivity() {
             dismissLoading()
             showTipError(error)
         }
-    }
-
-    fun onPermissionNotGranted() {
-        val intent = Intent()
-        intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-        val uri = Uri.fromParts("package", packageName, null)
-        intent.data = uri
-        startActivity(intent)
-    }
-    fun onPermissionGranted() {
-        connectDevice()
-    }
-
-    fun requestPermission() {
-        if (!isLocationEnable()) {
-            startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-            return
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            RxPermissions(this).request(
-                Manifest.permission.BLUETOOTH_SCAN,
-                Manifest.permission.BLUETOOTH_CONNECT,
-                Manifest.permission.BLUETOOTH_ADVERTISE
-            ).subscribe { granted ->
-                if (!granted) {
-                    onPermissionNotGranted()
-                }else{
-                    onPermissionGranted()
-                }
-            }
-        } else {
-            RxPermissions(this).request(
-                Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION
-            )
-                .subscribe { granted ->
-                    if (!granted) {
-                        onPermissionNotGranted()
-                    }else{
-                        onPermissionGranted()
-                    }
-                }
-        }
-    }
-
-    fun isPermissionGranted(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            RxPermissions(this).isGranted(Manifest.permission.BLUETOOTH_SCAN) && RxPermissions(
-                this
-            ).isGranted(Manifest.permission.BLUETOOTH_CONNECT) && RxPermissions(this).isGranted(
-                Manifest.permission.BLUETOOTH_ADVERTISE
-            )
-        } else {
-            RxPermissions(this).isGranted(Manifest.permission.ACCESS_FINE_LOCATION)
-        }
-    }
-
-    fun isLocationEnable(): Boolean {
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-        val network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-        return gps || network
     }
 }

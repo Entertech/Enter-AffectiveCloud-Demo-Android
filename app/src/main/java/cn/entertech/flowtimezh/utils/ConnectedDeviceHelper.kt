@@ -1,5 +1,11 @@
 package cn.entertech.flowtimezh.utils
 
+import android.Manifest
+import android.content.Context
+import android.content.Intent
+import android.location.LocationManager
+import android.os.Build
+import android.provider.Settings
 import cn.entertech.ble.cushion.CushionBleManager
 import cn.entertech.ble.single.BiomoduleBleManager
 import cn.entertech.flowtimezh.app.Application
@@ -7,6 +13,7 @@ import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_CUSHION
 import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_ENTERTECH_VR
 import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_HEADBAND
 import cn.entertech.flowtimezh.app.SettingManager
+import com.tbruyelle.rxpermissions2.RxPermissions
 
 enum class ConnectedDevice(var type: String) {
     NONE(""), HEADBAND("Headband"), CUSHION("Cushion"), HEADBAND_AND_CUSHION("Headband_Cushion"), ENTERTECH_VR(
@@ -164,22 +171,5 @@ class ConnectedDeviceHelper {
 
         }
 
-//        fun getDeviceTypeList(): ArrayList<String> {
-//            val deviceTypeList = ArrayList<String>()
-//            val deviceTypes = SettingManager.getInstance().deviceTypes
-//            if (deviceTypes.isNotEmpty()) {
-//                val deviceTypesArray = deviceTypes.split(",")
-//                if (deviceTypesArray.isNotEmpty()) {
-//                    for (deviceType in deviceTypesArray) {
-//                        deviceTypeList.add(deviceType)
-//                    }
-//                } else {
-//                    deviceTypeList.add(DEVICE_TYPE_HEADBAND)
-//                }
-//            } else {
-//                deviceTypeList.add(DEVICE_TYPE_HEADBAND)
-//            }
-//            return deviceTypeList
-//        }
     }
 }

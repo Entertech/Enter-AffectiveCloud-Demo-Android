@@ -12,14 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="56dp">
 
-        <ImageView
+        <cn.entertech.flowtimezh.ui.view.ForyouDeviceConnectView
             android:id="@+id/iv_device"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
-            android:src="@mipmap/ic_battery" />
+            android:layout_marginRight="16dp" />
     </RelativeLayout>
 
     <androidx.cardview.widget.CardView
@@ -161,7 +160,7 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <Button
+    <cn.entertech.flowtimezh.ui.view.CommonButton
         android:id="@+id/btn_start_meditation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -169,7 +168,8 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/shape_btn_bg_blue"
-        android:text="@string/start_meditation"
-        android:textColor="#ffffff"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        app:cb_btnFillColor="@color/light_btn_bg"
+        app:cb_btnText="Start Experiment"
+        app:cb_btnTextColor="@color/light_btn_text"/>
 </LinearLayout>
