@@ -37,7 +37,7 @@
 
                 <LinearLayout
                     android:id="@+id/ll_home_layout"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -130,7 +130,6 @@
                         android:textSize="34sp" />
 
                     <TextView
-                        android:id="@+id/tv_record_btn"
                         android:clickable="true"
                         android:gravity="center"
                         android:background="@drawable/shape_time_record_start_bg"
@@ -142,6 +141,63 @@
                         android:textColor="@color/white"
                         android:textSize="17sp" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_marginStart="@dimen/activity_margin_16"
+                        android:textColor="@color/colorBlack"
+                        style="@style/text_bigtitle_semibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="片段1"/>
+                    <cn.entertech.flowtimezh.ui.view.CommonButton
+                        android:id="@+id/tv_record_btn"
+                        android:layout_marginTop="@dimen/activity_margin_8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_margin_16"
+                        android:layout_marginRight="@dimen/activity_margin_16"
+                        app:cb_btnText="开始记录"
+                        app:cb_btnFillColor="@color/colorBlack"
+                        app:cb_btnTextColor="@color/white"/>
+                    <TextView
+                        android:layout_marginTop="@dimen/dim_margin_4"
+                        android:layout_marginLeft="@dimen/activity_margin_16"
+                        android:layout_marginRight="@dimen/activity_margin_16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="The segment has a precise start and end time, and the data label corresponding to this segment can be selected after the end."/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Recorded Section"
+                        android:textColor="@color/light_text_lv3"
+                        style="@style/text_caption1_regular"
+                        android:layout_marginTop="@dimen/activity_margin_24"
+                        android:layout_marginStart="@dimen/activity_margin_16"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_marginTop="@dimen/activity_margin_8"
+                        android:layout_marginLeft="@dimen/activity_margin_16"
+                        android:layout_marginRight="@dimen/activity_margin_16"
+                        android:layout_width="match_parent"
+                        android:layout_height="176dp"/>
+
+                    <cn.entertech.flowtimezh.ui.view.CommonButton
+                        android:layout_marginTop="@dimen/activity_margin_8"
+                        android:layout_marginLeft="@dimen/activity_margin_16"
+                        android:layout_marginRight="@dimen/activity_margin_16"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cb_btnText="End Experiment"
+                        app:cb_btnFillColor="@color/colorBlack"
+                        app:cb_btnTextColor="@color/white"
+                        />
                 </LinearLayout>
             </RelativeLayout>
 

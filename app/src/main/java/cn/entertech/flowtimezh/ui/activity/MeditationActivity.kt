@@ -541,14 +541,14 @@ class MeditationActivity : BaseActivity() {
             return
         }
         tv_record_btn.setOnClickListener {
-            if (tv_record_btn.text == "开始记录") {
+            if (tv_record_btn.btnText == "开始记录") {
                 ll_back.visibility = View.GONE
                 chronometer.visibility = View.VISIBLE
                 chronometer.base = SystemClock.elapsedRealtime()
                 chronometer.start()
                 startTime = MeditationTimeManager.getInstance().currentTimeMs()
                 tv_record_btn.setBackgroundResource(R.drawable.shape_time_record_end_bg)
-                tv_record_btn.text = "结束记录"
+                tv_record_btn.btnText = "结束记录"
             } else {
                 ll_back.visibility = View.VISIBLE
                 endTime = MeditationTimeManager.getInstance().currentTimeMs()
@@ -589,7 +589,7 @@ class MeditationActivity : BaseActivity() {
         chronometer.stop()
 //        chronometer.visibility = View.INVISIBLE
         tv_record_btn.setBackgroundResource(R.drawable.shape_time_record_start_bg)
-        tv_record_btn.text = "开始记录"
+        tv_record_btn.btnText = "开始记录"
     }
 
     private lateinit var rawListener: (ByteArray) -> Unit
