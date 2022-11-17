@@ -638,14 +638,13 @@ class MeditationActivity : BaseActivity() {
 
     fun refreshLabelList() {
         var meditationLabelsDao = MeditationLabelsDao(this)
-        var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)
-        if (meditationLabels == null || meditationLabels.isEmpty()) {
-            return
-        }
+        var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)?: listOf()
         var adapter = MeditationLabelsListAdapter(meditationLabels)
         rv_label_list.adapter = adapter
         rv_label_list.layoutManager = LinearLayoutManager(this)
-        rv_label_list.smoothScrollToPosition(meditationLabels.size - 1)
+        if (meditationLabels.isNotEmpty()){
+            rv_label_list.smoothScrollToPosition(meditationLabels.size - 1)
+        }
         tv_segment_name.text = "片段${meditationLabels.size + 1}"
         adapter.onItemChildClickListener =
             BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
