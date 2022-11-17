@@ -9,8 +9,10 @@ class ReportMeditationDataEntity {
     @Volatile var reportPEPRDataEntity: ReportPEPRDataEntity? = null
     @Volatile var reportEEGDataEntity: ReportEEGDataEntity? = null
     @Volatile var reportSleepEntity: ReportSleepEnitty? = null
+    @Volatile var reportArousalEntity: ReportArousalEntity? = null
+    @Volatile var reportCoherenceEntity: ReportCoherenceEntity? = null
     override fun toString(): String {
-        return "ReportMeditationDataEntity(reportPleasureEnitty=$reportPleasureEnitty, reportAttentionEnitty=$reportAttentionEnitty, reportPressureEnitty=$reportPressureEnitty, reportRelaxationEnitty=$reportRelaxationEnitty, reportHRDataEntity=$reportHRDataEntity, reportPEPRDataEntity=$reportPEPRDataEntity, reportEEGDataEntity=$reportEEGDataEntity, reportSleepEntity=$reportSleepEntity)"
+        return "ReportMeditationDataEntity(reportPleasureEnitty=$reportPleasureEnitty, reportAttentionEnitty=$reportAttentionEnitty, reportPressureEnitty=$reportPressureEnitty, reportRelaxationEnitty=$reportRelaxationEnitty, reportHRDataEntity=$reportHRDataEntity, reportPEPRDataEntity=$reportPEPRDataEntity, reportEEGDataEntity=$reportEEGDataEntity, reportSleepEntity=$reportSleepEntity, reportArousalEntity=$reportArousalEntity, reportCoherenceEntity=$reportCoherenceEntity)"
     }
 
 

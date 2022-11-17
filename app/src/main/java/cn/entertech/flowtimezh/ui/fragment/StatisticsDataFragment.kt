@@ -210,27 +210,51 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
         if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrAvg != null) {
             chart_hr.setAverage("${meditationReportDataAnalyzed!!.hrAvg.toInt()}")
         }
+        chart_hr.visibility = View.VISIBLE
         chart_hr.setAverageLineColor(R.color.common_line_hard_color_light)
         chart_hr.setData(hrLine)
         var hrvLine = meditationReportDataAnalyzed?.hrvRec
         if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrvAvg != null) {
             chart_hrv.setAverage("${meditationReportDataAnalyzed!!.hrvAvg.toInt()}")
         }
+        chart_hrv.visibility = View.VISIBLE
         chart_hrv.setAverageLineColor(R.color.common_line_hard_color_light)
         chart_hrv.setData(hrvLine)
         var pressureLine = meditationReportDataAnalyzed?.pressureRec
         if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.pressureAvg != null) {
             chart_pressure.setAverage("${meditationReportDataAnalyzed!!.pressureAvg.toInt()}")
         }
+        chart_pressure.visibility = View.VISIBLE
         chart_pressure.setAverageLineColor(R.color.common_line_hard_color_light)
         chart_pressure.setData(pressureLine)
+
+        var rrLine = meditationReportDataAnalyzed?.rrRec
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.rrAvg != null) {
+            chart_rr.setAverage("${meditationReportDataAnalyzed!!.rrAvg.toInt()}")
+        }
+        chart_rr.visibility = View.VISIBLE
+        chart_rr.setAverageLineColor(R.color.common_line_hard_color_light)
+        chart_rr.setData(rrLine)
+
+//        var arousalLine = meditationReportDataAnalyzed?.arousalRec
+//        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.arousalAvg != null) {
+//            chart_arousal.setAverage("${meditationReportDataAnalyzed!!.arousalAvg.toInt()}")
+//        }
+//        chart_arousal.visibility = View.VISIBLE
+//        chart_arousal.setAverageLineColor(R.color.common_line_hard_color_light)
+//        chart_arousal.setData(arousalLine)
+
+        var coherenceLine = meditationReportDataAnalyzed?.coherenceRec
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.coherenceAvg != null) {
+            chart_coherence.setAverage("${meditationReportDataAnalyzed!!.coherenceAvg.toInt()}")
+        }
+        chart_coherence.visibility = View.VISIBLE
+        chart_coherence.setAverageLineColor(R.color.common_line_hard_color_light)
+        chart_coherence.setData(coherenceLine)
+
     }
 
     fun setHeadbandViewData() {
-        Log.d(
-            "########",
-            "meditationReportDataAnalyzed is ${meditationReportDataAnalyzed.toString()}"
-        )
         var alphaAverage = meditationReportDataAnalyzed!!.alphaCurve
         var betaAverage = meditationReportDataAnalyzed!!.betaCurve
         var deltaAverage = meditationReportDataAnalyzed!!.deltaCurve
@@ -245,18 +269,21 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
         brainwaveList.add(alphaAverage as ArrayList<Double>)
         brainwaveList.add(thetaAverage as ArrayList<Double>)
         brainwaveList.add(deltaAverage as ArrayList<Double>)
+        chart_brainwave.visibility = View.VISIBLE
         chart_brainwave.setData(brainwaveList)
 
         var hrLine = meditationReportDataAnalyzed?.hrRec
         if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrAvg != null) {
             chart_hr.setAverage("${meditationReportDataAnalyzed!!.hrAvg.toInt()}")
         }
+        chart_hr.visibility = View.VISIBLE
         chart_hr.setAverageLineColor(R.color.common_line_hard_color_light)
         chart_hr.setData(hrLine)
         var hrvLine = meditationReportDataAnalyzed?.hrvRec
         if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.hrvAvg != null) {
             chart_hrv.setAverage("${meditationReportDataAnalyzed!!.hrvAvg.toInt()}")
         }
+        chart_hrv.visibility = View.VISIBLE
         chart_hrv.setAverageLineColor(R.color.common_line_hard_color_light)
         chart_hrv.setData(hrvLine)
 
@@ -269,6 +296,7 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
         if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.relaxationAvg != null) {
             chart_relaxation_and_attention.setRelaxationAverage(meditationReportDataAnalyzed!!.relaxationAvg.toInt())
         }
+        chart_relaxation_and_attention.visibility = View.VISIBLE
         chart_relaxation_and_attention.setAverageLineColor(R.color.common_line_hard_color_light)
         chart_relaxation_and_attention.setData(attentionRec, relaxationRec)
 
@@ -276,8 +304,33 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
         if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.pressureAvg != null) {
             chart_pressure.setAverage("${meditationReportDataAnalyzed!!.pressureAvg.toInt()}")
         }
+        chart_pressure.visibility = View.VISIBLE
         chart_pressure.setAverageLineColor(R.color.common_line_hard_color_light)
         chart_pressure.setData(pressureLine)
+
+        var arousalLine = meditationReportDataAnalyzed?.arousalRec
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.arousalAvg != null) {
+            chart_arousal.setAverage("${meditationReportDataAnalyzed!!.arousalAvg.toInt()}")
+        }
+        chart_arousal.visibility = View.VISIBLE
+        chart_arousal.setAverageLineColor(R.color.common_line_hard_color_light)
+        chart_arousal.setData(arousalLine)
+
+        var coherenceLine = meditationReportDataAnalyzed?.coherenceRec
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.coherenceAvg != null) {
+            chart_coherence.setAverage("${meditationReportDataAnalyzed!!.coherenceAvg.toInt()}")
+        }
+        chart_coherence.visibility = View.VISIBLE
+        chart_coherence.setAverageLineColor(R.color.common_line_hard_color_light)
+        chart_coherence.setData(coherenceLine)
+
+        var pleasureLine = meditationReportDataAnalyzed?.pleasureRec
+        if (meditationReportDataAnalyzed != null && meditationReportDataAnalyzed!!.pleasureAvg != null) {
+            chart_pleasure.setAverage("${meditationReportDataAnalyzed!!.pleasureAvg.toInt()}")
+        }
+        chart_pleasure.visibility = View.VISIBLE
+        chart_pleasure.setAverageLineColor(R.color.common_line_hard_color_light)
+        chart_pleasure.setData(pleasureLine)
     }
 
     fun setViewData() {

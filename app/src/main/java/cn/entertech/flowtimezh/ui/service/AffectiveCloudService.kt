@@ -357,6 +357,34 @@ internal class AffectiveCloudService : Service() {
                                 }
                             }
                             reportMeditationData.reportPressureEnitty = reportPressureEnitty
+
+                            var reportArousalEntity = ReportArousalEntity()
+                            var arousalMap = t["arousal"]
+                            if (arousalMap != null) {
+                                arousalMap = arousalMap as Map<Any, Any?>
+                                if (arousalMap.containsKey("arousal_avg")) {
+                                    reportArousalEntity.arousalAvg = arousalMap["arousal_avg"] as Double
+                                }
+                                if (arousalMap.containsKey("arousal_rec")) {
+                                    reportArousalEntity.arousalRec =
+                                        arousalMap["arousal_rec"] as ArrayList<Double>
+                                }
+                            }
+                            reportMeditationData.reportArousalEntity = reportArousalEntity
+
+                            var reportCoherenceEntity = ReportCoherenceEntity()
+                            var coherenceMap = t["coherence"]
+                            if (coherenceMap != null) {
+                                coherenceMap = coherenceMap as Map<Any, Any?>
+                                if (coherenceMap.containsKey("coherence_avg")) {
+                                    reportCoherenceEntity.coherenceAvg = coherenceMap["coherence_avg"] as Double
+                                }
+                                if (coherenceMap.containsKey("coherence_rec")) {
+                                    reportCoherenceEntity.coherenceRec =
+                                        coherenceMap["coherence_rec"] as ArrayList<Double>
+                                }
+                            }
+                            reportMeditationData.reportCoherenceEntity = reportCoherenceEntity
                         }else{
                             var reportAttentionEnitty = ReportAttentionEnitty()
                             var attentionMap = t["attention"]
@@ -417,6 +445,35 @@ internal class AffectiveCloudService : Service() {
                                 }
                             }
                             reportMeditationData.reportPleasureEnitty = reportPleasureEnitty
+
+
+                            var reportArousalEntity = ReportArousalEntity()
+                            var arousalMap = t["arousal"]
+                            if (arousalMap != null) {
+                                arousalMap = arousalMap as Map<Any, Any?>
+                                if (arousalMap.containsKey("arousal_avg")) {
+                                    reportArousalEntity.arousalAvg = arousalMap["arousal_avg"] as Double
+                                }
+                                if (arousalMap.containsKey("arousal_rec")) {
+                                    reportArousalEntity.arousalRec =
+                                        arousalMap["arousal_rec"] as ArrayList<Double>
+                                }
+                            }
+                            reportMeditationData.reportArousalEntity = reportArousalEntity
+
+                            var reportCoherenceEntity = ReportCoherenceEntity()
+                            var coherenceMap = t["coherence"]
+                            if (coherenceMap != null) {
+                                coherenceMap = coherenceMap as Map<Any, Any?>
+                                if (coherenceMap.containsKey("coherence_avg")) {
+                                    reportCoherenceEntity.coherenceAvg = coherenceMap["coherence_avg"] as Double
+                                }
+                                if (coherenceMap.containsKey("coherence_rec")) {
+                                    reportCoherenceEntity.coherenceRec =
+                                        coherenceMap["coherence_rec"] as ArrayList<Double>
+                                }
+                            }
+                            reportMeditationData.reportCoherenceEntity = reportCoherenceEntity
 
                             var reportSleepEntity = ReportSleepEnitty()
                             var sleepMap = t["sleep"]

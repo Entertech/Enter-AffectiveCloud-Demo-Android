@@ -69,6 +69,15 @@ public class FileParser {
                 case "20":
                     meditationReportDataAnalyzed.setDeviceType(floatValue);
                     break;
+                case "13":
+                    meditationReportDataAnalyzed.setArousalAvg(floatValue);
+                    break;
+                case "17":
+                    meditationReportDataAnalyzed.setCoherenceAvg(floatValue);
+                    break;
+                case "21":
+                    meditationReportDataAnalyzed.setRRAvg(floatValue);
+                    break;
                 default:
                     break;
             }
@@ -91,6 +100,9 @@ public class FileParser {
         List<Double> hrRec = new ArrayList<>();
         List<Double> hrvRec = new ArrayList<>();
         List<Double> sleepCurve = new ArrayList<>();
+        List<Double> arousalRec = new ArrayList<>();
+        List<Double> coherenceRec = new ArrayList<>();
+        List<Double> rrRec = new ArrayList<>();
 
         int recKeyStartIndex = keyStartIndex;
         int dataEndIndex = recKeyStartIndex;
@@ -201,6 +213,30 @@ public class FileParser {
                                 dataStartIndex + j * 8, dataStartIndex + 8 + j * 8)));
                         sleepCurve.add((double) cruveValue);
                         meditationReportDataAnalyzed.setSleepCurve(sleepCurve);
+                    }
+                    break;
+                case "FC":
+                    for (int j = 0; j < length; j++) {
+                        float cruveValue = getFloat(HexDump.hexSringToBytes(StringUtil.substring(source,
+                                dataStartIndex + j * 8, dataStartIndex + 8 + j * 8)));
+                        arousalRec.add((double) cruveValue);
+                        meditationReportDataAnalyzed.setArousalRec(arousalRec);
+                    }
+                    break;
+                case "FD":
+                    for (int j = 0; j < length; j++) {
+                        float cruveValue = getFloat(HexDump.hexSringToBytes(StringUtil.substring(source,
+                                dataStartIndex + j * 8, dataStartIndex + 8 + j * 8)));
+                        coherenceRec.add((double) cruveValue);
+                        meditationReportDataAnalyzed.setCoherenceRec(coherenceRec);
+                    }
+                    break;
+                case "E0":
+                    for (int j = 0; j < length; j++) {
+                        float cruveValue = getFloat(HexDump.hexSringToBytes(StringUtil.substring(source,
+                                dataStartIndex + j * 8, dataStartIndex + 8 + j * 8)));
+                        rrRec.add((double) cruveValue);
+                        meditationReportDataAnalyzed.setRRRec(rrRec);
                     }
                     break;
                 default:
