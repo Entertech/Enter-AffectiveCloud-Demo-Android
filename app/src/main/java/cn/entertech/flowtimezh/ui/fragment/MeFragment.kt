@@ -32,24 +32,20 @@ class MeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rl_experiment_setting.setOnClickListener {
+        me_experiment_setting.setOnClickListener {
             activity!!.startActivity(Intent(activity!!, ExperimentChooseActivity::class.java))
         }
 
-        rl_help_center.setOnClickListener {
+        me_help_center.setOnClickListener {
             val uri = Uri.parse("https://docs.myflowtime.cn/")
             startActivity(Intent(Intent.ACTION_VIEW, uri))
         }
-        rl_login_out.setOnClickListener {
+        btn_logout.setOnClickListener {
             SettingManager.getInstance().token = ""
             activity!!.startActivity(Intent(activity,LoginActivity::class.java))
             activity!!.finish()
         }
-        rl_time_count.setOnClickListener {
-            activity!!.startActivity(Intent(activity,MeditationTimeCountSelectActivity::class.java))
-        }
-
-        rl_device_select.setOnClickListener {
+        me_device_select.setOnClickListener {
             val intent = Intent(activity,DeviceSelectActivity::class.java)
             intent.putExtra("fromMe",true)
             activity!!.startActivity(intent)
@@ -62,13 +58,13 @@ class MeFragment : Fragment() {
     fun setDeviceName(){
         when(SettingManager.getInstance().deviceType){
             DEVICE_TYPE_CUSHION -> {
-                tv_device_type.text = "Flowtime坐垫"
+                me_device_select.mSubText = "Flowtime坐垫"
             }
             DEVICE_TYPE_HEADBAND -> {
-                tv_device_type.text = "Flowtime头环"
+                me_device_select.mSubText = "Flowtime头环"
             }
             DEVICE_TYPE_ENTERTECH_VR -> {
-                tv_device_type.text = "FlowtimeVR"
+                me_device_select.mSubText = "FlowtimeVR"
             }
 
         }
@@ -78,11 +74,11 @@ class MeFragment : Fragment() {
         var experimentDao = ExperimentDao(Application.getInstance())
         var selectedExperiment = experimentDao.findExperimentBySelected()
         if (selectedExperiment != null) {
-            tv_experiment_name.text = selectedExperiment.nameCn
+            me_experiment_setting.mSubText = selectedExperiment.nameCn
         } else {
             var experiments = experimentDao.listAll()
             if (experiments != null && experiments.isNotEmpty()) {
-                tv_experiment_name.text = experiments[0].nameCn
+                me_experiment_setting.mSubText = experiments[0].nameCn
             }
         }
     }

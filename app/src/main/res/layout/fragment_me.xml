@@ -1,355 +1,268 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#f5f5f5"
-    android:orientation="vertical">
+    android:fillViewport="true"
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="39dp"
-        android:text="@string/setting"
-        android:textColor="#000000"
-        android:textSize="32dp" />
-
-
-    <RelativeLayout
-        android:id="@+id/rl_experiment_setting"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginTop="32dp"
-        android:background="#fff">
+        android:layout_height="match_parent"
+        android:background="#f5f5f5"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/iv_icon_0"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerVertical="true"
+        <TextView
+            style="@style/text_bigtitle_semibold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            app:tint="@color/colorBlack"
-            android:src="@mipmap/ic_device" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_toRightOf="@+id/iv_icon_0"
-            android:text="实验设置"
-            android:textColor="#000" />
-
-        <TextView
-            android:id="@+id/tv_experiment_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/activity_margin_half"
-            android:layout_toLeftOf="@+id/iv_arrow"
-            android:text="未选择"
-            android:textColor="#7B7B81"
-            android:textSize="17sp" />
-
-        <ImageView
-            android:id="@+id/iv_arrow"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
-            android:src="@mipmap/ic_arrow_gray_right" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_device_select"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginTop="@dimen/activity_margin"
-        android:background="#fff">
-
-        <ImageView
-            android:id="@+id/iv_icon_3"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            app:tint="@color/colorBlack"
-            android:src="@drawable/vector_drawable_device_bluetooth" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_toRightOf="@+id/iv_icon_3"
-            android:text="设备选择"
-            android:textColor="#000" />
-
-        <TextView
-            android:id="@+id/tv_device_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/activity_margin_half"
-            android:layout_toLeftOf="@+id/iv_arrow_3"
-            android:text="--"
-            android:textColor="#7B7B81"
-            android:textSize="17sp" />
-
-        <ImageView
-            android:id="@+id/iv_arrow_3"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
-            android:src="@mipmap/ic_arrow_gray_right" />
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/rl_help_center"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginTop="@dimen/activity_margin"
-        android:background="#fff">
-
-        <ImageView
-            android:id="@+id/iv_icon_1"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            app:tint="@color/colorBlack"
-            android:src="@mipmap/ic_help_center" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_toRightOf="@+id/iv_icon_1"
-            android:text="帮助中心"
-            android:textColor="#000" />
-
-        <TextView
-            android:id="@+id/tv_help_center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/activity_margin_half"
-            android:layout_toLeftOf="@+id/iv_arrow_1"
-            android:text="未选择"
-            android:textColor="#7B7B81"
-            android:textSize="17sp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/iv_arrow_1"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
-            android:src="@mipmap/ic_arrow_gray_right" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:visibility="gone"
-        android:id="@+id/rl_time_count"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginTop="@dimen/activity_margin"
-        android:background="#fff">
-
-        <ImageView
-            android:id="@+id/iv_icon_2"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            app:tint="@color/colorBlack"
-            android:src="@mipmap/ic_tab_bar_lib_selected" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_toRightOf="@+id/iv_icon_2"
-            android:text="计时方式"
-            android:textColor="#000" />
-
-        <TextView
-            android:id="@+id/tv_time_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/activity_margin_half"
-            android:layout_toLeftOf="@+id/iv_arrow_2"
-            android:text="未选择"
-            android:textColor="#7B7B81"
-            android:textSize="17sp"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/iv_arrow_2"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
-            android:src="@mipmap/ic_arrow_gray_right" />
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/rl_login_out"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginTop="@dimen/activity_margin"
-        android:background="#fff">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="切换账号"
+            android:layout_marginTop="39dp"
+            android:text="@string/me"
             android:textColor="#000000" />
 
-    </RelativeLayout>
-    <!--    <RelativeLayout-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="56dp"-->
-    <!--        android:background="#fff">-->
-
-    <!--        <ImageView-->
-    <!--            android:id="@+id/iv_icon_1"-->
-    <!--            android:layout_width="24dp"-->
-    <!--            android:layout_height="24dp"-->
-    <!--            android:layout_centerVertical="true"-->
-    <!--            android:layout_marginLeft="16dp"-->
-    <!--            android:src="@drawable/vector_drawable_stockholm_help" />-->
-
-    <!--        <TextView-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_centerVertical="true"-->
-    <!--            android:layout_marginLeft="16dp"-->
-    <!--            android:layout_toRightOf="@+id/iv_icon_1"-->
-    <!--            android:text="@string/help_center"-->
-    <!--            android:textColor="#000" />-->
-
-    <!--        <ImageView-->
-    <!--            android:layout_width="24dp"-->
-    <!--            android:layout_height="24dp"-->
-    <!--            android:layout_alignParentRight="true"-->
-    <!--            android:layout_centerVertical="true"-->
-    <!--            android:layout_marginRight="16dp"-->
-    <!--            android:src="@mipmap/ic_arrow_gray_right" />-->
-    <!--    </RelativeLayout>-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_margin_16"
+            android:layout_marginTop="32dp"
+            android:text="@string/setting" />
 
 
-    <!--    <RelativeLayout-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="56dp"-->
-    <!--        android:background="#fff">-->
+        <cn.entertech.flowtimezh.ui.view.CommonTextItem
+            android:layout_marginTop="@dimen/activity_margin_8"
+            android:id="@+id/me_experiment_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cti_text="Change experiment"
+            app:cti_arrowIcon="@mipmap/ic_arrow_gray_right"
+            app:cti_textColor="@color/colorBlack" />
 
-    <!--        <ImageView-->
-    <!--            android:id="@+id/iv_icon_2"-->
-    <!--            android:layout_width="24dp"-->
-    <!--            android:layout_height="24dp"-->
-    <!--            android:layout_centerVertical="true"-->
-    <!--            android:layout_marginLeft="16dp"-->
-    <!--            android:src="@drawable/vector_drawable_stockholm_terms_of_services"/>-->
+        <RelativeLayout
+            android:id="@+id/me_save_data"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="#fff">
 
-    <!--        <TextView-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_centerVertical="true"-->
-    <!--            android:layout_marginLeft="16dp"-->
-    <!--            android:layout_toRightOf="@+id/iv_icon_2"-->
-    <!--            android:text="@string/term_of_serivce"-->
-    <!--            android:textColor="#000" />-->
+            <TextView
+                style="@style/text_body_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:text="Save raw &amp; report data"
+                android:textColor="#000" />
 
-    <!--        <ImageView-->
-    <!--            android:layout_width="24dp"-->
-    <!--            android:layout_height="24dp"-->
-    <!--            android:layout_alignParentRight="true"-->
-    <!--            android:layout_centerVertical="true"-->
-    <!--            android:layout_marginRight="16dp"-->
-    <!--            android:src="@mipmap/ic_arrow_gray_right" />-->
-    <!--    </RelativeLayout>-->
+            <Switch
+                android:id="@+id/switch_save_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/activity_margin_16" />
+        </RelativeLayout>
 
-    <!--    <RelativeLayout-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="56dp"-->
-    <!--        android:background="#fff">-->
+        <TextView
+            android:id="@+id/tv_file_path"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_margin_16"
+            android:text="Raw data &amp; report data saved in your package folder:
+data/dddd/dddd" />
 
-    <!--        <ImageView-->
-    <!--            android:id="@+id/iv_icon_3"-->
-    <!--            android:layout_width="24dp"-->
-    <!--            android:layout_height="24dp"-->
-    <!--            android:layout_centerVertical="true"-->
-    <!--            android:layout_marginLeft="16dp"-->
-    <!--            android:background="@drawable/vector_drawable_stockholm_privacy"-->
-    <!--            />-->
 
-    <!--        <TextView-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_centerVertical="true"-->
-    <!--            android:layout_marginLeft="16dp"-->
-    <!--            android:layout_toRightOf="@+id/iv_icon_3"-->
-    <!--            android:text="@string/privacy"-->
-    <!--            android:textColor="#000" />-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_margin_16"
+            android:layout_marginTop="@dimen/activity_margin_24"
+            android:text="Manager Device" />
+        <cn.entertech.flowtimezh.ui.view.CommonTextItem
+            android:layout_marginTop="@dimen/activity_margin_8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/me_device_select"
+            app:cti_text="Change device"
+            app:cti_arrowIcon="@mipmap/ic_arrow_gray_right"
+            app:cti_textColor="@color/colorBlack"/>
+        <cn.entertech.flowtimezh.ui.view.CommonTextItem
+            android:id="@+id/me_disconnect_ble"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cti_text="Disconnect device"
+            app:cti_textColor="@color/colorThemeBlue"/>
 
-    <!--        <ImageView-->
-    <!--            android:layout_width="24dp"-->
-    <!--            android:layout_height="24dp"-->
-    <!--            android:layout_alignParentRight="true"-->
-    <!--            android:layout_centerVertical="true"-->
-    <!--            android:layout_marginRight="16dp"-->
-    <!--            android:src="@mipmap/ic_arrow_gray_right" />-->
-    <!--    </RelativeLayout>-->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_margin_16"
+            android:layout_marginTop="@dimen/activity_margin_24"
+            android:text="Support" />
 
-    <ImageView
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@mipmap/ic_logo" />
+        <cn.entertech.flowtimezh.ui.view.CommonTextItem
+            android:layout_marginTop="@dimen/activity_margin_8"
+            android:id="@+id/me_app_use"
+            app:cti_arrowIcon="@mipmap/ic_arrow_gray_right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cti_text="How to use the app"
+            app:cti_textColor="@color/colorBlack"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/activity_margin_half"
-        android:text="心流实验"
-        android:textColor="@color/colorBlack"
-        android:textSize="17sp" />
+        <cn.entertech.flowtimezh.ui.view.CommonTextItem
+            android:id="@+id/me_know_more_devices"
+            app:cti_arrowIcon="@mipmap/ic_arrow_gray_right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cti_text="Know about Flowtime devices "
+            app:cti_textColor="@color/colorBlack"/>
 
-    <TextView
-        android:id="@+id/tv_version"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:text="1.0.0(22)"
-        android:textColor="#999999"
-        android:textSize="11sp" />
+        <cn.entertech.flowtimezh.ui.view.CommonTextItem
+            android:id="@+id/me_help_center"
+            app:cti_arrowIcon="@mipmap/ic_arrow_gray_right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cti_text="Get support"
+            app:cti_textColor="@color/colorBlack"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="24dp"
-        android:text="\@ 2019 Entertech Ltd."
-        android:textColor="#999999"
-        android:textSize="11sp" />
-</LinearLayout>
+        <cn.entertech.flowtimezh.ui.view.CommonButton
+            android:id="@+id/btn_logout"
+            app:cb_btnEnable="true"
+            android:layout_marginTop="@dimen/activity_margin_24"
+            android:layout_marginLeft="@dimen/activity_margin_16"
+            android:layout_marginRight="@dimen/activity_margin_16"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cb_btnTextColor="@color/white"
+            app:cb_btnFillColor="@color/colorBlack"
+            app:cb_btnText="Log out"/>
+        <!--    <RelativeLayout-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="56dp"-->
+        <!--        android:background="#fff">-->
+
+        <!--        <ImageView-->
+        <!--            android:id="@+id/iv_icon_1"-->
+        <!--            android:layout_width="24dp"-->
+        <!--            android:layout_height="24dp"-->
+        <!--            android:layout_centerVertical="true"-->
+        <!--            android:layout_marginLeft="16dp"-->
+        <!--            android:src="@drawable/vector_drawable_stockholm_help" />-->
+
+        <!--        <TextView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_centerVertical="true"-->
+        <!--            android:layout_marginLeft="16dp"-->
+        <!--            android:layout_toRightOf="@+id/iv_icon_1"-->
+        <!--            android:text="@string/help_center"-->
+        <!--            android:textColor="#000" />-->
+
+        <!--        <ImageView-->
+        <!--            android:layout_width="24dp"-->
+        <!--            android:layout_height="24dp"-->
+        <!--            android:layout_alignParentRight="true"-->
+        <!--            android:layout_centerVertical="true"-->
+        <!--            android:layout_marginRight="16dp"-->
+        <!--            android:src="@mipmap/ic_arrow_gray_right" />-->
+        <!--    </RelativeLayout>-->
+
+
+        <!--    <RelativeLayout-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="56dp"-->
+        <!--        android:background="#fff">-->
+
+        <!--        <ImageView-->
+        <!--            android:id="@+id/iv_icon_2"-->
+        <!--            android:layout_width="24dp"-->
+        <!--            android:layout_height="24dp"-->
+        <!--            android:layout_centerVertical="true"-->
+        <!--            android:layout_marginLeft="16dp"-->
+        <!--            android:src="@drawable/vector_drawable_stockholm_terms_of_services"/>-->
+
+        <!--        <TextView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_centerVertical="true"-->
+        <!--            android:layout_marginLeft="16dp"-->
+        <!--            android:layout_toRightOf="@+id/iv_icon_2"-->
+        <!--            android:text="@string/term_of_serivce"-->
+        <!--            android:textColor="#000" />-->
+
+        <!--        <ImageView-->
+        <!--            android:layout_width="24dp"-->
+        <!--            android:layout_height="24dp"-->
+        <!--            android:layout_alignParentRight="true"-->
+        <!--            android:layout_centerVertical="true"-->
+        <!--            android:layout_marginRight="16dp"-->
+        <!--            android:src="@mipmap/ic_arrow_gray_right" />-->
+        <!--    </RelativeLayout>-->
+
+        <!--    <RelativeLayout-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="56dp"-->
+        <!--        android:background="#fff">-->
+
+        <!--        <ImageView-->
+        <!--            android:id="@+id/iv_icon_3"-->
+        <!--            android:layout_width="24dp"-->
+        <!--            android:layout_height="24dp"-->
+        <!--            android:layout_centerVertical="true"-->
+        <!--            android:layout_marginLeft="16dp"-->
+        <!--            android:background="@drawable/vector_drawable_stockholm_privacy"-->
+        <!--            />-->
+
+        <!--        <TextView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_centerVertical="true"-->
+        <!--            android:layout_marginLeft="16dp"-->
+        <!--            android:layout_toRightOf="@+id/iv_icon_3"-->
+        <!--            android:text="@string/privacy"-->
+        <!--            android:textColor="#000" />-->
+
+        <!--        <ImageView-->
+        <!--            android:layout_width="24dp"-->
+        <!--            android:layout_height="24dp"-->
+        <!--            android:layout_alignParentRight="true"-->
+        <!--            android:layout_centerVertical="true"-->
+        <!--            android:layout_marginRight="16dp"-->
+        <!--            android:src="@mipmap/ic_arrow_gray_right" />-->
+        <!--    </RelativeLayout>-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+
+        <TextView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/activity_margin_half"
+            android:text="心流实验"
+            android:textColor="@color/colorBlack"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/tv_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:text="1.0.0(22)"
+            android:textColor="#999999"
+            android:textSize="11sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="24dp"
+            android:text="\@ 2019 Entertech Ltd."
+            android:textColor="#999999"
+            android:textSize="11sp" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

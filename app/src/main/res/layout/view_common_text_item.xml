@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="44dp"
+    android:background="@drawable/touch_ripple_card"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_marginStart="@dimen/activity_margin_16"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="@dimen/dim_icon_size_24"
+        android:layout_height="@dimen/dim_icon_size_24"
+        app:tint="@color/icon_color"
+        android:src="@drawable/vector_drawable_device_bluetooth"/>
+
+    <TextView
+        android:id="@+id/tv_text"
+        app:layout_constraintLeft_toRightOf="@+id/iv_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/barrier"
+        android:layout_marginStart="@dimen/activity_margin_16"
+        android:layout_marginEnd="@dimen/activity_margin_8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintHorizontal_bias="0"
+        android:textColor="@color/light_text_lv1"
+        android:text="Hardware version Hardware version Hardware version"
+        style="@style/text_body_regular"
+        />
+    <ImageView
+        android:visibility="visible"
+        android:id="@+id/iv_icon_arrow"
+        android:layout_width="@dimen/dim_icon_size_24"
+        android:layout_height="@dimen/dim_icon_size_24"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginRight="@dimen/activity_margin_8"
+        app:tint="@color/light_btn_disable_bg"
+        android:src="@mipmap/ic_arrow_gray_right"/>
+
+    <TextView
+        android:id="@+id/tv_sub_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1.0.0"
+        android:visibility="gone"
+        app:layout_constraintRight_toLeftOf="@+id/iv_icon_arrow"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginRight="@dimen/activity_margin"
+        style="@style/text_body_regular"
+        android:textColor="@color/light_text_lv2"
+        />
+
+    <TextView
+        android:gravity="center"
+        android:paddingHorizontal="7dp"
+        android:paddingVertical="4dp"
+        android:id="@+id/tv_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/tv_sub_text"
+        android:layout_marginRight="@dimen/dim_margin_12"
+        android:text="new"
+        android:visibility="gone"
+        android:textStyle="italic"
+        style="@style/num_12_bold"/>
+
+    <androidx.constraintlayout.widget.Barrier
+        app:barrierDirection="start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/tv_text"
+        android:id="@+id/barrier"
+        app:constraint_referenced_ids="tv_new,tv_sub_text,iv_icon_arrow"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

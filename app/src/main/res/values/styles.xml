@@ -145,4 +145,17 @@
         <attr name="dtv_tip" format="string" />
     </declare-styleable>
 
+
+    <declare-styleable name="CommonTextItem">
+        <attr name="cti_icon" format="reference" />
+        <attr name="cti_text" format="string" />
+        <attr name="cti_textColor" format="color" />
+        <attr name="cti_textStyle">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+        </attr>
+        <attr name="cti_subText" format="string" />
+        <attr name="cti_showNewFlag" format="boolean" />
+        <attr name="cti_arrowIcon" format="reference" />
+    </declare-styleable>
 </resources>
