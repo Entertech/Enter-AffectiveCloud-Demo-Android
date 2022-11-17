@@ -42,7 +42,7 @@ class MeFragment : Fragment() {
         }
         rl_login_out.setOnClickListener {
             SettingManager.getInstance().token = ""
-            activity!!.startActivity(Intent(activity,AuthActivity::class.java))
+            activity!!.startActivity(Intent(activity,LoginActivity::class.java))
             activity!!.finish()
         }
         rl_time_count.setOnClickListener {
