@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+import cn.entertech.flowtimezh.app.SettingManager;
+
 public class FileHelper {
 
     public static FileHelper mInstance = null;
@@ -40,6 +42,9 @@ public class FileHelper {
     private boolean isFirstWriteEEG = true;
 
     public void setFilePath(String filePath) {
+        if (!SettingManager.getInstance().isSaveData()){
+            return;
+        }
         this.filePath = filePath;
         try {
             currentDataPw = new PrintWriter(new FileWriter(filePath));
@@ -50,6 +55,9 @@ public class FileHelper {
     }
 
     public void writeData(final String data) {
+        if (!SettingManager.getInstance().isSaveData()){
+            return;
+        }
         mHandler.post(new Runnable() {
             @Override
             public void run() {

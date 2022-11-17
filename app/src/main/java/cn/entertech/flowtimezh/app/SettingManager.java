@@ -14,6 +14,7 @@ import static cn.entertech.flowtimezh.app.Constant.SP_APP_KEY;
 import static cn.entertech.flowtimezh.app.Constant.SP_APP_SECRET;
 import static cn.entertech.flowtimezh.app.Constant.SP_CURRENT_SERVER;
 import static cn.entertech.flowtimezh.app.Constant.SP_DEVICE_TYPE;
+import static cn.entertech.flowtimezh.app.Constant.SP_SAVE_DATA;
 import static cn.entertech.flowtimezh.app.Constant.SP_SETTING;
 import static cn.entertech.flowtimezh.app.Constant.SP_TIME_COUNT_EEG;
 import static cn.entertech.flowtimezh.app.Constant.SP_TOKEN;
@@ -51,7 +52,7 @@ public class SettingManager {
     }
 
     public synchronized void setAppKey(String appKey) {
-        getEditor().putString(SP_APP_KEY,appKey).apply();
+        getEditor().putString(SP_APP_KEY, appKey).apply();
     }
 
     public synchronized String getAppKey() {
@@ -59,7 +60,7 @@ public class SettingManager {
     }
 
     public synchronized void setAffectiveCloudServer(String url) {
-        getEditor().putString(SP_AFFECTIVE_CLOUD_SERVER,url).apply();
+        getEditor().putString(SP_AFFECTIVE_CLOUD_SERVER, url).apply();
     }
 
     public synchronized String getAffectiveCloudServer() {
@@ -67,7 +68,7 @@ public class SettingManager {
     }
 
     public synchronized void setApiServer(String url) {
-        getEditor().putString(SP_API_SERVER,url).apply();
+        getEditor().putString(SP_API_SERVER, url).apply();
     }
 
     public synchronized String getApiServer() {
@@ -75,7 +76,7 @@ public class SettingManager {
     }
 
     public synchronized void setCurrentServer(int currentServer) {
-        getEditor().putInt(SP_CURRENT_SERVER,currentServer).apply();
+        getEditor().putInt(SP_CURRENT_SERVER, currentServer).apply();
     }
 
     public synchronized int getCurrentServer() {
@@ -89,6 +90,7 @@ public class SettingManager {
     public synchronized String getAppSecret() {
         return getSharedPreferences().getString(SP_APP_SECRET, "");
     }
+
     public synchronized void setToken(String token) {
         getEditor().putString(SP_TOKEN, token).apply();
     }
@@ -105,6 +107,7 @@ public class SettingManager {
     public synchronized String getMeditationViewOrder() {
         return getSharedPreferences().getString(MEDITATION_VIEW_ORDER, "0,1,2");
     }
+
     public synchronized void setDeviceType(String deviceType) {
         getEditor().putString(SP_DEVICE_TYPE, deviceType).apply();
     }
@@ -147,6 +150,14 @@ public class SettingManager {
 
     public synchronized String getBleEntertechVRMac() {
         return getSharedPreferences().getString(BLE_MAC_ENTERTECH_VR, "");
+    }
+
+    public synchronized void setSaveData(boolean isSaveData) {
+        getEditor().putBoolean(SP_SAVE_DATA, isSaveData).apply();
+    }
+
+    public synchronized boolean isSaveData() {
+        return getSharedPreferences().getBoolean(SP_SAVE_DATA, true);
     }
 
 }

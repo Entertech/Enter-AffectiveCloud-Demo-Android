@@ -116,6 +116,7 @@ class Constant {
         const val SP_TOKEN= "sp_token"
         const val SP_TIME_COUNT_EEG= "sp_time_count_eeg"
         const val SP_DEVICE_TYPE= "sp_device_type"
+        const val SP_SAVE_DATA= "sp_save_data"
 
         const val INTENT_APP_KEY = "appKey"
         const val INTENT_APP_SECRET = "appSecret"

@@ -42,21 +42,24 @@ class MeFragment : Fragment() {
         }
         btn_logout.setOnClickListener {
             SettingManager.getInstance().token = ""
-            activity!!.startActivity(Intent(activity,LoginActivity::class.java))
+            activity!!.startActivity(Intent(activity, LoginActivity::class.java))
             activity!!.finish()
         }
         me_device_select.setOnClickListener {
-            val intent = Intent(activity,DeviceSelectActivity::class.java)
-            intent.putExtra("fromMe",true)
+            val intent = Intent(activity, DeviceSelectActivity::class.java)
+            intent.putExtra("fromMe", true)
             activity!!.startActivity(intent)
         }
         setDeviceName()
         tv_version.text = "${getAppVersionName(activity!!)}(${getAppVersionCode(activity!!)})"
-
+        switch_save_data.isChecked = SettingManager.getInstance().isSaveData
+        switch_save_data.setOnCheckedChangeListener { buttonView, isChecked ->
+            SettingManager.getInstance().isSaveData = isChecked
+        }
     }
 
-    fun setDeviceName(){
-        when(SettingManager.getInstance().deviceType){
+    fun setDeviceName() {
+        when (SettingManager.getInstance().deviceType) {
             DEVICE_TYPE_CUSHION -> {
                 me_device_select.mSubText = "Flowtime坐垫"
             }

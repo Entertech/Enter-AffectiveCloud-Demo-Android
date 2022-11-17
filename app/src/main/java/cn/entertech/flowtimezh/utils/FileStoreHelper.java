@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import cn.entertech.flowtimezh.app.SettingManager;
+
 public class FileStoreHelper {
 
     public static FileStoreHelper mInstance = null;
@@ -36,6 +38,9 @@ public class FileStoreHelper {
     private boolean isFirstWrite = true;
 
     public void setPath(String filePath, String fileName) {
+        if (!SettingManager.getInstance().isSaveData()){
+            return;
+        }
         try {
             File file = createFile(filePath, fileName);
             pw = new PrintWriter(new FileWriter(file));
@@ -45,6 +50,9 @@ public class FileStoreHelper {
     }
 
     public File createFile(String filePath, String fileName) {
+        if (!SettingManager.getInstance().isSaveData()){
+            return null;
+        }
         File file = null;
         try {
             File dir = new File(filePath);
@@ -62,6 +70,9 @@ public class FileStoreHelper {
     }
 
     public void writeData(String data) {
+        if (!SettingManager.getInstance().isSaveData()){
+            return;
+        }
         mHandler.post(new Runnable() {
             @Override
             public void run() {

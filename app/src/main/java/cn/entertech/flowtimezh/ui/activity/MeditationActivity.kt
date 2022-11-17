@@ -124,6 +124,7 @@ class MeditationActivity : BaseActivity() {
     var saveReportDataPath: String = ""
     var fileName: String = ""
     var rawEEGFileHelper = FileHelper()
+    var rawPEPRFileHelper = FileHelper()
     var rawHRFileHelper = FileHelper()
     var realtimeEEGLeftFileHelper = FileHelper()
     var realtimeEEGRightFileHelper = FileHelper()
@@ -152,10 +153,12 @@ class MeditationActivity : BaseActivity() {
         playAirSound()
         initPowerManager()
         playSleepNoise()
-        initFileWritter()
         initVoiceListener()
         if (deviceType == DEVICE_TYPE_CUSHION){
             meditationFragment?.hideBrainwaveAndAttention()
+        }
+        if (SettingManager.getInstance().isSaveData){
+            initFileWritter()
         }
     }
 
@@ -442,16 +445,20 @@ class MeditationActivity : BaseActivity() {
         }
         FileStoreHelper.getInstance()
             .setPath(saveRootPath + File.separator + "标签" + File.separator, "label.txt")
-        rawEEGFileHelper.setFilePath(saveRawDataPath + "eeg.txt")
-        rawHRFileHelper.setFilePath(saveRawDataPath + "hr.txt")
-        realtimeEEGLeftFileHelper.setFilePath(saveRealtimeDataPath + "brainwave_left.txt")
-        realtimeEEGRightFileHelper.setFilePath(saveRealtimeDataPath + "brainwave_right.txt")
-        realtimeAlphaFileHelper.setFilePath(saveRealtimeDataPath + "rhythms_alpha.txt")
-        realtimeBetaFileHelper.setFilePath(saveRealtimeDataPath + "rhythms_beta.txt")
-        realtimeGammaFileHelper.setFilePath(saveRealtimeDataPath + "rhythms_gamma.txt")
-        realtimeThetaFileHelper.setFilePath(saveRealtimeDataPath + "rhythms_theta.txt")
-        realtimeDeltaFileHelper.setFilePath(saveRealtimeDataPath + "rhythms_delta.txt")
         reportFileHelper.setFilePath(saveReportDataPath + "report.txt")
+        if (deviceType == DEVICE_TYPE_CUSHION){
+            rawPEPRFileHelper.setFilePath(saveRawDataPath + "pepr.txt")
+        }else{
+            realtimeEEGLeftFileHelper.setFilePath(saveRealtimeDataPath + "brainwave_left.txt")
+            realtimeEEGRightFileHelper.setFilePath(saveRealtimeDataPath + "brainwave_right.txt")
+            realtimeAlphaFileHelper.setFilePath(saveRealtimeDataPath + "rhythms_alpha.txt")
+            realtimeBetaFileHelper.setFilePath(saveRealtimeDataPath + "rhythms_beta.txt")
+            realtimeGammaFileHelper.setFilePath(saveRealtimeDataPath + "rhythms_gamma.txt")
+            realtimeThetaFileHelper.setFilePath(saveRealtimeDataPath + "rhythms_theta.txt")
+            realtimeDeltaFileHelper.setFilePath(saveRealtimeDataPath + "rhythms_delta.txt")
+            rawEEGFileHelper.setFilePath(saveRawDataPath + "eeg.txt")
+            rawHRFileHelper.setFilePath(saveRawDataPath + "hr.txt")
+        }
     }
 
     fun initSaveFiledir() {
@@ -491,7 +498,6 @@ class MeditationActivity : BaseActivity() {
                     MeditationTimeManager.getInstance().timeReset()
                     meditationStartTime = System.currentTimeMillis()
                     meditationId = -System.currentTimeMillis()
-                    Log.d("####", "meditation id is " + meditationId)
                     fragmentBuffer.fileName = getCurrentTimeFormat(meditationStartTime!!)
                     isFirstReceiveData = false
                 }
@@ -501,13 +507,6 @@ class MeditationActivity : BaseActivity() {
                         if (!isFirstReceiveData) {
                             MeditationTimeManager.getInstance().timeIncrease()
                         }
-//                        realtimeEEGLeftFileHelper.writeData(list2String(it.realtimeEEGData!!.leftwave!!)+",")
-//                        realtimeEEGRightFileHelper.writeData(list2String(it.realtimeEEGData!!.rightwave!!)+",")
-//                        realtimeAlphaFileHelper.writeData("${it.realtimeEEGData!!.alphaPower!!},")
-//                        realtimeBetaFileHelper.writeData("${it.realtimeEEGData!!.betaPower!!},")
-//                        realtimeGammaFileHelper.writeData("${it.realtimeEEGData!!.gammaPower!!},")
-//                        realtimeThetaFileHelper.writeData("${it.realtimeEEGData!!.thetaPower!!},")
-//                        realtimeDeltaFileHelper.writeData("${it.realtimeEEGData!!.deltaPower!!},")
                         meditationFragment?.showHeart(
                             it?.realtimePEPRData?.hr?.toInt(),
                             it?.realtimePEPRData?.hrv
@@ -525,7 +524,6 @@ class MeditationActivity : BaseActivity() {
                         realtimeGammaFileHelper.writeData("${it.realtimeEEGData!!.gammaPower!!},")
                         realtimeThetaFileHelper.writeData("${it.realtimeEEGData!!.thetaPower!!},")
                         realtimeDeltaFileHelper.writeData("${it.realtimeEEGData!!.deltaPower!!},")
-                        Log.d("####", "eeg data:" + it!!.realtimeEEGData?.alphaPower)
                     }
 
                     meditationFragment?.showHeart(
@@ -789,6 +787,14 @@ class MeditationActivity : BaseActivity() {
         }
         var packCount = 0
         cushionRawListener = fun(bytes: ByteArray) {
+            for (byte in bytes) {
+                var brainData = ConvertUtil.converUnchart(byte)
+                writeFileDataBuffer.add((brainData))
+                if (writeFileDataBuffer.size >= bytes.size) {
+                    rawPEPRFileHelper.writeData("${list2String(writeFileDataBuffer)},")
+                    writeFileDataBuffer.clear()
+                }
+            }
             packCount++
             var currentTimeMs = System.currentTimeMillis()
             if (affectiveCloudService?.isInited() == true) {
