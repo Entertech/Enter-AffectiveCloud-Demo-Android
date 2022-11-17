@@ -175,7 +175,7 @@ class MeditationActivity : BaseActivity() {
 
     fun bindAffectiveService() {
         var serviceIntent = Intent(this, AffectiveCloudService::class.java)
-        var userId = intent.getStringExtra("userId")
+        userId = intent.getStringExtra("userId")?:""
         var sex = intent.getStringExtra("sex")
         var age = intent.getStringExtra("age")
         var experimentDao = ExperimentDao(this)
@@ -438,7 +438,7 @@ class MeditationActivity : BaseActivity() {
     }
 
     fun initFileWritter() {
-        fileName = "${getCurrentTimeFormat()}"
+        fileName = "${getCurrentTimeFormat()}_${userId}"
         initSaveFiledir()
         if (saveRootPath == null) {
             return
