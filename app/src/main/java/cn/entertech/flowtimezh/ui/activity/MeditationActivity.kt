@@ -38,7 +38,6 @@ import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_ENTERTECH_VR
 import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_HEADBAND
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_LABEL_ID
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_ID
-import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_START_TIME
 import cn.entertech.flowtimezh.app.SettingManager
 import cn.entertech.flowtimezh.database.*
 import cn.entertech.flowtimezh.database.model.MeditationLabelsModel
@@ -58,8 +57,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.gson.Gson
 import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.activity_meditation.*
-import kotlinx.android.synthetic.main.activity_meditation_labels_commit.*
-import kotlinx.android.synthetic.main.activity_meditation_labels_record.*
 import kotlinx.android.synthetic.main.layout_common_title.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -509,28 +506,13 @@ class MeditationActivity : BaseActivity() {
     }
 
     fun initView() {
-        ll_back.setOnClickListener {
-            ll_back.visibility = View.GONE
-            isRecordTime = false
-            ll_home_layout.visibility = View.VISIBLE
-            ll_time_record_layout.visibility = View.GONE
-        }
-        btn_start_record.setOnClickListener {
-            isRecordTime = true
-            ll_back.visibility = View.VISIBLE
-            ll_home_layout.visibility = View.GONE
-            ll_time_record_layout.visibility = View.VISIBLE
-            initTimeRecordView()
-        }
-        btn_end_record.setOnClickListener {
+        btn_end_experiment.setOnClickListener {
             var meditationLabelsDao = MeditationLabelsDao(this@MeditationActivity)
             var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)
-            if (meditationId == -1L || meditationLabels == null || meditationLabels.isEmpty()) {
-                finishMeditation()
-            } else {
-                var intent = Intent(this, MeditationLabelsCommitActivity::class.java)
-                intent.putExtra(EXTRA_MEDITATION_ID, meditationId)
-                startActivity(intent)
+            if (meditationLabels.isNullOrEmpty() || isLabelFilled()) {
+                showDialog()
+            }else{
+                ToastUtil.toastShort(Application.getInstance(),"标签未填写")
             }
         }
         initTilte()
@@ -538,6 +520,18 @@ class MeditationActivity : BaseActivity() {
         initScrollLayout()
         initSensorCheckDialog()
         initTimeRecordView()
+    }
+
+    fun isLabelFilled():Boolean{
+        var meditationLabelsDao = MeditationLabelsDao(this@MeditationActivity)
+        var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)
+        var isLabelFilled = true
+        for (label in meditationLabels){
+            if (label.dimIds.isNullOrEmpty()){
+                isLabelFilled = false
+            }
+        }
+        return isLabelFilled
     }
 
     fun initTimeRecordView() {

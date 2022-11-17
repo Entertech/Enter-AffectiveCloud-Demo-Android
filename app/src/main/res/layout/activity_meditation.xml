@@ -157,7 +157,7 @@
 
                     <Chronometer
                         android:layout_marginStart="@dimen/activity_margin_16"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         android:id="@+id/chronometer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -202,6 +202,7 @@
                         android:layout_height="wrap_content"/>
 
                     <cn.entertech.flowtimezh.ui.view.CommonButton
+                        android:id="@+id/btn_end_experiment"
                         android:layout_marginTop="@dimen/activity_margin_8"
                         android:layout_marginLeft="@dimen/activity_margin_16"
                         android:layout_marginRight="@dimen/activity_margin_16"
@@ -209,7 +210,7 @@
                         android:layout_height="wrap_content"
                         app:cb_btnText="End Experiment"
                         app:cb_btnFillColor="@color/colorBlack"
-                        app:cb_btnTextColor="@color/white"
+                        app:cb_btnTextColor="@color/colorWarning"
                         />
                 </LinearLayout>
             </RelativeLayout>
