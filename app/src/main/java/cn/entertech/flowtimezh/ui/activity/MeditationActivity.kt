@@ -68,6 +68,7 @@ import java.io.File
 import java.util.*
 
 class MeditationActivity : BaseActivity() {
+    private var adapter: MeditationLabelsListAdapter? = null
     private var connection: ServiceConnection? = null
     internal var affectiveCloudService: AffectiveCloudService? = null
     private var isRecordTime: Boolean = true
@@ -581,6 +582,7 @@ class MeditationActivity : BaseActivity() {
         initScrollLayout()
         initSensorCheckDialog()
         initTimeRecordView()
+        initLabelList()
     }
 
     fun isLabelFilled(): Boolean {
@@ -640,17 +642,29 @@ class MeditationActivity : BaseActivity() {
     }
 
 
-    fun refreshLabelList() {
+    fun initLabelList(){
         var meditationLabelsDao = MeditationLabelsDao(this)
         var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)?: listOf()
-        var adapter = MeditationLabelsListAdapter(meditationLabels)
+        adapter = MeditationLabelsListAdapter(meditationLabels)
         rv_label_list.adapter = adapter
         rv_label_list.layoutManager = LinearLayoutManager(this)
         if (meditationLabels.isNotEmpty()){
-            rv_label_list.smoothScrollToPosition(meditationLabels.size - 1)
+            rv_label_list.visibility = View.VISIBLE
+            tv_label_list_title.visibility = View.VISIBLE
+//            rv_label_list.smoothScrollToPosition(meditationLabels.size - 1)
         }
         tv_segment_name.text = "片段${meditationLabels.size + 1}"
-        adapter.onItemChildClickListener =
+    }
+    fun refreshLabelList() {
+        var meditationLabelsDao = MeditationLabelsDao(this)
+        var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)?: listOf()
+        if (meditationLabels.isNotEmpty()){
+            rv_label_list.visibility = View.VISIBLE
+            tv_label_list_title.visibility = View.VISIBLE
+//            rv_label_list.smoothScrollToPosition(meditationLabels.size - 1)
+        }
+        adapter?.setNewData(meditationLabels)
+        adapter?.onItemChildClickListener =
             BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
                 var intent = Intent(
                     this@MeditationActivity,
@@ -662,6 +676,7 @@ class MeditationActivity : BaseActivity() {
                 )
                 startActivity(intent)
             }
+        tv_segment_name.text = "片段${meditationLabels.size + 1}"
     }
 
     fun storeLabels(labelStartTime: Long, labelEndTime: Long) {

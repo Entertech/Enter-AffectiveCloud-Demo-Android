@@ -28,7 +28,38 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <include layout="@layout/layout_common_title" />
+            <include layout="@layout/layout_common_title"
+                android:visibility="gone"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="42dp">
+
+                <TextView
+                    android:id="@+id/tv_experiment_name"
+                    style="@style/text_body_semibold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="--"
+                    android:textColor="@color/light_text_lv1" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_end_experiment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Finish"
+                    android:padding="@dimen/dim_margin_4"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/activity_margin_16"
+                    android:backgroundTint="@color/colorAccent"
+                    style="@style/text_body_regular"
+                    android:textAllCaps="false"
+                    app:cornerRadius="20dp"
+                    app:iconPadding="0dp"
+                    app:iconGravity="textStart"
+                    app:iconTint="@color/white"
+                    app:icon="@drawable/vector_drawable_close_circle"/>
+            </RelativeLayout>
 
             <RelativeLayout
 
@@ -95,7 +126,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_experiment_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -184,15 +214,19 @@
                         android:text="@string/label_record_tip"/>
 
                     <TextView
+                        android:id="@+id/tv_label_list_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/label_record_list_title"
+                        android:visibility="gone"
                         android:textColor="@color/light_text_lv3"
                         style="@style/text_caption1_regular"
                         android:layout_marginTop="@dimen/activity_margin_24"
                         android:layout_marginStart="@dimen/activity_margin_16"/>
 
-                    <cn.entertech.flowtimezh.ui.view.MaxHeightRecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:visibility="gone"
+                        android:layout_marginBottom="64dp"
                         android:background="@drawable/shape_device_select"
                         android:id="@+id/rv_label_list"
                         android:layout_marginTop="@dimen/activity_margin_8"
@@ -201,8 +235,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
+                    <androidx.core.widget.NestedScrollView
+                        android:visibility="gone"
+                        android:id="@+id/scroll_view"
+                        android:layout_marginBottom="64dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+
+                        </LinearLayout>
+                    </androidx.core.widget.NestedScrollView>
                     <cn.entertech.flowtimezh.ui.view.CommonButton
-                        android:id="@+id/btn_end_experiment"
+                        android:visibility="gone"
                         android:layout_marginTop="@dimen/activity_margin_8"
                         android:layout_marginLeft="@dimen/activity_margin_16"
                         android:layout_marginRight="@dimen/activity_margin_16"
