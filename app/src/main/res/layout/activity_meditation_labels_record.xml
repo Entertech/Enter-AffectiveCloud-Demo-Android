@@ -64,11 +64,13 @@
                 android:layout_marginLeft="@dimen/activity_margin"
                 android:layout_marginTop="24dp"
                 android:layout_marginRight="@dimen/activity_margin"
+                app:backgroundTint="@null"
                 android:background="@drawable/meditation_labels_commit_disable_bg"
                 android:text="提交"
                 android:textColor="@color/white" />
 
             <Button
+                app:backgroundTint="@null"
                 android:id="@+id/btn_delete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
