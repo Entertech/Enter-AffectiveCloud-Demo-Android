@@ -49,7 +49,7 @@ class DeviceSelectActivity : BaseActivity() {
             }
         }
         if (isFromMe) {
-            btn_next.btnText = "确定"
+            btn_next.btnText = getString(R.string.confirm)
         }
     }
 

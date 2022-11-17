@@ -45,22 +45,22 @@ class DeviceConnectActivity : BaseActivity() {
         val deviceType = SettingManager.getInstance().deviceType
         when(deviceType){
             DEVICE_TYPE_CUSHION->{
-                tv_device_name.text = "Flowtime cushion"
-                tv_device_tip.text = "The cushion wakes up when you sit on it. The indicator on the cushion will light up."
+                tv_device_name.text = getString(R.string.flowtime_cushion_name)
+                tv_device_tip.text = getString(R.string.flowtime_cushion_tip)
             }
             DEVICE_TYPE_HEADBAND->{
-                tv_device_name.text = "Flowtime headband"
-                tv_device_tip.text = "Press and hold the button until the indicator lights up."
+                tv_device_name.text = getString(R.string.flowtime_headband_name)
+                tv_device_tip.text = getString(R.string.flowtime_headband_tip)
             }
             DEVICE_TYPE_ENTERTECH_VR->{
-                tv_device_name.text = "Entertech VR module"
-                tv_device_tip.text = "Press and hold the button until the indicator lights up."
+                tv_device_name.text = getString(R.string.flowtime_vr_name)
+                tv_device_tip.text = getString(R.string.flowtime_vr_tip)
             }
         }
     }
 
     fun connectDevice(){
-        showLoading("Connecting")
+        showLoading(getString(R.string.device_connecting))
         ConnectedDeviceHelper.scanNearDeviceAndConnect(SettingManager.getInstance().deviceType,
             fun(deviceType) {
 
@@ -78,6 +78,7 @@ class DeviceConnectActivity : BaseActivity() {
             dismissLoading()
             showTipSuccess(){
                 val intent = Intent(this@DeviceConnectActivity,MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
             }
         }

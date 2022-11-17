@@ -573,7 +573,7 @@ class MeditationActivity : BaseActivity() {
             if (meditationLabels.isNullOrEmpty() || isLabelFilled()) {
                 showDialog()
             } else {
-                ToastUtil.toastShort(Application.getInstance(), "标签未填写")
+                ToastUtil.toastShort(Application.getInstance(), getString(R.string.label_is_null))
             }
         }
         initTilte()
@@ -614,7 +614,7 @@ class MeditationActivity : BaseActivity() {
 
     fun isMeditationInit(): Boolean {
         if (meditationId == -1L) {
-            Toast.makeText(this, "情感云正在初始化...", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.affective_cloud_init), Toast.LENGTH_LONG).show()
             return false
         }
         return true
@@ -622,7 +622,7 @@ class MeditationActivity : BaseActivity() {
 
     fun toStartRecord() {
         isStartRecord = true
-        tv_record_btn.btnText = "结束记录"
+        tv_record_btn.btnText = getString(R.string.label_end_record)
         chronometer.visibility = View.VISIBLE
         chronometer.base = SystemClock.elapsedRealtime()
         chronometer.start()
@@ -631,7 +631,7 @@ class MeditationActivity : BaseActivity() {
 
     fun toEndRecord() {
         isStartRecord = false
-        tv_record_btn.btnText = "开始记录"
+        tv_record_btn.btnText = getString(R.string.label_start_record)
         endTime = MeditationTimeManager.getInstance().currentTimeMs()
         chronometer.stop()
         chronometer.visibility = View.GONE

@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_margin_16"
         android:layout_marginTop="@dimen/activity_margin_24"
-        android:text="Connect Device"
+        android:text="@string/device_connect_title"
         android:textColor="@color/colorBlack" />
 
     <TextView
@@ -56,6 +56,6 @@
         android:layout_marginRight="@dimen/activity_margin_16"
         android:layout_marginBottom="@dimen/dim_margin_64"
         app:cb_btnFillColor="@color/light_btn_bg"
-        app:cb_btnText="Connect"
+        app:cb_btnText="@string/device_connect"
         app:cb_btnTextColor="@color/light_btn_text" />
 </LinearLayout>

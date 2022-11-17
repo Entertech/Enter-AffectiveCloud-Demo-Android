@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_margin_16"
         android:layout_marginTop="@dimen/activity_margin_24"
-        android:text="Which Flowtime\ndevice do you have"
+        android:text="@string/device_select_title"
         android:textColor="@color/colorBlack" />
 
     <LinearLayout
@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:dtv_name="Flowtime Headband"
-            app:dtv_tip="Two Channel Brainwaves &amp; Heart Rate" />
+            app:dtv_tip="@string/flowtime_headband_intro" />
 
         <View
             android:layout_width="match_parent"
@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:dtv_name="Entertech VR Module"
-            app:dtv_tip="Two Channel Brainwaves &amp; Heart Rate" />
+            app:dtv_tip="@string/flowtime_vr_intro" />
 
         <View
             android:layout_width="match_parent"
@@ -67,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:dtv_name="Flowtime Cusion"
-            app:dtv_tip="Heart Rate &amp; Respiratory Rate" />
+            app:dtv_tip="@string/flowtime_cushion_intro" />
     </LinearLayout>
 
     <TextView
@@ -79,7 +79,7 @@
         app:cb_btnEnable="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cb_btnText="Next"
+        app:cb_btnText="@string/next"
         app:cb_btnFillColor="@color/light_btn_bg"
         app:cb_btnTextColor="@color/light_btn_text"
         android:layout_marginLeft="@dimen/activity_margin_16"

@@ -172,7 +172,7 @@
                         android:layout_marginLeft="@dimen/activity_margin_16"
                         android:layout_marginRight="@dimen/activity_margin_16"
                         app:cb_btnEnable="true"
-                        app:cb_btnText="开始记录"
+                        app:cb_btnText="@string/label_start_record"
                         app:cb_btnFillColor="@color/colorBlack"
                         app:cb_btnTextColor="@color/white"/>
                     <TextView
@@ -181,12 +181,12 @@
                         android:layout_marginRight="@dimen/activity_margin_16"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="The segment has a precise start and end time, and the data label corresponding to this segment can be selected after the end."/>
+                        android:text="@string/label_record_tip"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Recorded Section"
+                        android:text="@string/label_record_list_title"
                         android:textColor="@color/light_text_lv3"
                         style="@style/text_caption1_regular"
                         android:layout_marginTop="@dimen/activity_margin_24"
@@ -208,7 +208,7 @@
                         android:layout_marginRight="@dimen/activity_margin_16"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:cb_btnText="End Experiment"
+                        app:cb_btnText="@string/end_experiment"
                         app:cb_btnFillColor="@color/colorBlack"
                         app:cb_btnTextColor="@color/colorWarning"
                         />
