@@ -85,4 +85,12 @@ public class MeditationLabelsDao {
         return null;
     }
 
+    public void deleteLabel(MeditationLabelsModel label){
+        try {
+            mRecordDaoOp.delete(label);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

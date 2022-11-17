@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="@color/colorBg"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
@@ -122,7 +122,6 @@
 
                     <Chronometer
                         android:visibility="invisible"
-                        android:id="@+id/chronometer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -148,12 +147,23 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
                     <TextView
+                        android:id="@+id/tv_segment_name"
                         android:layout_marginStart="@dimen/activity_margin_16"
                         android:textColor="@color/colorBlack"
                         style="@style/text_bigtitle_semibold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="片段1"/>
+
+                    <Chronometer
+                        android:layout_marginStart="@dimen/activity_margin_16"
+                        android:visibility="visible"
+                        android:id="@+id/chronometer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_margin_8"
+                        style="@style/text_bigtitle_semibold"
+                        android:textColor="@color/colorBlack"/>
                     <cn.entertech.flowtimezh.ui.view.CommonButton
                         android:id="@+id/tv_record_btn"
                         android:layout_marginTop="@dimen/activity_margin_8"
@@ -161,6 +171,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/activity_margin_16"
                         android:layout_marginRight="@dimen/activity_margin_16"
+                        app:cb_btnEnable="true"
                         app:cb_btnText="开始记录"
                         app:cb_btnFillColor="@color/colorBlack"
                         app:cb_btnTextColor="@color/white"/>
@@ -181,12 +192,14 @@
                         android:layout_marginTop="@dimen/activity_margin_24"
                         android:layout_marginStart="@dimen/activity_margin_16"/>
 
-                    <androidx.recyclerview.widget.RecyclerView
+                    <cn.entertech.flowtimezh.ui.view.MaxHeightRecyclerView
+                        android:background="@drawable/shape_device_select"
+                        android:id="@+id/rv_label_list"
                         android:layout_marginTop="@dimen/activity_margin_8"
                         android:layout_marginLeft="@dimen/activity_margin_16"
                         android:layout_marginRight="@dimen/activity_margin_16"
                         android:layout_width="match_parent"
-                        android:layout_height="176dp"/>
+                        android:layout_height="wrap_content"/>
 
                     <cn.entertech.flowtimezh.ui.view.CommonButton
                         android:layout_marginTop="@dimen/activity_margin_8"

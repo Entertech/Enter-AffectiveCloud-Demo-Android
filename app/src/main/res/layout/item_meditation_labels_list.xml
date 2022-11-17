@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl_container"
+    android:foreground="?attr/selectableItemBackground"
     android:layout_width="match_parent"
     android:layout_height="44dp">
 
@@ -37,10 +38,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/dp_4"
-        android:layout_toRightOf="@+id/tv_label_time"
-        android:layout_toLeftOf="@+id/iv_arrow"
+        android:layout_marginStart="@dimen/dp_4"
+        android:layout_toEndOf="@+id/tv_label_time"
+        android:layout_toStartOf="@+id/iv_arrow"
         android:text="1,2"
+        android:gravity="center"
         android:textColor="@color/colorGrayText"
         android:textSize="17sp" />
 </RelativeLayout>

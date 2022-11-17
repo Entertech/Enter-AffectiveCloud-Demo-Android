@@ -1,46 +1,33 @@
 package cn.entertech.flowtimezh.ui.activity
 
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.entertech.flowtimezh.R
 import cn.entertech.flowtimezh.app.Application
-import cn.entertech.flowtimezh.app.Constant
-import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_LABEL_END_TIME
-import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_LABEL_START_TIME
-import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_ID
-import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_START_TIME
+import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_LABEL_ID
 import cn.entertech.flowtimezh.database.ExperimentDao
 import cn.entertech.flowtimezh.database.ExperimentDimDao
 import cn.entertech.flowtimezh.database.ExperimentTagDao
 import cn.entertech.flowtimezh.database.MeditationLabelsDao
-import cn.entertech.flowtimezh.database.model.ExperimentDimModel
 import cn.entertech.flowtimezh.database.model.ExperimentTagModel
 import cn.entertech.flowtimezh.database.model.MeditationLabelsModel
-import cn.entertech.flowtimezh.ui.adapter.LabelsAdapter
-import cn.entertech.flowtimezh.ui.adapter.MeditationLabelsAdapter
 import cn.entertech.flowtimezh.ui.adapter.MeditationTagSelectListAdapter
-import com.chad.library.adapter.base.BaseQuickAdapter
+import cn.entertech.flowtimezh.utils.ToastUtil
 import com.chad.library.adapter.base.entity.MultiItemEntity
-import com.google.android.flexbox.FlexWrap
-import com.google.android.flexbox.FlexboxLayoutManager
-import kotlinx.android.synthetic.main.activity_experiment_label.*
 import kotlinx.android.synthetic.main.activity_meditation_labels_record.*
 import kotlinx.android.synthetic.main.layout_common_title.*
 
 class MeditationLabelsRecordActivity : BaseActivity() {
 
+    private var labelId: Long = -1
+    private var meditationLabelsModel:MeditationLabelsModel? = null
+    private var meditationLabelsDao: MeditationLabelsDao? = null
     private var meditationId: Long = -1
     private var meditationStartTime: Long = -1
     private var labelEndTime: Long = -1
@@ -60,16 +47,26 @@ class MeditationLabelsRecordActivity : BaseActivity() {
     }
 
     fun initView() {
-        labelStartTime = intent.getLongExtra(EXTRA_LABEL_START_TIME, -1L)
-        labelEndTime = intent.getLongExtra(EXTRA_LABEL_END_TIME, -1L)
-        meditationStartTime = intent.getLongExtra(EXTRA_MEDITATION_START_TIME, -1L)
-        meditationId = intent.getLongExtra(EXTRA_MEDITATION_ID, -1L)
+//        labelStartTime = intent.getLongExtra(EXTRA_LABEL_START_TIME, -1L)
+//        labelEndTime = intent.getLongExtra(EXTRA_LABEL_END_TIME, -1L)
+//        meditationStartTime = intent.getLongExtra(EXTRA_MEDITATION_START_TIME, -1L)
+        labelId = intent.getLongExtra(EXTRA_LABEL_ID, -1L)
+        meditationLabelsDao = MeditationLabelsDao(Application.getInstance())
+        meditationLabelsModel = meditationLabelsDao!!.findMeditationLabelById(labelId)
+        if (meditationLabelsModel == null){
+            ToastUtil.toastShort(this@MeditationLabelsRecordActivity,"标签记录异常")
+            finish()
+        }
+
         tv_title.visibility = View.VISIBLE
         tv_back.visibility = View.VISIBLE
         tv_title.text = "数据标签"
         ll_back.visibility = View.INVISIBLE
-        var dimIds = ""
-        var isAllTagSelected = false
+
+        var dimIds = initDimSelect()
+        var isAllTagSelected = isAllTagSelected()
+        initCommitBtn(isAllTagSelected)
+        initNote()
         adapter =
             MeditationTagSelectListAdapter(experimentTags!!,fun(){
                 isAllTagSelected = true
@@ -85,11 +82,7 @@ class MeditationLabelsRecordActivity : BaseActivity() {
                     }
                     isAllTagSelected = isAllTagSelected && isTagSelected
                 }
-                if (isAllTagSelected) {
-                    btn_commit_label.setBackgroundResource(R.drawable.meditation_labels_commit_enable_bg)
-                } else {
-                    btn_commit_label.setBackgroundResource(R.drawable.meditation_labels_commit_disable_bg)
-                }
+                initCommitBtn(isAllTagSelected)
             })
         label_list.adapter = adapter
         var linearLayoutManager = LinearLayoutManager(this)
@@ -98,14 +91,8 @@ class MeditationLabelsRecordActivity : BaseActivity() {
         btn_commit_label.setOnClickListener {
             if (isAllTagSelected) {
                 var meditationLabelsDao = MeditationLabelsDao(this)
-                var meditationLabelsModel = MeditationLabelsModel()
-                meditationLabelsModel.id = System.currentTimeMillis()
-                meditationLabelsModel.dimIds = dimIds.substring(1, dimIds.length)
-                meditationLabelsModel.endTime = labelEndTime
-                meditationLabelsModel.startTime = labelStartTime
-                meditationLabelsModel.meditationId = meditationId
-                meditationLabelsModel.meditationStartTime = meditationStartTime
-                meditationLabelsModel.note = et_note?.text?.toString()
+                meditationLabelsModel!!.dimIds = dimIds.substring(1, dimIds.length)
+                meditationLabelsModel!!.note = et_note?.text?.toString()
                 meditationLabelsDao.create(meditationLabelsModel)
                 Toast.makeText(this, "提交成功", Toast.LENGTH_SHORT).show()
                 clearSelectInDB()
@@ -117,6 +104,58 @@ class MeditationLabelsRecordActivity : BaseActivity() {
         btn_delete.setOnClickListener {
             showDeleteDialog()
         }
+    }
+
+    fun isAllTagSelected():Boolean{
+        var isAllTagSelected = true
+        if (experimentTags != null){
+            for (tag in experimentTags!!) {
+                var dims = experimentDimDao!!.findDimByTagId(tag.id)
+                var isTagSelected = false
+                for (dim in dims) {
+                    if (dim.isSelected) {
+                        isTagSelected = true
+                    }
+                }
+                isAllTagSelected = isAllTagSelected && isTagSelected
+            }
+        }
+        return isAllTagSelected
+    }
+
+    fun initCommitBtn(isAllTagSelected:Boolean){
+        if (isAllTagSelected) {
+            btn_commit_label.setBackgroundResource(R.drawable.meditation_labels_commit_enable_bg)
+        } else {
+            btn_commit_label.setBackgroundResource(R.drawable.meditation_labels_commit_disable_bg)
+        }
+    }
+
+    fun initDimSelect():String{
+        val dimSelected = meditationLabelsModel!!.dimIds
+        if (dimSelected.isNullOrEmpty()){
+            return ""
+        }
+        val dimSelectedArray = dimSelected.split(",")
+        for (tag in experimentTags!!) {
+            var dims = experimentDimDao!!.findDimByTagId(tag.id)
+            for (dim in dims){
+                dim.isSelected = false
+                experimentDimDao?.create(dim)
+            }
+            for (dim in dims){
+                if (dimSelectedArray.contains("${dim.id}")){
+                    dim.isSelected = true
+                    experimentDimDao?.create(dim)
+                }
+            }
+        }
+        return ",${dimSelected}"
+    }
+
+    fun initNote(){
+        val note = meditationLabelsModel!!.note
+        et_note.setText(note)
     }
 
     fun showDeleteDialog() {
@@ -139,6 +178,7 @@ class MeditationLabelsRecordActivity : BaseActivity() {
             ) { dialog, which ->
                 dialog.dismiss()
                 clearSelectInDB()
+                deleteLabel()
                 startActivity(Intent(this, MeditationActivity::class.java))
                 finish()
             }
@@ -173,6 +213,9 @@ class MeditationLabelsRecordActivity : BaseActivity() {
         }
     }
 
-    override fun onBackPressed() {
+    fun deleteLabel(){
+        if (meditationLabelsDao != null && meditationLabelsModel != null){
+            meditationLabelsDao!!.deleteLabel(meditationLabelsModel)
+        }
     }
 }

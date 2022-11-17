@@ -20,6 +20,7 @@ import android.view.animation.RotateAnimation
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import cn.entertech.affectivecloudsdk.entity.Error
 import cn.entertech.affectivecloudsdk.entity.RecData
 import cn.entertech.affectivecloudsdk.interfaces.Callback
@@ -35,24 +36,30 @@ import cn.entertech.flowtimezh.app.Constant
 import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_CUSHION
 import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_ENTERTECH_VR
 import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_HEADBAND
+import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_LABEL_ID
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_ID
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_START_TIME
 import cn.entertech.flowtimezh.app.SettingManager
 import cn.entertech.flowtimezh.database.*
+import cn.entertech.flowtimezh.database.model.MeditationLabelsModel
 import cn.entertech.flowtimezh.entity.MeditationEntity
 import cn.entertech.flowtimezh.entity.MessageEvent
 import cn.entertech.flowtimezh.entity.RecDataRecord
 import cn.entertech.flowtimezh.entity.UserLessonEntity
 import cn.entertech.flowtimezh.entity.meditation.ReportMeditationDataEntity
+import cn.entertech.flowtimezh.ui.adapter.MeditationLabelsListAdapter
 import cn.entertech.flowtimezh.ui.fragment.MeditationFragment
 import cn.entertech.flowtimezh.ui.service.AffectiveCloudService
 import cn.entertech.flowtimezh.ui.view.LoadingDialog
 import cn.entertech.flowtimezh.ui.view.scrolllayout.ScrollLayout
 import cn.entertech.flowtimezh.utils.*
 import cn.entertech.uicomponentsdk.utils.dp
+import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.gson.Gson
 import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.activity_meditation.*
+import kotlinx.android.synthetic.main.activity_meditation_labels_commit.*
+import kotlinx.android.synthetic.main.activity_meditation_labels_record.*
 import kotlinx.android.synthetic.main.layout_common_title.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -63,7 +70,7 @@ import java.util.*
 class MeditationActivity : BaseActivity() {
     private var connection: ServiceConnection? = null
     internal var affectiveCloudService: AffectiveCloudService? = null
-    private var isRecordTime: Boolean = false
+    private var isRecordTime: Boolean = true
     private var userId: String = ""
 
     var animatorSet: AnimatorSet? = null
@@ -530,48 +537,71 @@ class MeditationActivity : BaseActivity() {
         initDataFragment()
         initScrollLayout()
         initSensorCheckDialog()
+        initTimeRecordView()
     }
 
     fun initTimeRecordView() {
-        var meditationId = meditationId
-        var meditationStartTime = meditationStartTime
-        if (meditationId == -1L || meditationStartTime == -1L) {
-//            finish()
-            Toast.makeText(this, "请先开始有效的体验", Toast.LENGTH_LONG).show()
-            return
-        }
         tv_record_btn.setOnClickListener {
+            if (meditationId == -1L) {
+                Toast.makeText(this, "请先开始有效的体验", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
             if (tv_record_btn.btnText == "开始记录") {
-                ll_back.visibility = View.GONE
+                tv_record_btn.btnText = "结束记录"
                 chronometer.visibility = View.VISIBLE
                 chronometer.base = SystemClock.elapsedRealtime()
                 chronometer.start()
                 startTime = MeditationTimeManager.getInstance().currentTimeMs()
-                tv_record_btn.setBackgroundResource(R.drawable.shape_time_record_end_bg)
-                tv_record_btn.btnText = "结束记录"
             } else {
-                ll_back.visibility = View.VISIBLE
+                tv_record_btn.btnText = "开始记录"
                 endTime = MeditationTimeManager.getInstance().currentTimeMs()
                 chronometer.stop()
-                var intent = Intent(this, MeditationLabelsRecordActivity::class.java)
-                intent.putExtra(Constant.EXTRA_LABEL_START_TIME, startTime)
-                intent.putExtra(Constant.EXTRA_LABEL_END_TIME, endTime!!)
-                intent.putExtra(
-                    EXTRA_MEDITATION_ID,
-                    meditationId
-                )
-                intent.putExtra(
-                    EXTRA_MEDITATION_START_TIME,
-                    meditationStartTime
-                )
-
-                startActivity(intent)
+                chronometer.visibility = View.GONE
+                storeLabels(startTime!!,endTime!!)
+                refreshLabelList()
             }
         }
 
         var experimentDao = ExperimentDao(this)
         var experimentName = experimentDao.findExperimentBySelected().nameCn
         tv_experiment_name.text = experimentName
+    }
+
+    fun refreshLabelList(){
+        var meditationLabelsDao = MeditationLabelsDao(this)
+        var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)
+        if (meditationLabels == null || meditationLabels.isEmpty()) {
+            return
+        }
+        var adapter = MeditationLabelsListAdapter(meditationLabels)
+        rv_label_list.adapter = adapter
+        rv_label_list.layoutManager = LinearLayoutManager(this)
+        rv_label_list.smoothScrollToPosition(meditationLabels.size-1)
+        tv_segment_name.text = "片段${meditationLabels.size+1}"
+        adapter.onItemChildClickListener =
+            BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
+                var intent = Intent(
+                    this@MeditationActivity,
+                    MeditationLabelsRecordActivity::class.java
+                )
+                intent.putExtra(
+                    EXTRA_LABEL_ID,
+                    meditationLabels[position].id
+                )
+                startActivity(intent)
+            }
+    }
+
+    fun storeLabels(labelStartTime:Long,labelEndTime:Long){
+        var meditationLabelsDao = MeditationLabelsDao(this)
+        var meditationLabelsModel = MeditationLabelsModel()
+        meditationLabelsModel.id = System.currentTimeMillis()
+        meditationLabelsModel.endTime = labelEndTime
+        meditationLabelsModel.startTime = labelStartTime
+        meditationLabelsModel.meditationId = meditationId
+        meditationLabelsModel.meditationStartTime = meditationStartTime!!
+        meditationLabelsDao.create(meditationLabelsModel)
+
     }
 
     fun playSleepNoise() {
@@ -581,15 +611,6 @@ class MeditationActivity : BaseActivity() {
             SoundScapeAudioManager.getInstance(this).setFile(R.raw.sleep_lightrain)
             SoundScapeAudioManager.getInstance(this).start()
         }
-    }
-
-    private fun resetPage() {
-        ll_back.visibility = View.VISIBLE
-        chronometer.base = SystemClock.elapsedRealtime()
-        chronometer.stop()
-//        chronometer.visibility = View.INVISIBLE
-        tv_record_btn.setBackgroundResource(R.drawable.shape_time_record_start_bg)
-        tv_record_btn.btnText = "开始记录"
     }
 
     private lateinit var rawListener: (ByteArray) -> Unit
@@ -1051,11 +1072,7 @@ class MeditationActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        if (isRecordTime) {
-            resetPage()
-        } else {
-            finishMeditation()
-        }
+        refreshLabelList()
     }
 
     fun finishMeditation() {

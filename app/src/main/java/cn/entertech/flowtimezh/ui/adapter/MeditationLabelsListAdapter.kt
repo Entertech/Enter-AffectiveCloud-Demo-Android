@@ -14,13 +14,17 @@ class MeditationLabelsListAdapter(data: List<MeditationLabelsModel>) :
     ) {
     override fun convert(helper: BaseViewHolder, item: MeditationLabelsModel) {
         var dimDao = ExperimentDimDao(mContext)
-        var dimNameList =
-            item.dimIds.split(",").map { dimDao.findByDimId(Integer.parseInt(it)).nameCn }
-        var dims = ""
-        for (dimName in dimNameList) {
-            dims = "$dims,$dimName"
+        if (item.dimIds != null){
+            var dimNameList =
+                item.dimIds.split(",").map { dimDao.findByDimId(Integer.parseInt(it)).nameCn }
+            var dims = ""
+            for (dimName in dimNameList) {
+                dims = "$dims,$dimName"
+            }
+            helper.setText(R.id.tv_dims, dims.substring(1, dims.length))
+        }else{
+            helper.setText(R.id.tv_dims, "未填写")
         }
-        helper.setText(R.id.tv_dims, dims.substring(1, dims.length))
         var duration = if (item.startTime > item.meditationStartTime) {
             "${getFormatTime(item.startTime - item.meditationStartTime, "mm:ss")}" +
                     "-${getFormatTime(item.endTime - item.meditationStartTime, "mm:ss")}"
@@ -28,7 +32,7 @@ class MeditationLabelsListAdapter(data: List<MeditationLabelsModel>) :
             "${getFormatTime(item.startTime, "mm:ss")}" +
                     "-${getFormatTime(item.endTime, "mm:ss")}"
         }
-        helper.setText(R.id.tv_label_time, duration)
+        helper.setText(R.id.tv_label_time, "${helper.adapterPosition+1}. ${duration}")
         helper.addOnClickListener(R.id.rl_container)
     }
 }
