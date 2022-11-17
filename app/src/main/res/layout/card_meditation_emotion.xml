@@ -36,6 +36,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_attention_relaxation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_margin"
@@ -61,7 +62,34 @@
             app:rav_background="@drawable/shape_realtime_relaxation_bg"
             app:rav_mainColor="#4b5dcc" />
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_coherence_and_pleasure"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_margin_half"
+        android:orientation="horizontal">
 
+
+        <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
+            android:id="@+id/realtime_coherence_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:rav_affectiveType="Coherence"
+            app:rav_background="@drawable/shape_realtime_relaxation_bg"
+            app:rav_mainColor="#4b5dcc" />
+
+        <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
+            android:id="@+id/realtime_pleasure_view"
+            android:layout_marginStart="@dimen/activity_margin_8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="visible"
+            app:rav_affectiveType="Pleasure"
+            app:rav_background="@drawable/shape_realtime_coherence_bg"
+            app:rav_mainColor="#52A27C" />
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,7 +101,6 @@
             android:id="@+id/realtime_pressure_view"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginRight="8dp"
             android:layout_weight="1"
             app:rav_affectiveType="Pressure"
             app:rav_background="@drawable/shape_realtime_pressure_bg"
@@ -83,6 +110,7 @@
             android:id="@+id/realtime_arousal_view"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/activity_margin_8"
             android:layout_weight="1"
             android:visibility="visible"
             app:rav_affectiveType="Arousal"
@@ -91,35 +119,10 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_margin_half"
-        android:orientation="horizontal">
 
-
-        <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
-            android:id="@+id/realtime_coherence_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:layout_weight="1"
-            app:rav_affectiveType="Coherence"
-            app:rav_background="@drawable/shape_realtime_relaxation_bg"
-            app:rav_mainColor="#4b5dcc" />
-
-        <cn.entertech.uicomponentsdk.realtime.RealtimeAffectiveView
-            android:id="@+id/realtime_pleasure_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:visibility="visible"
-            app:rav_affectiveType="Pleasure"
-            app:rav_background="@drawable/shape_realtime_coherence_bg"
-            app:rav_mainColor="#52A27C" />
-    </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_sleep"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_margin_half"

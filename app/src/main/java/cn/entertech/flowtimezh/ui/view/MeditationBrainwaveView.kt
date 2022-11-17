@@ -30,7 +30,8 @@ class MeditationBrainwaveView @JvmOverloads constructor(
     }
 
     fun initView() {
-        mSelfView.findViewById<RealtimeBrainwaveSpectrumView>(R.id.brainwave_spectrum).setPowerMode(POWER_MODE_DB)
+        mSelfView.findViewById<RealtimeBrainwaveSpectrumView>(R.id.brainwave_spectrum).setPowerMode(
+            POWER_MODE_RATE)
 //        brainwave.setIsShowInfoIcon(
 //            true,
 //            url = SettingManager.getInstance().remoteConfigEEGRealtimeInfo
@@ -51,27 +52,27 @@ class MeditationBrainwaveView @JvmOverloads constructor(
 
     fun setGammaWavePercent(percent: Float?) {
         mSelfView.findViewById<RealtimeBrainwaveSpectrumView>(R.id.brainwave_spectrum)
-            .setGammaWaveDBValue(percent)
+            .setGammaWavePercent(percent)
     }
 
     fun setBetaWavePercent(percent: Float?) {
         mSelfView.findViewById<RealtimeBrainwaveSpectrumView>(R.id.brainwave_spectrum)
-            .setBetaWaveDBValue(percent)
+            .setBetaWavePercent(percent)
     }
 
     fun setAlphaWavePercent(percent: Float?) {
         mSelfView.findViewById<RealtimeBrainwaveSpectrumView>(R.id.brainwave_spectrum)
-            .setAlphaWaveDBValue(percent)
+            .setAlphaWavePercent(percent)
     }
 
     fun setThetaWavePercent(percent: Float?) {
         mSelfView.findViewById<RealtimeBrainwaveSpectrumView>(R.id.brainwave_spectrum)
-            .setThetaWaveDBValue(percent)
+            .setThetaWavePercent(percent)
     }
 
     fun setDeltaWavePercent(percent: Float?) {
         mSelfView.findViewById<RealtimeBrainwaveSpectrumView>(R.id.brainwave_spectrum)
-            .setDeltaWaveDBValue(percent)
+            .setDeltaWavePercent(percent)
     }
 
     fun showLoadingCover() {

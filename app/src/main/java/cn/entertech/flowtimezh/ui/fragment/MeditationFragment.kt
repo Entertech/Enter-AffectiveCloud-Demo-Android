@@ -863,6 +863,11 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
         }
     }
 
+    fun hideBrainwaveAndAttention() {
+        selfView?.findViewWithTag<MeditationEmotionView>("Emotion")?.showCushionCard()
+        selfView?.findViewWithTag<MeditationBrainwaveView>("Brainwave")?.visibility = View.GONE
+    }
+
     fun releaseAffectiveCloud(){
         (activity as MeditationActivity).affectiveCloudService?.removeWebSocketConnectListener(
             websocketConnectListener

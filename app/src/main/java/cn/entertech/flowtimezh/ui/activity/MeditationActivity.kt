@@ -153,6 +153,9 @@ class MeditationActivity : BaseActivity() {
         playSleepNoise()
         initFileWritter()
         initVoiceListener()
+        if (deviceType == DEVICE_TYPE_CUSHION){
+            meditationFragment?.hideBrainwaveAndAttention()
+        }
     }
 
     fun initBleManager() {
@@ -492,6 +495,7 @@ class MeditationActivity : BaseActivity() {
                     isFirstReceiveData = false
                 }
                 if (deviceType == DEVICE_TYPE_CUSHION) {
+                    meditationFragment?.hideBrainwaveAndAttention()
                     if (it != null && it!!.realtimePEPRData != null) {
                         if (!isFirstReceiveData) {
                             MeditationTimeManager.getInstance().timeIncrease()
@@ -1299,6 +1303,9 @@ class MeditationActivity : BaseActivity() {
         unBindAffectiveService()
         stopAirSound()
         wl?.release()
+        if (mContentObserver != null){
+            contentResolver?.unregisterContentObserver(mContentObserver!!)
+        }
         handler?.removeCallbacks(finishRunnable)
         sessionId = null
         releaseBleManager()

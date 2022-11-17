@@ -54,6 +54,12 @@ class MeditationEmotionView @JvmOverloads constructor(
 //            url = SettingManager.getInstance().remoteConfigCoherenceRealtimeInfo
 //        )
     }
+    fun showCushionCard(){
+        ll_attention_relaxation.visibility = View.GONE
+        realtime_arousal_view.visibility = View.GONE
+        realtime_pleasure_view.visibility = View.GONE
+        ll_sleep.visibility = View.GONE
+    }
 
     fun setAttention(value: Float?) {
         if (value == null) {
