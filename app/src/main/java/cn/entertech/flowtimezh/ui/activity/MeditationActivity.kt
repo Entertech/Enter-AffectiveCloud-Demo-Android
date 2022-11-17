@@ -8,6 +8,8 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.database.ContentObserver
+import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.*
 import android.text.Html
@@ -22,6 +24,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.entertech.affectivecloudsdk.entity.Error
+import cn.entertech.affectivecloudsdk.entity.Label
 import cn.entertech.affectivecloudsdk.entity.RecData
 import cn.entertech.affectivecloudsdk.interfaces.Callback
 import cn.entertech.affectivecloudsdk.utils.ConvertUtil
@@ -129,7 +132,9 @@ class MeditationActivity : BaseActivity() {
     var realtimeThetaFileHelper = FileHelper()
     var realtimeDeltaFileHelper = FileHelper()
     var reportFileHelper = FileHelper()
-    var deviceType:String? = null
+    var deviceType: String? = null
+    var isStartRecord = false
+
     //    var canExit = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -147,14 +152,15 @@ class MeditationActivity : BaseActivity() {
         initPowerManager()
         playSleepNoise()
         initFileWritter()
+        initVoiceListener()
     }
 
-    fun initBleManager(){
-        when(deviceType){
-            DEVICE_TYPE_HEADBAND, DEVICE_TYPE_ENTERTECH_VR->{
+    fun initBleManager() {
+        when (deviceType) {
+            DEVICE_TYPE_HEADBAND, DEVICE_TYPE_ENTERTECH_VR -> {
                 initFlowtimeManager()
             }
-            DEVICE_TYPE_CUSHION->{
+            DEVICE_TYPE_CUSHION -> {
                 initCushionManager()
             }
         }
@@ -374,13 +380,64 @@ class MeditationActivity : BaseActivity() {
         }
     }
 
-    fun initFileWritter(){
-        fileName = "${getCurrentTimeFormat()}"
-        initSaveFiledir()
-        if (saveRootPath == null){
+    private var mContentObserver: SettingsContentObserver? = null
+    private var labelRecordPlayer: LabelRecordPlayer? = null
+    fun initVoiceListener() {
+        mContentObserver = SettingsContentObserver(
+            this, Handler(
+                Looper.getMainLooper()
+            ), ::onVoiceChange
+        )
+        contentResolver.registerContentObserver(
+            android.provider.Settings.System.CONTENT_URI,
+            true,
+            mContentObserver!!
+        )
+        labelRecordPlayer = LabelRecordPlayer(Application.getInstance())
+    }
+
+    class SettingsContentObserver(context: Context, handler: Handler?, var callback: (() -> Unit)) :
+        ContentObserver(handler) {
+        private val audioManager: AudioManager
+        override fun deliverSelfNotifications(): Boolean {
+            return false
+        }
+
+        var lastVolume: Int? = null
+        override fun onChange(selfChange: Boolean) {
+            val currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+            if (lastVolume == null || currentVolume != lastVolume) {
+                callback.invoke()
+            }
+            lastVolume = currentVolume
+        }
+
+        init {
+            audioManager = context.getSystemService(AUDIO_SERVICE) as AudioManager
+        }
+    }
+
+    fun onVoiceChange() {
+        if (!isMeditationInit()) {
             return
         }
-        FileStoreHelper.getInstance().setPath(saveRootPath + File.separator + "标签" + File.separator,"label.txt")
+        if (!isStartRecord) {
+            labelRecordPlayer?.playStartRecord()
+            toStartRecord()
+        } else {
+            labelRecordPlayer?.playEndRecord()
+            toEndRecord()
+        }
+    }
+
+    fun initFileWritter() {
+        fileName = "${getCurrentTimeFormat()}"
+        initSaveFiledir()
+        if (saveRootPath == null) {
+            return
+        }
+        FileStoreHelper.getInstance()
+            .setPath(saveRootPath + File.separator + "标签" + File.separator, "label.txt")
         rawEEGFileHelper.setFilePath(saveRawDataPath + "eeg.txt")
         rawHRFileHelper.setFilePath(saveRawDataPath + "hr.txt")
         realtimeEEGLeftFileHelper.setFilePath(saveRealtimeDataPath + "brainwave_left.txt")
@@ -390,12 +447,12 @@ class MeditationActivity : BaseActivity() {
         realtimeGammaFileHelper.setFilePath(saveRealtimeDataPath + "rhythms_gamma.txt")
         realtimeThetaFileHelper.setFilePath(saveRealtimeDataPath + "rhythms_theta.txt")
         realtimeDeltaFileHelper.setFilePath(saveRealtimeDataPath + "rhythms_delta.txt")
-        reportFileHelper.setFilePath(saveReportDataPath+"report.txt")
+        reportFileHelper.setFilePath(saveReportDataPath + "report.txt")
     }
 
     fun initSaveFiledir() {
         saveRootPath = getExternalFilesDir(fileName)?.absolutePath
-        if (saveRootPath == null){
+        if (saveRootPath == null) {
             return
         }
         saveRealtimeDataPath = saveRootPath + File.separator + "realtime" + File.separator
@@ -419,7 +476,7 @@ class MeditationActivity : BaseActivity() {
         }
     }
 
-    fun list2String(data:ArrayList<out Number>):String{
+    fun list2String(data: ArrayList<out Number>): String {
         return "${Arrays.toString(data.toArray())}".replace("[", "").replace("]", "")
     }
 
@@ -434,9 +491,9 @@ class MeditationActivity : BaseActivity() {
                     fragmentBuffer.fileName = getCurrentTimeFormat(meditationStartTime!!)
                     isFirstReceiveData = false
                 }
-                if(deviceType == DEVICE_TYPE_CUSHION){
+                if (deviceType == DEVICE_TYPE_CUSHION) {
                     if (it != null && it!!.realtimePEPRData != null) {
-                        if (!isFirstReceiveData){
+                        if (!isFirstReceiveData) {
                             MeditationTimeManager.getInstance().timeIncrease()
                         }
 //                        realtimeEEGLeftFileHelper.writeData(list2String(it.realtimeEEGData!!.leftwave!!)+",")
@@ -451,13 +508,13 @@ class MeditationActivity : BaseActivity() {
                             it?.realtimePEPRData?.hrv
                         )
                     }
-                }else{
+                } else {
                     if (it != null && it!!.realtimeEEGData != null) {
-                        if (!isFirstReceiveData){
+                        if (!isFirstReceiveData) {
                             MeditationTimeManager.getInstance().timeIncrease()
                         }
-                        realtimeEEGLeftFileHelper.writeData(list2String(it.realtimeEEGData!!.leftwave!!)+",")
-                        realtimeEEGRightFileHelper.writeData(list2String(it.realtimeEEGData!!.rightwave!!)+",")
+                        realtimeEEGLeftFileHelper.writeData(list2String(it.realtimeEEGData!!.leftwave!!) + ",")
+                        realtimeEEGRightFileHelper.writeData(list2String(it.realtimeEEGData!!.rightwave!!) + ",")
                         realtimeAlphaFileHelper.writeData("${it.realtimeEEGData!!.alphaPower!!},")
                         realtimeBetaFileHelper.writeData("${it.realtimeEEGData!!.betaPower!!},")
                         realtimeGammaFileHelper.writeData("${it.realtimeEEGData!!.gammaPower!!},")
@@ -511,8 +568,8 @@ class MeditationActivity : BaseActivity() {
             var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)
             if (meditationLabels.isNullOrEmpty() || isLabelFilled()) {
                 showDialog()
-            }else{
-                ToastUtil.toastShort(Application.getInstance(),"标签未填写")
+            } else {
+                ToastUtil.toastShort(Application.getInstance(), "标签未填写")
             }
         }
         initTilte()
@@ -522,12 +579,12 @@ class MeditationActivity : BaseActivity() {
         initTimeRecordView()
     }
 
-    fun isLabelFilled():Boolean{
+    fun isLabelFilled(): Boolean {
         var meditationLabelsDao = MeditationLabelsDao(this@MeditationActivity)
         var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)
         var isLabelFilled = true
-        for (label in meditationLabels){
-            if (label.dimIds.isNullOrEmpty()){
+        for (label in meditationLabels) {
+            if (label.dimIds.isNullOrEmpty()) {
                 isLabelFilled = false
             }
         }
@@ -536,23 +593,13 @@ class MeditationActivity : BaseActivity() {
 
     fun initTimeRecordView() {
         tv_record_btn.setOnClickListener {
-            if (meditationId == -1L) {
-                Toast.makeText(this, "请先开始有效的体验", Toast.LENGTH_LONG).show()
+            if (!isMeditationInit()) {
                 return@setOnClickListener
             }
-            if (tv_record_btn.btnText == "开始记录") {
-                tv_record_btn.btnText = "结束记录"
-                chronometer.visibility = View.VISIBLE
-                chronometer.base = SystemClock.elapsedRealtime()
-                chronometer.start()
-                startTime = MeditationTimeManager.getInstance().currentTimeMs()
+            if (!isStartRecord) {
+                toStartRecord()
             } else {
-                tv_record_btn.btnText = "开始记录"
-                endTime = MeditationTimeManager.getInstance().currentTimeMs()
-                chronometer.stop()
-                chronometer.visibility = View.GONE
-                storeLabels(startTime!!,endTime!!)
-                refreshLabelList()
+                toEndRecord()
             }
         }
 
@@ -561,7 +608,35 @@ class MeditationActivity : BaseActivity() {
         tv_experiment_name.text = experimentName
     }
 
-    fun refreshLabelList(){
+    fun isMeditationInit(): Boolean {
+        if (meditationId == -1L) {
+            Toast.makeText(this, "情感云正在初始化...", Toast.LENGTH_LONG).show()
+            return false
+        }
+        return true
+    }
+
+    fun toStartRecord() {
+        isStartRecord = true
+        tv_record_btn.btnText = "结束记录"
+        chronometer.visibility = View.VISIBLE
+        chronometer.base = SystemClock.elapsedRealtime()
+        chronometer.start()
+        startTime = MeditationTimeManager.getInstance().currentTimeMs()
+    }
+
+    fun toEndRecord() {
+        isStartRecord = false
+        tv_record_btn.btnText = "开始记录"
+        endTime = MeditationTimeManager.getInstance().currentTimeMs()
+        chronometer.stop()
+        chronometer.visibility = View.GONE
+        storeLabels(startTime!!, endTime!!)
+        refreshLabelList()
+    }
+
+
+    fun refreshLabelList() {
         var meditationLabelsDao = MeditationLabelsDao(this)
         var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)
         if (meditationLabels == null || meditationLabels.isEmpty()) {
@@ -570,8 +645,8 @@ class MeditationActivity : BaseActivity() {
         var adapter = MeditationLabelsListAdapter(meditationLabels)
         rv_label_list.adapter = adapter
         rv_label_list.layoutManager = LinearLayoutManager(this)
-        rv_label_list.smoothScrollToPosition(meditationLabels.size-1)
-        tv_segment_name.text = "片段${meditationLabels.size+1}"
+        rv_label_list.smoothScrollToPosition(meditationLabels.size - 1)
+        tv_segment_name.text = "片段${meditationLabels.size + 1}"
         adapter.onItemChildClickListener =
             BaseQuickAdapter.OnItemChildClickListener { adapter, view, position ->
                 var intent = Intent(
@@ -586,7 +661,7 @@ class MeditationActivity : BaseActivity() {
             }
     }
 
-    fun storeLabels(labelStartTime:Long,labelEndTime:Long){
+    fun storeLabels(labelStartTime: Long, labelEndTime: Long) {
         var meditationLabelsDao = MeditationLabelsDao(this)
         var meditationLabelsModel = MeditationLabelsModel()
         meditationLabelsModel.id = System.currentTimeMillis()
@@ -614,6 +689,7 @@ class MeditationActivity : BaseActivity() {
     private lateinit var bleDisconnectListener: (String) -> Unit
 
     var writeFileDataBuffer = ArrayList<Int>()
+
     //    var brainDataList = ArrayList<Int>()
     fun initFlowtimeManager() {
 
@@ -623,7 +699,7 @@ class MeditationActivity : BaseActivity() {
         rawListener = fun(bytes: ByteArray) {
             var currentTimeMs = System.currentTimeMillis()
             if (affectiveCloudService?.isInited() == true) {
-                for (byte in bytes){
+                for (byte in bytes) {
                     var brainData = ConvertUtil.converUnchart(byte)
                     writeFileDataBuffer.add((brainData))
                     if (writeFileDataBuffer.size >= 20) {
@@ -740,10 +816,11 @@ class MeditationActivity : BaseActivity() {
         cushionBleManager.addConnectListener(cushionConnectListener!!)
         cushionBleManager.addDisConnectListener(cushionDisconnectListener!!)
         cushionBleManager.addContactDataListener(cushionContactListener!!)
-        if (cushionBleManager.isConnected()){
+        if (cushionBleManager.isConnected()) {
             cushionBleManager.startCollection()
         }
     }
+
     lateinit var reportMeditationData: ReportMeditationDataEntity
 
     var finishRunnable = {
@@ -763,7 +840,7 @@ class MeditationActivity : BaseActivity() {
         )
     }
 
-    fun saveCushionMeditationInDB(report:ReportMeditationDataEntity){
+    fun saveCushionMeditationInDB(report: ReportMeditationDataEntity) {
         var meditationDao = MeditationDao(this)
         meditaiton = MeditationEntity()
         meditaiton!!.id = meditationId
@@ -796,6 +873,7 @@ class MeditationActivity : BaseActivity() {
         meditaiton!!.experimentUserId = userId
         meditationDao.create(meditaiton)
     }
+
     fun saveHeadbandMeditationInDB(report: ReportMeditationDataEntity) {
         var meditationDao = MeditationDao(this)
         meditaiton = MeditationEntity()
@@ -832,9 +910,9 @@ class MeditationActivity : BaseActivity() {
 
 
     fun saveMeditationInDB(report: ReportMeditationDataEntity) {
-        if (deviceType == DEVICE_TYPE_CUSHION){
+        if (deviceType == DEVICE_TYPE_CUSHION) {
             saveCushionMeditationInDB(report)
-        }else{
+        } else {
             saveHeadbandMeditationInDB(report)
         }
     }
@@ -990,26 +1068,32 @@ class MeditationActivity : BaseActivity() {
         var dialog = AlertDialog.Builder(this)
             .setTitle(
                 Html.fromHtml(
-                    "<font color='${ContextCompat.getColor(
-                        this,
-                        R.color.colorDialogTitle
-                    )}'>${getString(R.string.dialogExitTitle)}</font>"
+                    "<font color='${
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorDialogTitle
+                        )
+                    }'>${getString(R.string.dialogExitTitle)}</font>"
                 )
             )
             .setMessage(
                 Html.fromHtml(
-                    "<font color='${ContextCompat.getColor(
-                        this,
-                        R.color.colorDialogContent
-                    )}'>${getString(R.string.dialogExitContent)}</font>"
+                    "<font color='${
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorDialogContent
+                        )
+                    }'>${getString(R.string.dialogExitContent)}</font>"
                 )
             )
             .setPositiveButton(
                 Html.fromHtml(
-                    "<font color='${ContextCompat.getColor(
-                        this,
-                        R.color.colorDialogExit
-                    )}'>${getString(R.string.dialogExit)}</font>"
+                    "<font color='${
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorDialogExit
+                        )
+                    }'>${getString(R.string.dialogExit)}</font>"
                 )
             ) { dialog, which ->
                 dialog.dismiss()
@@ -1017,10 +1101,12 @@ class MeditationActivity : BaseActivity() {
             }
             .setNegativeButton(
                 Html.fromHtml(
-                    "<font color='${ContextCompat.getColor(
-                        this,
-                        R.color.colorDialogCancel
-                    )}'>${getString(R.string.dialogCancel)}</font>"
+                    "<font color='${
+                        ContextCompat.getColor(
+                            this,
+                            R.color.colorDialogCancel
+                        )
+                    }'>${getString(R.string.dialogCancel)}</font>"
                 )
             ) { dialog, which ->
                 dialog.dismiss()
@@ -1220,17 +1306,20 @@ class MeditationActivity : BaseActivity() {
         if (affectiveCloudService!!.isInited()) {
             affectiveCloudService?.release()
         }
+        labelRecordPlayer?.release()
         EventBus.getDefault().unregister(this)
         super.onDestroy()
     }
-    fun releaseBleManager(){
-        if (deviceType == DEVICE_TYPE_CUSHION){
+
+    fun releaseBleManager() {
+        if (deviceType == DEVICE_TYPE_CUSHION) {
             releaseCushionBleManager()
-        }else{
+        } else {
             releaseHeadbandBleManager()
         }
     }
-    fun releaseHeadbandBleManager(){
+
+    fun releaseHeadbandBleManager() {
         biomoduleBleManager.stopHeartAndBrainCollection()
         biomoduleBleManager.stopBrainCollection()
         biomoduleBleManager.removeRawDataListener(rawListener)
@@ -1239,7 +1328,7 @@ class MeditationActivity : BaseActivity() {
         biomoduleBleManager.removeDisConnectListener(bleDisconnectListener)
     }
 
-    fun releaseCushionBleManager(){
+    fun releaseCushionBleManager() {
         cushionBleManager.stopCollection()
         cushionBleManager.removeRawDataListener(cushionRawListener!!)
         cushionBleManager.removeContactDataListener(cushionContactListener!!)
