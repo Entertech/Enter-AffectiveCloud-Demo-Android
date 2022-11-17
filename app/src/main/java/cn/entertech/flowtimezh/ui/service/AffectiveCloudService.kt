@@ -170,7 +170,7 @@ internal class AffectiveCloudService : Service() {
             AlgorithmParamsEEG.Builder()
                 .tolerance(AlgorithmParams.Tolerance.LEVEL_2)
                 .filterMode(AlgorithmParams.FilterMode.SMART)
-                .powerMode(AlgorithmParams.PowerMode.DB)
+                .powerMode(AlgorithmParams.PowerMode.RATE)
                 .channelPowerVerbose(false)
                 .build()
         var algorithmParams = AlgorithmParams.Builder()
