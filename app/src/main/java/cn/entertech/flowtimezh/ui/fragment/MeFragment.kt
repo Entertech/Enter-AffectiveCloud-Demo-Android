@@ -10,13 +10,14 @@ import android.view.ViewGroup
 import cn.entertech.flowtimezh.R
 import cn.entertech.flowtimezh.app.Application
 import cn.entertech.flowtimezh.database.ExperimentDao
-import cn.entertech.flowtimezh.ui.activity.ExperimentChooseActivity
 import kotlinx.android.synthetic.main.fragment_me.*
 import android.net.Uri
 import android.os.Build
+import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_CUSHION
+import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_ENTERTECH_VR
+import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_HEADBAND
 import cn.entertech.flowtimezh.app.SettingManager
-import cn.entertech.flowtimezh.ui.activity.AuthActivity
-import cn.entertech.flowtimezh.ui.activity.MeditationTimeCountSelectActivity
+import cn.entertech.flowtimezh.ui.activity.*
 import cn.entertech.flowtimezh.utils.getAppVersionCode
 import cn.entertech.flowtimezh.utils.getAppVersionName
 
@@ -48,7 +49,29 @@ class MeFragment : Fragment() {
             activity!!.startActivity(Intent(activity,MeditationTimeCountSelectActivity::class.java))
         }
 
+        rl_device_select.setOnClickListener {
+            val intent = Intent(activity,DeviceSelectActivity::class.java)
+            intent.putExtra("fromMe",true)
+            activity!!.startActivity(intent)
+        }
+        setDeviceName()
         tv_version.text = "${getAppVersionName(activity!!)}(${getAppVersionCode(activity!!)})"
+
+    }
+
+    fun setDeviceName(){
+        when(SettingManager.getInstance().deviceType){
+            DEVICE_TYPE_CUSHION -> {
+                tv_device_type.text = "Flowtime坐垫"
+            }
+            DEVICE_TYPE_HEADBAND -> {
+                tv_device_type.text = "Flowtime头环"
+            }
+            DEVICE_TYPE_ENTERTECH_VR -> {
+                tv_device_type.text = "FlowtimeVR"
+            }
+
+        }
     }
 
     fun updateSelectedExperiment() {
@@ -67,6 +90,7 @@ class MeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         updateSelectedExperiment()
+        setDeviceName()
     }
 
 }

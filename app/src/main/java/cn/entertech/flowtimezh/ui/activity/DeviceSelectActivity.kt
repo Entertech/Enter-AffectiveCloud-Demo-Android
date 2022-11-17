@@ -10,15 +10,18 @@ import cn.entertech.flowtimezh.app.SettingManager
 import kotlinx.android.synthetic.main.activity_device_select.*
 
 class DeviceSelectActivity : BaseActivity() {
+    private var isFromMe: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_device_select)
         initFullScreenDisplay()
         setStatusBarLight()
+        isFromMe = intent.getBooleanExtra("fromMe", false)
         initView()
     }
 
-    fun initView(){
+    fun initView() {
         device_headband.setOnClickListener {
             btn_next.btnEnable = true
             clearSelect()
@@ -38,12 +41,19 @@ class DeviceSelectActivity : BaseActivity() {
             device_vr.isSelect = true
         }
         btn_next.setOnClickListener {
-            val intent = Intent(this@DeviceSelectActivity,LabSelectActivity::class.java)
-            startActivity(intent)
+            if (isFromMe) {
+                finish()
+            } else {
+                val intent = Intent(this@DeviceSelectActivity, LabSelectActivity::class.java)
+                startActivity(intent)
+            }
+        }
+        if (isFromMe) {
+            btn_next.btnText = "确定"
         }
     }
 
-    fun clearSelect(){
+    fun clearSelect() {
         device_headband.isSelect = false
         device_cushion.isSelect = false
         device_vr.isSelect = false
