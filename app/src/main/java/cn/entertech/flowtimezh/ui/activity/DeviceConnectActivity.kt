@@ -85,8 +85,10 @@ class DeviceConnectActivity : BaseActivity() {
             dismissLoading()
             showTipSuccess(){
                 val intent = Intent(this@DeviceConnectActivity,MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(intent)
+                finish()
             }
         }
     }
