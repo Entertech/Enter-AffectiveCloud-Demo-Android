@@ -31,12 +31,12 @@ class MeditationDimListActivity : BaseActivity() {
     }
 
     fun initTitle() {
-        tv_back.visibility = View.VISIBLE
+        tv_back.visibility = View.GONE
         tv_title.visibility = View.VISIBLE
         var duration = intent.getStringExtra("duration")
         tv_title.text = duration
         ll_back.visibility = View.VISIBLE
-        ll_back.setOnClickListener {
+        iv_back.setOnClickListener {
             finish()
         }
     }

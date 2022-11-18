@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f4f5f9"
+    android:background="@color/colorBg"
     android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
@@ -131,7 +131,7 @@
 
                 <LinearLayout
                     android:id="@+id/ll_labels_container"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="@dimen/activity_margin_16"
                     android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
