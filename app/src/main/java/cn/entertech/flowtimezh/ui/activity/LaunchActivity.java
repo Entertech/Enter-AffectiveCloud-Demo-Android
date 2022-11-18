@@ -13,7 +13,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cn.entertech.flowtimezh.R;
+import cn.entertech.flowtimezh.app.Application;
 import cn.entertech.flowtimezh.app.SettingManager;
+import cn.entertech.flowtimezh.database.ExperimentDao;
+import cn.entertech.flowtimezh.database.model.ExperimentModel;
 
 /**
  * Created by EnterTech on 2017/7/5.
@@ -69,7 +72,17 @@ public class LaunchActivity extends BaseActivity {
             startActivity(new Intent(LaunchActivity.this, LoginActivity.class));
             finish();
         } else {
-            startActivity(new Intent(LaunchActivity.this, MainActivity.class));
+            if (SettingManager.getInstance().getDeviceType().equals("")){
+                startActivity(new Intent(LaunchActivity.this, DeviceSelectActivity.class));
+            }else{
+                ExperimentDao experimentDao = new ExperimentDao(Application.Companion.getApplication());
+                ExperimentModel experimentModel = experimentDao.findExperimentBySelected();
+                if (experimentModel != null){
+                    startActivity(new Intent(LaunchActivity.this, MainActivity.class));
+                }else{
+                    startActivity(new Intent(LaunchActivity.this, LabSelectActivity.class));
+                }
+            }
             finish();
         }
     }

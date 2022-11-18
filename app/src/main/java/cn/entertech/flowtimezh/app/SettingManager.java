@@ -113,7 +113,7 @@ public class SettingManager {
     }
 
     public synchronized String getDeviceType() {
-        return getSharedPreferences().getString(SP_DEVICE_TYPE, DEVICE_TYPE_HEADBAND);
+        return getSharedPreferences().getString(SP_DEVICE_TYPE, "");
     }
 
     public synchronized void setTimeCountIsEEG(boolean isEEG) {

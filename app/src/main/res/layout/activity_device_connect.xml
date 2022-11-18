@@ -9,6 +9,7 @@
     tools:context=".ui.activity.DeviceConnectActivity">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:navigationIcon="@drawable/vector_drawable_back_black" />

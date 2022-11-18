@@ -66,8 +66,10 @@ class HomeFragment : Fragment() {
     fun setExperimentName(){
         val experimentDao = ExperimentDao(Application.getInstance())
         val experimentModel = experimentDao.findExperimentBySelected()
-        val experimentName = experimentModel.nameCn
-        tv_experiment_name.text = experimentName
+        if (experimentModel != null){
+            val experimentName = experimentModel.nameCn
+            tv_experiment_name.text = experimentName
+        }
     }
     fun toDisconnected(error:String){
         requireActivity().runOnUiThread {

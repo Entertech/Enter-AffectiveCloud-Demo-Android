@@ -120,7 +120,13 @@ class LabSelectActivity : BaseActivity() {
         experimentLabelPresenter?.getExperimentLabels()
     }
 
+    fun initTitle(){
+        toolbar.setNavigationOnClickListener {
+            finish()
+        }
+    }
     fun initView() {
+        initTitle()
         initList()
         btn_next.setOnClickListener {
             val intent = Intent(this@LabSelectActivity, DeviceConnectActivity::class.java)

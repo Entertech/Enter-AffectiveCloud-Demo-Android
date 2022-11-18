@@ -20,8 +20,14 @@ class DeviceSelectActivity : BaseActivity() {
         isFromMe = intent.getBooleanExtra("fromMe", false)
         initView()
     }
+    fun initTitle(){
+        toolbar.setNavigationOnClickListener {
+            finish()
+        }
+    }
 
     fun initView() {
+        initTitle()
         device_headband.setOnClickListener {
             btn_next.btnEnable = true
             clearSelect()
@@ -58,4 +64,10 @@ class DeviceSelectActivity : BaseActivity() {
         device_cushion.isSelect = false
         device_vr.isSelect = false
     }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.anim_bottom_silent, R.anim.anim_bottom_out)
+    }
+
 }

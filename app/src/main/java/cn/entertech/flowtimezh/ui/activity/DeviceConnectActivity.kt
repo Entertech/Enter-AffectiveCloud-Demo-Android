@@ -28,7 +28,14 @@ class DeviceConnectActivity : BaseActivity() {
         initView()
     }
 
+    fun initTitle(){
+        toolbar.setNavigationOnClickListener {
+            finish()
+        }
+    }
+
     fun initView() {
+        initTitle()
         btn_connect.setOnClickListener {
             if (!isPermissionGranted(this)) {
                 requestPermission(this){

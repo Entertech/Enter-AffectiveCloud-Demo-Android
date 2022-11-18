@@ -52,6 +52,7 @@ class MeFragment : Fragment() {
             val intent = Intent(activity, DeviceSelectActivity::class.java)
             intent.putExtra("fromMe", true)
             activity!!.startActivity(intent)
+            activity!!.overridePendingTransition(R.anim.anim_bottom_in,R.anim.anim_bottom_silent);
         }
         me_disconnect_ble.setOnClickListener {
             ConnectedDeviceHelper.disconnectAllDevice()

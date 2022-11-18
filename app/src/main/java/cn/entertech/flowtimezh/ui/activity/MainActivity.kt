@@ -51,7 +51,7 @@ class MainActivity : BaseActivity() {
         setStatusBarLight()
         initView()
         initExperimentLabelPresenter()
-        initPermission()
+//        initPermission()
     }
 
 

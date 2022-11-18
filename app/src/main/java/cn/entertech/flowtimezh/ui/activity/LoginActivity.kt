@@ -50,7 +50,7 @@ class LoginActivity : BaseActivity() {
                         DeviceSelectActivity::class.java
                     )
                 )
-                finish()
+                overridePendingTransition(R.anim.anim_bottom_in,R.anim.anim_bottom_silent);
             }
 
             override fun onError(error: String) {
