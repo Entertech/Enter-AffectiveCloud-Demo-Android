@@ -34,7 +34,7 @@
             android:id="@+id/me_experiment_setting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cti_text="Change experiment"
+            app:cti_text="@string/me_change_experiment"
             app:cti_arrowIcon="@mipmap/ic_arrow_gray_right"
             app:cti_textColor="@color/colorBlack" />
 
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="16dp"
-                android:text="Save raw &amp; report data"
+                android:text="@string/me_save_data"
                 android:textColor="#000" />
 
             <Switch
@@ -67,8 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_margin_16"
-            android:text="Raw data &amp; report data saved in your package folder:
-Android/data/cn.entertech.flowtimelab" />
+            android:text="@string/me_save_data_tip" />
 
 
         <TextView
@@ -76,20 +75,20 @@ Android/data/cn.entertech.flowtimelab" />
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_margin_16"
             android:layout_marginTop="@dimen/activity_margin_24"
-            android:text="Manager Device" />
+            android:text="@string/me_manager_device" />
         <cn.entertech.flowtimezh.ui.view.CommonTextItem
             android:layout_marginTop="@dimen/activity_margin_8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/me_device_select"
-            app:cti_text="Change device"
+            app:cti_text="@string/me_change_device"
             app:cti_arrowIcon="@mipmap/ic_arrow_gray_right"
             app:cti_textColor="@color/colorBlack"/>
         <cn.entertech.flowtimezh.ui.view.CommonTextItem
             android:id="@+id/me_disconnect_ble"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cti_text="Disconnect device"
+            app:cti_text="@string/me_disconnect_device"
             app:cti_textColor="@color/colorThemeBlue"/>
 
         <TextView
@@ -97,7 +96,7 @@ Android/data/cn.entertech.flowtimelab" />
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_margin_16"
             android:layout_marginTop="@dimen/activity_margin_24"
-            android:text="Support" />
+            android:text="@string/me_support" />
 
         <cn.entertech.flowtimezh.ui.view.CommonTextItem
             android:layout_marginTop="@dimen/activity_margin_8"
@@ -105,7 +104,7 @@ Android/data/cn.entertech.flowtimelab" />
             app:cti_arrowIcon="@mipmap/ic_arrow_gray_right"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cti_text="How to use the app"
+            app:cti_text="@string/me_how_to_use_app"
             app:cti_textColor="@color/colorBlack"/>
 
         <cn.entertech.flowtimezh.ui.view.CommonTextItem
@@ -113,7 +112,7 @@ Android/data/cn.entertech.flowtimelab" />
             app:cti_arrowIcon="@mipmap/ic_arrow_gray_right"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cti_text="Know about Flowtime devices "
+            app:cti_text="@string/me_know_about_devices"
             app:cti_textColor="@color/colorBlack"/>
 
         <cn.entertech.flowtimezh.ui.view.CommonTextItem
@@ -121,7 +120,7 @@ Android/data/cn.entertech.flowtimelab" />
             app:cti_arrowIcon="@mipmap/ic_arrow_gray_right"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cti_text="Get support"
+            app:cti_text="@string/me_get_support"
             app:cti_textColor="@color/colorBlack"/>
 
         <cn.entertech.flowtimezh.ui.view.CommonButton
@@ -134,7 +133,7 @@ Android/data/cn.entertech.flowtimelab" />
             android:layout_height="wrap_content"
             app:cb_btnTextColor="@color/white"
             app:cb_btnFillColor="@color/colorBlack"
-            app:cb_btnText="Log out"/>
+            app:cb_btnText="@string/me_sign_out"/>
         <!--    <RelativeLayout-->
         <!--        android:layout_width="match_parent"-->
         <!--        android:layout_height="56dp"-->

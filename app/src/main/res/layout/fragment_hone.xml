@@ -183,6 +183,6 @@
         android:background="@drawable/shape_btn_bg_blue"
         android:textSize="16sp"
         app:cb_btnFillColor="@color/light_btn_bg"
-        app:cb_btnText="Start Experiment"
+        app:cb_btnText="@string/start_meditation"
         app:cb_btnTextColor="@color/light_btn_text"/>
 </LinearLayout>

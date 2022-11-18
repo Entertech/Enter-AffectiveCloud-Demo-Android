@@ -6,7 +6,7 @@
     <string name="home">冥想</string>
     <string name="statistics">数据</string>
     <string name="me">我的</string>
-    <string name="start_meditation">开始</string>
+    <string name="start_meditation">开始实验</string>
     <string name="setting">设置</string>
     <string name="help_center">帮助中心</string>
     <string name="term_of_service">用户条款</string>
@@ -140,4 +140,21 @@
     <string name="device_disconnected">设备断开!</string>
     <string name="device_connect_success">连接成功</string>
     <string name="loading_success">成功</string>
+    <string name="journey_list_device_type_headband">头环</string>
+    <string name="journey_list_device_type_cushion">坐垫</string>
+    <string name="journey_list_device_type_vr">VR模块</string>
+    <string name="me_save_data"><![CDATA[保存原始和报表数据]]></string>
+    <string name="me_save_data_tip"><![CDATA[文件保存路径: Android/data/cn.entertech.flowtimelab]]></string>
+    <string name="me_manager_device">设备管理</string>
+    <string name="me_change_device">选择设备</string>
+    <string name="me_disconnect_device">断开设备</string>
+    <string name="me_support">支持</string>
+    <string name="me_how_to_use_app">如何使用APP</string>
+    <string name="me_know_about_devices">了解更多FLOWTIME设备</string>
+    <string name="me_get_support">获取帮助</string>
+    <string name="me_sign_out">退出登录</string>
+    <string name="me_change_experiment">选择实验</string>
+    <string name="login_appkey_enter_hint">请输入app key</string>
+    <string name="login_app_secret_hint">请输入app secret</string>
+    <string name="login">登录</string>
 </resources>

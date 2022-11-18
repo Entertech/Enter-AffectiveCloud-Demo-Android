@@ -137,4 +137,21 @@
     <string name="device_disconnected">Device Disconnected!</string>
     <string name="device_connect_success">Connected</string>
     <string name="loading_success">Success</string>
+    <string name="journey_list_device_type_headband">Headband</string>
+    <string name="journey_list_device_type_cushion">Cushion</string>
+    <string name="journey_list_device_type_vr">VR Module</string>
+    <string name="me_save_data"><![CDATA[Save raw & report data]]></string>
+    <string name="me_save_data_tip"><![CDATA[Raw data & report data saved in your package folder: Android/data/cn.entertech.flowtimelab]]></string>
+    <string name="me_manager_device">Manager Device</string>
+    <string name="me_change_device">Change device</string>
+    <string name="me_disconnect_device">Disconnect device</string>
+    <string name="me_support">Support</string>
+    <string name="me_how_to_use_app">How to use the app</string>
+    <string name="me_know_about_devices">Know about Flowtime devices</string>
+    <string name="me_get_support">Get support</string>
+    <string name="me_sign_out">Sign out</string>
+    <string name="me_change_experiment">Change experiment</string>
+    <string name="login_appkey_enter_hint">Enter app key</string>
+    <string name="login_app_secret_hint">Enter app secret</string>
+    <string name="login">Login</string>
 </resources>

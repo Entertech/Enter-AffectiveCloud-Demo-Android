@@ -49,16 +49,16 @@ class JourneyListAdapter(data: List<UserLessonEntity>) :
         val meditation = meditationDao.findMeditationById(item.meditation)
         if (meditation != null){
             val deviceType = when(meditation.deviceType){
-                DEVICE_TYPE_CUSHION -> mContext.getString(R.string.flowtime_cushion_name)
-                DEVICE_TYPE_HEADBAND -> mContext.getString(R.string.flowtime_headband_name)
-                DEVICE_TYPE_ENTERTECH_VR -> mContext.getString(R.string.flowtime_vr_name)
+                DEVICE_TYPE_CUSHION -> mContext.getString(R.string.journey_list_device_type_cushion)
+                DEVICE_TYPE_HEADBAND -> mContext.getString(R.string.journey_list_device_type_headband)
+                DEVICE_TYPE_ENTERTECH_VR -> mContext.getString(R.string.journey_list_device_type_vr)
                 else -> "--"
             }
             val userName = meditation.experimentUserId
             val meditationLabelsDao = MeditationLabelsDao(Application.getInstance())
             val meditationLabels = meditationLabelsDao.findByMeditationId(meditation.id)
             val segmentsCount = meditationLabels?.size?:0
-            helper.setText(R.id.tv_user_name_and_segments,"${userName},${segmentsCount}segments")
+            helper.setText(R.id.tv_user_name_and_segments,"${userName},${segmentsCount}${mContext.getString(R.string.label_segments)}")
             val experimentDao = ExperimentDao(Application.getInstance())
             val experimentModel = experimentDao.findExperimentById(meditation.experimentId)
             if (experimentModel != null){
@@ -68,7 +68,7 @@ class JourneyListAdapter(data: List<UserLessonEntity>) :
                 helper.setText(R.id.tv_experiment_name,"--,${deviceType}")
             }
         }else{
-            helper.setText(R.id.tv_user_name_and_segments,"--,-- segments")
+            helper.setText(R.id.tv_user_name_and_segments,"--,--${mContext.getString(R.string.label_segments)}")
             helper.setText(R.id.tv_experiment_name,"--,--")
         }
     }

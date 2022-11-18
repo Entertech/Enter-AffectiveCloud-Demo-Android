@@ -39,7 +39,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_app_key_title"
         android:id="@+id/et_app_key"
-        android:hint="Enter app key"
+        android:hint="@string/login_appkey_enter_hint"
         android:paddingHorizontal="@dimen/activity_margin_half"
         android:layout_marginTop="@dimen/dim_margin_4"
         android:layout_width="match_parent"
@@ -59,7 +59,7 @@
         />
 
     <EditText
-        android:hint="Enter app secret"
+        android:hint="@string/login_app_secret_hint"
         android:paddingHorizontal="@dimen/activity_margin_half"
         android:background="@drawable/shape_login_edit"
         android:layout_marginLeft="@dimen/activity_margin_16"
@@ -82,7 +82,7 @@
         android:layout_marginBottom="@dimen/dim_margin_64"
         android:layout_marginLeft="@dimen/activity_margin_16"
         android:layout_marginRight="@dimen/activity_margin_16"
-        app:cb_btnText="Login"
+        app:cb_btnText="@string/login"
         app:cb_btnFillColor="@color/light_btn_bg"
         app:cb_btnTextColor="@color/light_btn_text"/>
 

@@ -83,7 +83,7 @@ class DeviceConnectActivity : BaseActivity() {
     fun toConnected() {
         runOnUiThread {
             dismissLoading()
-            showTipSuccess(){
+            showTipSuccess(getString(R.string.device_connect_success)){
                 val intent = Intent(this@DeviceConnectActivity,MainActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
