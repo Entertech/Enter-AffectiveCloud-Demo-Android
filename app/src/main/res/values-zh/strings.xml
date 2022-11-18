@@ -166,4 +166,5 @@
     <string name="home_tip5">生物数据和生理状态指标可视化报告</string>
     <string name="home_tip6">保存原始信号数据和报告数据</string>
     <string name="home_tip_title">心流实验特性</string>
+    <string name="segment_not_end">分段未结束</string>
 </resources>

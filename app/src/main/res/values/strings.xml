@@ -163,4 +163,5 @@
     <string name="home_tip5"><![CDATA[Biodata & metrics visualization report]]></string>
     <string name="home_tip6"><![CDATA[Save raw data & report data]]></string>
     <string name="home_tip_title">Flowtime Lab Features</string>
+    <string name="segment_not_end">Segment not end</string>
 </resources>

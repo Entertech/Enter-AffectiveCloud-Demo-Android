@@ -567,6 +567,10 @@ class MeditationActivity : BaseActivity() {
 
     fun initView() {
         btn_end_experiment.setOnClickListener {
+            if (isStartRecord){
+                showTipError(getString(R.string.segment_not_end))
+                return@setOnClickListener
+            }
             var meditationLabelsDao = MeditationLabelsDao(this@MeditationActivity)
             var meditationLabels = meditationLabelsDao.findByMeditationId(meditationId)
             if (meditationLabels.isNullOrEmpty() || isLabelFilled()) {
