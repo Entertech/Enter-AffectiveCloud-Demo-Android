@@ -44,7 +44,7 @@ class HomeFragment : Fragment() {
     fun initView(){
         iv_device.setOnClickListener {
             if (ConnectedDeviceHelper.currentConnectedDeviceType() != ConnectedDevice.NONE){
-                ToastUtil.toastShort(requireActivity(),"设备已连接")
+                ToastUtil.toastShort(requireActivity(),getString(R.string.device_is_connected))
             }else{
                 if (isPermissionGranted(requireActivity())){
                     connectDevice()
@@ -57,7 +57,7 @@ class HomeFragment : Fragment() {
             if (ConnectedDeviceHelper.currentConnectedDeviceType() != ConnectedDevice.NONE){
                 startActivity(Intent(activity, PersonInfoActivity::class.java))
             }else{
-                Toast.makeText(activity,"Device Disconnected!",Toast.LENGTH_LONG).show()
+                Toast.makeText(activity,getString(R.string.device_disconnected),Toast.LENGTH_LONG).show()
             }
         }
         setExperimentName()
@@ -79,12 +79,12 @@ class HomeFragment : Fragment() {
 
     fun toConnected(){
         requireActivity().runOnUiThread {
-            (requireActivity() as BaseActivity).showTipSuccess("设备已连接")
+            (requireActivity() as BaseActivity).showTipSuccess(getString(R.string.device_connect_success))
         }
     }
 
     fun connectDevice(){
-        (requireActivity() as BaseActivity).showLoading("Connecting")
+        (requireActivity() as BaseActivity).showLoading(getString(R.string.connecting))
         ConnectedDeviceHelper.scanNearDeviceAndConnect(
             SettingManager.getInstance().deviceType,
             fun(deviceType) {

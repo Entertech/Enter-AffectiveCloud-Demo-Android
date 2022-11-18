@@ -34,7 +34,7 @@ class ExperimentLabelActivity : BaseActivity() {
     fun initView(){
         tv_title.visibility = View.VISIBLE
         tv_back.visibility = View.VISIBLE
-        tv_title.text = "数据标签"
+        tv_title.text = getString(R.string.label_category)
         ll_back.setOnClickListener {
             finish()
         }

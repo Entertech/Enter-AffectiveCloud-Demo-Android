@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin"
                 android:layout_marginTop="@dimen/activity_margin"
-                android:text="选择数据标签"
+                android:text="@string/label_category_select"
                 android:textColor="@color/colorBlack"
                 android:textSize="28sp" />
 
@@ -38,7 +38,7 @@
                 android:layout_marginTop="@dimen/activity_margin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="备注"
+                android:text="@string/label_note"
                 android:textSize="28sp"
                 android:textColor="@color/black"
                 android:layout_marginLeft="@dimen/activity_margin"/>
@@ -66,7 +66,7 @@
                 android:layout_marginRight="@dimen/activity_margin"
                 app:backgroundTint="@null"
                 android:background="@drawable/meditation_labels_commit_disable_bg"
-                android:text="提交"
+                android:text="@string/label_btn_commit"
                 android:textColor="@color/white" />
 
             <Button
@@ -78,7 +78,7 @@
                 android:layout_marginTop="@dimen/activity_margin"
                 android:layout_marginRight="@dimen/activity_margin"
                 android:background="@drawable/meditation_labels_delete_bg"
-                android:text="删除记录"
+                android:text="@string/label_btn_delete"
                 android:textColor="@color/white" />
 
             <TextView
@@ -87,7 +87,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/activity_margin"
                 android:layout_marginBottom="24dp"
-                android:text="如果标签数据不理想，或者误操作，请删除本条记录."
+                android:text="@string/label_delete_tip"
                 android:textColor="@color/colorAccent" />
         </LinearLayout>
     </ScrollView>

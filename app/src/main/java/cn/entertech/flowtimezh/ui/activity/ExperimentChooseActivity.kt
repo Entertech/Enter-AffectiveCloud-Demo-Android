@@ -40,7 +40,7 @@ class ExperimentChooseActivity : BaseActivity() {
     fun initView() {
         tv_title.visibility = View.VISIBLE
         tv_back.visibility = View.GONE
-        tv_title.text = "实验选择"
+        tv_title.text = getString(R.string.experiment_select_title)
         iv_back.setOnClickListener {
             finish()
         }

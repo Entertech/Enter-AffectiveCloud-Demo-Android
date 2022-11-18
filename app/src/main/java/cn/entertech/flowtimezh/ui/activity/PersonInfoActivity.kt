@@ -37,7 +37,7 @@ class PersonInfoActivity : BaseActivity() {
         }
         btm_next.setOnClickListener {
             if (et_num.text.toString() == "") {
-                Toast.makeText(this@PersonInfoActivity, "请输入被试者编号!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@PersonInfoActivity, getString(R.string.subject_info_id_enter_tip), Toast.LENGTH_SHORT).show()
             } else {
                 var intent = Intent(this@PersonInfoActivity, MeditationActivity::class.java)
                 intent.putExtra("userId", et_num.text.toString())
@@ -100,10 +100,10 @@ class PersonInfoActivity : BaseActivity() {
 
     fun toFemaleSelect(){
         sex = "f"
-        btn_gender.text = "女"
+        btn_gender.text = getString(R.string.subject_info_gender_female)
     }
     fun toMaleSelect(){
         sex = "m"
-        btn_gender.text = "男"
+        btn_gender.text = getString(R.string.subject_info_gender_male)
     }
 }

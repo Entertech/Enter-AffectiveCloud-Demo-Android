@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:lineSpacingExtra="6sp"
-            android:text="脑电波"
+            android:text="@string/brainwave"
             android:textColor="#232323"
             android:textSize="18sp"
             android:textStyle="normal" />

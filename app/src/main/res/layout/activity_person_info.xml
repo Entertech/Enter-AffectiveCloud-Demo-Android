@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_margin_16"
-        android:text="Subject Info"
+        android:text="@string/subject_info_title"
         android:textColor="@color/colorBlack" />
 
     <TextView
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_margin"
         android:layout_marginTop="24dp"
-        android:text="Name/Number/ID"
+        android:text="@string/subject_info_id_title"
         android:textColor="@color/colorBlack" />
     <!--    <View-->
     <!--        android:layout_marginLeft="@dimen/activity_margin"-->
@@ -38,14 +38,14 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_margin"
         android:layout_marginRight="@dimen/activity_margin"
-        android:hint="Enter" />
+        android:hint="@string/subject_info_id_hint" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_margin_16"
         android:layout_marginRight="@dimen/activity_margin_16"
-        android:text="Needs to be unique to distinguish between different data." />
+        android:text="@string/subject_info_id_tip" />
 
     <TextView
         android:layout_marginTop="@dimen/activity_margin_16"
@@ -53,7 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_margin"
-        android:text="性别"
+        android:text="@string/subject_info_gender_title"
         android:textColor="@color/colorBlack" />
 
     <!--    <View-->
@@ -68,7 +68,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_margin_16"
         android:backgroundTint="@color/white"
-        android:text="点击选择性别"
+        android:textAllCaps="false"
+        android:text="@string/subject_info_gender_hint"
         android:textColor="@color/colorBlack"
         app:icon="@drawable/vector_drawable_arrow_down"
         app:iconGravity="textEnd"
@@ -80,7 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_margin"
         android:layout_marginTop="@dimen/activity_margin_16"
-        android:text="年龄"
+        android:text="@string/subject_info_age_title"
         android:textColor="@color/colorBlack" />
 
     <!--    <View-->
@@ -95,8 +96,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_margin_16"
+        android:textAllCaps="false"
         android:backgroundTint="@color/white"
-        android:text="点击选择年龄"
+        android:text="@string/subject_info_age_hint"
         android:textColor="@color/colorBlack"
         app:icon="@drawable/vector_drawable_arrow_down"
         app:iconGravity="textEnd"
@@ -107,7 +109,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_margin"
         android:layout_marginRight="@dimen/activity_margin"
-        android:text="性别、年龄可选填"
+        android:text="@string/subject_info_gender_age_tip"
         android:textColor="@color/light_text_lv3" />
 
     <cn.entertech.flowtimezh.ui.view.CommonButton

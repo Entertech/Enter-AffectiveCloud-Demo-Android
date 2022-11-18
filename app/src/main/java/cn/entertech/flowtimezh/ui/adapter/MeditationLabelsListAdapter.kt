@@ -23,7 +23,7 @@ class MeditationLabelsListAdapter(data: List<MeditationLabelsModel>) :
             }
             helper.setText(R.id.tv_dims, dims.substring(1, dims.length))
         }else{
-            helper.setText(R.id.tv_dims, "未填写")
+            helper.setText(R.id.tv_dims, mContext.getString(R.string.label_not_fill))
         }
         var duration = if (item.startTime > item.meditationStartTime) {
             "${getFormatTime(item.startTime - item.meditationStartTime, "mm:ss")}" +

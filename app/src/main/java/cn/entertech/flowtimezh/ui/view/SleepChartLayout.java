@@ -21,7 +21,6 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.Utils;
 
@@ -90,7 +89,7 @@ public class SleepChartLayout extends LinearLayout {
     private void initView() {
         View view = LayoutInflater.from(mContext).inflate(R.layout.layout_sleep_chart, null);
         ccvSleepCard = (ChartCardView) view.findViewById(R.id.ccv_sleep_card);
-        ccvSleepCard.setTitleText("睡眠曲线");
+        ccvSleepCard.setTitleText(getContext().getString(R.string.sleep_chart_title));
         ccvSleepCard.setMenuClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -352,21 +351,21 @@ public class SleepChartLayout extends LinearLayout {
             }
         });
 
-        LimitLine ll2 = new LimitLine(50, "浅睡");
+        LimitLine ll2 = new LimitLine(50, getContext().getString(R.string.data_state_light_sleep));
         ll2.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_TOP);
         ll2.setLineColor(Color.TRANSPARENT);
         ll2.setTextColor(R.color.colorGrayText);
         ll2.setLineWidth(0);
         leftYAxis.addLimitLine(ll2);
 
-        LimitLine ll3 = new LimitLine(15, "深睡");
+        LimitLine ll3 = new LimitLine(15, getContext().getString(R.string.data_state_deep_sleep));
         ll3.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_TOP);
         ll3.setLineColor(Color.TRANSPARENT);
         ll3.setTextColor(R.color.colorGrayText);
         ll3.setLineWidth(0);
         leftYAxis.addLimitLine(ll3);
 
-        LimitLine ll1 = new LimitLine(85, "清醒");
+        LimitLine ll1 = new LimitLine(85, getContext().getString(R.string.data_state_awake));
         ll1.setLabelPosition(LimitLine.LimitLabelPosition.LEFT_TOP);
         ll1.setLineColor(Color.TRANSPARENT);
         ll1.setTextColor(R.color.colorGrayText);

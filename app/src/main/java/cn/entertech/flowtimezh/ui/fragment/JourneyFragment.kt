@@ -74,19 +74,6 @@ class JourneyFragment : androidx.fragment.app.Fragment() {
         meditation.user = 0
         meditationDao.create(meditation)
 
-        var userLessonWithoutFile = UserLessonEntity()
-        userLessonWithoutFile.isSampleData = true
-        userLessonWithoutFile.id = -3
-        userLessonWithoutFile.createdAt = "2019-06-21T08:33:24.479980Z"
-        userLessonWithoutFile.updatedAt = "2019-06-21T08:33:24.480021Z"
-        userLessonWithoutFile.startTime = "2019-06-21T16:20:48Z"
-        userLessonWithoutFile.finishTime = "2019-06-21T16:33:19Z"
-        userLessonWithoutFile.user = 0
-        userLessonWithoutFile.courseName = "Pain"
-        userLessonWithoutFile.lessonName = "Sensory Elements of Pain"
-        userLessonWithoutFile.courseImage =
-            "https://dh6oa59q6zlln.cloudfront.net/courses/Pain/33x_N3lH2yp.png"
-        userLessonRecordDao.create(userLessonWithoutFile)
     }
 
     fun initView() {

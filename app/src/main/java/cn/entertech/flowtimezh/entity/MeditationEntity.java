@@ -85,7 +85,7 @@ public class MeditationEntity {
     @DatabaseField(columnName = "experiment_id")
     private int experimentId;
     @DatabaseField(columnName = "experiment_user_id")
-    private String experimentUserId = "示例数据";
+    private String experimentUserId = "Sample Data";
     @DatabaseField(columnName = "device_type")
     private String deviceType;
 

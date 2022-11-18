@@ -21,7 +21,7 @@
             <TextView
                 android:layout_marginTop="@dimen/activity_margin_24"
                 android:layout_marginLeft="@dimen/activity_margin_16"
-                android:text="标签"
+                android:text="@string/label_category"
                 android:textColor="@color/light_text_lv3"
                 style="@style/text_subtitle_semibold"
                 android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
             <TextView
                 android:layout_marginTop="@dimen/activity_margin_24"
                 android:layout_marginLeft="@dimen/activity_margin_16"
-                android:text="备注"
+                android:text="@string/label_note"
                 android:textColor="@color/light_text_lv3"
                 style="@style/text_subtitle_semibold"
                 android:layout_width="wrap_content"

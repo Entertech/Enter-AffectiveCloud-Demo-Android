@@ -651,7 +651,7 @@ class MeditationActivity : BaseActivity() {
             tv_label_list_title.visibility = View.VISIBLE
 //            rv_label_list.smoothScrollToPosition(meditationLabels.size - 1)
         }
-        tv_segment_name.text = "片段${meditationLabels.size + 1}"
+        tv_segment_name.text = "${getString(R.string.label_segments)}${meditationLabels.size + 1}"
     }
     fun refreshLabelList() {
         var meditationLabelsDao = MeditationLabelsDao(this)

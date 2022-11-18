@@ -60,7 +60,7 @@ class MeditationLabelsRecordActivity : BaseActivity() {
 
         tv_title.visibility = View.VISIBLE
         tv_back.visibility = View.VISIBLE
-        tv_title.text = "数据标签"
+        tv_title.text = getString(R.string.label_category)
         ll_back.visibility = View.INVISIBLE
 
         var dimIds = initDimSelect()
@@ -94,7 +94,6 @@ class MeditationLabelsRecordActivity : BaseActivity() {
                 meditationLabelsModel!!.dimIds = dimIds.substring(1, dimIds.length)
                 meditationLabelsModel!!.note = et_note?.text?.toString()
                 meditationLabelsDao.create(meditationLabelsModel)
-                Toast.makeText(this, "提交成功", Toast.LENGTH_SHORT).show()
                 clearSelectInDB()
                 startActivity(Intent(this, MeditationActivity::class.java))
                 finish()

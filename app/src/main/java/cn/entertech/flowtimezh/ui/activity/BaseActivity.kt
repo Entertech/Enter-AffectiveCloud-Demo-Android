@@ -27,7 +27,7 @@ open class BaseActivity : AppCompatActivity() {
         baseLoading?.dismiss()
     }
 
-    fun showTipSuccess(msg:String ="Success",callback:(()->Unit)? = null){
+    fun showTipSuccess(msg:String =getString(R.string.loading_success), callback:(()->Unit)? = null){
         if (baseLoading == null){
             baseLoading = CommonLoadingDialog(this)
         }
