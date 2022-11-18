@@ -43,6 +43,7 @@ class MeditationDimListActivity : BaseActivity() {
 
     fun initView() {
         initTitle()
+        initNote()
         experimentDimDao = ExperimentDimDao(this)
         var dimIds = intent.getStringExtra("dimIds")
         var dimIdsString = dimIds!!.split(",")
@@ -62,6 +63,15 @@ class MeditationDimListActivity : BaseActivity() {
                 }
             }
 
+    }
+
+    fun initNote(){
+        val note = intent.getStringExtra("note")
+        if (note.isNullOrEmpty()){
+            tv_note.text = "--"
+        }else{
+            tv_note.text = note
+        }
     }
 
     fun showPicker(position: Int) {

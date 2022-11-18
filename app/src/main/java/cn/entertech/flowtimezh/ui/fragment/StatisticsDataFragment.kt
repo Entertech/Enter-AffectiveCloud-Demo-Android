@@ -195,6 +195,7 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
                     activity!!,
                     MeditationDimListActivity::class.java
                 )
+                intent.putExtra("note",meditationLabels[position].note)
                 intent.putExtra("dimIds", meditationLabels[position].dimIds)
                 intent.putExtra("duration", duration)
                 intent.putExtra(Constant.EXTRA_IS_FROM_REPORT, true)

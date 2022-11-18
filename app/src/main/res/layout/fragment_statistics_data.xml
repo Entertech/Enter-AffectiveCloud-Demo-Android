@@ -144,17 +144,19 @@
                         android:orientation="horizontal">
 
                         <ImageView
+                            android:visibility="gone"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="@dimen/activity_margin"
+                            android:layout_marginStart="@dimen/activity_margin"
                             android:src="@mipmap/ic_device" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="@dimen/activity_margin_half"
+                            android:layout_marginStart="@dimen/activity_margin_16"
+                            android:textColor="@color/colorBlack"
                             android:text="数据片段和标签" />
                     </LinearLayout>
 
