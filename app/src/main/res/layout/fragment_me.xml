@@ -116,7 +116,7 @@
             app:cti_textColor="@color/colorBlack"/>
 
         <cn.entertech.flowtimezh.ui.view.CommonTextItem
-            android:id="@+id/me_help_center"
+            android:id="@+id/me_get_support"
             app:cti_arrowIcon="@mipmap/ic_arrow_gray_right"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

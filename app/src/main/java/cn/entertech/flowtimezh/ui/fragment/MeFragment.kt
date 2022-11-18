@@ -13,9 +13,12 @@ import cn.entertech.flowtimezh.database.ExperimentDao
 import kotlinx.android.synthetic.main.fragment_me.*
 import android.net.Uri
 import android.os.Build
+import android.widget.Toast
 import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_CUSHION
 import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_ENTERTECH_VR
 import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_HEADBAND
+import cn.entertech.flowtimezh.app.Constant.Companion.FEEDBACK_EMAIL_ADDRESS
+import cn.entertech.flowtimezh.app.Constant.Companion.FEEDBACK_EMAIL_SUBJECT
 import cn.entertech.flowtimezh.app.SettingManager
 import cn.entertech.flowtimezh.ui.activity.*
 import cn.entertech.flowtimezh.utils.ConnectedDeviceHelper
@@ -38,6 +41,29 @@ class MeFragment : Fragment() {
             activity!!.startActivity(Intent(activity!!, ExperimentChooseActivity::class.java))
         }
 
+        me_get_support.setOnClickListener {
+            val i = Intent(Intent.ACTION_SEND)
+            i.type = "message/rfc822"
+            i.putExtra(Intent.EXTRA_EMAIL, arrayOf(FEEDBACK_EMAIL_ADDRESS))
+            i.putExtra(Intent.EXTRA_SUBJECT, FEEDBACK_EMAIL_SUBJECT)
+            i.putExtra(
+                Intent.EXTRA_TEXT, "\r\n\r\n${android.os.Build.MODEL}," +
+                        "Android ${android.os.Build.VERSION.RELEASE},FlowtimeLab,${getAppVersionName(
+                            activity!!
+                        )}(${getAppVersionCode(
+                            activity!!
+                        )})"
+            )
+            try {
+                startActivity(Intent.createChooser(i, "Send mail..."))
+            } catch (ex: android.content.ActivityNotFoundException) {
+                Toast.makeText(
+                    activity!!,
+                    "There are no email clients installed.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
         me_app_use.setOnClickListener {
             val uri = Uri.parse(getString(R.string.url_helper_center))
             startActivity(Intent(Intent.ACTION_VIEW, uri))

@@ -124,5 +124,7 @@ class Constant {
         const val DEVICE_TYPE_HEADBAND = "Headband"
         const val DEVICE_TYPE_CUSHION = "Cushion"
         const val DEVICE_TYPE_ENTERTECH_VR = "Entertech_VR"
+        const val FEEDBACK_EMAIL_ADDRESS = "develop@entertech.cn"
+        const val FEEDBACK_EMAIL_SUBJECT = "FlowtimeLab - App Feedback"
     }
 }
