@@ -71,9 +71,9 @@ class HomeFragment : Fragment() {
             tv_experiment_name.text = experimentName
         }
     }
-    fun toDisconnected(error:String){
+    fun toDisconnected(error:String?){
         requireActivity().runOnUiThread {
-            (requireActivity() as BaseActivity).showTipError(error)
+            (requireActivity() as BaseActivity).showTipError(error?:"unknow error")
         }
     }
 
@@ -90,7 +90,7 @@ class HomeFragment : Fragment() {
             fun(deviceType) {
 
             }, fun(e, deviceType) {
-                toDisconnected(e.toString())
+                toDisconnected(e?.message)
             }, fun(mac, deviceType) {
                 toConnected()
             }, fun(error, deviceType) {
