@@ -154,4 +154,6 @@
     <string name="login_appkey_enter_hint">Enter app key</string>
     <string name="login_app_secret_hint">Enter app secret</string>
     <string name="login">Login</string>
+    <string name="experiment_empty_title">No experiment</string>
+    <string name="experiment_empty_tip">Please add experiments in the Affective Cloud management platform first, then return to the app to check it out. Learn more.</string>
 </resources>

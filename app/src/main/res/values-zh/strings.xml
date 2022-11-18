@@ -157,4 +157,6 @@
     <string name="login_appkey_enter_hint">请输入app key</string>
     <string name="login_app_secret_hint">请输入app secret</string>
     <string name="login">登录</string>
+    <string name="experiment_empty_title">没有实验</string>
+    <string name="experiment_empty_tip">请先在情感云后台添加实验，然后返回 app 查看。</string>
 </resources>
