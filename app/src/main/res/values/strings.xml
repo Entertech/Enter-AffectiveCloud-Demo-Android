@@ -156,4 +156,11 @@
     <string name="login">Login</string>
     <string name="experiment_empty_title">No experiment</string>
     <string name="experiment_empty_tip">Please add experiments in the Affective Cloud management platform first, then return to the app to check it out. Learn more.</string>
+    <string name="home_tip1">Support for different devices</string>
+    <string name="home_tip2">Manage multiple experiments</string>
+    <string name="home_tip3">Support for segmented data and data labeling</string>
+    <string name="home_tip4"><![CDATA[Show real-time biodata & metrics]]></string>
+    <string name="home_tip5"><![CDATA[Biodata & metrics visualization report]]></string>
+    <string name="home_tip6"><![CDATA[Save raw data & report data]]></string>
+    <string name="home_tip_title">Flowtime Lab Features</string>
 </resources>

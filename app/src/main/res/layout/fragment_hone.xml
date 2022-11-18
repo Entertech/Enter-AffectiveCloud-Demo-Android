@@ -33,145 +33,87 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="16dp" />
     </RelativeLayout>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        app:cardCornerRadius="8dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#fff">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:src="@mipmap/ic_home_item_1" />
-
-            <TextView
-                android:id="@+id/tv_title_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="22dp"
-                android:text="双通道脑电和心率"
-                android:textColor="#000000"
-                android:textSize="18sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_title_1"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="26dp"
-                android:text="实时监测前额左右双通道脑电和心率，输出脑波频谱和心率数据。"
-                android:textColor="#000000"
-                android:textSize="14sp" />
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="16dp"
-        app:cardCornerRadius="8dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_home_item_bg">
-
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:src="@mipmap/ic_home_item_2" />
-
-            <TextView
-                android:id="@+id/tv_title_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="22dp"
-                android:text="多维度实时数据"
-                android:textColor="#000000"
-                android:textSize="18sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_title_2"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="26dp"
-                android:text="根据脑电和心率数据，实时分析专注力、放松度、压力水平等情绪情感值。"
-                android:textColor="#000000"
-                android:textSize="14sp" />
-        </RelativeLayout>
-
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="16dp"
-        app:cardCornerRadius="8dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_home_item_bg">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:src="@mipmap/ic_home_item_3" />
-
-
-            <TextView
-                android:id="@+id/tv_title_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="22dp"
-                android:text="详细分析报告"
-                android:textColor="#000000"
-                android:textSize="18sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_title_3"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="26dp"
-                android:text="呈现体验过程中的脑电、心率、专注力、放松度和压力水平等值变化趋势。"
-                android:textColor="#000000"
-                android:textSize="14sp" />
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <View
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/activity_margin_24"
+            android:layout_marginRight="@dimen/activity_margin_24">
+            <TextView
+                android:layout_marginTop="@dimen/dim_margin_64"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home_tip_title"
+                android:textColor="@color/colorBlack"
+                style="@style/text_title1_semibold"
+                />
+            <TextView
+                android:layout_marginTop="@dimen/activity_margin_24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/text_body_semibold"
+                android:textColor="@color/colorBlack"
+                android:drawablePadding="@dimen/activity_margin_8"
+                android:drawableLeft="@drawable/vector_drawable_home_tip1"
+                android:text="@string/home_tip1"/>
+
+            <TextView
+                android:drawablePadding="@dimen/activity_margin_8"
+                android:layout_marginTop="@dimen/activity_margin_24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/text_body_semibold"
+                android:textColor="@color/colorBlack"
+                android:drawableLeft="@drawable/vector_drawable_home_tip2"
+                android:text="@string/home_tip2"/>
+
+            <TextView
+                android:drawablePadding="@dimen/activity_margin_8"
+                android:layout_marginTop="@dimen/activity_margin_24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/text_body_semibold"
+                android:textColor="@color/colorBlack"
+                android:drawableLeft="@drawable/vector_drawable_home_tip3"
+                android:text="@string/home_tip3"/>
+
+            <TextView
+                android:drawablePadding="@dimen/activity_margin_8"
+                android:layout_marginTop="@dimen/activity_margin_24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/text_body_semibold"
+                android:textColor="@color/colorBlack"
+                android:drawableLeft="@drawable/vector_drawable_home_tip4"
+                android:text="@string/home_tip4"/>
+
+            <TextView
+                android:drawablePadding="@dimen/activity_margin_8"
+                android:layout_marginTop="@dimen/activity_margin_24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/text_body_semibold"
+                android:textColor="@color/colorBlack"
+                android:drawableLeft="@drawable/vector_drawable_home_tip5"
+                android:text="@string/home_tip5"/>
+
+            <TextView
+                android:drawablePadding="@dimen/activity_margin_8"
+                android:layout_marginTop="@dimen/activity_margin_24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/text_body_semibold"
+                android:textColor="@color/colorBlack"
+                android:drawableLeft="@drawable/vector_drawable_home_tip6"
+                android:text="@string/home_tip6"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <cn.entertech.flowtimezh.ui.view.CommonButton
         android:id="@+id/btn_start_meditation"

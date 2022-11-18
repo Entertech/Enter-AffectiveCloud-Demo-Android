@@ -159,4 +159,11 @@
     <string name="login">登录</string>
     <string name="experiment_empty_title">没有实验</string>
     <string name="experiment_empty_tip">请先在情感云后台添加实验，然后返回 app 查看。</string>
+    <string name="home_tip1">支持多种设备</string>
+    <string name="home_tip2">管理多个实验</string>
+    <string name="home_tip3">支持分段数据和数据标签</string>
+    <string name="home_tip4">显示实时生物数据和生理状态指标</string>
+    <string name="home_tip5">生物数据和生理状态指标可视化报告</string>
+    <string name="home_tip6">保存原始信号数据和报告数据</string>
+    <string name="home_tip_title">心流实验特性</string>
 </resources>
