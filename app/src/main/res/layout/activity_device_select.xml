@@ -37,7 +37,7 @@
             android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:dtv_name="Flowtime Headband"
+            app:dtv_name="@string/flowtime_headband_name"
             app:dtv_tip="@string/flowtime_headband_intro" />
 
         <View
@@ -52,7 +52,7 @@
             android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:dtv_name="Entertech VR Module"
+            app:dtv_name="@string/flowtime_vr_name"
             app:dtv_tip="@string/flowtime_vr_intro" />
 
         <View
@@ -67,7 +67,7 @@
             android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:dtv_name="Flowtime Cusion"
+            app:dtv_name="@string/flowtime_cushion_name"
             app:dtv_tip="@string/flowtime_cushion_intro" />
     </LinearLayout>
 

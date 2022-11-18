@@ -69,10 +69,10 @@ class MeFragment : Fragment() {
     fun setDeviceName() {
         when (SettingManager.getInstance().deviceType) {
             DEVICE_TYPE_CUSHION -> {
-                me_device_select.mSubText = getString(R.string.flowtime_headband_name)
+                me_device_select.mSubText = getString(R.string.flowtime_cushion_name)
             }
             DEVICE_TYPE_HEADBAND -> {
-                me_device_select.mSubText = getString(R.string.flowtime_cushion_name)
+                me_device_select.mSubText = getString(R.string.flowtime_headband_name)
             }
             DEVICE_TYPE_ENTERTECH_VR -> {
                 me_device_select.mSubText = getString(R.string.flowtime_vr_name)
