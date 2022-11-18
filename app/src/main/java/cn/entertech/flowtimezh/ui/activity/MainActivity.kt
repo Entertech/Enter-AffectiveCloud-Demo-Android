@@ -34,14 +34,14 @@ class MainActivity : BaseActivity() {
     private lateinit var meFragment: MeFragment
     var mFragments = ArrayList<androidx.fragment.app.Fragment>()
     var mIconSelected = arrayOf(
-        R.mipmap.ic_tab_bar_foryou_selected,
-        R.mipmap.ic_tab_bar_lib_selected,
-        R.mipmap.ic_tab_bar_me_selected
+        R.drawable.vector_drawable_home_select,
+        R.drawable.vector_drawable_statistics_select,
+        R.drawable.vector_drawable_me_select,
     )
     var mIconUnselected = arrayOf(
-        R.mipmap.ic_tab_bar_foryou_unselected,
-        R.mipmap.ic_tab_bar_lib_unselected,
-        R.mipmap.ic_tab_bar_me_unselected
+        R.drawable.vector_drawable_home_unselect,
+        R.drawable.vector_drawable_statistics_unselect,
+        R.drawable.vector_drawable_me_unselect,
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
