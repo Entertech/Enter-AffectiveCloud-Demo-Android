@@ -164,4 +164,6 @@
     <string name="home_tip6"><![CDATA[Save raw data & report data]]></string>
     <string name="home_tip_title">Flowtime Lab Features</string>
     <string name="segment_not_end">Segment not end</string>
+    <string name="url_helper_center">https://help.meetflowtime.com</string>
+    <string name="url_entertech">https://www.meetflowtime.com/</string>
 </resources>

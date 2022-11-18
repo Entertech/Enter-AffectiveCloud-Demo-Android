@@ -167,4 +167,6 @@
     <string name="home_tip6">保存原始信号数据和报告数据</string>
     <string name="home_tip_title">心流实验特性</string>
     <string name="segment_not_end">分段未结束</string>
+    <string name="url_helper_center">https://docs.myflowtime.cn/</string>
+    <string name="url_entertech">https://myflowtime.com/</string>
 </resources>

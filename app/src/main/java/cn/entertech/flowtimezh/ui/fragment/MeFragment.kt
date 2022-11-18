@@ -38,8 +38,12 @@ class MeFragment : Fragment() {
             activity!!.startActivity(Intent(activity!!, ExperimentChooseActivity::class.java))
         }
 
-        me_help_center.setOnClickListener {
-            val uri = Uri.parse("https://docs.myflowtime.cn/")
+        me_app_use.setOnClickListener {
+            val uri = Uri.parse(getString(R.string.url_helper_center))
+            startActivity(Intent(Intent.ACTION_VIEW, uri))
+        }
+        me_know_more_devices.setOnClickListener {
+            val uri = Uri.parse(getString(R.string.url_entertech))
             startActivity(Intent(Intent.ACTION_VIEW, uri))
         }
         btn_logout.setOnClickListener {
