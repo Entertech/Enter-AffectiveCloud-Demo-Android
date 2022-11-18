@@ -129,7 +129,10 @@ class StatisticsDataFragment : androidx.fragment.app.Fragment() {
 //        report_hrv_view.isDataNull(false)
 //        report_pressure_view.isDataNull(false)
 //        Logger.d("user record is " + userLessonRecord.toString() + "meditation record is " + meditation.toString())
-        sleep_chart.setSourceData(fileProtocol)
+        if (!meditationReportDataAnalyzed!!.sleepCurve.isNullOrEmpty()){
+            sleep_chart.visibility = View.VISIBLE
+            sleep_chart.setSourceData(fileProtocol)
+        }
         setViewData()
         initLabelsView()
     }
