@@ -7,7 +7,7 @@ package cn.entertech.flowtimezh.database;
 final class Constants {
 
     // 数据库版本
-    static final int  DATABASE_VERSION      = 2;
+    static final int  DATABASE_VERSION      = 3;
     static final String DATABASE_NAME       = "flowtime.db";
     static final String TABLE_RECORD        = "record";
 

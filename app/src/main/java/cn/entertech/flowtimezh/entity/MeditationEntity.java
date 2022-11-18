@@ -86,6 +86,8 @@ public class MeditationEntity {
     private int experimentId;
     @DatabaseField(columnName = "experiment_user_id")
     private String experimentUserId = "示例数据";
+    @DatabaseField(columnName = "device_type")
+    private String deviceType;
 
     public long getId() {
         return id;
@@ -285,5 +287,13 @@ public class MeditationEntity {
 
     public void setExperimentUserId(String experimentUserId) {
         this.experimentUserId = experimentUserId;
+    }
+
+    public String getDeviceType() {
+        return deviceType;
+    }
+
+    public void setDeviceType(String deviceType) {
+        this.deviceType = deviceType;
     }
 }

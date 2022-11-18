@@ -1,102 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="wrap_content"
-                                   android:layout_marginLeft="@dimen/activity_margin"
-                                   android:layout_marginRight="@dimen/activity_margin"
-                                   android:layout_marginTop="@dimen/activity_margin"
-                                   app:cardElevation="0dp"
-                                   app:cardCornerRadius="@dimen/activity_margin_half"
-                                   android:id="@+id/item_bg"
-        >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_bg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/activity_margin"
+    android:layout_marginTop="@dimen/activity_margin"
+    android:layout_marginRight="@dimen/activity_margin"
+    app:cardCornerRadius="@dimen/card_radius_12"
+    android:background="@color/white"
+    app:cardElevation="0dp">
 
-    <RelativeLayout
-            android:id="@+id/rl_bg_cover"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@mipmap/pic_journey_bg_blue_1"
-            />
 
     <LinearLayout
-            android:layout_marginRight="@dimen/activity_margin"
-            android:layout_marginLeft="@dimen/activity_margin"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
-
-        <RelativeLayout
-                android:layout_marginTop="18dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
-
-            <TextView
-                    android:id="@+id/tv_date"
-                    android:layout_centerVertical="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:fontFamily="sans-serif"
-                    android:textStyle="normal"
-                    android:textColor="#ffffff"
-                    android:text="5.5.2019"
-                    />
-
-            <TextView
-                    android:id="@+id/tv_feedback_flag"
-                    android:visibility="gone"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:gravity="center_vertical"
-                    android:drawableLeft="@drawable/vector_drawable_biofeedback_flag"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:fontFamily="sans-serif"
-                    android:textStyle="bold"
-                    android:textColor="#ffe4bb"
-                    android:text="Biodata"
-                    android:background="@drawable/shape_biofeedback_flag_bg"
-                    />
-        </RelativeLayout>
-
-        <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="5dp"
-                >
-
-            <TextView
-                    android:id="@+id/tv_duration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:fontFamily="sans-serif"
-                    android:textStyle="bold"
-                    android:textColor="#ffffff"
-                    android:text="示例数据"
-                    />
-
-
-        </LinearLayout>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_marginTop="8dp"
-            android:id="@+id/tv_time_duration"
-            android:visibility="visible"
+            android:id="@+id/tv_user_name_and_segments"
+            style="@style/text_body_semibold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:layout_marginLeft="@dimen/activity_margin_16"
+            android:layout_marginTop="@dimen/dim_margin_12"
+            android:textColor="@color/common_dark_lv1"
+            android:text="--,-- segments" />
+
+        <TextView
+            android:id="@+id/tv_time_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_margin_16"
+            android:layout_marginTop="@dimen/dim_margin_2"
             android:fontFamily="sans-serif"
+            android:text="--,--min"
+            android:textColor="@color/colorBlack"
+            android:textSize="14sp"
             android:textStyle="normal"
-            android:textColor="#ffffff"
-            android:text="(Sample data)"
-            />
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_experiment_name"
+            style="@style/text_caption1_regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_margin_16"
+            android:layout_marginTop="@dimen/activity_margin_16"
+            android:text="--"
+            android:textColor="@color/common_dark_lv3" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_margin_16"
+            android:layout_marginBottom="@dimen/dim_margin_12"
+            android:fontFamily="sans-serif"
+            android:text="5.5.2019"
+            android:textColor="@color/common_dark_lv3"
+            android:textSize="12sp"
+            android:textStyle="normal" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

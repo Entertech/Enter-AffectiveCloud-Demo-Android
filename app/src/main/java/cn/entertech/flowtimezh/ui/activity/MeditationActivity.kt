@@ -895,6 +895,7 @@ class MeditationActivity : BaseActivity() {
             meditaiton!!.experimentId = experiment.id
         }
         meditaiton!!.experimentUserId = userId
+        meditaiton!!.deviceType = SettingManager.getInstance().deviceType
         meditationDao.create(meditaiton)
     }
 
@@ -922,6 +923,7 @@ class MeditationActivity : BaseActivity() {
 //        var reportFileUri =
 //            "${SettingManager.getInstance().userId}/${courseId}/${lessonId}/${fragmentBuffer.fileName}"
         meditaiton!!.meditationFile = fragmentBuffer.fileName
+        meditaiton!!.deviceType = SettingManager.getInstance().deviceType
 
         var experimentDao = ExperimentDao(this)
         var experiment = experimentDao.findExperimentBySelected()

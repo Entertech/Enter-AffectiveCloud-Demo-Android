@@ -1,14 +1,16 @@
 package cn.entertech.flowtimezh.ui.adapter
 
 import cn.entertech.flowtimezh.R
+import cn.entertech.flowtimezh.app.Application
+import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_CUSHION
+import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_ENTERTECH_VR
+import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_HEADBAND
 import cn.entertech.flowtimezh.database.ExperimentDao
 import cn.entertech.flowtimezh.database.MeditationDao
 import cn.entertech.flowtimezh.database.MeditationLabelsDao
 import cn.entertech.flowtimezh.entity.UserLessonEntity
 import cn.entertech.flowtimezh.utils.TimeUtils
-import cn.entertech.flowtimezh.utils.getResId
 import com.chad.library.adapter.base.BaseItemDraggableAdapter
-import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 
 
@@ -34,7 +36,7 @@ class JourneyListAdapter(data: List<UserLessonEntity>) :
                 finishTimeLong,
                 "HH:mma"
             )}"
-        helper?.setText(R.id.tv_time_duration, timeDuration)
+        helper?.setText(R.id.tv_time_duration, "${timeDuration},${min}min")
         var formatTime = TimeUtils.getFormatTime(
             TimeUtils.getStringToDate(
                 item.startTime.replace("T", " ").replace("Z", ""),
@@ -42,125 +44,32 @@ class JourneyListAdapter(data: List<UserLessonEntity>) :
             ), "yyyy.MM.dd EEEE"
         )
         helper?.setText(R.id.tv_date, formatTime)
-        if (item.meditation == null) {
-            helper?.setText(R.id.tv_duration, "示例数据")
-            helper?.setVisible(R.id.tv_feedback_flag, false)
-        } else {
-            var meditationDao = MeditationDao(mContext)
-            var meditation = meditationDao.findMeditationById(item.meditation)
-            if (meditation != null) {
-                helper?.setText(R.id.tv_duration, "${meditation.experimentUserId}")
-            } else {
-                helper?.setText(R.id.tv_duration, "示例数据")
+
+        val meditationDao = MeditationDao(Application.getInstance())
+        val meditation = meditationDao.findMeditationById(item.meditation)
+        if (meditation != null){
+            val deviceType = when(meditation.deviceType){
+                DEVICE_TYPE_CUSHION -> mContext.getString(R.string.flowtime_cushion_name)
+                DEVICE_TYPE_HEADBAND -> mContext.getString(R.string.flowtime_headband_name)
+                DEVICE_TYPE_ENTERTECH_VR -> mContext.getString(R.string.flowtime_vr_name)
+                else -> "--"
             }
-            if (meditation == null || meditation.meditationFile == null) {
-                helper?.setVisible(R.id.tv_feedback_flag, false)
-            } else {
-                helper?.setVisible(R.id.tv_feedback_flag, true)
+            val userName = meditation.experimentUserId
+            val meditationLabelsDao = MeditationLabelsDao(Application.getInstance())
+            val meditationLabels = meditationLabelsDao.findByMeditationId(meditation.id)
+            val segmentsCount = meditationLabels?.size?:0
+            helper.setText(R.id.tv_user_name_and_segments,"${userName},${segmentsCount}segments")
+            val experimentDao = ExperimentDao(Application.getInstance())
+            val experimentModel = experimentDao.findExperimentById(meditation.experimentId)
+            if (experimentModel != null){
+                val experimentName = experimentModel.nameCn
+                helper.setText(R.id.tv_experiment_name,"${experimentName},${deviceType}")
+            }else{
+                helper.setText(R.id.tv_experiment_name,"--,${deviceType}")
             }
-        }
-//        if (item.isSampleData) {
-//            helper?.setVisible(R.id.tv_sample_data, true)
-//        } else {
-//            helper?.setVisible(R.id.tv_sample_data, false)
-//        }
-        if ((helper?.layoutPosition + 1)!! % 4 == 0) {
-            helper?.setBackgroundRes(
-                R.id.item_bg,
-                R.drawable.shape_record_bg_red
-            )
-            helper?.setBackgroundRes(
-                R.id.rl_bg_cover,
-                getResId(
-                    "pic_journey_bg_red_${java.util.Random().nextInt(3) + 1}",
-                    R.mipmap::class.java
-                )
-            )
-
-            helper?.setTextColor(
-                R.id.tv_time_duration,
-                mContext.resources.getColor(R.color.colorJourneyTextRed)
-            )
-            helper?.setTextColor(
-                R.id.tv_duration,
-                mContext.resources.getColor(R.color.colorJourneyTextRed)
-            )
-            helper?.setTextColor(
-                R.id.tv_date,
-                mContext.resources.getColor(R.color.colorJourneyTextRed)
-            )
-        } else if ((helper?.layoutPosition + 1)!! % 4 == 3) {
-            helper?.setBackgroundRes(
-                R.id.item_bg,
-                R.drawable.shape_record_bg_blue
-            )
-            helper?.setBackgroundRes(
-                R.id.rl_bg_cover,
-                getResId(
-                    "pic_journey_bg_blue_${java.util.Random().nextInt(3) + 1}",
-                    R.mipmap::class.java
-                )
-            )
-
-            helper?.setTextColor(
-                R.id.tv_time_duration,
-                mContext.resources.getColor(R.color.colorJourneyTextBlue)
-            )
-            helper?.setTextColor(
-                R.id.tv_duration,
-                mContext.resources.getColor(R.color.colorJourneyTextBlue)
-            )
-            helper?.setTextColor(
-                R.id.tv_date,
-                mContext.resources.getColor(R.color.colorJourneyTextBlue)
-            )
-        } else if ((helper?.layoutPosition + 1)!! % 4 == 2) {
-            helper?.setBackgroundRes(
-                R.id.item_bg,
-                R.drawable.shape_record_bg_yellow
-            )
-            helper?.setBackgroundRes(
-                R.id.rl_bg_cover,
-                getResId(
-                    "pic_journey_bg_yellow_${java.util.Random().nextInt(3) + 1}",
-                    R.mipmap::class.java
-                )
-            )
-
-            helper?.setTextColor(
-                R.id.tv_time_duration,
-                mContext.resources.getColor(R.color.colorJourneyTextYellow)
-            )
-            helper?.setTextColor(
-                R.id.tv_duration,
-                mContext.resources.getColor(R.color.colorJourneyTextYellow)
-            )
-            helper?.setTextColor(
-                R.id.tv_date,
-                mContext.resources.getColor(R.color.colorJourneyTextYellow)
-            )
-        } else {
-            helper?.setBackgroundRes(R.id.item_bg, R.drawable.shape_record_bg_green)
-            helper?.setBackgroundRes(
-                R.id.rl_bg_cover,
-                getResId(
-                    "pic_journey_bg_green_${java.util.Random().nextInt(3) + 1}",
-                    R.mipmap::class.java
-                )
-            )
-
-            helper?.setTextColor(
-                R.id.tv_time_duration,
-                mContext.resources.getColor(R.color.colorJourneyTextGreen)
-            )
-            helper?.setTextColor(
-                R.id.tv_duration,
-                mContext.resources.getColor(R.color.colorJourneyTextGreen)
-            )
-            helper?.setTextColor(
-                R.id.tv_date,
-                mContext.resources.getColor(R.color.colorJourneyTextGreen)
-            )
+        }else{
+            helper.setText(R.id.tv_user_name_and_segments,"--,-- segments")
+            helper.setText(R.id.tv_experiment_name,"--,--")
         }
     }
 }

@@ -70,6 +70,10 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
                 TableUtils.dropTable(connectionSource, UserLessonEntity.class, true);
                 TableUtils.createTable(connectionSource, UserLessonEntity.class);
             }
+            if (oldVersion < 3 && 3 <= newVersion) {
+                TableUtils.dropTable(connectionSource, MeditationEntity.class, true);
+                TableUtils.createTable(connectionSource, MeditationEntity.class);
+            }
         } catch (Exception e) {
 //            Logger.d("update database error:"+e.toString());
             e.printStackTrace();
