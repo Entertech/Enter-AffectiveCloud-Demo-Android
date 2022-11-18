@@ -1048,6 +1048,32 @@ class MeditationActivity : BaseActivity() {
         }
     }
 
+    fun toDisconnected(error:String){
+        runOnUiThread {
+            showTipError(error)
+        }
+    }
+
+    fun toConnected(){
+        runOnUiThread {
+            showTipSuccess("设备已连接")
+        }
+    }
+
+    fun connectDevice(){
+        showLoading("Connecting")
+        ConnectedDeviceHelper.scanNearDeviceAndConnect(
+            SettingManager.getInstance().deviceType,
+            fun(deviceType) {
+
+            }, fun(e, deviceType) {
+                toDisconnected(e.toString())
+            }, fun(mac, deviceType) {
+                toConnected()
+            }, fun(error, deviceType) {
+                toDisconnected(error)
+            })
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: MessageEvent) {
@@ -1061,8 +1087,8 @@ class MeditationActivity : BaseActivity() {
                 if (!isMeditationPause) {
                     pauseMeditation()
                 }
-                scrollLayout.scrollToOpen()
-                startActivity(Intent(this, DeviceManagerActivity::class.java))
+//                scrollLayout.scrollToOpen()
+                connectDevice()
             }
             MessageEvent.MESSAGE_CODE_TO_NET_RESTORE -> {
                 if (affectiveCloudService!!.getSessionId() != null) {

@@ -54,12 +54,10 @@ class HomeFragment : Fragment() {
             }
         }
         btn_start_meditation.setOnClickListener {
-            var experimentDao = ExperimentDao(activity)
-            var experiment = experimentDao.findExperimentBySelected()
-            if (experiment == null){
-                Toast.makeText(activity,"请先在设置中选择要进行的实验!",Toast.LENGTH_LONG).show()
-            }else{
+            if (ConnectedDeviceHelper.currentConnectedDeviceType() != ConnectedDevice.NONE){
                 startActivity(Intent(activity, PersonInfoActivity::class.java))
+            }else{
+                Toast.makeText(activity,"Device Disconnected!",Toast.LENGTH_LONG).show()
             }
         }
         setExperimentName()
