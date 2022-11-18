@@ -8,89 +8,117 @@
     android:orientation="vertical"
     tools:context=".ui.activity.PersonInfoActivity">
 
-    <include layout="@layout/layout_common_title" />
-
+    <TextView
+        android:layout_marginTop="@dimen/activity_margin_24"
+        style="@style/text_bigtitle_semibold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_margin_16"
+        android:text="Subject Info"
+        android:textColor="@color/colorBlack" />
 
     <TextView
+        style="@style/text_subtitle_regular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_margin"
         android:layout_marginTop="24dp"
-        android:text="被试者编号:" />
-<!--    <View-->
-<!--        android:layout_marginLeft="@dimen/activity_margin"-->
-<!--        android:layout_marginRight="@dimen/activity_margin"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="1px"-->
-<!--        android:background="@color/lineColor"/>-->
+        android:text="Name/Number/ID"
+        android:textColor="@color/colorBlack" />
+    <!--    <View-->
+    <!--        android:layout_marginLeft="@dimen/activity_margin"-->
+    <!--        android:layout_marginRight="@dimen/activity_margin"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="1px"-->
+    <!--        android:background="@color/lineColor"/>-->
 
     <EditText
         android:id="@+id/et_num"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_margin"
-        android:layout_marginRight="@dimen/activity_margin" />
+        android:layout_marginRight="@dimen/activity_margin"
+        android:hint="Enter" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_margin"
-        android:text="性别:" />
-
-<!--    <View-->
-<!--        android:layout_marginLeft="@dimen/activity_margin"-->
-<!--        android:layout_marginRight="@dimen/activity_margin"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="1px"-->
-<!--        android:background="@color/lineColor"/>-->
-    <RadioGroup
-        android:id="@+id/rg_sex"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_margin"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/rb_male"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="男" />
-
-        <RadioButton
-            android:id="@+id/rb_female"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="女" />
-    </RadioGroup>
+        android:layout_marginLeft="@dimen/activity_margin_16"
+        android:layout_marginRight="@dimen/activity_margin_16"
+        android:text="Needs to be unique to distinguish between different data." />
 
     <TextView
-        android:layout_marginTop="@dimen/activity_margin_half"
+        android:layout_marginTop="@dimen/activity_margin_16"
+        style="@style/text_subtitle_regular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_margin"
-        android:text="年龄:" />
+        android:text="性别"
+        android:textColor="@color/colorBlack" />
 
-<!--    <View-->
-<!--        android:layout_marginLeft="@dimen/activity_margin"-->
-<!--        android:layout_marginRight="@dimen/activity_margin"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="1px"-->
-<!--        android:background="@color/lineColor"/>-->
-    <EditText
-        android:id="@+id/et_age"
+    <!--    <View-->
+    <!--        android:layout_marginLeft="@dimen/activity_margin"-->
+    <!--        android:layout_marginRight="@dimen/activity_margin"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="1px"-->
+    <!--        android:background="@color/lineColor"/>-->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_margin_16"
+        android:backgroundTint="@color/white"
+        android:text="点击选择性别"
+        android:textColor="@color/colorBlack"
+        app:icon="@drawable/vector_drawable_arrow_down"
+        app:iconGravity="textEnd"
+        app:iconTint="@color/colorBlack" />
+
+    <TextView
+        style="@style/text_subtitle_regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_margin"
+        android:layout_marginTop="@dimen/activity_margin_16"
+        android:text="年龄"
+        android:textColor="@color/colorBlack" />
+
+    <!--    <View-->
+    <!--        android:layout_marginLeft="@dimen/activity_margin"-->
+    <!--        android:layout_marginRight="@dimen/activity_margin"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="1px"-->
+    <!--        android:background="@color/lineColor"/>-->
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_margin_16"
+        android:backgroundTint="@color/white"
+        android:text="点击选择年龄"
+        android:textColor="@color/colorBlack"
+        app:icon="@drawable/vector_drawable_arrow_down"
+        app:iconGravity="textEnd"
+        app:iconTint="@color/colorBlack" />
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_margin"
         android:layout_marginRight="@dimen/activity_margin"
-        android:inputType="number"/>
+        android:text="性别、年龄可选填"
+        android:textColor="@color/light_text_lv3" />
 
-    <TextView
+    <cn.entertech.flowtimezh.ui.view.CommonButton
+        android:id="@+id/btm_next"
+        android:layout_marginTop="@dimen/dim_margin_64"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_margin"
-        android:layout_marginRight="@dimen/activity_margin"
-        android:text="性别、年龄根据实验详情，可选填"
-        android:textColor="#000" />
+        android:layout_marginLeft="@dimen/activity_margin_16"
+        android:layout_marginRight="@dimen/activity_margin_16"
+        app:cb_btnFillColor="@color/colorBlack"
+        app:cb_btnText="@string/next"
+        app:cb_btnTextColor="@color/white" />
 
 </LinearLayout>
