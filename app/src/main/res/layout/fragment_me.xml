@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_margin_16"
             android:text="Raw data &amp; report data saved in your package folder:
-data/dddd/dddd" />
+Android/data/cn.entertech.flowtimelab" />
 
 
         <TextView

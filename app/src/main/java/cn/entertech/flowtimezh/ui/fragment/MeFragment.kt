@@ -18,6 +18,8 @@ import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_ENTERTECH_VR
 import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_HEADBAND
 import cn.entertech.flowtimezh.app.SettingManager
 import cn.entertech.flowtimezh.ui.activity.*
+import cn.entertech.flowtimezh.utils.ConnectedDeviceHelper
+import cn.entertech.flowtimezh.utils.ToastUtil
 import cn.entertech.flowtimezh.utils.getAppVersionCode
 import cn.entertech.flowtimezh.utils.getAppVersionName
 
@@ -46,9 +48,14 @@ class MeFragment : Fragment() {
             activity!!.finish()
         }
         me_device_select.setOnClickListener {
+            ConnectedDeviceHelper.disconnectAllDevice()
             val intent = Intent(activity, DeviceSelectActivity::class.java)
             intent.putExtra("fromMe", true)
             activity!!.startActivity(intent)
+        }
+        me_disconnect_ble.setOnClickListener {
+            ConnectedDeviceHelper.disconnectAllDevice()
+            ToastUtil.toastShort(requireActivity(),"Device Disconnected!")
         }
         setDeviceName()
         tv_version.text = "${getAppVersionName(activity!!)}(${getAppVersionCode(activity!!)})"
