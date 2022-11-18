@@ -9,6 +9,7 @@
     android:layout_marginRight="@dimen/activity_margin"
     app:cardCornerRadius="@dimen/card_radius_12"
     android:background="@color/white"
+    android:foreground="?attr/selectableItemBackgroundBorderless"
     app:cardElevation="0dp">
 
 
