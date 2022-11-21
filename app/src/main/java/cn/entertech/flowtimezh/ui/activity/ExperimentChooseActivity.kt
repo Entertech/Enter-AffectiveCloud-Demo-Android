@@ -45,6 +45,8 @@ class ExperimentChooseActivity : BaseActivity() {
         iv_back.setOnClickListener {
             finish()
         }
+        ll_back.visibility = View.VISIBLE
+        tv_back.visibility = View.GONE
         if (experiments == null) {
             return
         }

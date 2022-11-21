@@ -31,6 +31,8 @@ class DataActivity : BaseActivity() {
         iv_back.setOnClickListener {
             finish()
         }
+        ll_back.visibility = View.VISIBLE
+        tv_back.visibility = View.GONE
         val fm = supportFragmentManager
         fragment = StatisticsDataFragment()
         var bundle = Bundle()
