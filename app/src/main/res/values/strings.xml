@@ -167,4 +167,5 @@
     <string name="segment_not_end">Segment not end</string>
     <string name="url_helper_center">https://help.meetflowtime.com</string>
     <string name="url_entertech">https://www.meetflowtime.com/</string>
+    <string name="chart_bottom_tip">Time(min)</string>
 </resources>

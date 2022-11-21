@@ -36,7 +36,7 @@ class JourneyListAdapter(data: List<UserLessonEntity>) :
                 finishTimeLong,
                 "HH:mma"
             )}"
-        helper?.setText(R.id.tv_time_duration, "${timeDuration},${min}min")
+        helper?.setText(R.id.tv_time_duration, "${timeDuration},${min}${mContext.getString(R.string.minute)}")
         var formatTime = TimeUtils.getFormatTime(
             TimeUtils.getStringToDate(
                 item.startTime.replace("T", " ").replace("Z", ""),

@@ -170,4 +170,5 @@
     <string name="segment_not_end">分段未结束</string>
     <string name="url_helper_center">https://docs.myflowtime.cn/</string>
     <string name="url_entertech">https://myflowtime.com/</string>
+    <string name="chart_bottom_tip">时间(分钟)</string>
 </resources>
