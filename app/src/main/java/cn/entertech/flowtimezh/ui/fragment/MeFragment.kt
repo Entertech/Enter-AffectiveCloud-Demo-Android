@@ -94,6 +94,33 @@ class MeFragment : Fragment() {
         switch_save_data.setOnCheckedChangeListener { buttonView, isChecked ->
             SettingManager.getInstance().isSaveData = isChecked
         }
+        if (ConnectedDeviceHelper.isConnected(SettingManager.getInstance().deviceType)){
+            toConnected()
+        }else{
+            toDisconnected()
+        }
+        ConnectedDeviceHelper.addDisconnectListener(SettingManager.getInstance().deviceType,bleDisconnectListener)
+        ConnectedDeviceHelper.addConnectListener(SettingManager.getInstance().deviceType,bleConnectListener)
+    }
+    val bleDisconnectListener = fun(error:String){
+        toDisconnected()
+    }
+    val bleConnectListener = fun(error:String){
+        toConnected()
+    }
+
+    fun toDisconnected(){
+        requireActivity().runOnUiThread {
+            me_disconnect_ble.isEnabled = false
+            me_disconnect_ble.alpha = 0.5f
+        }
+    }
+
+    fun toConnected(){
+        requireActivity().runOnUiThread {
+            me_disconnect_ble.isEnabled = true
+            me_disconnect_ble.alpha = 1f
+        }
     }
 
     fun setDeviceName() {
@@ -128,6 +155,12 @@ class MeFragment : Fragment() {
         super.onResume()
         updateSelectedExperiment()
         setDeviceName()
+    }
+
+    override fun onDestroyView() {
+        ConnectedDeviceHelper.removeConnectListener(SettingManager.getInstance().deviceType,bleConnectListener)
+        ConnectedDeviceHelper.removeDisconnectListener(SettingManager.getInstance().deviceType,bleDisconnectListener)
+        super.onDestroyView()
     }
 
 }
