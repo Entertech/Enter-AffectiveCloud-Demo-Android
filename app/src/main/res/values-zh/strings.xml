@@ -139,6 +139,7 @@
     <string name="device_is_connected">设备已连接</string>
     <string name="device_disconnected">设备断开!</string>
     <string name="device_connect_success">连接成功</string>
+    <string name="device_connect_error">连接失败</string>
     <string name="loading_success">成功</string>
     <string name="journey_list_device_type_headband">头环</string>
     <string name="journey_list_device_type_cushion">坐垫</string>

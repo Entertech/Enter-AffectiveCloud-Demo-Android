@@ -8,6 +8,7 @@ import android.os.Build
 import android.provider.Settings
 import cn.entertech.ble.cushion.CushionBleManager
 import cn.entertech.ble.single.BiomoduleBleManager
+import cn.entertech.flowtimezh.R
 import cn.entertech.flowtimezh.app.Application
 import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_CUSHION
 import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_ENTERTECH_VR
@@ -94,7 +95,7 @@ class ConnectedDeviceHelper {
         fun scanNearDeviceAndConnect(
             deviceType: String,
             scanSuccess: (String) -> Unit,
-            scanError: (Exception, String) -> Unit,
+            scanError: (String, String) -> Unit,
             connectSuccess: (String, String) -> Unit,
             connectError: (String, String) -> Unit
         ) {
@@ -103,7 +104,7 @@ class ConnectedDeviceHelper {
                     .scanNearDeviceAndConnect(fun() {
                         scanSuccess.invoke(deviceType)
                     }, fun(e: Exception) {
-                        scanError.invoke(e, deviceType)
+                        scanError.invoke(Application.getInstance().getString(R.string.device_connect_error), deviceType)
                     }, fun(mac: String) {
                         SettingManager.getInstance().bleCushionMac = mac
                         connectSuccess.invoke(mac, deviceType)
@@ -115,7 +116,7 @@ class ConnectedDeviceHelper {
                     .scanNearDeviceAndConnect(fun() {
                         scanSuccess.invoke(deviceType)
                     }, fun(e: Exception) {
-                        scanError.invoke(e, deviceType)
+                        scanError.invoke(Application.getInstance().getString(R.string.device_connect_error), deviceType)
                     }, fun(mac: String) {
                         if (deviceType == DEVICE_TYPE_ENTERTECH_VR) {
                             SettingManager.getInstance().bleEntertechVRMac
@@ -148,7 +149,7 @@ class ConnectedDeviceHelper {
                             connectSuccess.invoke(mac, deviceType)
                         },
                         fun(error: String) {
-                            connectError.invoke(error, deviceType)
+                            connectError.invoke(Application.getInstance().getString(R.string.device_connect_error), deviceType)
                         })
             } else {
                 val mac =
@@ -165,7 +166,7 @@ class ConnectedDeviceHelper {
                             connectSuccess.invoke(mac, deviceType)
                         },
                         fun(error: String) {
-                            connectError.invoke(error, deviceType)
+                            connectError.invoke(Application.getInstance().getString(R.string.device_connect_error), deviceType)
                         })
             }
 

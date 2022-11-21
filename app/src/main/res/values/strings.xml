@@ -136,6 +136,7 @@
     <string name="device_is_connected">Device is connected</string>
     <string name="device_disconnected">Device Disconnected!</string>
     <string name="device_connect_success">Connected</string>
+    <string name="device_connect_error">Connect Failed</string>
     <string name="loading_success">Success</string>
     <string name="journey_list_device_type_headband">Headband</string>
     <string name="journey_list_device_type_cushion">Cushion</string>

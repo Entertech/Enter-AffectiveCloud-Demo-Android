@@ -90,7 +90,7 @@ class HomeFragment : Fragment() {
             fun(deviceType) {
 
             }, fun(e, deviceType) {
-                toDisconnected(e?.message)
+                toDisconnected(e)
             }, fun(mac, deviceType) {
                 toConnected()
             }, fun(error, deviceType) {

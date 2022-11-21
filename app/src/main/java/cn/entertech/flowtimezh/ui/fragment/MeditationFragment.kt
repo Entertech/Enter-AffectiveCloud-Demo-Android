@@ -689,7 +689,7 @@ class MeditationFragment : androidx.fragment.app.Fragment() {
             activity?.runOnUiThread {
                 Logger.d("scan succ")
             }
-        }, fun(e: Exception,deviceType) {
+        }, fun(e: String,deviceType) {
             activity?.runOnUiThread {
                 handleReconnectDevice()
             }
