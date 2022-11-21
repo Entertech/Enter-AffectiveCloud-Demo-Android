@@ -168,4 +168,6 @@
     <string name="url_helper_center">https://help.meetflowtime.com</string>
     <string name="url_entertech">https://www.meetflowtime.com/</string>
     <string name="chart_bottom_tip">Time(min)</string>
+    <string name="me_update_app">Update app</string>
+    <string name="url_update_app">http://fir.entertech.cn/yujx</string>
 </resources>

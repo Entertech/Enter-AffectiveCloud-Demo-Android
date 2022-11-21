@@ -108,6 +108,14 @@
             app:cti_textColor="@color/colorBlack"/>
 
         <cn.entertech.flowtimezh.ui.view.CommonTextItem
+            android:id="@+id/me_update_app"
+            app:cti_arrowIcon="@mipmap/ic_arrow_gray_right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cti_text="@string/me_update_app"
+            app:cti_textColor="@color/colorBlack"/>
+
+        <cn.entertech.flowtimezh.ui.view.CommonTextItem
             android:id="@+id/me_know_more_devices"
             app:cti_arrowIcon="@mipmap/ic_arrow_gray_right"
             android:layout_width="match_parent"

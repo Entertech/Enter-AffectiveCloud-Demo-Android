@@ -72,6 +72,10 @@ class MeFragment : Fragment() {
             val uri = Uri.parse(getString(R.string.url_entertech))
             startActivity(Intent(Intent.ACTION_VIEW, uri))
         }
+        me_update_app.setOnClickListener {
+            val uri = Uri.parse(getString(R.string.url_update_app))
+            startActivity(Intent(Intent.ACTION_VIEW, uri))
+        }
         btn_logout.setOnClickListener {
             SettingManager.getInstance().token = ""
             activity!!.startActivity(Intent(activity, LoginActivity::class.java))

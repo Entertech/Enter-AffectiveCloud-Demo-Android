@@ -171,4 +171,6 @@
     <string name="url_helper_center">https://docs.myflowtime.cn/</string>
     <string name="url_entertech">https://myflowtime.com/</string>
     <string name="chart_bottom_tip">时间(分钟)</string>
+    <string name="me_update_app">应用更新</string>
+    <string name="url_update_app">http://fir.entertech.cn/yujx</string>
 </resources>
