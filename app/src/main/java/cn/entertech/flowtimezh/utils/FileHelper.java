@@ -55,7 +55,7 @@ public class FileHelper {
     }
 
     public void writeData(final String data) {
-        if (!SettingManager.getInstance().isSaveData()){
+        if (!SettingManager.getInstance().isSaveData() || currentDataPw == null){
             return;
         }
         mHandler.post(new Runnable() {
