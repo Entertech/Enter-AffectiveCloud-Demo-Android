@@ -136,6 +136,13 @@ class MeditationLabelsRecordActivity : BaseActivity() {
     fun initDimSelect():String{
         val dimSelected = meditationLabelsModel!!.dimIds
         if (dimSelected.isNullOrEmpty()){
+            for (tag in experimentTags!!) {
+                var dims = experimentDimDao!!.findDimByTagId(tag.id)
+                for (dim in dims){
+                    dim.isSelected = false
+                    experimentDimDao?.create(dim)
+                }
+            }
             return ""
         }
         val dimSelectedArray = dimSelected.split(",")
