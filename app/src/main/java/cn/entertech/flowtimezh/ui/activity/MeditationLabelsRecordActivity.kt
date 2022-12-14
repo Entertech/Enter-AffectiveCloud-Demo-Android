@@ -61,8 +61,11 @@ class MeditationLabelsRecordActivity : BaseActivity() {
         tv_title.visibility = View.VISIBLE
         tv_back.visibility = View.VISIBLE
         tv_title.text = getString(R.string.label_category)
-        ll_back.visibility = View.INVISIBLE
-
+        ll_back.visibility = View.VISIBLE
+        tv_back.visibility = View.GONE
+        iv_back.setOnClickListener {
+            finish()
+        }
         var dimIds = initDimSelect()
         var isAllTagSelected = isAllTagSelected()
         initCommitBtn(isAllTagSelected)
