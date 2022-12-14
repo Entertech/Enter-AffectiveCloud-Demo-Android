@@ -32,9 +32,9 @@ class JourneyListAdapter(data: List<UserLessonEntity>) :
         var duration = finishTimeLong - startTimeLong
         var min = String.format("%.1f", duration / 1000 / 60f)
         var timeDuration =
-            "${TimeUtils.getFormatTime(startTimeLong, "HH:mma")}~${TimeUtils.getFormatTime(
+            "${TimeUtils.getFormatTime(startTimeLong, "hh:mma")}~${TimeUtils.getFormatTime(
                 finishTimeLong,
-                "HH:mma"
+                "hh:mma"
             )}"
         helper?.setText(R.id.tv_time_duration, "${timeDuration},${min}${mContext.getString(R.string.minute)}")
         var formatTime = TimeUtils.getFormatTime(
