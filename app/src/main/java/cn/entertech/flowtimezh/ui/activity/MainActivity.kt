@@ -24,7 +24,7 @@ import cn.entertech.flowtimezh.server.presenter.ExperimentLabelsPresenter
 import cn.entertech.flowtimezh.server.view.ExperimentLabelsView
 import cn.entertech.flowtimezh.ui.fragment.*
 import cn.entertech.flowtimezh.utils.convertList2String
-import com.amitshekhar.DebugDB
+//import com.amitshekhar.DebugDB
 import com.flyco.tablayout.listener.CustomTabEntity
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -54,7 +54,7 @@ class MainActivity : BaseActivity() {
         setStatusBarLight()
         initView()
         initExperimentLabelPresenter()
-        DebugDB.getAddressLog()
+//        DebugDB.getAddressLog()
 //        initPermission()
     }
 
