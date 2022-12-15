@@ -85,7 +85,7 @@ public class ExperimentDimDao {
         return null;
     }
 
-    public ExperimentDimModel findByDimId( int id) {
+    public ExperimentDimModel findByDimId(String id) {
         try {
             if (!mRecordDaoOp.isTableExists()) {
                 return null;

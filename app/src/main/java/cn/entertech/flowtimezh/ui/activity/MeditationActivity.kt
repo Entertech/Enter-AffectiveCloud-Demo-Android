@@ -1228,8 +1228,7 @@ class MeditationActivity : BaseActivity() {
                 var tagMap = HashMap<String, Any>()
                 var dimIdStrings = meditationLabel.dimIds.split(",")
                 for (dimIdString in dimIdStrings) {
-                    var dimIdInt = Integer.parseInt(dimIdString)
-                    var dimModel = experimentDimDao.findByDimId(dimIdInt)
+                    var dimModel = experimentDimDao.findByDimId(dimIdString)
                     var dimValue = dimModel.value
                     var tag = experimentTagDao.findTagById(dimModel.tagId)
                     var tagNameEn = tag.nameEn

@@ -7,10 +7,12 @@ import cn.entertech.flowtime.mvp.RetrofitHelper
 import cn.entertech.flowtimezh.app.SettingManager
 import cn.entertech.flowtimezh.entity.AuthEntity
 import cn.entertech.flowtimezh.entity.LabelsEntity
+import cn.entertech.flowtimezh.entity.LabelsEntityV2
 import cn.entertech.flowtimezh.server.view.AuthView
 import cn.entertech.flowtimezh.server.view.ExperimentLabelsView
 import cn.entertech.flowtimezh.server.view.View
 import cn.entertech.flowtimezh.ui.activity.AuthActivity
+import cn.entertech.flowtimezh.ui.activity.LoginActivity
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -21,7 +23,7 @@ import retrofit2.Response
 class ExperimentLabelsPresenter(var context: Context) : Presneter {
     lateinit var mCompositeDisposable: CompositeDisposable
     var mExperimentLabelsView: ExperimentLabelsView? = null
-    var response: Response<List<LabelsEntity>>? = null
+    var response: Response<List<LabelsEntityV2>>? = null
     override fun onCreate() {
         mCompositeDisposable = CompositeDisposable()
     }
@@ -40,10 +42,10 @@ class ExperimentLabelsPresenter(var context: Context) : Presneter {
 
     fun getExperimentLabels() {
         RetrofitHelper.getInstance(context).getServer()
-            .getExperimentLabels("JWT ${SettingManager.getInstance().token}")
+            .getExperimentLabelsV2("JWT ${SettingManager.getInstance().token}")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<Response<List<LabelsEntity>>> {
+            .subscribe(object : Observer<Response<List<LabelsEntityV2>>> {
                 override fun onComplete() {
                     if (response != null && response!!.code() == 200) {
                         mExperimentLabelsView?.onSuccess(response!!.body())
@@ -60,7 +62,7 @@ class ExperimentLabelsPresenter(var context: Context) : Presneter {
                     mCompositeDisposable.add(d)
                 }
 
-                override fun onNext(t: Response<List<LabelsEntity>>) {
+                override fun onNext(t: Response<List<LabelsEntityV2>>) {
                     response = t
                 }
 

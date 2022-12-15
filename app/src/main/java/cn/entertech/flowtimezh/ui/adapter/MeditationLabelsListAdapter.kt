@@ -16,7 +16,7 @@ class MeditationLabelsListAdapter(data: List<MeditationLabelsModel>) :
         var dimDao = ExperimentDimDao(mContext)
         if (item.dimIds != null){
             var dimNameList =
-                item.dimIds.split(",").map { dimDao.findByDimId(Integer.parseInt(it)).nameCn }
+                item.dimIds.split(",").map { dimDao.findByDimId(it).nameCn }
             var dims = ""
             for (dimName in dimNameList) {
                 dims = "$dims,$dimName"

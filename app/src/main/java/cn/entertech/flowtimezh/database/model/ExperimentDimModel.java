@@ -11,7 +11,7 @@ public class ExperimentDimModel implements MultiItemEntity {
     @DatabaseField(generatedId = true)
     private int mId;
     @DatabaseField(columnName = "dim_id", unique = true)
-    private int id;
+    private String id;
     @DatabaseField(columnName = "dim_name_cn")
     private String nameCn;
     @DatabaseField(columnName = "dim_name_en")
@@ -35,14 +35,6 @@ public class ExperimentDimModel implements MultiItemEntity {
 
     public void setmId(int mId) {
         this.mId = mId;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getNameCn() {
@@ -85,14 +77,6 @@ public class ExperimentDimModel implements MultiItemEntity {
         this.modifyTime = modifyTime;
     }
 
-    public int getTagId() {
-        return tagId;
-    }
-
-    public void setTagId(int tagId) {
-        this.tagId = tagId;
-    }
-
     @Override
     public int getItemType() {
         return LabelsAdapter.TYPE_LEVEL_1;
@@ -112,5 +96,21 @@ public class ExperimentDimModel implements MultiItemEntity {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getTagId() {
+        return tagId;
+    }
+
+    public void setTagId(int tagId) {
+        this.tagId = tagId;
     }
 }

@@ -18,10 +18,13 @@ import cn.entertech.flowtimezh.database.model.ExperimentModeModel
 import cn.entertech.flowtimezh.database.model.ExperimentModel
 import cn.entertech.flowtimezh.database.model.ExperimentTagModel
 import cn.entertech.flowtimezh.entity.LabelsEntity
+import cn.entertech.flowtimezh.entity.LabelsEntityV2
 import cn.entertech.flowtimezh.entity.TabEntity
 import cn.entertech.flowtimezh.server.presenter.ExperimentLabelsPresenter
 import cn.entertech.flowtimezh.server.view.ExperimentLabelsView
 import cn.entertech.flowtimezh.ui.fragment.*
+import cn.entertech.flowtimezh.utils.convertList2String
+import com.amitshekhar.DebugDB
 import com.flyco.tablayout.listener.CustomTabEntity
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -51,6 +54,7 @@ class MainActivity : BaseActivity() {
         setStatusBarLight()
         initView()
         initExperimentLabelPresenter()
+        DebugDB.getAddressLog()
 //        initPermission()
     }
 
@@ -84,7 +88,7 @@ class MainActivity : BaseActivity() {
     }
 
     var experimentLabelSView = object : ExperimentLabelsView {
-        override fun onSuccess(labelEntity: List<LabelsEntity>?) {
+        override fun onSuccess(labelEntity: List<LabelsEntityV2>?) {
             if (labelEntity == null) {
                 return
             }
@@ -105,43 +109,43 @@ class MainActivity : BaseActivity() {
                 experimentModel.modifyTime = labelEntity[i].gmt_modify
                 experimentModel.desc = labelEntity[i].desc
                 experimentModel.id = labelEntity[i].id
-                experimentModel.nameCn = labelEntity[i].name_cn
-                experimentModel.nameEn = labelEntity[i].name_en
+                experimentModel.nameCn = labelEntity[i].name
+                experimentModel.nameEn = labelEntity[i].name
                 experimentModel.appKey = SettingManager.getInstance().appKey
                 experimentDao.create(experimentModel)
 
-                for (mode in labelEntity[i].mode) {
-                    var modeModel = ExperimentModeModel()
-                    modeModel.createTime = mode.gmt_create
-                    modeModel.modifyTime = mode.gmt_modify
-                    modeModel.desc = mode.desc
-                    modeModel.id = mode.id
-                    modeModel.nameCn = mode.name_cn
-                    modeModel.nameEn = mode.name_en
-                    modeModel.expermentId = labelEntity[i].id
-                    experimentModeDao.create(modeModel)
-                }
+//                for (mode in labelEntity[i].mode) {
+//                    var modeModel = ExperimentModeModel()
+//                    modeModel.createTime = mode.gmt_create
+//                    modeModel.modifyTime = mode.gmt_modify
+//                    modeModel.desc = mode.desc
+//                    modeModel.id = mode.id
+//                    modeModel.nameCn = mode.name_cn
+//                    modeModel.nameEn = mode.name_en
+//                    modeModel.expermentId = labelEntity[i].id
+//                    experimentModeDao.create(modeModel)
+//                }
 
-                for (tag in labelEntity[i].tag) {
+                for (tag in labelEntity[i].dims) {
                     var tagModel = ExperimentTagModel()
                     tagModel.createTime = tag.gmt_create
                     tagModel.modifyTime = tag.gmt_modify
                     tagModel.desc = tag.desc
                     tagModel.id = tag.id
-                    tagModel.nameCn = tag.name_cn
-                    tagModel.nameEn = tag.name_en
+                    tagModel.nameCn = tag.name
+                    tagModel.nameEn = tag.name
                     tagModel.expermentId = labelEntity[i].id
                     experimentTagDao.create(tagModel)
 
-                    for (dim in tag.dim) {
+                    for (dim in tag.values) {
                         var dimModel = ExperimentDimModel()
                         dimModel.createTime = dim.gmt_create
                         dimModel.modifyTime = dim.gmt_modify
                         dimModel.desc = dim.desc
-                        dimModel.id = dim.id
-                        dimModel.value = dim.value
-                        dimModel.nameCn = dim.name_cn
-                        dimModel.nameEn = dim.name_en
+                        dimModel.id = "${labelEntity[i].id}_${tag.id}_${dim.id}"
+                        dimModel.value = dim.name
+                        dimModel.nameCn = dim.name
+                        dimModel.nameEn = dim.name
                         dimModel.tagId = tag.id
                         experimentDimDao.create(dimModel)
                     }

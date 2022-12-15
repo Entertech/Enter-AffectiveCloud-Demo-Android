@@ -48,7 +48,6 @@ class MeditationDimListActivity : BaseActivity() {
         var dimIds = intent.getStringExtra("dimIds")
         var dimIdsString = dimIds!!.split(",")
         for (dimId in dimIdsString) {
-            var dimId = Integer.parseInt(dimId)
             var dim = experimentDimDao.findByDimId(dimId)
             mData.add(dim)
         }

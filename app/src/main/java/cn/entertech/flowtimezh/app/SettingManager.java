@@ -8,6 +8,8 @@ import static cn.entertech.flowtimezh.app.Constant.BLE_MAC_ENTERTECH_VR;
 import static cn.entertech.flowtimezh.app.Constant.BLE_MAC_HEADBAND;
 import static cn.entertech.flowtimezh.app.Constant.DEVICE_TYPE_HEADBAND;
 import static cn.entertech.flowtimezh.app.Constant.MEDITATION_VIEW_ORDER;
+import static cn.entertech.flowtimezh.app.Constant.SERVER_AFFECTIVE_CLOUD_ADDRESS_RELEASE;
+import static cn.entertech.flowtimezh.app.Constant.SERVER_API_RELEASE;
 import static cn.entertech.flowtimezh.app.Constant.SP_AFFECTIVE_CLOUD_SERVER;
 import static cn.entertech.flowtimezh.app.Constant.SP_API_SERVER;
 import static cn.entertech.flowtimezh.app.Constant.SP_APP_KEY;
@@ -64,7 +66,7 @@ public class SettingManager {
     }
 
     public synchronized String getAffectiveCloudServer() {
-        return getSharedPreferences().getString(SP_AFFECTIVE_CLOUD_SERVER, "server.affectivecloud.cn");
+        return getSharedPreferences().getString(SP_AFFECTIVE_CLOUD_SERVER, SERVER_AFFECTIVE_CLOUD_ADDRESS_RELEASE);
     }
 
     public synchronized void setApiServer(String url) {
@@ -72,7 +74,7 @@ public class SettingManager {
     }
 
     public synchronized String getApiServer() {
-        return getSharedPreferences().getString(SP_API_SERVER, "api.affectivecloud.cn");
+        return getSharedPreferences().getString(SP_API_SERVER, SERVER_API_RELEASE);
     }
 
     public synchronized void setCurrentServer(int currentServer) {
