@@ -4,9 +4,9 @@ package cn.entertech.flowtimezh.app
 class Constant {
     companion object {
         const val SERVER_AFFECTIVE_CLOUD_ADDRESS_TEST = "server-test.affectivecloud.cn"
-        const val SERVER_AFFECTIVE_CLOUD_ADDRESS_RELEASE = "server-test.affectivecloud.cn"
+        const val SERVER_AFFECTIVE_CLOUD_ADDRESS_RELEASE = "server.affectivecloud.cn"
         const val SERVER_API_TEST = "api-test.affectivecloud.cn"
-        const val SERVER_API_RELEASE = "api-test.affectivecloud.cn"
+        const val SERVER_API_RELEASE = "api.affectivecloud.cn"
         const val CLIENT_ID = "UikxI5w7VjipXcHMgUJDbX9d6lFfhKHjg0NpKsXU"
         //        const val CLIENT_ID = "r5OtYyGav0DmmsYeX2xg7wCn2UqDcPIfNIENHRML"
 
