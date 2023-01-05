@@ -6,6 +6,7 @@ import cn.entertech.flowtimezh.R
 import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_CUSHION
 import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_ENTERTECH_VR
 import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_HEADBAND
+import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_INNERPEACE_PRO
 import cn.entertech.flowtimezh.app.SettingManager
 import kotlinx.android.synthetic.main.activity_device_select.*
 
@@ -45,6 +46,12 @@ class DeviceSelectActivity : BaseActivity() {
             SettingManager.getInstance().deviceType = DEVICE_TYPE_ENTERTECH_VR
             clearSelect()
             device_vr.isSelect = true
+        }
+        device_innerpeace.setOnClickListener {
+            btn_next.btnEnable = true
+            SettingManager.getInstance().deviceType = DEVICE_TYPE_INNERPEACE_PRO
+            clearSelect()
+            device_innerpeace.isSelect = true
         }
         btn_next.setOnClickListener {
             if (isFromMe) {

@@ -17,7 +17,7 @@ android {
     def BUILD_NAME = "build.number"
 
     def buildCode = getVersionCodeWithPropertyName(PROPERTY_FILE_NAME, BUILD_NAME)
-    def appVersionCode = "1.2.0"
+    def appVersionCode = "1.2.2"
     compileSdkVersion 32
     defaultConfig {
         applicationId "cn.entertech.flowtimelab"
@@ -97,6 +97,7 @@ dependencies {
     implementation 'com.google.android:flexbox:2.0.1'
     implementation 'cn.entertech.android:cushionble:1.0.0-alpha13'
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+    implementation 'cn.entertech.android:innerpeace-pro-ble:1.0.0-alpha02'
 }
 
 // build 版本 +1

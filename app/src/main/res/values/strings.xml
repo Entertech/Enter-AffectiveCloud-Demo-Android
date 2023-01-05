@@ -85,6 +85,8 @@
     <string name="data_state_deep_sleep">Deep</string>
     <string name="loading">loading…</string>
     <string name="login_title">Flowtime\nDeveloper App</string>
+    <string name="flowtime_innerpeacepro_name">FLOWTIME 热敷眼罩</string>
+    <string name="flowtime_innerpeacepro_tip">长按按键，直到设备指示灯亮起。</string>
     <string name="flowtime_cushion_name">Flowtime cushion</string>
     <string name="flowtime_cushion_tip">The cushion wakes up when you sit on it. The indicator on the cushion will light up.</string>
     <string name="flowtime_headband_name">Flowtime headband</string>

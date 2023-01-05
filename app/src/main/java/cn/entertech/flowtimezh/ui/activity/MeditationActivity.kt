@@ -29,6 +29,7 @@ import cn.entertech.affectivecloudsdk.entity.RecData
 import cn.entertech.affectivecloudsdk.interfaces.Callback
 import cn.entertech.affectivecloudsdk.utils.ConvertUtil
 import cn.entertech.ble.cushion.CushionBleManager
+import cn.entertech.ble.innerpeacepro.InnerpeaceProBleManager
 import cn.entertech.ble.single.BiomoduleBleManager
 import cn.entertech.bleuisdk.ui.activity.DeviceManagerActivity
 import cn.entertech.flowtime.utils.reportfileutils.FragmentBuffer
@@ -39,6 +40,7 @@ import cn.entertech.flowtimezh.app.Constant
 import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_CUSHION
 import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_ENTERTECH_VR
 import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_HEADBAND
+import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_INNERPEACE_PRO
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_LABEL_ID
 import cn.entertech.flowtimezh.app.Constant.Companion.EXTRA_MEDITATION_ID
 import cn.entertech.flowtimezh.app.SettingManager
@@ -77,6 +79,7 @@ class MeditationActivity : BaseActivity() {
     var animatorSet: AnimatorSet? = null
     var biomoduleBleManager = BiomoduleBleManager.getInstance(Application.getInstance())
     var cushionBleManager = CushionBleManager.getInstance(Application.getInstance())
+    var innerpeaceProBleManager = InnerpeaceProBleManager.getInstance(Application.getInstance())
     private var meditaiton: MeditationEntity? = null
     private var userLessonEntity: UserLessonEntity? = null
     var handler: Handler = Handler()
@@ -125,6 +128,7 @@ class MeditationActivity : BaseActivity() {
     var fileName: String = ""
     var rawEEGFileHelper = FileHelper()
     var rawPEPRFileHelper = FileHelper()
+    var rawInnerpeaceEEGFileHelper = FileHelper()
     var rawHRFileHelper = FileHelper()
     var realtimeEEGLeftFileHelper = FileHelper()
     var realtimeEEGRightFileHelper = FileHelper()
@@ -169,6 +173,9 @@ class MeditationActivity : BaseActivity() {
             }
             DEVICE_TYPE_CUSHION -> {
                 initCushionManager()
+            }
+            DEVICE_TYPE_INNERPEACE_PRO->{
+                initInnerpeaceManager()
             }
         }
     }
@@ -446,7 +453,9 @@ class MeditationActivity : BaseActivity() {
         FileStoreHelper.getInstance()
             .setPath(saveRootPath + File.separator + "标签" + File.separator, "label.txt")
         reportFileHelper.setFilePath(saveReportDataPath + "report.txt")
-        if (deviceType == DEVICE_TYPE_CUSHION){
+        if (deviceType == DEVICE_TYPE_INNERPEACE_PRO){
+            rawInnerpeaceEEGFileHelper.setFilePath(saveRawDataPath + "eeg.txt")
+        }else if (deviceType == DEVICE_TYPE_CUSHION){
             rawPEPRFileHelper.setFilePath(saveRawDataPath + "pepr.txt")
         }else{
             realtimeEEGLeftFileHelper.setFilePath(saveRealtimeDataPath + "brainwave_left.txt")
@@ -848,6 +857,78 @@ class MeditationActivity : BaseActivity() {
             cushionBleManager.startCollection()
         }
     }
+
+
+    private var innerpeaceRawListener: ((ByteArray) -> Unit)? = null
+    private var innerpeaceConnectListener: ((String) -> Unit)? = null
+    private var innerpeaceDisconnectListener: ((String) -> Unit)? = null
+    private var innerpeaceContactListener: ((Int) -> Unit)? = null
+    fun initInnerpeaceManager() {
+        if (innerpeaceProBleManager.isConnected()) {
+//            meditationFragment?.hideBrainwaveAndAttention()
+            needToCheckSensor = true
+        }
+        var packCount = 0
+        innerpeaceRawListener = fun(bytes: ByteArray) {
+            for (byte in bytes) {
+                var brainData = ConvertUtil.converUnchart(byte)
+                writeFileDataBuffer.add((brainData))
+                if (writeFileDataBuffer.size >= bytes.size) {
+                    rawInnerpeaceEEGFileHelper.writeData("${list2String(writeFileDataBuffer)},")
+                    writeFileDataBuffer.clear()
+                }
+            }
+            packCount++
+            var currentTimeMs = System.currentTimeMillis()
+            if (affectiveCloudService?.isInited() == true) {
+                affectiveCloudService?.appendPEPR(bytes)
+            }
+            if (lastReceiveDataTimeMs != null) {
+                if ((currentTimeMs - lastReceiveDataTimeMs!!) >= 15000L) {
+                    lastReceiveDataTimeMs = null
+                    affectiveCloudService?.closeWebSocket()
+                }
+            }
+
+        }
+        innerpeaceConnectListener = fun(mac: String) {
+//            meditationFragment?.hideBrainwaveAndAttention()
+            needToCheckSensor = true
+        }
+        innerpeaceDisconnectListener = fun(error: String) {
+            needToCheckSensor = true
+        }
+        innerpeaceContactListener = fun(state: Int) {
+            runOnUiThread {
+                if (isCheckContact) {
+                    if (state == 0) {
+                        if (!isContactWell) {
+                            contactWellCount++
+//                            Log.d("######", "contact is well")
+                            if (contactWellCount == 5) {
+                                isContactWell = true
+                                card_2.visibility = View.VISIBLE
+                                card_3.visibility = View.GONE
+                                sensor_check_animate_layout.toSecondPage()
+                            }
+                        }
+                    } else {
+                        isContactWell = false
+                        contactWellCount = 0
+                    }
+                }
+            }
+        }
+        innerpeaceProBleManager.addRawDataListener(innerpeaceRawListener!!)
+        innerpeaceProBleManager.addConnectListener(innerpeaceConnectListener!!)
+        innerpeaceProBleManager.addDisConnectListener(innerpeaceDisconnectListener!!)
+        innerpeaceProBleManager.addContactListener(innerpeaceContactListener!!)
+        if (innerpeaceProBleManager.isConnected()) {
+            innerpeaceProBleManager.startCollection()
+        }
+    }
+
+
 
     lateinit var reportMeditationData: ReportMeditationDataEntity
 
@@ -1372,8 +1453,10 @@ class MeditationActivity : BaseActivity() {
     fun releaseBleManager() {
         if (deviceType == DEVICE_TYPE_CUSHION) {
             releaseCushionBleManager()
-        } else {
+        } else if (deviceType == DEVICE_TYPE_HEADBAND){
             releaseHeadbandBleManager()
+        }else{
+            releaseInnerpeaceBleManager()
         }
     }
 
@@ -1392,5 +1475,12 @@ class MeditationActivity : BaseActivity() {
         cushionBleManager.removeContactDataListener(cushionContactListener!!)
         cushionBleManager.removeDisConnectListener(cushionDisconnectListener!!)
         cushionBleManager.removeConnectListener(cushionConnectListener!!)
+    }
+    fun releaseInnerpeaceBleManager() {
+        innerpeaceProBleManager.stopCollection()
+        innerpeaceProBleManager.removeRawDataListener(innerpeaceRawListener!!)
+        innerpeaceProBleManager.removeConnectListener(innerpeaceConnectListener!!)
+        innerpeaceProBleManager.removeDisConnectListener(innerpeaceDisconnectListener!!)
+        innerpeaceProBleManager.removeContactListener(innerpeaceContactListener!!)
     }
 }

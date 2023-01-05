@@ -24,6 +24,7 @@ class Constant {
         const val BLE_MAC_HEADBAND = "ble_mac_headband"
         const val BLE_MAC_CUSHION = "ble_mac_cushion"
         const val BLE_MAC_ENTERTECH_VR = "ble_mac_entertech_vr"
+        const val BLE_MAC_INNERPEACE_PRO = "ble_innerpeace_pro"
         const val IS_TIP_UP_NEXT = "isTipUpNext"
         const val IS_TIP_FLOWTIME = "isTipFlowtime"
         const val IS_TIP_MY_COURSE = "isTipMyCourse"
@@ -124,6 +125,7 @@ class Constant {
         const val DEVICE_TYPE_HEADBAND = "Headband"
         const val DEVICE_TYPE_CUSHION = "Cushion"
         const val DEVICE_TYPE_ENTERTECH_VR = "Entertech_VR"
+        const val DEVICE_TYPE_INNERPEACE_PRO = "Innerpeace_pro"
         const val FEEDBACK_EMAIL_ADDRESS = "develop@entertech.cn"
         const val FEEDBACK_EMAIL_SUBJECT = "FlowtimeLab - App Feedback"
     }

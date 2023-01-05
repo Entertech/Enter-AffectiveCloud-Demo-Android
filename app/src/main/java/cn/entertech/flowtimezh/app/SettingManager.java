@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import static cn.entertech.flowtimezh.app.Constant.BLE_MAC_CUSHION;
 import static cn.entertech.flowtimezh.app.Constant.BLE_MAC_ENTERTECH_VR;
 import static cn.entertech.flowtimezh.app.Constant.BLE_MAC_HEADBAND;
+import static cn.entertech.flowtimezh.app.Constant.BLE_MAC_INNERPEACE_PRO;
 import static cn.entertech.flowtimezh.app.Constant.DEVICE_TYPE_HEADBAND;
 import static cn.entertech.flowtimezh.app.Constant.MEDITATION_VIEW_ORDER;
 import static cn.entertech.flowtimezh.app.Constant.SERVER_AFFECTIVE_CLOUD_ADDRESS_RELEASE;
@@ -143,6 +144,14 @@ public class SettingManager {
 
     public synchronized String getBleHeadbandMac() {
         return getSharedPreferences().getString(BLE_MAC_HEADBAND, "");
+    }
+    //BLE 相关存储
+    public synchronized void setBleInnerpeaceProMac(String mac) {
+        getEditor().putString(BLE_MAC_INNERPEACE_PRO, mac).apply();
+    }
+
+    public synchronized String getBleInnerpeaceProMac() {
+        return getSharedPreferences().getString(BLE_MAC_INNERPEACE_PRO, "");
     }
 
     //BLE 相关存储

@@ -17,6 +17,7 @@ import android.widget.Toast
 import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_CUSHION
 import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_ENTERTECH_VR
 import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_HEADBAND
+import cn.entertech.flowtimezh.app.Constant.Companion.DEVICE_TYPE_INNERPEACE_PRO
 import cn.entertech.flowtimezh.app.Constant.Companion.FEEDBACK_EMAIL_ADDRESS
 import cn.entertech.flowtimezh.app.Constant.Companion.FEEDBACK_EMAIL_SUBJECT
 import cn.entertech.flowtimezh.app.SettingManager
@@ -137,6 +138,9 @@ class MeFragment : Fragment() {
             }
             DEVICE_TYPE_ENTERTECH_VR -> {
                 me_device_select.mSubText = getString(R.string.flowtime_vr_name)
+            }
+            DEVICE_TYPE_INNERPEACE_PRO -> {
+                me_device_select.mSubText = getString(R.string.flowtime_innerpeacepro_name)
             }
 
         }

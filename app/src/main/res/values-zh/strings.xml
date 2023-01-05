@@ -88,6 +88,8 @@
     <string name="loading">加载中…</string>
 
     <string name="login_title">FLOWTIME\n开发者APP</string>
+    <string name="flowtime_innerpeacepro_name">FLOWTIME 热敷眼罩</string>
+    <string name="flowtime_innerpeacepro_tip">长按按键，直到设备指示灯亮起。</string>
     <string name="flowtime_cushion_name">FLOWTIME 正念练习坐垫</string>
     <string name="flowtime_cushion_tip">当你坐在上面时，坐垫会被唤醒。坐垫上的指示灯会亮起。</string>
     <string name="flowtime_headband_name">FLOWTIME 正念练习头环</string>
